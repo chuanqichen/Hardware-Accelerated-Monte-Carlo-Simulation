@@ -1,1 +1,1 @@
-# Hardware-Accelerated-Monte-Carlo-Simulation
+# Hardware Accelerated Monte Carlo Simulation
