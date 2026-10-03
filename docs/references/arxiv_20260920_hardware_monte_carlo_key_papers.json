@@ -1,0 +1,79 @@
+{
+  "query": "id_list:2105.09578,2606.16599,2605.23785",
+  "result_count": 3,
+  "results": [
+    {
+      "arxiv_id": "2606.16599",
+      "title": "TreeGRNG: Binary Tree Gaussian Random Number Generator for Efficient Probabilistic AI Hardware",
+      "authors": [
+        "Jonas Crols",
+        "Guilherme Paim",
+        "Shirui Zhao",
+        "Marian Verhelst"
+      ],
+      "abstract": "Bayesian Neural Networks (BNNs) offer opportunities for greatly enhancing the trustworthiness of conventional neural networks by monitoring the uncertainties in decision-making. A significant drawback for BNN inference at the extreme edge, however, is the imperative need to incorporate Gaussian Random Number Generators (GRNG) within each neuron. State-of-the-art GRNG algorithms heavily depend on multiple arithmetic operations and the use of extensive look-up tables, posing significant implementation challenges for ultra-low power hardware implementations. To overcome this, this paper presents an innovative binary tree random number generator (TreeGRNG) allowing the use of ultra-low-cost constant comparators instead of arithmetic units. We further enhance the TreeGRNG proposal with a set of hardware-aware optimizations exploiting the Gaussian properties. The optimized TreeGRNG surpasses the State-of-the-Art (SoTA) in terms of distribution accuracy while achieving a 3.7$\\times$ reduction in energy per sample and boosting the throughput per unit area by 5.8$\\times$. Moreover, our TreeGRNG proposal possesses a distinct advantage over the current SoTA in terms of flexibility, as it easily enables designers to adjust the shape of the sampled probability distribution, extending beyond the capabilities of traditional GRNGs, opening the horizon towards future probabilistic AI designs. The TreeGRNG design is available open-source in the link",
+      "categories": [
+        "cs.AR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.AR",
+      "published": "2026-06-15T11:47:13Z",
+      "updated": "2026-06-15T11:47:13Z",
+      "doi": "10.23919/DATE58400.2024.10546516",
+      "comment": "6 pages, 5 figures, Proceeded by the 2024 Design, Automation and Test in Europe Conference (DATE)",
+      "journal_ref": "2024 Design, Automation & Test in Europe Conference & Exhibition (DATE), pp. 1-6 (2024)",
+      "pdf_url": "https://arxiv.org/pdf/2606.16599v1",
+      "abs_url": "https://arxiv.org/abs/2606.16599v1"
+    },
+    {
+      "arxiv_id": "2105.09578",
+      "title": "ThundeRiNG: Generating Multiple Independent Random Number Sequences on FPGAs",
+      "authors": [
+        "Hongshi Tan",
+        "Xinyu Chen",
+        "Yao Chen",
+        "Bingsheng He",
+        "Weng-Fai Wong"
+      ],
+      "abstract": "In this paper, we propose ThundeRiNG, a resource-efficient and high-throughput system for generating multiple independent sequences of random numbers (MISRN) on FPGAs. Generating MISRN can be a time-consuming step in many applications such as numeric computation and approximate computing. Despite that decades of studies on generating a single sequence of random numbers on FPGAs have achieved very high throughput and high quality of randomness, existing MISRN approaches either suffer from heavy resource consumption or fail to achieve statistical independence among sequences. In contrast, ThundeRiNG resolves the dependence by using a resource-efficient decorrelator among multiple sequences, guaranteeing a high statistical quality of randomness. Moreover, ThundeRiNG develops a novel state sharing among a massive number of pseudo-random number generator instances on FPGAs. The experimental results show that ThundeRiNG successfully passes the widely used statistical test, TestU01, only consumes a constant number of DSPs (less than 1\\% of the FPGA resource capacity) for generating any number of sequences, and achieves a throughput of 655 billion random numbers per second. Compared to the state-of-the-art GPU library, ThundeRiNG demonstrates a $10.62\\times$ speedup on MISRN and delivers up to $9.15\\times$ performance and $26.63\\times$ power efficiency improvement on two applications ($π$ estimation and Monte Carlo option pricing). This work is open-sourced on Github at https://github.com/Xtra-Computing/ThundeRiNG",
+      "categories": [
+        "cs.DC"
+      ],
+      "primary_category": "cs.DC",
+      "published": "2021-05-20T08:09:57Z",
+      "updated": "2021-05-20T08:09:57Z",
+      "doi": "10.1145/3447818.3461664",
+      "comment": "Accepted to ICS 2021",
+      "journal_ref": "",
+      "pdf_url": "https://arxiv.org/pdf/2105.09578v1",
+      "abs_url": "https://arxiv.org/abs/2105.09578v1"
+    },
+    {
+      "arxiv_id": "2605.23785",
+      "title": "FPGA Acceleration of Matrix-Element Calculations for Monte Carlo Event Generation",
+      "authors": [
+        "H. Gutiérrez Arance",
+        "F. Carrió",
+        "L. Fiorini",
+        "S. Folgueras",
+        "F. Hervàs Álvarez",
+        "P. Leguina López",
+        "A. Oyanguren",
+        "A. Valero",
+        "C. Vico Villalba"
+      ],
+      "abstract": "We present an FPGA-based study of matrix-element acceleration for Monte Carlo event generation, using MadGraph5_aMC@NLO as a benchmark framework. Two complementary scenarios are considered. First, we implement the full matrix-element workflow on an AMD Alveo U250 accelerator for the benchmark process $e^+e^- \\to μ^+μ^-$, enabling an end-to-end evaluation of FPGA acceleration for a simple process. Second, for the more complex $gg \\to t\\bar{t}+X$ processes with increasing jet multiplicity, we investigate FPGA acceleration of the color-algebra kernels as a structured and scalable entry point for selective acceleration. In this second case, the reported speedups correspond to the isolated color-reduction kernel operating on precomputed amplitudes, rather than to the full matrix-element evaluation or the complete event-generation workflow. The proposed implementations are developed using High-Level Synthesis and are evaluated in terms of numerical accuracy, performance, energy efficiency, resource utilization, and scalability. Compared with CPU and GPU implementations available within the MG5aMC framework, the FPGA solutions achieve substantial speedups and significantly improved energy efficiency. For the considered benchmarks, the numerical results remain in close agreement with the corresponding CPU reference calculations, while the resource analysis highlights the importance of numerical representation in determining scalability on FPGA devices. These results support the use of FPGAs as a competitive architecture for selected Monte Carlo event-generation workloads in high-energy physics.",
+      "categories": [
+        "hep-ex"
+      ],
+      "primary_category": "hep-ex",
+      "published": "2026-05-22T15:49:31Z",
+      "updated": "2026-09-17T17:39:19Z",
+      "doi": "10.1016/j.cpc.2026.110394",
+      "comment": "29 pages, 6 figures",
+      "journal_ref": "Computer Physics Communications, 329 (2026), 110394",
+      "pdf_url": "https://arxiv.org/pdf/2605.23785v2",
+      "abs_url": "https://arxiv.org/abs/2605.23785v2"
+    }
+  ]
+}

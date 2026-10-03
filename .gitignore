@@ -216,3 +216,23 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# macOS / tooling
+.DS_Store
+.playwright-mcp/
+
+# EDA tool outputs
+simv*
+csrc/
+*.vcd
+*.fsdb
+*.log
+ucli.key
+obj_dir/
+
+# Course handouts / sample projects live locally only (see docs/course/README.md)
+docs/course/*
+!docs/course/README.md
+
+# PDFs built from markdown via `make docs`
+docs/*.pdf
