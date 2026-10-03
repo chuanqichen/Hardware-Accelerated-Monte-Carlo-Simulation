@@ -14,6 +14,8 @@ payoff accumulator; compare 1/2/4 lanes. Scope is `docs/Project_Proposal.md`.
 - Generated PDFs (`docs/*.pdf`) are gitignored; build with `make docs`
 
 ## Git
+- Author/committer: Chuanqi Chen <chuanqi.chen@gmail.com> (repo git config is already
+  set to this; do not add any other author or co-author).
 - Commit messages: plain summary + body only. Do NOT add "Generated with Devin"
   or `Co-Authored-By: Devin ...` trailers.
 
