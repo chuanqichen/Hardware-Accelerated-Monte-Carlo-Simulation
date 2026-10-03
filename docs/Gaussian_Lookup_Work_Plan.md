@@ -1,6 +1,6 @@
 # Work plan: Gaussian lookup and fixed-point representation
 
-_Owner: Chuanqi Chen. Started 2026-10-03. Companion to `Project_Proposal.md`._
+_Owner: Chuanqi Chen. Started 2026-10-03, revised 2026-10-03 after the lane interface spec. Companion to `Project_Proposal.md` and `Lane_Interface_Spec.md`._
 
 ---
 
@@ -56,6 +56,8 @@ Files already in place:
 | `rtl/gauss_lut.sv` | Parameterized RTL (`ADDR_BITS`, `OUT_WIDTH`, `FRAC_BITS`, `LATENCY`) |
 | `rtl/generated/gauss_lut_rom.sv/.hex` | Generated ROM for `ADDR_BITS=10`, Q3.12 |
 | `tb/tb_gauss_lut.sv` | Self-checking vector testbench |
+| `rtl/mc_pkg.sv`, `rtl/round_sat.sv` | *(planned, Phase A)* shared formats/latencies and the single rounding/saturation module |
+| `docs/Lane_Interface_Spec.md` | Lane-wide formats (Sec. 3), `u`/`z` contracts, open decisions |
 
 ## 3. What the model already tells us
 
@@ -97,61 +99,52 @@ Conclusions that shape the rest of the work:
    worst grid case, well under Monte Carlo noise at the trial counts we will run,
    with 8 Kbit of ROM. `a=8` and `a=12` are the two other sweep points.
 
-## 4. Interface contracts to agree with teammates
+## 4. Interface and fixed-point contracts
 
-### With Shentong (RNG -> gauss_lut)
+The authoritative definitions now live in `Lane_Interface_Spec.md`: Section 3 (every
+format in the lane, the rounding/saturation policy), Sections 5.2-5.3 (the `u` and `z`
+interfaces), and Section 9 (open decisions). Summary of what this block depends on and
+promises:
 
-- `u` is a 32-bit word, **uniform over all 2^32 values**, valid on `in_valid`, one per
-  cycle after fill. Only the top `ADDR_BITS` are consumed by the ROM version (the PWL
-  version would use `ADDR_BITS + INTERP_BITS`), so the **high bits must be the
-  high-quality bits**. For `xoshiro128++` the output word is fine as-is; for
-  `xoshiro128+` the low bits are weak, which is one more reason to prefer `++`.
-- No back-pressure in either direction.
+- **From Shentong (`u`)**: 32-bit word uniform over all $2^{32}$ values, one per cycle,
+  no back-pressure. Only the top `ADDR_BITS` are consumed, so the high bits must be the
+  good ones (`xoshiro128++`, not `+`).
+- **To Eric (`z`)**: `signed Q3.12`, 16 bits, $|z| \le \Phi^{-1}(1 - 2^{-(a+1)})$ = 3.30
+  at `ADDR_BITS = 10`; `z_valid` = `u_valid` delayed by `LATENCY`. This bound sizes the
+  $A + Bz$ range and therefore the `exp` table domain.
+- **To everyone**: `mc_pkg.sv` (widths, formats, `LAT_*` parameters) and `round_sat.sv`
+  with its Python twin in `fxp.py`; **round-half-to-even then saturate, no silent
+  truncation**, applied at every narrowing in the lane.
 
-### With Eric (gauss_lut -> datapath)
+Decisions in the spec that need numbers from this block before the team can close them:
 
-- `z` is `signed Q3.12` in 16 bits: `|z| < 8`, LSB = 2^-12. Actual range is
-  `±Phi^-1(1 - 2^-(ADDR_BITS+1))` (±3.30 for a=10), which bounds `B*z` and therefore
-  the `exp` input - **the exp LUT domain can be sized from this**.
-- Latency `LATENCY` cycles; `out_valid` is `in_valid` delayed.
-
-### Proposed lane-wide fixed-point formats (draft - needs team sign-off)
-
-| Quantity | Proposed format | Range / rationale |
-|---|---|---|
-| `u` | `uint32` | RNG contract |
-| `z` | `Q3.12` (16 b) | see above; 12 b Q3.8 is the cheaper alternative |
-| `B = σ√T` | `UQ2.14` (16 b) | σ√T up to ~4; software precomputed |
-| `B*z` | `Q6.26` product -> round to `Q5.12` | one `round_sat` instance |
-| `A = ln S0 + (r − σ²/2)T` | `Q5.12` (18 b) or `Q5.10` (16 b) | ln(10 000) ≈ 9.2 needs 4+ integer bits plus sign |
-| `x = A + B*z` | `Q5.12` | exp input; the hardware range is bounded by `|z|max` |
-| `S_T = exp(x)` | `UQ14.8` (22 b) | up to ~16 000 with 1/256 resolution |
-| payoff `max(S_T − K, 0)` | `UQ14.8` | same as `S_T` |
-| payoff sum | 64 b unsigned | `2^32` trials x `2^22` -> 54 b, with margin |
-
-Alternative worth raising with Eric: factor the constant out, `S_T = C * exp(B*z)` with
-`C = S0*exp((r − σ²/2)T)` precomputed. Then the `exp` LUT only has to cover
-`|B*z| ≤ 4*3.3`, a much smaller, symmetric domain, at the cost of one extra multiply.
-Either way the formats above are a starting point for `docs/Fixed_Point_Spec.md`.
-
-Policy (applies to the whole lane, enforced in `fxp.py` and to be enforced in RTL via a
-shared `round_sat` module): **round-half-to-even, then saturate; no silent truncation.**
+| Decision | What this block must supply |
+|---------|------------------------------------------------------------|
+| D-3 `exp(A+Bz)` vs `C e^{Bz}` | exp-table input range and size under each form, with the `|z|` bound; co-owned with Eric |
+| D-4 `z` width 16 vs 12 bits | synthesized area of `gauss_lut` and of Eric's `B*z` multiplier at both widths |
+| D-5 `A`/`x` width 18 vs 16 bits | exact price bias with `x` at `Q5.12` vs `Q5.10` (extend `gauss_lut.py` sweep to quantize `x`) |
 
 ## 5. Tasks
 
-### Phase A - model and interface (now -> Oct 10)
+### Phase A - model, contracts, shared infrastructure (now -> Oct 10)
 - [x] Bit-accurate ROM model, exact stats, exact price-bias metric, sweep
 - [x] RTL skeleton + generated ROM + vectors + testbench
-- [ ] Agree `u`/`z` contracts and draft format table with Shentong and Eric
+- [x] Draft `Lane_Interface_Spec.md` Section 3 (formats) and `u`/`z` interfaces
+- [ ] Walk the team through spec Section 9; record decisions D-3/D-4/D-5 with dates
+- [ ] `rtl/mc_pkg.sv`: format widths, `LAT_*` localparams, status-flag bit positions
+- [ ] `rtl/round_sat.sv` + `fxp.round_sat()` twin + unit test (ties, signs, saturation
+      both directions); Eric's datapath instantiates it
 - [ ] Run `tb_gauss_lut` on the lab VCS flow (no simulator on the laptop); fix lint
-- [ ] Write `docs/Fixed_Point_Spec.md` from Section 4 once agreed
+- [ ] Contribute `gauss_lut(u_raw) -> z_raw` to `model/mc_lane.py` (spec Section 7)
 
 ### Phase B - standalone synthesis and first numbers (Oct 10 -> Oct 24)
 - [ ] Synthesize `gauss_lut` alone for `ADDR_BITS = {8, 10, 12}` x `OUT_WIDTH = {12, 16}`
-      with Tyler's DC script; record area, Fmax, power -> first row of the tradeoff table
-- [ ] Add a shared `rtl/round_sat.sv` and its Python twin; Eric's datapath uses it
-- [ ] Extend the Python reference to the full lane (`A + B*z`, exp, payoff, sum) using
-      `fxp.py` - co-owned with Eric; this is the golden model for the integrated TB
+      with Tyler's DC script; record area, Fmax, power -> `results/gauss_lut_ppa.csv`
+- [ ] Extend the sweep so `x`, `S_T`, `p` are quantized too (exact bias of the whole
+      fixed-point chain with float `exp`) -> closes D-5, feeds the exp-table study
+- [ ] With Eric: exp-table range/precision study using the same exact-bias method;
+      decide D-3 and D-6
+- [ ] Help finish `model/mc_lane.py` so the integrated testbench has its golden model
 
 ### Phase C - one-lane integration (Oct 24 -> Nov 10, interim update)
 - [ ] `gauss_lut` integrated in the one-lane top; end-to-end RTL vs. Python bit-exact
@@ -166,7 +159,8 @@ shared `round_sat` module): **round-half-to-even, then saturate; no silent trunc
 - [ ] Result freeze Nov 24
 
 ### Phase E - documentation (Nov 24 -> Dec 9)
-- [ ] Spec/design/user/test sections for this block; tradeoff section of the report
+- [ ] Spec/design/user/test sections for this block; fixed-point section; tradeoff
+      section of the report
 
 ## 6. Test plan for this block
 
@@ -188,7 +182,7 @@ shared `round_sat` module): **round-half-to-even, then saturate; no silent trunc
 | `a=12` case-ROM is large/slow in DC | Measure early (Phase B); if >25 % of lane area, drop `a=12` from the layout config and keep it synthesis-only |
 | Latency mismatch with Eric's pipeline | `LATENCY` parameter + `out_valid`; integrate with explicit valid chaining, not fixed delays |
 | RNG low bits weak | Only the top bits are consumed; confirm `xoshiro128++` with Shentong |
-| Format churn after integration | Freeze `docs/Fixed_Point_Spec.md` before Phase C; any change regenerates ROM + vectors from the scripts, never by hand |
+| Format churn after integration | Freeze `Lane_Interface_Spec.md` Section 3 before Phase C; any change regenerates ROM + vectors from the scripts, never by hand |
 
 ## 8. How to get started (commands)
 
