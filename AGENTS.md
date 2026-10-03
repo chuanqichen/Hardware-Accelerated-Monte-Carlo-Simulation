@@ -13,6 +13,10 @@ payoff accumulator; compare 1/2/4 lanes. Scope is `docs/Project_Proposal.md`.
 - `scripts/`, `constraints/`, `reports/` (raw tool output), `results/` (parsed CSV/plots)
 - Generated PDFs (`docs/*.pdf`) are gitignored; build with `make docs`
 
+## Git
+- Commit messages: plain summary + body only. Do NOT add "Generated with Devin"
+  or `Co-Authored-By: Devin ...` trailers.
+
 ## Conventions
 - Modules/files `snake_case`, parameters `UPPER_SNAKE`, active-low `_n`
 - Fixed point: one policy everywhere - round-half-to-even then saturate
