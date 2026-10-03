@@ -56,7 +56,7 @@ docs/%.pdf: docs/%.md
 	$(PANDOC) $< -o $@ --pdf-engine=xelatex \
 	  -V mainfont="Helvetica Neue" -V monofont="Menlo" \
 	  -V geometry:margin=0.8in -V fontsize=10pt -V colorlinks=true \
-	  --metadata title="$(shell head -1 $< | sed 's/^# *//')" --metadata date="$(shell date +%Y-%m-%d)"
+	  --shift-heading-level-by=-1 --metadata date="$(shell date +%Y-%m-%d)"
 
 clean:
 	rm -rf simv simv.daidir csrc ucli.key *.log *.vcd *.fsdb obj_dir DVEfiles
