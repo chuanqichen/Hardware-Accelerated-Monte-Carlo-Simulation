@@ -58,11 +58,11 @@ docs/figures/lane_block_diagram.png: scripts/make_figures.py
 
 docs: figures $(DOC_PDF)
 
-docs/%.pdf: docs/%.md docs/figures/lane_block_diagram.png
+docs/%.pdf: docs/%.md docs/figures/lane_block_diagram.png docs/templates/pdf-header.tex
 	$(PANDOC) $< -o $@ --pdf-engine=xelatex --resource-path=docs \
 	  -V mainfont="Helvetica Neue" -V monofont="Menlo" \
 	  -V geometry:margin=0.8in -V fontsize=10pt -V colorlinks=true \
-	  --shift-heading-level-by=-1 --metadata date="$(shell date +%Y-%m-%d)"
+	  --shift-heading-level-by=-1 -H docs/templates/pdf-header.tex --metadata date="$(shell date +%Y-%m-%d)"
 
 clean:
 	rm -rf simv simv.daidir csrc ucli.key *.log *.vcd *.fsdb obj_dir DVEfiles
