@@ -13,29 +13,15 @@ format on each one, the latency of each block, and how `valid` travels with the 
 Agreeing on this first is what makes the one-lane integration a wiring exercise
 instead of a debugging exercise.
 
-```
-         ┌──────────── mc_top ──────────────────────────────────────────────────────────┐
- cfg bus │ ┌────────────┐                                                                │
- ───────►│ │ controller │─ run ─────┐                                                    │
- start   │ └─────┬──────┘           ▼                                                    │
- ───────►│       │           ┌──────────┐ u   ┌───────────┐ z   ┌───────────┐ p          │
-         │       │           │ rng_lane │────►│ gauss_lut │────►│ price_dp  │─────┐      │
-         │       │           └──────────┘ u_v └───────────┘ z_v └───────────┘ p_v │      │
-         │       │                                                                ▼      │
- done    │       │                                               ┌──────────────────────┐│
- ◄───────│◄──────┴───────────────────────────────────────────────│ accumulator + counter││
- results │                                                       └──────────────────────┘│
-         └───────────────────────────────────────────────────────────────────────────────┘
-```
+![One-lane block diagram and ownership](figures/lane_block_diagram.png)
 
-Blocks and owners: `rng_lane` (Shentong), `gauss_lut` (Chuanqi), `price_dp` = `A + B*z`
--> `exp` -> `max(S_T - K, 0)` and `accumulator` (Eric), `controller` + `mc_top` (Tyler).
+Blocks and owners: `rng_lane` (Shentong), `gauss_lut` (Chuanqi), `price_dp` = $x = A + Bz \rightarrow S_T = e^{x} \rightarrow p = \max(S_T - K, 0)$ and `accumulator` (Eric), `controller` + `mc_top` (Tyler).
 Fixed-point formats and the rounding policy (Chuanqi) apply to all of them.
 
 ## 2. Global conventions
 
 | Item | Rule |
-|---|---|
+|--------|------------------------------------------------|
 | Clock | single `clk`; every block is fully synchronous to it |
 | Reset | `rst_n`, active-low, asynchronous assert, synchronous de-assert (reset synchronizer in `mc_top`). All control state and `valid` bits reset; datapath registers may be left unreset |
 | Handshake | **valid-only, no back-pressure.** Every stage accepts one item per cycle. `x_valid` is `in_valid` delayed by that block's latency. A stage must ignore its inputs when `valid=0` and must never assert its output `valid` for garbage |
@@ -48,26 +34,26 @@ Fixed-point formats and the rounding policy (Chuanqi) apply to all of them.
 ## 3. Fixed-point formats (`Qi.f` = signed, `UQi.f` = unsigned; `i` excludes the sign bit)
 
 | Symbol | Meaning | Format | Width | Range | Rationale |
-|---|---|---|---:|---|---|
-| `u` | uniform word | `uint32` | 32 | [0, 2^32) | RNG contract; high bits are the high-quality bits |
-| `z` | standard normal | `Q3.12` | 16 | ±`Phi^-1(1 - 2^-(ADDR_BITS+1))` = ±3.30 at `ADDR_BITS=10` | fraction bits beyond 12 do not change price error |
-| `A` | `ln S0 + (r - sigma^2/2) T` | `Q5.12` | 18 | ±32 | `ln(10 000) = 9.2`; room for negative drift |
-| `B` | `sigma * sqrt(T)` | `UQ2.14` | 16 | [0, 4) | sigma up to ~1.5 at T = 5 y |
-| `bz` | `B * z` full product | `Q5.26` | 32 | product of the above | internal to `price_dp`, never stored |
-| `x` | `A + round_sat(bz)` | `Q5.12` | 18 | ±32 | `exp` input; actual range is `A ± B*3.30` |
-| `S_T` | `exp(x)` | `UQ14.8` | 22 | [0, 16 384) step 1/256 | covers `S0 <= 2 000` at sigma = 0.6 with margin |
+|--------------|----------------|--------|-----:|------------------|---------------------------|
+| `u` | uniform word | `uint32` | 32 | $[0, 2^{32})$ | RNG contract; high bits are the high-quality bits |
+| `z` | standard normal | `Q3.12` | 16 | $\pm 3.30$ at `ADDR_BITS` $= 10$ | table-bounded: $\pm\Phi^{-1}(1 - 2^{-(a+1)})$; fraction bits beyond 12 do not change price error |
+| `A` | $\ln S_0 + (r - \sigma^2/2)\,T$ | `Q5.12` | 18 | $\pm 32$ | $\ln 10\,000 = 9.2$; room for negative drift |
+| `B` | $\sigma\sqrt{T}$ | `UQ2.14` | 16 | $[0, 4)$ | $\sigma$ up to $\approx 1.5$ at $T = 5$ y |
+| `bz` | $Bz$ full product | `Q5.26` | 32 | — | internal to `price_dp`, never stored |
+| `x` | $A + \mathrm{round\_sat}(Bz)$ | `Q5.12` | 18 | $\pm 32$ | $\exp$ input; actual range is $A \pm 3.30\,B$ |
+| `S_T` | $e^{x}$ | `UQ14.8` | 22 | $[0, 16\,384)$, step $2^{-8}$ | covers $S_0 \le 2\,000$ at $\sigma = 0.6$ with margin |
 | `K` | strike | `UQ14.8` | 22 | same as `S_T` | compared/subtracted directly |
-| `p` | payoff `max(S_T - K, 0)` | `UQ14.8` | 22 | same as `S_T` | no rounding: subtract and clamp |
-| `payoff_sum` | `sum p` | `UQ46.8` | 54 -> stored in 64 | 2^32 trials x 2^14 | 64-bit result register; overflow flagged |
+| `p` | payoff $\max(S_T - K, 0)$ | `UQ14.8` | 22 | same as `S_T` | no rounding: subtract and clamp |
+| `payoff_sum` | $\sum p$ | `UQ46.8` | 64 (54 used) | $2^{32}$ trials $\times$ $2^{14}$ | 64-bit result register; overflow flagged |
 | `trial_count` | accepted trials | `uint32` | 32 | | |
 
-Software side (Python, double precision): `A = ln(S0) + (r - 0.5*sigma**2)*T`,
-`B = sigma*sqrt(T)`, then quantize with `Fxp(18,12)`, `Fxp(16,14,signed=False)`,
-`Fxp(22,8,signed=False)`; price `= exp(-r*T) * payoff_sum / trial_count / 256`.
+Software side (Python, double precision): $A = \ln S_0 + (r - \tfrac{1}{2}\sigma^2)\,T$,
+$B = \sigma\sqrt{T}$, quantized with `Fxp(18,12)`, `Fxp(16,14,signed=False)`,
+`Fxp(22,8,signed=False)`; price $= e^{-rT}\,\dfrac{\texttt{payoff\_sum}}{256\cdot\texttt{trial\_count}}$.
 
-Alternative under discussion (D-3): compute `S_T = C * exp(B*z)` with
-`C = S0*exp((r - sigma^2/2)T)` precomputed. Then the `exp` input is symmetric and
-bounded by `|B*z| <= 4 * 3.30`, which shrinks the exp table but adds one multiply.
+Alternative under discussion (D-3): compute $S_T = C\,e^{Bz}$ with
+$C = S_0\,e^{(r - \sigma^2/2)T}$ precomputed. Then the $\exp$ input is symmetric and
+bounded by $|Bz| \le 4 \times 3.30$, which shrinks the exp table but adds one multiply.
 
 ## 4. Top-level interface (`mc_top`)
 
@@ -76,7 +62,7 @@ multiple lanes (per-lane seeds) without hundreds of ports and keeps the testbenc
 trivial.
 
 | Signal | Dir | Width | Meaning |
-|---|---|---:|---|
+|-------------|-----|-----:|--------------------------------------|
 | `clk`, `rst_n` | in | 1 | see Section 2 |
 | `cfg_we` | in | 1 | write strobe |
 | `cfg_addr` | in | 8 | register address (map below) |
@@ -92,7 +78,7 @@ trivial.
 Register map (32-bit words; formats per Section 3, right-aligned, zero-extended):
 
 | Addr | Name | Content |
-|---:|---|---|
+|-----------:|-----------|-----------------------------------|
 | `0x00` | `A` | `Q5.12` in bits [17:0] |
 | `0x01` | `B` | `UQ2.14` in bits [15:0] |
 | `0x02` | `K` | `UQ14.8` in bits [21:0] |
@@ -108,7 +94,7 @@ Configuration is latched on `start`; writes while `busy` are ignored and set
 ### 5.1 controller -> `rng_lane`
 
 | Signal | Width | Meaning |
-|---|---:|---|
+|-------------|-----:|------------------------------------------------|
 | `seed_load` | 1 | one-cycle pulse; lane copies its four `SEED` words into state |
 | `seed_state` | 128 | the four words, `{s3, s2, s1, s0}` |
 | `run` | 1 | while high, emit one `u` per cycle; de-asserted by the controller after the last trial has been issued |
@@ -116,40 +102,40 @@ Configuration is latched on `start`; writes while `busy` are ignored and set
 ### 5.2 `rng_lane` -> `gauss_lut`
 
 | Signal | Width | Format | Meaning |
-|---|---:|---|---|
+|-----------|-----:|--------|------------------------------------------|
 | `u` | 32 | `uint32` | one xoshiro128++ output word |
 | `u_valid` | 1 | | `run` delayed by `LAT_RNG` |
 
-Requirements: uniform over all 2^32 values; one word per cycle; the all-zero state is
+Requirements: uniform over all $2^{32}$ values; one word per cycle; the all-zero state is
 illegal (controller flags `bad_cfg`). For multi-lane, lane `i` is seeded by software
-with `jump^i` of the root state (Vitis convention), so no jump hardware is needed.
+with $\mathrm{jump}^{\,i}$ of the root state (Vitis convention), so no jump hardware is needed.
 `xoshiro128++` is preferred over `+` because the LUT consumes only the top bits and
 `++` has no weak bits.
 
 ### 5.3 `gauss_lut` -> `price_dp`
 
 | Signal | Width | Format | Meaning |
-|---|---:|---|---|
-| `z` | 16 | `Q3.12` | `Phi^-1` of the cell midpoint addressed by `u[31 -: ADDR_BITS]` |
+|-----------|-----:|--------|------------------------------------------|
+| `z` | 16 | `Q3.12` | $\Phi^{-1}$ of the cell midpoint addressed by `u[31 -: ADDR_BITS]` |
 | `z_valid` | 1 | | `u_valid` delayed by `LAT_GAUSS` |
 
-`|z|` is bounded by the table, which bounds `x` and sizes the `exp` domain.
+$|z|$ is bounded by the table, which bounds $x$ and sizes the $\exp$ domain.
 Reference: `model/gauss_lut.py`; RTL `rtl/gauss_lut.sv` (`LAT_GAUSS = LATENCY`
 parameter, 1 or 2).
 
 ### 5.4 `price_dp` -> accumulator
 
 | Signal | Width | Format | Meaning |
-|---|---:|---|---|
-| `p` | 22 | `UQ14.8` | `max(S_T - K, 0)` |
+|-----------|-----:|--------|------------------------------------------|
+| `p` | 22 | `UQ14.8` | $\max(S_T - K, 0)$ |
 | `p_valid` | 1 | | `z_valid` delayed by `LAT_DP` |
 | `sat_x`, `sat_s` | 1 each | | pulses when `round_sat` saturated `x` or `exp` clamped its input/output; made sticky in `status` |
 
 Inside `price_dp` (Eric's internal stages, listed so the Python model can trace them):
-`bz = B*z` (`Q5.26`) -> `round_sat` -> `Q5.12`; `x = A + bz_r` with saturation;
-`S_T = exp(x)` by table (range-reduce `x` into integer/fraction of `log2 e * x`, shift
-+ fractional LUT, or direct table - Eric's choice, bounded by the `x` range);
-`p = S_T > K ? S_T - K : 0`.
+$bz = Bz$ (`Q5.26`) $\rightarrow$ `round_sat` $\rightarrow$ `Q5.12`; $x = A + bz_r$ with saturation;
+$S_T = e^{x}$ by table (range-reduce $x \log_2 e$ into integer and fraction, shift
++ fractional LUT, or direct table - Eric's choice, bounded by the $x$ range);
+$p = S_T > K \;?\; S_T - K : 0$.
 
 ### 5.5 accumulator and counter
 
@@ -157,7 +143,7 @@ Inside `price_dp` (Eric's internal stages, listed so the Python model can trace 
 - `trial_count <= trial_count + 1` when `p_valid` (multi-lane: `+ popcount(p_valid[LANES-1:0])`).
 - Both cleared on `start`.
 - Multi-lane: a registered adder tree sums the `LANES` payoffs first; it adds
-  `LAT_TREE = ceil(log2 LANES)` cycles and is part of `LAT_TOTAL`.
+  $\texttt{LAT\_TREE} = \lceil \log_2 \texttt{LANES} \rceil$ cycles and is part of `LAT_TOTAL`.
 
 ### 5.6 Controller sequence
 
@@ -169,13 +155,13 @@ DRAIN ---------> DONE  (done pulse, status[0]=1, busy=0) --> IDLE
 ```
 
 `cycle_count` counts from `start` to `done` inclusive. For `LANES > 1` the controller
-issues `ceil(N_TRIALS / LANES)` beats and masks the unused lanes in the final beat so
+issues $\lceil \texttt{N\_TRIALS} / \texttt{LANES} \rceil$ beats and masks the unused lanes in the final beat so
 `trial_count == N_TRIALS` exactly.
 
 ## 6. Latency budget (initial estimates - replace with measured values)
 
 | Block | `LAT_*` | Notes |
-|---|---:|---|
+|------------------|-----:|------------------------------|
 | `rng_lane` | 1 | state update + output register |
 | `gauss_lut` | 1-2 | ROM + negate; 2 if timing needs it |
 | `price_dp` | 4-6 | multiply (1-2), add/round (1), exp (2), payoff (1) |
@@ -183,7 +169,7 @@ issues `ceil(N_TRIALS / LANES)` beats and masks the unused lanes in the final be
 | accumulator | 1 | |
 | **one-lane total** | **7-10** | pipeline fill before first `p_valid`; drain equal |
 
-Throughput goal: `N_TRIALS + LAT_TOTAL + ~3` cycles per run for one lane.
+Throughput goal: $\texttt{N\_TRIALS} + \texttt{LAT\_TOTAL} + \approx 3$ cycles per run for one lane.
 
 ## 7. Python reference contract (`model/mc_lane.py`, to be written)
 
@@ -200,20 +186,20 @@ waveform when the integrated testbench reports a mismatch.
 ## 8. Verification hooks every block must provide
 
 | Block | Debug/observability requirement |
-|---|---|
+|-----------|----------------------------------------------|
 | `rng_lane` | raw `u` stream exportable from simulation (for Shentong's stream tests) |
 | `gauss_lut` | assertion: half-table magnitude never sets the sign bit; exhaustive-address vectors |
 | `price_dp` | `sat_x`/`sat_s` pulses visible; directed vectors for `x` at the exp-table edges |
-| accumulator | overflow assertion; test with `p = max` for 2^20 trials |
+| accumulator | overflow assertion; test with `p = max` for $2^{20}$ trials |
 | `mc_top` | `tb_mc_top` compares `payoff_sum`, `trial_count`, `status` with `run_lane`; checks `cycle_count` against the latency budget; asserts no `x` on valid-qualified buses |
 
 ## 9. Open decisions
 
 | ID | Question | Options | Proposed | Owner |
-|---|---|---|---|---|
+|-----|-----------------|-----------------------|-------------------|----------|
 | D-1 | Seed delivery for multiple lanes | (a) software writes 128 b per lane via cfg bus; (b) hardware jump from one root | (a) - no jump hardware, matches Vitis | Shentong, Tyler |
 | D-2 | Reset style | async-assert/sync-deassert vs fully synchronous | async-assert (as in `gauss_lut.sv`) | Tyler |
-| D-3 | `S_T = exp(A + B z)` vs `C * exp(B z)` | see Section 3 | decide after Eric sizes the exp table for both | Eric, Chuanqi |
+| D-3 | $S_T = e^{A+Bz}$ vs $C\,e^{Bz}$ | see Section 3 | decide after Eric sizes the exp table for both | Eric, Chuanqi |
 | D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | start 16 b; 12 b if synthesis shows the multiplier matters | Chuanqi, Eric |
 | D-5 | `A`/`x` width | 18 b `Q5.12` vs 16 b `Q5.10` | 18 b; revisit after exp-table precision study | Eric, Chuanqi |
 | D-6 | `exp` implementation | direct table on `x` vs range reduction + fractional table | Eric to propose with table-size numbers | Eric |

@@ -3,6 +3,7 @@
 #   make gen    - regenerate ROM RTL + testbench vectors from the model
 #   make sim    - run tb_gauss_lut under VCS (lab machines)
 #   make lint   - Verilator lint of the RTL (if installed)
+#   make figures - regenerate docs/figures/*.png from scripts/make_figures.py
 #   make docs   - build PDFs from docs/*.md with pandoc + xelatex
 #   make clean  - remove tool outputs
 #
@@ -23,7 +24,7 @@ VEC     := tb/vectors/gauss_lut_a$(ADDR_BITS)_w$(OUT_WIDTH)_f$(FRAC_BITS).hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint docs clean
+.PHONY: all test gen sweep sim lint figures docs clean
 
 all: test gen
 
@@ -50,10 +51,15 @@ sim: gen
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut
 
-docs: $(DOC_PDF)
+figures: docs/figures/lane_block_diagram.png
 
-docs/%.pdf: docs/%.md
-	$(PANDOC) $< -o $@ --pdf-engine=xelatex \
+docs/figures/lane_block_diagram.png: scripts/make_figures.py
+	$(PYTHON) scripts/make_figures.py
+
+docs: figures $(DOC_PDF)
+
+docs/%.pdf: docs/%.md docs/figures/lane_block_diagram.png
+	$(PANDOC) $< -o $@ --pdf-engine=xelatex --resource-path=docs \
 	  -V mainfont="Helvetica Neue" -V monofont="Menlo" \
 	  -V geometry:margin=0.8in -V fontsize=10pt -V colorlinks=true \
 	  --shift-heading-level-by=-1 --metadata date="$(shell date +%Y-%m-%d)"
