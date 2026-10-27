@@ -64,3 +64,26 @@ class Fxp:
         raw = np.asarray(raw, dtype=np.int64)
         if raw.min() < self.min_raw or raw.max() > self.max_raw:
             raise OverflowError(f"raw word outside {self}")
+
+    def saturate(self, raw):
+        """Clamp a wider raw int to this format. Returns (raw, saturated_flag)."""
+        raw = np.asarray(raw, dtype=np.int64)
+        sat = (raw < self.min_raw) | (raw > self.max_raw)
+        return np.clip(raw, self.min_raw, self.max_raw), sat
+
+
+def round_shift_even(x, shift: int):
+    """Raw int -> raw int with `shift` fewer fraction bits, round-half-to-even.
+
+    This is the integer narrowing step (the RTL's round_sat before the saturate):
+    keep x >> shift and add 1 when the dropped bits are above half, or exactly
+    half and the kept LSB is odd. `>>` floors, so negative values work too.
+    """
+    x = np.asarray(x, dtype=np.int64)
+    if shift == 0:
+        return x
+    q = x >> shift
+    rem = x - (q << shift)
+    half = 1 << (shift - 1)
+    up = (rem > half) | ((rem == half) & ((q & 1) == 1))
+    return q + up.astype(np.int64)
