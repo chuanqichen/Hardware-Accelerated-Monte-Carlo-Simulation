@@ -1,8 +1,11 @@
 # Lane interface specification (DRAFT for team review)
 
-_Status: proposal, 2026-10-03. Nothing here is frozen until the four owners sign off;
-open points are collected in Section 9. Once agreed, this file is the contract that
-`model/`, `rtl/`, and `tb/` are written against._
+_Status: proposal 2026-10-03; revised 2026-10-31 to match the merged RTL (`rng_lane`,
+`gauss_lut`, `price_dp`, `accumulator`, `round_sat`, `mc_pkg`), all of which pass their
+testbenches under VCS. Latencies in Section 6 are now measured. Decisions D-3 and D-6
+are closed in Section 9; D-4/D-5 wait on synthesis numbers. Once the remaining points
+are agreed, this file is the contract that `model/`, `rtl/`, and `tb/` are written
+against. Shared constants live in `rtl/mc_pkg.sv`._
 
 ---
 
@@ -26,8 +29,10 @@ Fixed-point formats and the rounding policy (Chuanqi) apply to all of them.
 | Reset | `rst_n`, active-low, asynchronous assert, synchronous de-assert (reset synchronizer in `mc_top`). All control state and `valid` bits reset; datapath registers may be left unreset |
 | Handshake | **valid-only, no back-pressure.** Every stage accepts one item per cycle. `x_valid` is `in_valid` delayed by that block's latency. A stage must ignore its inputs when `valid=0` and must never assert its output `valid` for garbage |
 | Throughput | one item per cycle per lane after fill (II = 1) |
-| Latency | a compile-time `localparam LAT_<BLOCK>` in each block, exported through `mc_pkg`; the controller uses `LAT_TOTAL = LAT_RNG + LAT_GAUSS + LAT_DP` to size the drain |
+| Latency | a compile-time `localparam LAT_<BLOCK>` in each block; `rtl/mc_pkg.sv` records the constants and the formulas for parameter-dependent ones (`lat_dp(MUL_STAGES)`, `lat_gauss(LATENCY)`, `lat_tree(LANES)`); the controller sizes the drain with `mc_pkg::lat_total(...)` |
 | Fixed point | all formats below; one `round_sat` module for every narrowing; **round-half-to-even then saturate; no silent truncation**; saturation sets a sticky status flag |
+| `round_sat` | `rtl/round_sat.sv`, combinational, `#(IN_WIDTH, OUT_WIDTH, SHIFT, SIGNED)`, ports `in`, `out`, `sat`. Drops `SHIFT` fraction bits with round-half-to-even, then clamps the **rounded** value to the output range and raises `sat`. The consumer places the register. Python twin `fxp.round_sat(x, shift, fmt)`; vectors `tb/vectors/round_sat_*.hex`, TB `tb_round_sat` |
+| Constants | `rtl/mc_pkg.sv` (`import mc_pkg::*;`) is the single source for widths, `LAT_*`, `status` bit positions and the register map. Per-experiment knobs (`ADDR_BITS`, `EXP_ADDR_BITS`, `MUL_STAGES`, `LANES`, gauss `LATENCY`) stay module parameters |
 | Naming | modules/files `snake_case`, parameters `UPPER_SNAKE`, `_n` active-low, `_valid` qualifiers, signed buses declared `logic signed` |
 | Unknowns | no `x` on any `valid`-qualified bus after reset in simulation (assertion in `tb_mc_top`) |
 
@@ -39,8 +44,8 @@ Fixed-point formats and the rounding policy (Chuanqi) apply to all of them.
 | `z` | standard normal | `Q3.12` | 16 | $\pm 3.30$ at `ADDR_BITS` $= 10$ | table-bounded: $\pm\Phi^{-1}(1 - 2^{-(a+1)})$; fraction bits beyond 12 do not change price error |
 | `A` | $\ln S_0 + (r - \sigma^2/2)\,T$ | `Q5.12` | 18 | $\pm 32$ | $\ln 10\,000 = 9.2$; room for negative drift |
 | `B` | $\sigma\sqrt{T}$ | `UQ2.14` | 16 | $[0, 4)$ | $\sigma$ up to $\approx 1.5$ at $T = 5$ y |
-| `bz` | $Bz$ full product | `Q5.26` | 32 | — | internal to `price_dp`, never stored |
-| `x` | $A + \mathrm{round\_sat}(Bz)$ | `Q5.12` | 18 | $\pm 32$ | $\exp$ input; actual range is $A \pm 3.30\,B$ |
+| `acc` | $(A \ll 14) + Bz$ fused sum | `Q5.26` | 34 | — | internal to `price_dp` S1, never stored; one register per `MUL_STAGES` |
+| `x` | $\mathrm{round\_sat}_{18,14}(acc)$ | `Q5.12` | 18 | $\pm 32$ | $\exp$ input; **one** rounding of the whole sum (see 5.4); actual range is $A \pm 3.30\,B$ |
 | `S_T` | $e^{x}$ | `UQ14.8` | 22 | $[0, 16\,384)$, step $2^{-8}$ | covers $S_0 \le 2\,000$ at $\sigma = 0.6$ with margin |
 | `K` | strike | `UQ14.8` | 22 | same as `S_T` | compared/subtracted directly |
 | `p` | payoff $\max(S_T - K, 0)$ | `UQ14.8` | 22 | same as `S_T` | no rounding: subtract and clamp |
@@ -51,9 +56,9 @@ Software side (Python, double precision): $A = \ln S_0 + (r - \tfrac{1}{2}\sigma
 $B = \sigma\sqrt{T}$, quantized with `Fxp(18,12)`, `Fxp(16,14,signed=False)`,
 `Fxp(22,8,signed=False)`; price $= e^{-rT}\,\dfrac{\texttt{payoff\_sum}}{256\cdot\texttt{trial\_count}}$.
 
-Alternative under discussion (D-3): compute $S_T = C\,e^{Bz}$ with
-$C = S_0\,e^{(r - \sigma^2/2)T}$ precomputed. Then the $\exp$ input is symmetric and
-bounded by $|Bz| \le 4 \times 3.30$, which shrinks the exp table but adds one multiply.
+The alternative $S_T = C\,e^{Bz}$ (D-3) was rejected on 2026-10-22: with the
+range-reduced exponential (D-6) the table size no longer depends on the input range,
+so the extra multiply would buy nothing and would lose the fused $A$ add.
 
 ## 4. Top-level interface (`mc_top`)
 
@@ -129,19 +134,36 @@ parameter, 1 or 2).
 |-----------|-----:|--------|------------------------------------------|
 | `p` | 22 | `UQ14.8` | $\max(S_T - K, 0)$ |
 | `p_valid` | 1 | | `z_valid` delayed by `LAT_DP` |
-| `sat_x`, `sat_s` | 1 each | | pulses when `round_sat` saturated `x` or `exp` clamped its input/output; made sticky in `status` |
+| `sat_x`, `sat_s` | 1 each | | one-cycle pulses qualified by `p_valid`: `round_sat` saturated `x`, or `exp` clamped $S_T$ at $2^{14}$; made sticky in the accumulator |
 
-Inside `price_dp` (Eric's internal stages, listed so the Python model can trace them):
-$bz = Bz$ (`Q5.26`) $\rightarrow$ `round_sat` $\rightarrow$ `Q5.12`; $x = A + bz_r$ with saturation;
-$S_T = e^{x}$ by table (range-reduce $x \log_2 e$ into integer and fraction, shift
-+ fractional LUT, or direct table - Eric's choice, bounded by the $x$ range);
-$p = S_T > K \;?\; S_T - K : 0$.
+Inside `price_dp` (as implemented, `rtl/price_dp.sv` + `rtl/exp2_unit.sv`; reference
+`model/price_dp.py`):
+
+| Stage | Operation | Format |
+|---|---|---|
+| S1 | $acc = (A \ll 14) + Bz$, fused multiply-add; `MUL_STAGES` registers for DC retiming | `Q5.26`, 34 b |
+| S2 | $x = \mathrm{round\_sat}_{18,14}(acc)$ - **one** rounding of the whole sum, then saturate; `sat_x` | `Q5.12` |
+| S3 | $y = x \log_2 e$ (constant multiply); $n = \lfloor y \rfloor$, `addr` = top `EXP_ADDR_BITS` of $y - n$ | |
+| S4 | $2^f$ ROM at cell midpoints | `UQ1.16` |
+| S5 | shift by $n$; round-half-even to 8 fraction bits; $n \ge 14 \rightarrow$ clamp, `sat_s` | `UQ14.8` |
+| S6 | $p = S_T > K \;?\; S_T - K : 0$ (exact) | `UQ14.8` |
+
+*Rounding note (2026-10-22, supersedes the first draft):* the first draft rounded $Bz$
+and then added $A$. The implementation rounds the fused sum once, which differs by
+1 LSB on exact ties when $A$ is odd and is slightly more accurate. The model and the
+test `test_fused_rounding_tie_with_odd_a` define this behaviour.
 
 ### 5.5 accumulator and counter
 
 - `payoff_sum <= payoff_sum + p` when `p_valid`; 64-bit; carry-out sets `acc_overflow`.
+  (With $p < 2^{22}$ and at most $2^{32}$ trials the sum is $< 2^{54}$, so the flag is
+  unreachable in practice; it is kept for the contract and tested with `SUM_WIDTH = 32`.)
 - `trial_count <= trial_count + 1` when `p_valid` (multi-lane: `+ popcount(p_valid[LANES-1:0])`).
-- Both cleared on `start`.
+- **Sticky flags live here**: `sat_x_seen |= sat_x & p_valid`, `sat_s_seen |= sat_s & p_valid`,
+  `acc_overflow`. `mc_top` maps them to `status[ST_SAT_X]`, `status[ST_SAT_S]`,
+  `status[ST_ACC_OVF]` (bit positions in `mc_pkg`).
+- All cleared by `clear` (driven by the controller on `start`); `clear` wins over a
+  same-cycle add.
 - Multi-lane: a registered adder tree sums the `LANES` payoffs first; it adds
   $\texttt{LAT\_TREE} = \lceil \log_2 \texttt{LANES} \rceil$ cycles and is part of `LAT_TOTAL`.
 
@@ -158,30 +180,38 @@ DRAIN ---------> DONE  (done pulse, status[0]=1, busy=0) --> IDLE
 issues $\lceil \texttt{N\_TRIALS} / \texttt{LANES} \rceil$ beats and masks the unused lanes in the final beat so
 `trial_count == N_TRIALS` exactly.
 
-## 6. Latency budget (initial estimates - replace with measured values)
+## 6. Latency budget (measured under VCS, 2026-10-31; `rtl/mc_pkg.sv`)
 
-| Block | `LAT_*` | Notes |
-|------------------|-----:|------------------------------|
-| `rng_lane` | 1 | state update + output register |
-| `gauss_lut` | 1-2 | ROM + negate; 2 if timing needs it |
-| `price_dp` | 4-6 | multiply (1-2), add/round (1), exp (2), payoff (1) |
-| adder tree (`LANES=4`) | 2 | |
-| accumulator | 1 | |
-| **one-lane total** | **7-10** | pipeline fill before first `p_valid`; drain equal |
+| Block | `LAT_*` | `mc_pkg` | Notes |
+|------------------|-----:|---|------------------------------|
+| `rng_lane` | 1 | `LAT_RNG` | state update + output register |
+| `gauss_lut` | 1 or 2 | `lat_gauss(LATENCY)` | ROM + negate in one stage; `LATENCY = 2` splits them. Both pass `tb_gauss_lut` |
+| `price_dp` | 6 (`MUL_STAGES = 1`), 7 (`= 2`) | `lat_dp(MUL_STAGES)` = `MUL_STAGES + 1 + LAT_EXP + 1` | S1 (`MUL_STAGES`), S2 (1), S3-S5 (`LAT_EXP = 3`), S6 (1). Both pass `tb_price_dp` |
+| adder tree | $\lceil \log_2 \texttt{LANES} \rceil$ | `lat_tree(LANES)` | 0 for one lane; not yet implemented |
+| accumulator | 1 | `LAT_ACC` | result registers |
+| **one-lane total** | **9** (defaults) | `lat_total(1, 1, 1)` | `rng 1 + gauss 1 + dp 6 + acc 1`; `lat_total(2, 1, 4) = 12` |
 
-Throughput goal: $\texttt{N\_TRIALS} + \texttt{LAT\_TOTAL} + \approx 3$ cycles per run for one lane.
+All blocks are II = 1 (one trial per cycle per lane after fill). Throughput goal:
+$\texttt{N\_TRIALS} + \texttt{LAT\_TOTAL} + \approx 3$ cycles per run for one lane.
 
-## 7. Python reference contract (`model/mc_lane.py`, to be written)
+## 7. Python reference contract (`model/mc_lane.py`)
 
 ```python
-def run_lane(a_raw, b_raw, k_raw, seed_state, n_trials, cfg) -> dict
-    # returns {"payoff_sum": int, "trial_count": int, "sat_x": int, "sat_s": int}
-def trace_lane(...) -> list[dict]   # per trial: u, z, bz, x, S_T, p (raw ints)
+run_lane(a, b, k, seed_state, n_trials, cfg=LaneConfig()) -> dict
+    # {"payoff_sum", "trial_count", "acc_overflow", "sat_x", "sat_s"}  (result registers after done)
+trace_lane(a, b, k, seed_state, n_trials, cfg) -> dict of per-trial arrays
+    # u, z, acc, x, sat_x, s_t, sat_s, p   (raw ints at every block boundary)
+run_option(s0, k, r, sigma, T, seed_state, n_trials, cfg) -> run_lane result + "price"
+LaneConfig(gauss=GaussLutConfig(10,16,12), gauss_latency=1, dp=PriceDpConfig(), lanes=1).lat_total
 ```
 
-Every block owner provides a pure function `block(raw_in) -> raw_out` using
-`model/fxp.py`; `run_lane` chains them. `trace_lane` is what you diff against the
-waveform when the integrated testbench reports a mismatch.
+`seed_state` is the 128-bit `{s3,s2,s1,s0}` bus or an `(s0,s1,s2,s3)` tuple; zero
+raises. The module only chains the block owners' pure functions (`rng_lane.next_word`,
+`GaussLut.lookup`, `price_dp.price_dp`, `price_dp.accumulate`); nothing is
+re-implemented. `trace_lane` is what you diff against the waveform when `tb_mc_top`
+reports a mismatch. `test_mc_lane.py` checks the stream against Shentong's cycle
+model, the trace against Eric's stage functions, `lat_total` against `mc_pkg`, and
+2^16-trial Monte Carlo convergence to the exact finite-table price.
 
 ## 8. Verification hooks every block must provide
 
@@ -195,16 +225,16 @@ waveform when the integrated testbench reports a mismatch.
 
 ## 9. Open decisions
 
-| ID | Question | Options | Proposed | Owner |
+| ID | Question | Options | Status | Owner |
 |-----|-----------------|-----------------------|-------------------|----------|
-| D-1 | Seed delivery for multiple lanes | (a) software writes 128 b per lane via cfg bus; (b) hardware jump from one root | (a) - no jump hardware, matches Vitis | Shentong, Tyler |
-| D-2 | Reset style | async-assert/sync-deassert vs fully synchronous | async-assert (as in `gauss_lut.sv`) | Tyler |
-| D-3 | $S_T = e^{A+Bz}$ vs $C\,e^{Bz}$ | see Section 3 | decide after Eric sizes the exp table for both | Eric, Chuanqi |
-| D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | start 16 b; 12 b if synthesis shows the multiplier matters | Chuanqi, Eric |
-| D-5 | `A`/`x` width | 18 b `Q5.12` vs 16 b `Q5.10` | 18 b; revisit after exp-table precision study | Eric, Chuanqi |
-| D-6 | `exp` implementation | direct table on `x` vs range reduction + fractional table | Eric to propose with table-size numbers | Eric |
-| D-7 | Top-level bus | cfg write bus (Section 4) vs all-parallel ports | cfg bus | Tyler |
-| D-8 | `N_TRIALS` not a multiple of `LANES` | lane mask on last beat vs require multiple | lane mask | Tyler |
+| D-1 | Seed delivery for multiple lanes | (a) software writes 128 b per lane via cfg bus; (b) hardware jump from one root | **(a) implemented** in `rng_lane` (2026-10-13: `seed_load` + 128 b bus, no jump hardware). Software jump for lanes 2/4 still to be added to the model | Shentong, Tyler |
+| D-2 | Reset style | async-assert/sync-deassert vs fully synchronous | **async-assert, implemented** in all four blocks; `mc_top` must synchronise de-assertion. Valid/control bits reset, data registers not | Tyler |
+| D-3 | $S_T = e^{A+Bz}$ vs $C\,e^{Bz}$ | see Section 3 | **Closed 2026-10-22: $e^{A+Bz}$.** Range reduction (D-6) makes the table size independent of the input range, so $C e^{Bz}$ would add a multiplier and lose the fused $A$ | Eric, Chuanqi |
+| D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | Open. 16 b implemented. Model says fraction bits do not change price bias (Gaussian plan Sec. 6); decide on `gauss_lut` + `B*z` multiplier area from the Week-3 synthesis sweep (`results/gauss_lut_ppa.csv`) | Chuanqi, Eric |
+| D-5 | `A`/`x` width | 18 b `Q5.12` vs 16 b `Q5.10` | Open, leaning 18 b. Eric's exact sweep: price bias plateaus at $\approx 0.03\,\%$ from `A`/`B`/`K` register quantisation at 18 b, independent of `EXP_ADDR_BITS` $\ge 8$; a 16 b `x` has not been measured yet | Eric, Chuanqi |
+| D-6 | `exp` implementation | direct table on `x` vs range reduction + fractional table | **Closed 2026-10-22: range reduction** ($2^{y}$, $y = x\log_2 e$; `EXP_ADDR_BITS` entries of `UQ1.16`, default 10, 8 under consideration). Direct table would need $\approx 65$k entries | Eric |
+| D-7 | Top-level bus | cfg write bus (Section 4) vs all-parallel ports | cfg bus; register map constants in `mc_pkg` | Tyler |
+| D-8 | `N_TRIALS` not a multiple of `LANES` | lane mask on last beat vs require multiple | lane mask; `accumulator` already counts `popcount(p_valid)` | Tyler |
 
 Decisions get recorded here with the date; the Python model, RTL, and vectors are then
 regenerated from the agreed values rather than patched by hand.

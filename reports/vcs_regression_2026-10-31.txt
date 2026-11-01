@@ -1,0 +1,36 @@
+
+
+# VCS + model regression, 2026-10-31 21:57 CDT, peach.ece.utexas.edu
+# VCS VCS T-2022.06_Full64; Python 3.9.25, numpy 2.0.2
+# git: 3c4169b + uncommitted round_sat/mc_pkg/mc_lane work (see PR)
+
+## make test
+Ran 69 tests in 2.054s
+OK
+
+## make sim  (tb_gauss_lut)
+LATENCY=1  PASS: 11029 checked, 0 errors
+LATENCY=2  PASS: 11029 checked, 0 errors
+
+## make sim-rs  (tb_round_sat)
+PASS: tb_round_sat IN=34 OUT=18 SHIFT=14 SIGNED=1, 12067 checked, 0 errors (sat on 8381)
+PASS: tb_round_sat IN=26 OUT=16 SHIFT=8 SIGNED=0, 11552 checked, 0 errors (sat on 7933)
+
+## rng_lane
+PASS rng_lane: 4440 cycles, 1763 valid words
+
+## make sim-price  (tb_accumulator w64, tb_exp2_unit, tb_price_dp)
+PASS: tb_accumulator SUM_WIDTH=64, 20000 cycles checked, 0 errors (overflow set on 0 cycles)
+PASS: tb_exp2_unit k=10, 262144 checked, 0 errors, sat_s pulses 91323 (expected 91323)
+PASS: tb_price_dp k=10 MUL_STAGES=1 LAT_DP=6, 11449 trials checked, 0 errors
+PASS: tb_accumulator SUM_WIDTH=32, 5000 cycles checked, 0 errors (overflow set on 1075 cycles)
+
+## tb_price_dp with round_sat substituted for the inline S2 rounding (patch in PR; rtl/price_dp.sv unchanged)
+PASS: tb_price_dp k=10 MUL_STAGES=1 LAT_DP=6, 11449 trials checked, 0 errors
+      saturation events: sat_x 547 (expected 547), sat_s 2683 (expected 2683)
+PASS: tb_price_dp k=10 MUL_STAGES=2 LAT_DP=7, 11449 trials checked, 0 errors
+      saturation events: sat_x 547 (expected 547), sat_s 2683 (expected 2683)
+
+## lint: vcs +lint=all on every rtl file together
+Lint-[ULCO] Unequal length in comparison operator
+rtl/exp2_unit.sv, 65

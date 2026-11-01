@@ -35,3 +35,18 @@ make lint            # verilator --lint-only, if installed
 make docs            # pandoc + xelatex -> docs/*.pdf
 ```
 No simulator is installed on the dev laptop (macOS, Python 3.9.6, numpy 2.0.2).
+
+## ECE lab server (VCS / Design Compiler)
+- `ssh -i ~/.ssh/id_ed25519_ece cc83382@peach.ece.utexas.edu` (key auth set up 2026-10-31)
+- Repo clone: `~/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation`
+- Tools come from environment modules and need a **login shell**:
+  `bash -l -c 'module load syn/2022 && ...'` -> VCS T-2022.06 (`vcs`), DC (`dc_shell`).
+  No Verilator or Icarus on peach; use `vcs +lint=all` for lint.
+- Python: system `python3` is 3.6 (too old). Use the venv on the big local disk:
+  `export PYTHON=/home/work/cc83382/venv/bin/python` (3.9.25, numpy 2.0.2, matplotlib 3.9.4),
+  then `make test`, `make gen-price`, `make sim-price` etc. all work.
+- **Home dir has a 2 GB hard quota** (`quota -s`). Keep venvs, pip cache
+  (`PIP_CACHE_DIR=/home/work/cc83382/.pip-cache`) and big build output on
+  `/home/work/cc83382` (365 GB local disk, no quota). VCS `simv*.daidir`/`csrc` are
+  gitignored but still count against the quota - `rm -rf simv* csrc` when done.
+- Non-interactive ssh: pipe through `grep -v` to drop the UT login banner lines.

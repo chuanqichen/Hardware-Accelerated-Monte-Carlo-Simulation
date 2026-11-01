@@ -87,3 +87,13 @@ def round_shift_even(x, shift: int):
     half = 1 << (shift - 1)
     up = (rem > half) | ((rem == half) & ((q & 1) == 1))
     return q + up.astype(np.int64)
+
+
+def round_sat(x, shift: int, fmt: Fxp):
+    """Bit-accurate twin of rtl/round_sat.sv: drop `shift` fraction bits with
+    round-half-to-even, then saturate to `fmt`. Returns (raw, sat_flag).
+
+    Saturation is applied to the *rounded* value (a value just under max can
+    round up past it). `fmt.signed` selects the RTL's SIGNED parameter.
+    """
+    return fmt.saturate(round_shift_even(x, shift))

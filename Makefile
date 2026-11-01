@@ -5,6 +5,8 @@
 #   make gen-price - regenerate exp ROM RTL + price_dp/exp/accumulator TB vectors
 #   make sim-iv    - run tb_accumulator, tb_exp2_unit, tb_price_dp under Icarus (local)
 #   make sim-price - the same three testbenches under VCS (lab machines)
+#   make gen-rs    - regenerate round_sat TB vectors (signed + unsigned configs)
+#   make sim-rs    - run tb_round_sat under VCS for both configs
 #   make lint   - Verilator lint of the RTL (if installed)
 #   make figures - regenerate docs/figures/*.png from scripts/make_figures.py
 #   make docs   - build PDFs from docs/*.md with pandoc + xelatex
@@ -35,7 +37,7 @@ PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_AD
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs
 
 all: test gen
 
@@ -89,6 +91,21 @@ sim-price: gen-price
 	$(VCS_PRICE) $(PRICE_RTL) tb/tb_price_dp.sv \
 	  -pvalue+tb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -pvalue+tb_price_dp.MUL_STAGES=$(MUL_STAGES) \
 	  +define+VEC_FILE='"tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex"' -o simv_pdp && ./simv_pdp
+
+# round_sat: both production configurations (price_dp S2 signed; a UQ case). The
+# module is combinational, so one vector file per parameter set and no latency.
+RS_VEC_S := tb/vectors/round_sat_i34_o18_s14_s.hex
+RS_VEC_U := tb/vectors/round_sat_i26_o16_s8_u.hex
+gen-rs: $(RS_VEC_S) $(RS_VEC_U)
+
+$(RS_VEC_S): model/gen_round_sat_vectors.py model/fxp.py
+	$(PYTHON) model/gen_round_sat_vectors.py --in-width 34 --out-width 18 --shift 14 --signed
+
+$(RS_VEC_U): model/gen_round_sat_vectors.py model/fxp.py
+	$(PYTHON) model/gen_round_sat_vectors.py --in-width 26 --out-width 16 --shift 8
+
+sim-rs: gen-rs
+	VCS="$(VCS)" RS_VEC_S="$(RS_VEC_S)" RS_VEC_U="$(RS_VEC_U)" bash scripts/sim/round_sat_sim.sh
 
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut

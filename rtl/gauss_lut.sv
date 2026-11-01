@@ -71,6 +71,6 @@ module gauss_lut #(
 
 `ifndef SYNTHESIS
   // mag is a positive half-table entry; it must never use the sign bit.
-  always_ff @(posedge clk) if (rst_n && in_valid) assert (mag[OUT_WIDTH-1] == 1'b0);
+  always_ff @(posedge clk) if (rst_n && in_valid) a_mag_positive: assert (mag[OUT_WIDTH-1] == 1'b0);
 `endif
 endmodule
