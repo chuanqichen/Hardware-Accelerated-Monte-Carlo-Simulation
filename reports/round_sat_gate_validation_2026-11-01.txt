@@ -1,0 +1,10 @@
+round_sat fail-closed validation, 2026-11-01
+Base: PR #4 c6da2ad; arithmetic RTL unchanged.
+Python suite: 69 tests passed.
+Positive make sim-rs: signed 12067 / unsigned 11552 comparisons, zero errors.
+Negative runner outcomes:
+empty exit=1
+missing exit=1
+mismatch exit=1
+malformed exit=1
+All four failures returned nonzero even when the VCS process returned zero.
