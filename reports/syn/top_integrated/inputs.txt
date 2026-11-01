@@ -1,0 +1,7 @@
+top=mc_top
+corner_label=typical
+target_libraries=/home/ecelrc/students/shm923/vlsi1_2026/lab2/gscl45nm.db
+clock_period_ns=10.0
+sources=/home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/mc_pkg.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/pipe.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/rng_lane.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/generated/gauss_lut_rom.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/gauss_lut.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/generated/exp2_rom.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/exp2_unit.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/price_dp.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/accumulator.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/mc_controller.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/mc_lane_array.sv /home/work/teh969/monte_carlo/integration_20261031_zXzXz2/rtl/mc_top.sv
+tool=T-2022.03-SP2
+source_revision_label=c6da2ad10ca63b15b6efcba7f86f88e277eec23b+tyler-uncommitted-integration

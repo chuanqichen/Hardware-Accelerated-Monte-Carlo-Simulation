@@ -22,12 +22,14 @@ PYTHON=${PYTHON:-python3}
 # Build products (DC work dirs are large) go to the local disk if it exists.
 SCRATCH=${SCRATCH:-/home/work/$USER/syn_scratch}
 mkdir -p "$SCRATCH" reports/syn results
+BATCH=${BATCH:-sweep_$(date +%Y%m%d_%H%M%S)}
+[[ "$BATCH" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]*$ ]] || { echo "Invalid BATCH" >&2; exit 2; }
 
 for a in $ADDR_LIST; do
   for w in $WIDTH_LIST; do
     for l in $LAT_LIST; do
       f=$((w - 4))                        # Q3.f: 3 integer bits + sign, rest fraction
-      tag="gauss_lut_a${a}_w${w}_l${l}"
+      tag="${BATCH}_gauss_lut_a${a}_w${w}_l${l}"
       gen="$SCRATCH/$tag/generated"
       mkdir -p "$gen"
       echo "=== $tag ==="
@@ -38,12 +40,12 @@ for a in $ADDR_LIST; do
       TAG="$tag" \
       REPORT_DIR="reports/syn/$tag" \
         dc_shell -f scripts/syn/dc_synth.tcl > "$SCRATCH/$tag/dc.log" 2>&1 \
-        || { echo "FAILED: see $SCRATCH/$tag/dc.log"; tail -20 "$SCRATCH/$tag/dc.log"; continue; }
+        || { echo "FAILED: see $SCRATCH/$tag/dc.log"; tail -20 "$SCRATCH/$tag/dc.log"; exit 1; }
       grep -E "SYNTH_DONE|Error" "$SCRATCH/$tag/dc.log" | tail -3
       cp "$SCRATCH/$tag/dc.log" "reports/syn/$tag/dc.log.txt"
-      rm -rf "reports/syn/$tag/work"
+      # Keep the isolated work directory with this immutable run.
     done
   done
 done
 
-$PYTHON scripts/parse_reports.py --syn reports/syn --out results/gauss_lut_ppa.csv
+$PYTHON scripts/parse_reports.py --syn reports/syn --filter "${BATCH}_" --out "results/gauss_lut_ppa_${BATCH}.csv"

@@ -1,0 +1,2 @@
+# Shell runners must remain executable by Bash after a Windows-authored checkout.
+*.sh text eol=lf

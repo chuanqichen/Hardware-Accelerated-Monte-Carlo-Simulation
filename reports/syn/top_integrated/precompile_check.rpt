@@ -1,0 +1,23 @@
+  Allocating blocks in 'DW02_mult_A_width17_B_width16'
+  Allocating blocks in 'DW02_mult_A_width18_B_width18'
+  Allocating blocks in 'DW01_ash_A_width22_SH_width32'
+  Allocating blocks in 'DW_rash_A_width17_SH_width32'
+  Allocating blocks in 'DW01_ash_A_width17_SH_width32'
+  Allocating blocks in 'DW01_ash_A_width19_SH_width32'
+Information: Updating design information... (UID-85)
+Warning: Design 'mc_top' contains 6 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+
+Information: Checking generated_clocks...
+
+Information: Checking loops...
+
+Information: Checking no_input_delay...
+
+Information: Checking unconstrained_endpoints...
+
+Information: Checking pulse_clock_cell_type...
+
+Information: Checking no_driving_cell...
+
+Information: Checking partial_input_delay...
+1

@@ -3,7 +3,7 @@
 # Hold these constant across all synthesis runs so PPA numbers are comparable
 # (Project plan: "same library, clock, constraints, utilization policy").
 
-set CLK_PERIOD 5.0
+if {![info exists CLK_PERIOD]} { set CLK_PERIOD 5.0 }
 
 create_clock -name clk -period $CLK_PERIOD [get_ports clk]
 set_clock_uncertainty 0.10 [get_clocks clk]

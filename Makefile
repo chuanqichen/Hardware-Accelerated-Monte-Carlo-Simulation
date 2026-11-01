@@ -27,6 +27,7 @@ IVERILOG ?= iverilog
 VCS    ?= vcs
 VERILATOR ?= verilator
 PANDOC ?= pandoc
+DC_SHELL ?= dc_shell
 
 RTL     := rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
 TB      := tb/tb_gauss_lut.sv
@@ -37,7 +38,7 @@ PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_AD
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top sim-lane-bubbles control-sim synth-smoke flow-test
 
 all: test gen
 
@@ -109,6 +110,25 @@ sim-rs: gen-rs
 
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut
+
+# Integrated one-lane target uses the committed baseline ROMs, not gen-price.
+gen-top:
+	$(PYTHON) model/gen_mc_top_vectors.py
+
+sim-top:
+	bash scripts/sim/top_sim.sh
+
+sim-lane-bubbles:
+	bash scripts/sim/lane_bubbles_sim.sh
+
+control-sim:
+	bash scripts/sim/control_sim.sh
+
+synth-smoke:
+	$(DC_SHELL) -f scripts/syn/dc_synth.tcl
+
+flow-test:
+	$(PYTHON) -m unittest discover -s scripts -p 'test_*.py' -v
 
 figures: docs/figures/lane_block_diagram.png
 

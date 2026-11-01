@@ -1,0 +1,73 @@
+ 
+****************************************
+Report : area
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Sat Oct 31 23:13:58 2026
+****************************************
+
+Information: Updating design information... (UID-85)
+Library(s) Used:
+
+    gscl45nm (File: /home/ecelrc/students/shm923/vlsi1_2026/lab2/gscl45nm.db)
+
+Number of ports:                         2659
+Number of nets:                         16364
+Number of cells:                        13677
+Number of combinational cells:          11891
+Number of sequential cells:               936
+Number of macros/black boxes:               0
+Number of buf/inv:                       3343
+Number of references:                      14
+
+Combinational area:              30084.476111
+Buf/Inv area:                     5373.015579
+Noncombinational area:            9328.276249
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 39412.752360
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ----------------------------- 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-  Black-
+                                  Total       Total    national    national   boxes   Design
+--------------------------------  ----------  -------  ----------  ---------  ------  ---------------------------------------------------------------
+mc_top                            39412.7524    100.0   3919.1242  4202.1123  0.0000  mc_top
+u_controller                       3171.5294      8.0    964.8808  1032.4600  0.0000  mc_controller_LANES1
+u_controller/add_49_S2              146.8909      0.4    146.8909     0.0000  0.0000  mc_controller_LANES1_DW01_inc_0
+u_controller/eq_60                  236.0579      0.6    236.0579     0.0000  0.0000  mc_controller_LANES1_DW01_cmp6_1_DW01_cmp6_2
+u_controller/eq_62                  226.6719      0.6    226.6719     0.0000  0.0000  mc_controller_LANES1_DW01_cmp6_0_DW01_cmp6_1
+u_controller/r76                    229.9570      0.6    229.9570     0.0000  0.0000  mc_controller_LANES1_DW01_add_0_DW01_add_6
+u_controller/sub_27                 334.6109      0.8    334.6109     0.0000  0.0000  mc_controller_LANES1_DW01_sub_0_DW01_sub_5
+u_lanes                           28119.9865     71.3      5.1623     0.0000  0.0000  mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1
+u_lanes/u_accumulator              2515.9173      6.4    780.9152  1022.1354  0.0000  accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32
+u_lanes/u_accumulator/add_57        489.9492      1.2    489.9492     0.0000  0.0000  accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32_DW01_add_1
+u_lanes/u_accumulator/add_75        222.9175      0.6    222.9175     0.0000  0.0000  accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32_DW01_add_0
+u_lanes/u_gauss                    3830.4265      9.7    234.1807   175.5182  0.0000  gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1
+u_lanes/u_gauss/u_rom              3420.7276      8.7   3420.7276     0.0000  0.0000  gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16
+u_lanes/u_price                   17131.3270     43.5    638.2480   645.2875  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1
+u_lanes/u_price/add_40              176.4568      0.4    176.4568     0.0000  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_DW01_add_1_DW01_add_8
+u_lanes/u_price/gt_91               158.1541      0.4    158.1541     0.0000  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_DW01_cmp2_0
+u_lanes/u_price/mult_40            3237.2314      8.2   2893.7038     0.0000  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_DW02_mult_0_DW02_mult_1
+u_lanes/u_price/mult_40/FS_1        343.5276      0.9    343.5276     0.0000  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_DW01_add_2_DW01_add_9
+u_lanes/u_price/sub_91              225.2640      0.6    225.2640     0.0000  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_DW01_sub_0
+u_lanes/u_price/u_exp             12019.7114     30.5   1862.1824   557.5284  0.0000  exp2_unit_EXP_ADDR_BITS10
+u_lanes/u_price/u_exp/mult_38      1507.8609      3.8   1146.0306     0.0000  0.0000  exp2_unit_EXP_ADDR_BITS10_DW02_mult_0
+u_lanes/u_price/u_exp/mult_38/FS_1
+                                    361.8303      0.9    361.8303     0.0000  0.0000  exp2_unit_EXP_ADDR_BITS10_DW01_add_1_DW01_add_7
+u_lanes/u_price/u_exp/r97           182.0884      0.5    182.0884     0.0000  0.0000  exp2_unit_EXP_ADDR_BITS10_DW01_cmp6_0
+u_lanes/u_price/u_exp/sub_73        124.8338      0.3    124.8338     0.0000  0.0000  exp2_unit_EXP_ADDR_BITS10_DW01_dec_1
+u_lanes/u_price/u_exp/u_rom        7785.2175     19.8   7785.2175     0.0000  0.0000  exp2_rom_ADDR_BITS10_OUT_WIDTH17
+u_lanes/u_price/u_sx                 30.9738      0.1      0.0000    30.9738  0.0000  pipe_W1_N3
+u_lanes/u_rng                      4637.1533     11.8   2407.9782  1662.2606  0.0000  rng_lane
+u_lanes/u_rng/add_23                283.4572      0.7    283.4572     0.0000  0.0000  rng_lane_DW01_add_1_DW01_add_5
+u_lanes/u_rng/add_24                283.4572      0.7    283.4572     0.0000  0.0000  rng_lane_DW01_add_0_DW01_add_4
+--------------------------------  ----------  -------  ----------  ---------  ------  ---------------------------------------------------------------
+Total                                                  30084.4761  9328.2762  0.0000
+
+1

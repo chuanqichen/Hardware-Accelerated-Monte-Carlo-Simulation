@@ -1,0 +1,54 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sun Nov  1 12:35:57 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                     26
+    Unconnected ports (LINT-28)                                    22
+    Shorted outputs (LINT-31)                                       1
+    Constant outputs (LINT-52)                                      3
+
+Cells                                                               9
+    Cells do not drive (LINT-1)                                     9
+--------------------------------------------------------------------------------
+
+Warning: In design 'mc_controller_LANES1', cell 'C790' does not drive any nets. (LINT-1)
+Warning: In design 'mc_controller_LANES1', cell 'C805' does not drive any nets. (LINT-1)
+Warning: In design 'mc_controller_LANES1', cell 'C807' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', cell 'C112' does not drive any nets. (LINT-1)
+Warning: In design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1', cell 'B_2' does not drive any nets. (LINT-1)
+Warning: In design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1', cell 'C293' does not drive any nets. (LINT-1)
+Warning: In design 'accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32', cell 'C477' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C450' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C472' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[21]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[20]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[8]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[15]' is connected directly to output port 'mag[14]'. (LINT-31)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[15]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[14]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'exp2_rom_ADDR_BITS10_OUT_WIDTH17', output port 'val[16]' is connected directly to 'logic 1'. (LINT-52)
+1

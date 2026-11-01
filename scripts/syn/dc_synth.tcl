@@ -21,22 +21,43 @@
 # cells.rpt, the mapped netlist $DESIGN.mapped.v, the post-synthesis SDC, and
 # summary.txt (one line per key metric, parsed by scripts/parse_reports.py).
 
-proc env_or {name default} {
-  if {[info exists ::env($name)] && $::env($name) ne ""} { return $::env($name) }
-  return $default
+set repo_root [file normalize [file join [file dirname [info script]] ../..]]
+source [file join $repo_root scripts syn config.tcl]
+if {[catch {mc_synth_config $repo_root} cfg]} {
+  puts stderr "Synthesis setup error: $cfg"
+  exit 2
 }
+set DESIGN [dict get $cfg design]
+set RTL_FILES [dict get $cfg sources]
+set PARAMS [dict get $cfg params]
+set TAG [dict get $cfg tag]
+set SDC [dict get $cfg sdc]
+set REPORT_DIR [dict get $cfg report_dir]
+set LIB_DB [dict get $cfg library]
+set CLK_PERIOD [dict get $cfg period]
+set OPCOND [dict get $cfg corner]
 
-set DESIGN     [env_or DESIGN     gauss_lut]
-set RTL_FILES  [env_or RTL_FILES  "rtl/mc_pkg.sv rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv"]
-set PARAMS     [env_or PARAMS     ""]
-set TAG        [env_or TAG        $DESIGN]
-set SDC        [env_or SDC        constraints/lane_5ns.sdc]
-set REPORT_DIR [env_or REPORT_DIR reports/syn/$TAG]
-set LIB_DB     [env_or LIB_DB     /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db]
-
+if {[catch {
 file mkdir $REPORT_DIR
 file mkdir $REPORT_DIR/work
 define_design_lib WORK -path $REPORT_DIR/work
+set_svf $REPORT_DIR/design.svf
+set fd [open $REPORT_DIR/source_sha256.txt w]
+puts $fd [exec sha256sum {*}$RTL_FILES $SDC [file join $repo_root scripts syn config.tcl] [file join $repo_root scripts syn dc_synth.tcl]]
+close $fd
+set fd [open $REPORT_DIR/library_sha256.txt w]
+puts $fd [exec sha256sum $LIB_DB]
+close $fd
+set fd [open $REPORT_DIR/inputs.txt w]
+puts $fd "top=$DESIGN"
+puts $fd "corner_label=$OPCOND"
+puts $fd "clock_period_ns=$CLK_PERIOD"
+puts $fd "params=$PARAMS"
+puts $fd "sources=$RTL_FILES"
+puts $fd "library=$LIB_DB"
+puts $fd "tool=[get_app_var sh_product_version]"
+if {![catch {exec git -C $repo_root rev-parse HEAD} revision]} { puts $fd "git_revision=$revision" }
+close $fd
 
 # ---- library ------------------------------------------------------------------
 set_app_var target_library $LIB_DB
@@ -62,8 +83,11 @@ if {![eval elaborate $elab_args]} { puts "ERROR: elaborate failed"; exit 1 }
 set elab_name [get_object_name [current_design]]
 if {$elab_name ne $DESIGN} { rename_design $elab_name $DESIGN }
 current_design $DESIGN
-link
+if {![link]} { error "Link failed" }
+if {![check_design]} { error "check_design failed" }
 check_design > $REPORT_DIR/check_design.rpt
+set_operating_conditions $OPCOND
+report_units > $REPORT_DIR/units.rpt
 
 # ---- constraints --------------------------------------------------------------
 source $SDC
@@ -79,9 +103,11 @@ set_app_var compile_ultra_ungroup_dw true
 set_app_var enable_recovery_removal_arcs true
 # Hold is left to P&R (ideal clock here); the enable-mux feedback on DFFPOSX1
 # shows -0.03 ns and is listed in violators.rpt for the record.
-compile_ultra -no_autoungroup
+if {![compile_ultra -no_autoungroup]} { error "compile_ultra failed" }
 # Second pass to recover area once timing is met.
 optimize_netlist -area
+if {![check_design]} { error "post-compile check_design failed" }
+check_timing > $REPORT_DIR/timing_check.rpt
 
 # ---- reports ------------------------------------------------------------------
 report_area      -hierarchy -nosplit        > $REPORT_DIR/area.rpt
@@ -140,5 +166,9 @@ puts $f "cells        $cell_count"
 puts $f "registers    $seq_count"
 close $f
 
-puts "SYNTH_DONE $TAG area=$area_total wns=$wns"
-exit
+} reason]} {
+  puts stderr "Synthesis failed: $reason; partial evidence remains in $REPORT_DIR"
+  exit 1
+}
+puts "SYNTH_DONE $TAG area=$area_total wns=$wns (review hold/electrical checks; pre-layout estimate only)"
+exit 0

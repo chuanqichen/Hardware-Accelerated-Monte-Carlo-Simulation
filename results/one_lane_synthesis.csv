@@ -1,0 +1,2 @@
+design,corner,clock_period_ns,cell_area_library_units,critical_path_ns,setup_slack_ns,worst_hold_slack_ns,hold_violating_paths,max_cap_violations,max_transition_violations,stage,result,evidence
+mc_top,typical,10.0,39412.75236,5.06,4.65,-0.2,1047,4702,0,synthesis_ideal_clock_no_wire_load,mapped_with_violations,reports/syn/top_integrated
