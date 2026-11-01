@@ -1,0 +1,313 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 5
+        -transition_time
+        -capacitance
+Design : gauss_lut
+Version: T-2022.03-SP2
+Date   : Sun Nov  1 06:39:09 2026
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: u[31] (input port clocked by clk)
+  Endpoint: g_lat2.mag_q_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  input external delay                                              1.50       1.50 f
+  u[31] (in)                                    0.02      0.08      0.05       1.55 f
+  U181/Y (INVX1)                                0.03      0.12      0.11       1.66 r
+  U183/Y (MUX2X1)                               0.02      0.06      0.07       1.73 f
+  u_rom/j[1] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)                0.00       1.73 f
+  u_rom/U1103/Y (INVX1)                         0.02      0.06      0.07       1.80 r
+  u_rom/U906/Y (AND2X1)                         0.01      0.08      0.07       1.87 r
+  u_rom/U907/Y (INVX1)                          0.02      0.05      0.06       1.94 f
+  u_rom/U433/Y (OR2X1)                          0.00      0.01      0.05       1.99 f
+  u_rom/U1098/Y (INVX1)                         0.02      0.07      0.06       2.05 r
+  u_rom/U827/Y (AND2X1)                         0.00      0.02      0.03       2.08 r
+  u_rom/U826/Y (INVX1)                          0.01      0.04      0.04       2.12 f
+  u_rom/U604/Y (AND2X1)                         0.00      0.01      0.05       2.16 f
+  u_rom/U605/Y (INVX1)                          0.01      0.00      0.01       2.17 r
+  u_rom/U932/Y (OR2X1)                          0.00      0.02      0.04       2.21 r
+  u_rom/U933/Y (INVX1)                          0.00      0.01      0.02       2.23 f
+  u_rom/U1433/Y (NAND3X1)                       0.00      0.03      0.03       2.26 r
+  u_rom/U396/Y (BUFX2)                          0.00      0.01      0.03       2.30 r
+  u_rom/U394/Y (INVX1)                          0.00      0.01      0.01       2.31 f
+  u_rom/U395/Y (INVX1)                          0.00      0.00      0.00       2.31 r
+  u_rom/U1434/Y (NOR3X1)                        0.01      0.04      0.03       2.34 f
+  u_rom/U1436/Y (NAND3X1)                       0.00      0.03      0.04       2.38 r
+  u_rom/U399/Y (BUFX2)                          0.00      0.01      0.03       2.42 r
+  u_rom/U397/Y (INVX1)                          0.00      0.01      0.01       2.43 f
+  u_rom/U398/Y (INVX1)                          0.00      0.00      0.00       2.43 r
+  u_rom/U1437/Y (NOR3X1)                        0.00      0.03      0.02       2.45 f
+  u_rom/U1438/Y (NAND3X1)                       0.00      0.03      0.04       2.49 r
+  u_rom/U117/Y (BUFX2)                          0.00      0.01      0.03       2.52 r
+  u_rom/U115/Y (INVX1)                          0.00      0.01      0.01       2.53 f
+  u_rom/U116/Y (INVX1)                          0.00      0.00      0.00       2.54 r
+  u_rom/U1439/Y (AOI22X1)                       0.00      0.03      0.01       2.55 f
+  u_rom/U17/Y (BUFX2)                           0.00      0.01      0.04       2.59 f
+  u_rom/U1513/Y (NAND3X1)                       0.00      0.03      0.03       2.62 r
+  u_rom/mag[0] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)              0.00       2.62 r
+  U131/Y (BUFX2)                                0.00      0.01      0.04       2.65 r
+  U233/Y (AOI22X1)                              0.00      0.03      0.03       2.68 f
+  U178/Y (BUFX2)                                0.00      0.01      0.04       2.72 f
+  U179/Y (INVX1)                                0.00      0.00      0.00       2.72 r
+  g_lat2.mag_q_reg[0]/D (DFFPOSX1)                        0.00      0.00       2.72 r
+  data arrival time                                                            2.72
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  g_lat2.mag_q_reg[0]/CLK (DFFPOSX1)                                0.00       4.90 r
+  library setup time                                               -1.44       3.46
+  data required time                                                           3.46
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.46
+  data arrival time                                                           -2.72
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.75
+
+
+  Startpoint: u[31] (input port clocked by clk)
+  Endpoint: g_lat2.mag_q_reg[3]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  input external delay                                              1.50       1.50 f
+  u[31] (in)                                    0.02      0.08      0.05       1.55 f
+  U181/Y (INVX1)                                0.03      0.12      0.11       1.66 r
+  U183/Y (MUX2X1)                               0.02      0.06      0.07       1.73 f
+  u_rom/j[1] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)                0.00       1.73 f
+  u_rom/U1103/Y (INVX1)                         0.02      0.06      0.07       1.80 r
+  u_rom/U906/Y (AND2X1)                         0.01      0.08      0.07       1.87 r
+  u_rom/U907/Y (INVX1)                          0.02      0.05      0.06       1.94 f
+  u_rom/U433/Y (OR2X1)                          0.00      0.01      0.05       1.99 f
+  u_rom/U1098/Y (INVX1)                         0.02      0.07      0.06       2.05 r
+  u_rom/U893/Y (AND2X1)                         0.00      0.02      0.03       2.08 r
+  u_rom/U892/Y (INVX1)                          0.01      0.05      0.04       2.12 f
+  u_rom/U602/Y (AND2X1)                         0.00      0.02      0.05       2.17 f
+  u_rom/U1659/Y (NAND3X1)                       0.00      0.03      0.04       2.21 r
+  u_rom/U495/Y (BUFX2)                          0.00      0.01      0.04       2.25 r
+  u_rom/U1660/Y (NOR3X1)                        0.00      0.03      0.02       2.27 f
+  u_rom/U1661/Y (NAND3X1)                       0.00      0.03      0.04       2.31 r
+  u_rom/U496/Y (BUFX2)                          0.00      0.01      0.04       2.34 r
+  u_rom/U1662/Y (NOR3X1)                        0.00      0.03      0.02       2.37 f
+  u_rom/U1663/Y (NAND3X1)                       0.00      0.04      0.04       2.41 r
+  u_rom/U1664/Y (AOI21X1)                       0.00      0.01      0.02       2.43 f
+  u_rom/U580/Y (BUFX2)                          0.00      0.01      0.04       2.46 f
+  u_rom/U1681/Y (NAND3X1)                       0.00      0.03      0.03       2.49 r
+  u_rom/U250/Y (BUFX2)                          0.00      0.01      0.03       2.53 r
+  u_rom/U248/Y (INVX1)                          0.00      0.01      0.01       2.54 f
+  u_rom/U249/Y (INVX1)                          0.00      0.00      0.00       2.54 r
+  u_rom/U1683/Y (NOR3X1)                        0.00      0.02      0.03       2.57 f
+  u_rom/U73/Y (AND2X1)                          0.00      0.01      0.03       2.60 f
+  u_rom/U74/Y (INVX1)                           0.00      0.00      0.00       2.61 r
+  u_rom/U1688/Y (AOI22X1)                       0.00      0.03      0.02       2.63 f
+  u_rom/U930/Y (AND2X2)                         0.00      0.00      0.04       2.68 f
+  u_rom/U1689/Y (NAND3X1)                       0.00      0.04      0.03       2.70 r
+  u_rom/mag[3] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)              0.00       2.70 r
+  U225/Y (NAND2X1)                              0.00      0.01      0.02       2.72 f
+  U226/Y (OAI21X1)                              0.00      0.04      0.02       2.74 r
+  g_lat2.mag_q_reg[3]/D (DFFPOSX1)                        0.04      0.00       2.74 r
+  data arrival time                                                            2.74
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  g_lat2.mag_q_reg[3]/CLK (DFFPOSX1)                                0.00       4.90 r
+  library setup time                                               -1.22       3.68
+  data required time                                                           3.68
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.68
+  data arrival time                                                           -2.74
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.94
+
+
+  Startpoint: u[31] (input port clocked by clk)
+  Endpoint: g_lat2.mag_q_reg[9]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  input external delay                                              1.50       1.50 f
+  u[31] (in)                                    0.02      0.08      0.05       1.55 f
+  U181/Y (INVX1)                                0.03      0.12      0.11       1.66 r
+  U188/Y (MUX2X1)                               0.02      0.07      0.08       1.74 f
+  u_rom/j[6] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)                0.00       1.74 f
+  u_rom/U1104/Y (BUFX2)                         0.03      0.04      0.07       1.81 f
+  u_rom/U1121/Y (INVX1)                         0.04      0.18      0.14       1.95 r
+  u_rom/U1132/Y (AND2X1)                        0.02      0.12      0.09       2.04 r
+  u_rom/U903/Y (AND2X1)                         0.01      0.06      0.05       2.10 r
+  u_rom/U902/Y (INVX1)                          0.01      0.04      0.05       2.15 f
+  u_rom/U1253/Y (NAND3X1)                       0.00      0.03      0.04       2.19 r
+  u_rom/U1254/Y (INVX1)                         0.01      0.02      0.03       2.22 f
+  u_rom/U1255/Y (NAND3X1)                       0.00      0.03      0.03       2.25 r
+  u_rom/U545/Y (BUFX2)                          0.00      0.01      0.04       2.28 r
+  u_rom/U1256/Y (INVX1)                         0.01      0.04      0.03       2.32 f
+  u_rom/U1349/Y (AND2X1)                        0.00      0.02      0.04       2.36 f
+  u_rom/U1360/Y (NAND2X1)                       0.00      0.03      0.02       2.37 r
+  u_rom/U1361/Y (AOI21X1)                       0.00      0.02      0.02       2.39 f
+  u_rom/U177/Y (BUFX2)                          0.00      0.00      0.03       2.43 f
+  u_rom/U175/Y (INVX1)                          0.00      0.00      0.00       2.42 r
+  u_rom/U176/Y (INVX1)                          0.00      0.01      0.01       2.44 f
+  u_rom/U1362/Y (NAND3X1)                       0.00      0.03      0.03       2.46 r
+  u_rom/U53/Y (BUFX2)                           0.00      0.01      0.04       2.50 r
+  u_rom/U1365/Y (AOI22X1)                       0.00      0.03      0.03       2.53 f
+  u_rom/U16/Y (BUFX2)                           0.00      0.01      0.04       2.56 f
+  u_rom/U1370/Y (NAND3X1)                       0.00      0.04      0.04       2.60 r
+  u_rom/U1371/Y (AOI21X1)                       0.00      0.02      0.02       2.62 f
+  u_rom/U931/Y (BUFX2)                          0.00      0.00      0.03       2.65 f
+  u_rom/U1377/Y (NAND3X1)                       0.00      0.04      0.03       2.68 r
+  u_rom/mag[9] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)              0.00       2.68 r
+  U207/Y (NAND2X1)                              0.00      0.01      0.02       2.70 f
+  U208/Y (OAI21X1)                              0.00      0.04      0.02       2.72 r
+  g_lat2.mag_q_reg[9]/D (DFFPOSX1)                        0.04      0.00       2.72 r
+  data arrival time                                                            2.72
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  g_lat2.mag_q_reg[9]/CLK (DFFPOSX1)                                0.00       4.90 r
+  library setup time                                               -1.22       3.68
+  data required time                                                           3.68
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.68
+  data arrival time                                                           -2.72
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.96
+
+
+  Startpoint: u[31] (input port clocked by clk)
+  Endpoint: g_lat2.mag_q_reg[8]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  input external delay                                              1.50       1.50 f
+  u[31] (in)                                    0.02      0.08      0.05       1.55 f
+  U181/Y (INVX1)                                0.03      0.12      0.11       1.66 r
+  U188/Y (MUX2X1)                               0.02      0.07      0.08       1.74 f
+  u_rom/j[6] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)                0.00       1.74 f
+  u_rom/U1104/Y (BUFX2)                         0.03      0.04      0.07       1.81 f
+  u_rom/U1121/Y (INVX1)                         0.04      0.18      0.14       1.95 r
+  u_rom/U1132/Y (AND2X1)                        0.02      0.12      0.09       2.04 r
+  u_rom/U903/Y (AND2X1)                         0.01      0.06      0.05       2.10 r
+  u_rom/U902/Y (INVX1)                          0.01      0.04      0.05       2.15 f
+  u_rom/U1253/Y (NAND3X1)                       0.00      0.03      0.04       2.19 r
+  u_rom/U1254/Y (INVX1)                         0.01      0.02      0.03       2.22 f
+  u_rom/U1255/Y (NAND3X1)                       0.00      0.03      0.03       2.25 r
+  u_rom/U545/Y (BUFX2)                          0.00      0.01      0.04       2.28 r
+  u_rom/U1256/Y (INVX1)                         0.01      0.04      0.03       2.32 f
+  u_rom/U1322/Y (NAND3X1)                       0.00      0.03      0.04       2.36 r
+  u_rom/U614/Y (BUFX2)                          0.00      0.01      0.04       2.40 r
+  u_rom/U1336/Y (NOR3X1)                        0.00      0.03      0.02       2.42 f
+  u_rom/U692/Y (AND2X1)                         0.00      0.01      0.03       2.46 f
+  u_rom/U693/Y (INVX1)                          0.01      0.00      0.02       2.47 r
+  u_rom/U1338/Y (NOR3X1)                        0.00      0.03      0.02       2.49 f
+  u_rom/U1339/Y (NAND3X1)                       0.00      0.03      0.04       2.53 r
+  u_rom/U30/Y (BUFX2)                           0.00      0.01      0.04       2.56 r
+  u_rom/U1354/Y (AOI21X1)                       0.00      0.02      0.02       2.58 f
+  u_rom/U174/Y (BUFX2)                          0.00      0.00      0.03       2.62 f
+  u_rom/U172/Y (INVX1)                          0.00      0.00      0.00       2.61 r
+  u_rom/U173/Y (INVX1)                          0.00      0.01      0.01       2.63 f
+  u_rom/U1355/Y (NAND3X1)                       0.00      0.04      0.03       2.66 r
+  u_rom/mag[8] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)              0.00       2.66 r
+  U210/Y (NAND2X1)                              0.00      0.01      0.02       2.68 f
+  U211/Y (OAI21X1)                              0.00      0.04      0.02       2.69 r
+  g_lat2.mag_q_reg[8]/D (DFFPOSX1)                        0.04      0.00       2.69 r
+  data arrival time                                                            2.69
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  g_lat2.mag_q_reg[8]/CLK (DFFPOSX1)                                0.00       4.90 r
+  library setup time                                               -1.22       3.68
+  data required time                                                           3.68
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.68
+  data arrival time                                                           -2.69
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.98
+
+
+  Startpoint: u[31] (input port clocked by clk)
+  Endpoint: g_lat2.mag_q_reg[4]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  input external delay                                              1.50       1.50 f
+  u[31] (in)                                    0.02      0.08      0.05       1.55 f
+  U181/Y (INVX1)                                0.03      0.12      0.11       1.66 r
+  U183/Y (MUX2X1)                               0.02      0.06      0.07       1.73 f
+  u_rom/j[1] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)                0.00       1.73 f
+  u_rom/U1103/Y (INVX1)                         0.02      0.06      0.07       1.80 r
+  u_rom/U906/Y (AND2X1)                         0.01      0.08      0.07       1.87 r
+  u_rom/U907/Y (INVX1)                          0.02      0.05      0.06       1.94 f
+  u_rom/U433/Y (OR2X1)                          0.00      0.01      0.05       1.99 f
+  u_rom/U1098/Y (INVX1)                         0.02      0.07      0.06       2.05 r
+  u_rom/U845/Y (AND2X1)                         0.00      0.02      0.04       2.09 r
+  u_rom/U844/Y (INVX1)                          0.01      0.04      0.04       2.13 f
+  u_rom/U1502/Y (NAND3X1)                       0.00      0.03      0.04       2.17 r
+  u_rom/U683/Y (BUFX2)                          0.01      0.02      0.04       2.21 r
+  u_rom/U1559/Y (NOR3X1)                        0.00      0.03      0.03       2.25 f
+  u_rom/U1560/Y (NAND3X1)                       0.00      0.03      0.04       2.29 r
+  u_rom/U8/Y (BUFX2)                            0.00      0.01      0.04       2.32 r
+  u_rom/U803/Y (OR2X1)                          0.00      0.02      0.04       2.36 r
+  u_rom/U802/Y (INVX1)                          0.01      0.03      0.03       2.39 f
+  u_rom/U1694/Y (NAND3X1)                       0.00      0.03      0.03       2.43 r
+  u_rom/U500/Y (BUFX2)                          0.00      0.01      0.04       2.46 r
+  u_rom/U1695/Y (NOR3X1)                        0.00      0.03      0.02       2.48 f
+  u_rom/U1696/Y (NAND3X1)                       0.00      0.03      0.03       2.52 r
+  u_rom/U941/Y (BUFX2)                          0.00      0.01      0.04       2.55 r
+  u_rom/U1700/Y (AOI22X1)                       0.00      0.03      0.03       2.58 f
+  u_rom/U21/Y (BUFX2)                           0.00      0.01      0.04       2.62 f
+  u_rom/U1730/Y (NAND3X1)                       0.00      0.04      0.03       2.65 r
+  u_rom/mag[4] (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)              0.00       2.65 r
+  U222/Y (NAND2X1)                              0.00      0.01      0.02       2.67 f
+  U223/Y (OAI21X1)                              0.00      0.04      0.02       2.68 r
+  g_lat2.mag_q_reg[4]/D (DFFPOSX1)                        0.04      0.00       2.68 r
+  data arrival time                                                            2.68
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  g_lat2.mag_q_reg[4]/CLK (DFFPOSX1)                                0.00       4.90 r
+  library setup time                                               -1.22       3.68
+  data required time                                                           3.68
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.68
+  data arrival time                                                           -2.68
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.99
+
+
+1

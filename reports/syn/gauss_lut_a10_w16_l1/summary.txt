@@ -1,0 +1,13 @@
+design       gauss_lut
+tag          gauss_lut_a10_w16_l1
+params       ADDR_BITS=10,OUT_WIDTH=16,FRAC_BITS=12,LATENCY=1
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.105941
+fmax_mhz     204.329371591
+area_um2     4059.914197
+area_comb_um2 3921.940000
+area_bufinv_um2 1538.834662
+area_seq_um2 137.974197
+cells        1857
+registers    17

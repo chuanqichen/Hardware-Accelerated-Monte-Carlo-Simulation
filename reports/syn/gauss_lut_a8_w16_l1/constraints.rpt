@@ -1,0 +1,46 @@
+ 
+****************************************
+Report : constraint
+Design : gauss_lut
+Version: T-2022.03-SP2
+Date   : Sun Nov  1 06:37:10 2026
+****************************************
+
+
+                                                   Weighted
+    Group (max_delay/setup)      Cost     Weight     Cost
+    -----------------------------------------------------
+    clk                        0.0000    1.0000    0.0000
+    default                    0.0000    1.0000    0.0000
+    -----------------------------------------------------
+    max_delay/setup                                0.0000
+
+                              Total Neg  Critical
+    Group (critical_range)      Slack    Endpoints   Cost
+    -----------------------------------------------------
+    clk                        0.0000         0    0.0000
+    default                    0.0000         0    0.0000
+    -----------------------------------------------------
+    critical_range                                 0.0000
+
+                                                   Weighted
+    Group (min_delay/hold)       Cost     Weight     Cost
+    -----------------------------------------------------
+    clk (no fix_hold)          0.0000    1.0000    0.0000
+    default                    0.0000    1.0000    0.0000
+    -----------------------------------------------------
+    min_delay/hold                                 0.0000
+
+
+    Constraint                                       Cost
+    -----------------------------------------------------
+    max_transition                                 0.0000 (MET)
+    max_fanout                                     0.0000 (MET)
+    max_capacitance                                0.1708 (VIOLATED)
+    max_delay/setup                                0.0000 (MET)
+    sequential_clock_pulse_width                   0.0000 (MET)
+    critical_range                                 0.0000 (MET)
+    max_leakage_power                            1405.3104 (VIOLATED)
+
+
+1
