@@ -1,0 +1,14 @@
+Verified local integration snapshot, 2026-10-31
+Base: c6da2ad10ca63b15b6efcba7f86f88e277eec23b plus Tyler integration changes.
+Model suite: 69 passed. Flow/parser suite: 9 passed.
+Raw VCS results:
+PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_top G=1 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_top G=2 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_top G=2 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_lane_bubbles 100 exact trials, pause/resume, valid latency=10
+PASS: mc_top control shell LANES=1, 10 runs (TEST BACKEND ONLY)
+PASS: mc_top control shell LANES=2, 10 runs (TEST BACKEND ONLY)
+PASS: mc_top control shell LANES=4, 10 runs (TEST BACKEND ONLY)
+Synthesis: see results/one_lane_synthesis.csv and reports/syn/top_integrated/.
+Positive setup slack at 10 ns; hold/capacitance violations remain. No signoff claim.
