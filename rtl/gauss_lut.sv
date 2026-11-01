@@ -39,32 +39,26 @@ module gauss_lut #(
 
   gauss_lut_rom #(.ADDR_BITS(ADDR_BITS), .OUT_WIDTH(OUT_WIDTH)) u_rom (.j(j), .mag(mag));
 
+  // Only the valid bits are reset (spec Sec. 2): data registers load on a valid
+  // beat and are qualified by out_valid, so resetting them would only cost area
+  // (an async-reset DFFSR is 29% larger than a plain DFFPOSX1 in gscl45nm).
   generate
     if (LATENCY == 1) begin : g_lat1
-      always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-          out_valid <= 1'b0;
-          z         <= '0;
-        end else begin
-          out_valid <= in_valid;
-          z         <= sign ? $signed(mag) : -$signed(mag);
-        end
-      end
+      always_ff @(posedge clk or negedge rst_n)
+        if (!rst_n) out_valid <= 1'b0;
+        else        out_valid <= in_valid;
+      always_ff @(posedge clk)
+        if (in_valid) z <= sign ? $signed(mag) : -$signed(mag);
     end else begin : g_lat2
       logic                 v_q;
       logic                 sign_q;
       logic [OUT_WIDTH-1:0] mag_q;
-      always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-          v_q <= 1'b0; sign_q <= 1'b0; mag_q <= '0;
-          out_valid <= 1'b0; z <= '0;
-        end else begin
-          v_q    <= in_valid;
-          sign_q <= sign;
-          mag_q  <= mag;
-          out_valid <= v_q;
-          z         <= sign_q ? $signed(mag_q) : -$signed(mag_q);
-        end
+      always_ff @(posedge clk or negedge rst_n)
+        if (!rst_n) {v_q, out_valid} <= '0;
+        else        {v_q, out_valid} <= {in_valid, v_q};
+      always_ff @(posedge clk) begin
+        if (in_valid) begin sign_q <= sign; mag_q <= mag; end
+        if (v_q)      z <= sign_q ? $signed(mag_q) : -$signed(mag_q);
       end
     end
   endgenerate

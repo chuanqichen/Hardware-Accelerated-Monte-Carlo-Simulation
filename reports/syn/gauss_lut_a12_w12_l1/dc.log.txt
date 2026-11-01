@@ -1,0 +1,560 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+               Version T-2022.03-SP2 for linux64 - May 25, 2022 
+
+                    Copyright (c) 1988 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+# Design Compiler synthesis of one block / configuration on gscl45nm (FreePDK45).
+#
+# Driven entirely by environment variables so the same script serves every block
+# and every point of the parameter sweep (scripts/syn/run_sweep.sh):
+#
+#   DESIGN      top module name                       e.g. gauss_lut
+#   RTL_FILES   space-separated SystemVerilog files,   e.g. "rtl/mc_pkg.sv rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv"
+#               in compile order (packages first)
+#   PARAMS      comma-separated top-level parameter    e.g. "ADDR_BITS=10,OUT_WIDTH=16,FRAC_BITS=12,LATENCY=1"
+#               overrides (optional)
+#   TAG         run name used for the report folder    e.g. gauss_lut_a10_w16_l1
+#   SDC         constraints file                       default constraints/lane_5ns.sdc
+#   REPORT_DIR  where raw reports go                   default reports/syn/$TAG
+#   LIB_DB      standard-cell .db                      default FreePDK45 gscl45nm.db on peach
+#
+# Usage (peach, login shell with `module load syn/2022`):
+#   DESIGN=gauss_lut RTL_FILES="..." PARAMS="ADDR_BITS=10,..." TAG=gauss_lut_a10_w16_l1 \
+#     dc_shell -f scripts/syn/dc_synth.tcl | tee reports/syn/gauss_lut_a10_w16_l1/dc.log
+#
+# Outputs in $REPORT_DIR: area.rpt timing.rpt power.rpt qor.rpt resources.rpt
+# cells.rpt, the mapped netlist $DESIGN.mapped.v, the post-synthesis SDC, and
+# summary.txt (one line per key metric, parsed by scripts/parse_reports.py).
+proc env_or {name default} {
+  if {[info exists ::env($name)] && $::env($name) ne ""} { return $::env($name) }
+  return $default
+}
+set DESIGN     [env_or DESIGN     gauss_lut]
+gauss_lut
+set RTL_FILES  [env_or RTL_FILES  "rtl/mc_pkg.sv rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv"]
+rtl/mc_pkg.sv /home/work/cc83382/syn_scratch/gauss_lut_a12_w12_l1/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
+set PARAMS     [env_or PARAMS     ""]
+ADDR_BITS=12,OUT_WIDTH=12,FRAC_BITS=8,LATENCY=1
+set TAG        [env_or TAG        $DESIGN]
+gauss_lut_a12_w12_l1
+set SDC        [env_or SDC        constraints/lane_5ns.sdc]
+constraints/lane_5ns.sdc
+set REPORT_DIR [env_or REPORT_DIR reports/syn/$TAG]
+reports/syn/gauss_lut_a12_w12_l1
+set LIB_DB     [env_or LIB_DB     /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db]
+/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+file mkdir $REPORT_DIR
+file mkdir $REPORT_DIR/work
+define_design_lib WORK -path $REPORT_DIR/work
+1
+# ---- library ------------------------------------------------------------------
+set_app_var target_library $LIB_DB
+/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+set_app_var link_library   "* $LIB_DB"
+* /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+# gscl45nm has no DesignWare-specific library; DC's generic DW components still map.
+set_app_var synthetic_library {dw_foundation.sldb}
+dw_foundation.sldb
+set_app_var link_library "$link_library dw_foundation.sldb"
+* /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db dw_foundation.sldb
+# ---- read and elaborate -------------------------------------------------------
+# Packages must be analyzed before the modules that import them.
+foreach f $RTL_FILES {
+  if {![analyze -format sverilog $f]} { puts "ERROR: analyze failed on $f"; exit 1 }
+}
+Running PRESTO HDLC
+Compiling source file ./rtl/mc_pkg.sv
+Warning:  ./rtl/mc_pkg.sv:70: signed to unsigned conversion occurs. (VER-318)
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb'
+Running PRESTO HDLC
+Compiling source file /home/work/cc83382/syn_scratch/gauss_lut_a12_w12_l1/generated/gauss_lut_rom.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file ./rtl/gauss_lut.sv
+Presto compilation completed successfully.
+set elab_args [list $DESIGN]
+gauss_lut
+if {$PARAMS ne ""} {
+  # "A=1,B=2" -> "A=>1,B=>2" (DC's -parameters syntax)
+  set p [string map {"=" "=>"} $PARAMS]
+  lappend elab_args -parameters $p
+}
+gauss_lut -parameters ADDR_BITS=>12,OUT_WIDTH=>12,FRAC_BITS=>8,LATENCY=>1
+if {![eval elaborate $elab_args]} { puts "ERROR: elaborate failed"; exit 1 }
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/gtech.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/standard.sldb'
+  Loading link library 'gscl45nm'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Inferred memory devices in process
+	in routine gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1 line 47 in file
+		'./rtl/gauss_lut.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    out_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1 line 50 in file
+		'./rtl/gauss_lut.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        z_reg        | Flip-flop |  12   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1)
+Elaborated 1 design.
+Current design is now 'gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1'.
+Information: Building the design 'gauss_lut_rom' instantiated from design 'gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1' with
+	the parameters "ADDR_BITS=12,OUT_WIDTH=12". (HDL-193)
+Warning:  /home/work/cc83382/syn_scratch/gauss_lut_a12_w12_l1/generated/gauss_lut_rom.sv:8: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 7 in file
+	'/home/work/cc83382/syn_scratch/gauss_lut_a12_w12_l1/generated/gauss_lut_rom.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            8             |    user/user     |
+===============================================
+Presto compilation completed successfully. (gauss_lut_rom_ADDR_BITS12_OUT_WIDTH12)
+# Elaborating with -parameters renames the design (e.g. gauss_lut_ADDR_BITS10_...);
+# rename back so reports and the netlist are predictable.
+set elab_name [get_object_name [current_design]]
+Current design is 'gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1'.
+gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1
+if {$elab_name ne $DESIGN} { rename_design $elab_name $DESIGN }
+Information: Renaming design /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1.db:gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1 to /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1.db:gauss_lut. (UIMG-45)
+Current design is 'gauss_lut'.
+1
+current_design $DESIGN
+Current design is 'gauss_lut'.
+{gauss_lut}
+link
+
+  Linking design 'gauss_lut'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (2 designs)               /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/gauss_lut_ADDR_BITS12_OUT_WIDTH12_FRAC_BITS8_LATENCY1.db, etc
+  gscl45nm (library)          /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+  dw_foundation.sldb (library) /usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb
+
+1
+check_design > $REPORT_DIR/check_design.rpt
+# ---- constraints --------------------------------------------------------------
+source $SDC
+Warning: Design rule attributes from the driving cell will be set on the port 'rst_n'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'in_valid'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[31]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[30]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[29]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[28]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[27]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[26]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[25]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[24]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[23]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[22]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[21]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[20]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[19]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[18]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[17]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[16]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'u[0]'. (UID-401)
+Current design is 'gauss_lut'.
+Current design is 'gauss_lut'.
+1
+# ---- compile ------------------------------------------------------------------
+# No hierarchy to keep for a single block; flatten so the ROM logic can be
+# optimised with its consumer. Retiming is left off for now so the latency
+# measured in simulation is the latency synthesised (LATENCY / MUL_STAGES are
+# the knobs, as documented in the work plans).
+set_app_var compile_ultra_ungroup_dw true
+true
+# Spec D-2: async reset. DC ignores the DFFSR recovery/removal arcs unless this
+# is set, and then reports the reset de-assertion path as "unconstrained".
+set_app_var enable_recovery_removal_arcs true
+true
+# Hold is left to P&R (ideal clock here); the enable-mux feedback on DFFPOSX1
+# shows -0.03 ns and is listed in violators.rpt for the record.
+compile_ultra -no_autoungroup
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | T-2022.03-DWBB_202203.2 |     *     |
+| Licensed DW Building Blocks        | T-2022.03-DWBB_202203.2 |     *     |
+============================================================================
+
+====================================================================================================
+| Flow Information                                                                                 |
+----------------------------------------------------------------------------------------------------
+| Flow         | Design Compiler WLM                                                               |
+| Comand Line  | compile_ultra -no_autoungroup                                                     |
+====================================================================================================
+| Design Information                                      | Value                                  |
+====================================================================================================
+| Number of Scenarios                                     | 0                                      |
+| Leaf Cell Count                                         | 7177                                   |
+| Number of User Hierarchies                              | 1                                      |
+| Sequential Cell Count                                   | 13                                     |
+| Macro Count                                             | 0                                      |
+| Number of Power Domains                                 | 0                                      |
+| Number of Path Groups                                   | 2                                      |
+| Number of VT Class                                      | 0                                      |
+| Number of Clocks                                        | 1                                      |
+| Number of Dont Touch Cells                              | 4100                                   |
+| Number of Dont Touch Nets                               | 0                                      |
+| Number of Size Only Cells                               | 0                                      |
+| Design with UPF Data                                    | false                                  |
+====================================================================================================
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 24 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'gauss_lut'
+
+Loaded alib file './alib-52/gscl45nm.db.alib'
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'gauss_lut_rom_ADDR_BITS12_OUT_WIDTH12'
+ Implement Synthetic for 'gauss_lut_rom_ADDR_BITS12_OUT_WIDTH12'.
+  Processing 'gauss_lut'
+ Implement Synthetic for 'gauss_lut'.
+Information: Added key list 'DesignWare' to design 'gauss_lut'. (DDB-72)
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:24    3220.8      0.00       0.0    2736.7                           8986.9395
+    0:00:24    3215.2      0.00       0.0    2736.2                           8978.1504
+
+  Beginning Constant Register Removal
+  -----------------------------------
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+
+  Beginning Isolate Ports
+  -----------------------
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:24    3064.5      0.00       0.0    2670.7                           7098.0645
+    0:00:24    3064.5      0.00       0.0    2670.7                           7098.0645
+    0:00:24    3064.5      0.00       0.0    2670.7                           7098.0645
+    0:00:24    3064.5      0.00       0.0    2670.7                           7098.0645
+    0:00:24    3062.2      0.00       0.0    2664.7                           7091.4849
+    0:00:24    3062.2      0.00       0.0    2664.7                           7091.4849
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:00:24    3059.4      0.00       0.0    2663.9                           7065.0469
+    0:00:24    3059.4      0.00       0.0    2663.9                           7065.0469
+    0:00:24    3059.4      0.00       0.0    2663.9                           7065.0469
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+
+
+  Beginning Design Rule Fixing  (max_fanout)  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:24    3061.2      0.00       0.0    2669.9                           7087.9634
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+    0:00:25    4090.4      0.00       0.0    1134.0 u_rom/net14035            11755.4326
+    0:00:25    4141.1      0.00       0.0    1056.3                           12143.6807
+    0:00:25    4141.1      0.00       0.0    1056.3                           12143.6807
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:25    4141.1      0.00       0.0    1056.3                           12143.6807
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+  Global Optimization (Phase 47)
+  Global Optimization (Phase 48)
+    0:00:26    3838.9      0.00       0.0     871.0                           12830.6631
+    0:00:26    3838.9      0.00       0.0     871.0                           12830.6631
+    0:00:26    3838.9      0.00       0.0     871.0                           12830.6631
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:26    3845.4      0.00       0.0     873.0                           12931.0254
+    0:00:26    3836.1      0.00       0.0     871.5                           12801.9600
+    0:00:26    3836.1      0.00       0.0     871.5                           12801.9600
+    0:00:26    3836.1      0.00       0.0     871.5                           12801.9600
+    0:00:26    3842.6      0.00       0.0     871.5                           12879.5225
+    0:00:26    4627.3      0.00       0.0     644.0                           17082.2695
+    0:00:26    4627.3      0.00       0.0     644.0                           17082.2695
+    0:00:26    4627.3      0.00       0.0     644.0                           17082.2695
+    0:00:26    4627.3      0.00       0.0     644.0                           17082.2695
+    0:00:26    4627.3      0.00       0.0     644.0                           17082.2695
+    0:00:26    4627.3      0.00       0.0     644.0                           17082.2695
+    0:00:26    4622.6      0.00       0.0     645.2                           17005.6875
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+# Second pass to recover area once timing is met.
+optimize_netlist -area
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+Information: There are 22 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Updating timing information
+
+
+  Beginning Area Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:00    4622.6      0.00       0.0     645.2                           17005.6875
+    0:00:01    4478.5      0.00       0.0     632.1                           16738.8789
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+1
+# ---- reports ------------------------------------------------------------------
+report_area      -hierarchy -nosplit        > $REPORT_DIR/area.rpt
+report_timing    -max_paths 5 -nosplit -transition_time -capacitance \
+                                            > $REPORT_DIR/timing.rpt
+report_power     -nosplit -analysis_effort medium \
+                                            > $REPORT_DIR/power.rpt
+report_qor                                  > $REPORT_DIR/qor.rpt
+report_resources -nosplit                   > $REPORT_DIR/resources.rpt
+report_reference -nosplit                   > $REPORT_DIR/cells.rpt
+report_constraint -all_violators -nosplit   > $REPORT_DIR/violators.rpt
+# Full constraint summary (not just violators): includes the recovery/removal
+# rows for the async reset pins (spec D-2) and the hold summary.
+report_constraint -nosplit -significant_digits 4 > $REPORT_DIR/constraints.rpt
+# Reset de-assertion paths explicitly, so the D-2 obligation is auditable.
+set async_pins [get_pins -of_objects [all_registers] -filter "lib_pin_name == R || lib_pin_name == S"]
+{out_valid_reg/R out_valid_reg/S}
+redirect $REPORT_DIR/reset_timing.rpt {
+  if {[sizeof_collection $async_pins] > 0} {
+    report_timing -delay_type max -to $async_pins -max_paths 2 -nosplit
+    report_timing -delay_type min -to $async_pins -max_paths 2 -nosplit
+  } else { puts "no asynchronous reset pins in this design" }
+}
+# ---- outputs for P&R and for the parser ---------------------------------------
+change_names -rules verilog -hierarchy
+1
+write -format verilog -hierarchy -output $REPORT_DIR/$DESIGN.mapped.v
+Writing verilog file '/home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/reports/syn/gauss_lut_a12_w12_l1/gauss_lut.mapped.v'.
+1
+write_sdc $REPORT_DIR/$DESIGN.mapped.sdc
+1
+write -format ddc -hierarchy -output $REPORT_DIR/$DESIGN.mapped.ddc
+Writing ddc file 'reports/syn/gauss_lut_a12_w12_l1/gauss_lut.mapped.ddc'.
+1
+# One-line-per-metric summary. Numbers come from DC collections, not from
+# re-parsing the text reports, so the CSV stays robust to report formatting.
+set clk_period [get_attribute [get_clocks clk] period]
+5.000000
+set wns        [get_attribute [get_timing_paths -max_paths 1] slack]
+0.110631
+# Design-level area is only exposed through report_area in this DC release.
+redirect -variable area_rpt {report_area -nosplit}
+foreach {key pat} {area_comb "Combinational area:" area_bufinv "Buf/Inv area:" \
+                   area_seq "Noncombinational area:" area_total "Total cell area:"} {
+  set $key ""
+  regexp "$pat\\s+(\[\\d.\]+)" $area_rpt -> $key
+}
+set cell_count [sizeof_collection [get_cells -hierarchical -filter "is_hierarchical == false"]]
+2004
+set seq_count  [sizeof_collection [all_registers]]
+13
+set f [open $REPORT_DIR/summary.txt w]
+file14
+puts $f "design       $DESIGN"
+puts $f "tag          $TAG"
+puts $f "params       $PARAMS"
+puts $f "library      [file tail $LIB_DB]"
+puts $f "clk_period_ns $clk_period"
+puts $f "wns_ns       $wns"
+puts $f "fmax_mhz     [expr {1000.0 / ($clk_period - $wns)}]"
+puts $f "area_um2     $area_total"
+puts $f "area_comb_um2 $area_comb"
+puts $f "area_bufinv_um2 $area_bufinv"
+puts $f "area_seq_um2 $area_seq"
+puts $f "cells        $cell_count"
+puts $f "registers    $seq_count"
+close $f
+puts "SYNTH_DONE $TAG area=$area_total wns=$wns"
+SYNTH_DONE gauss_lut_a12_w12_l1 area=4478.529794 wns=0.110631
+exit
+
+Memory usage for this session 145 Mbytes.
+Memory usage for this session including child processes 255 Mbytes.
+CPU usage for this session 31 seconds ( 0.01 hours ).
+Elapsed time for this session 34 seconds ( 0.01 hours ).
+
+Thank you...

@@ -1,0 +1,39 @@
+ 
+****************************************
+Report : reference
+Design : gauss_lut
+Version: T-2022.03-SP2
+Date   : Sun Nov  1 06:38:54 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500       1      2.346500  
+AOI22X1            gscl45nm       3.285100      14     45.991400  
+BUFX2              gscl45nm       2.346500       5     11.732500  
+DFFPOSX1           gscl45nm       7.978100      16    127.649597  n
+DFFSR              gscl45nm      10.324600       1     10.324600  n
+INVX1              gscl45nm       1.407900      35     49.276499  
+MUX2X1             gscl45nm       3.754400      24     90.105600  
+NAND2X1            gscl45nm       1.877200      10     18.772000  
+NAND3X1            gscl45nm       2.346500       1      2.346500  
+NOR2X1             gscl45nm       2.346500       5     11.732500  
+NOR3X1             gscl45nm       2.815800       1      2.815800  
+OAI21X1            gscl45nm       2.815800       3      8.447400  
+OR2X1              gscl45nm       2.346500       6     14.079000  
+OR2X2              gscl45nm       2.815800       1      2.815800  
+gauss_lut_rom_ADDR_BITS12_OUT_WIDTH16  7753.305121       1  7753.305121 h
+-----------------------------------------------------------------------------
+Total 15 references                                  8151.740816
+1

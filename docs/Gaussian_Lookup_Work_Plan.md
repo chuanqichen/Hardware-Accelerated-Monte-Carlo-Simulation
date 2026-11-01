@@ -270,6 +270,52 @@ Conclusions that shape the rest of the work:
    (the standard error of a $2^{20}$-trial ATM estimate is $\approx 0.1\,\%$ of the
    price), with 8 Kbit of ROM. $a = 8$ and $a = 12$ are the two other sweep points.
 
+### 6.1 Standalone synthesis (2026-11-01, Design Compiler, gscl45nm / FreePDK45)
+
+`scripts/syn/run_sweep.sh` synthesises every point of the grid with one script and
+one constraint file (`constraints/lane_5ns.sdc`: 5 ns clock, 30 % I/O budget, typical
+corner, 1.1 V, 27 C). Raw reports: `reports/syn/<tag>/`; parsed: `results/gauss_lut_ppa.csv`.
+
+| `ADDR_BITS` | `OUT_WIDTH` | `LATENCY` | Area $\mu$m$^2$ | of which buf/inv | Slack at 5 ns | Power | Flops |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 8 | 12 | 1 | 1 147 | 391 | $+0.37$ ns | 0.14 mW | 13 |
+| 8 | 16 | 1 | 1 618 | 522 | $+0.01$ ns | 0.18 mW | 17 |
+| 10 | 12 | 1 | 2 572 | 959 | $+0.09$ ns | 0.24 mW | 13 |
+| **10** | **16** | **1** | **4 060** | 1 539 | $+0.11$ ns | 0.34 mW | 17 |
+| 10 | 16 | 2 | 4 221 | 1 528 | $+0.75$ ns | 0.39 mW | 33 |
+| 12 | 12 | 1 | 4 479 | 1 514 | $+0.11$ ns | 0.39 mW | 13 |
+| 12 | 16 | 1 | 8 152 | 1 947 | $+0.02$ ns | 0.64 mW | 17 |
+
+What the silicon numbers add to the model's conclusions:
+
+1. **Area follows the ROM.** 96 % of the area is combinational ROM logic, and it grows
+   $\approx 1.6$-$2\times$ per $+2$ address bits and $\approx 1.6\times$ for 12 → 16 output
+   bits - the same knobs the model identified. Roughly 38 % of the cells are buffers
+   and inverters fanning the address out across the case tree.
+2. **D-4 (`z` width), LUT side:** 16 → 12 output bits saves 37 % of LUT area at $a = 10$
+   (4 060 → 2 572 $\mu$m$^2$) for no change in price bias (table above). Also, because
+   $|z| \le 3.67 < 4$ at every table size we use, bit 14 of `Q3.12` is always a copy of
+   the sign bit; DC merged that flop away. `Q2.12` (15 b) is lossless. The remaining
+   D-4 question is the width of Eric's $Bz$ multiplier.
+3. **Every point closes 5 ns**, but with small margin. The critical path is
+   `u[31]` → ROM → two's-complement negate → `z` register, and the reported slack is
+   dominated by a **library artefact**: `DFFPOSX1`'s setup table in `gscl45nm.lib`
+   contains corrupt entries (6.2 ns, 5.1 ns, 3.1 ns at CLK transition 0.3-0.6 ns), so
+   with a 0.1 ns clock transition the interpolated setup is $\approx 1.2$ ns instead of
+   $\approx 0.1$ ns (`DFFSR`, whose table is clean, reports 0.13 ns on the same path).
+   True margin is $\approx 1.2$ ns. Every team using this library will see this; we report
+   the library number and state the artefact.
+4. **`LATENCY = 2` buys little here:** $+4\,\%$ area, $+17\,\%$ power for 0.65 ns of slack the
+   LUT does not need. Keep `LATENCY = 1`; revisit only if the lane's critical path lands
+   in the LUT after integration (it will not - the multiplier and exp are longer).
+5. **Cost in context:** at the baseline the LUT is $\approx 0.004$ mm$^2$ - far below the
+   25 % of lane area that would trigger the segmented-mapper fallback (Section 3.4), even
+   at $a = 12$.
+6. **Reset style (spec D-2):** only `out_valid` is reset now; the `z` registers load on a
+   valid beat and are unreset, which turned 16 `DFFSR` (10.32 $\mu$m$^2$) into `DFFPOSX1`
+   (7.98). With `enable_recovery_removal_arcs` set, DC checks the reset de-assertion
+   path: recovery slack $+2.51$ ns, removal $+1.22$ ns.
+
 ## 7. Interface and fixed-point contracts
 
 The authoritative definitions now live in `Lane_Interface_Spec.md`: Section 3 (every
@@ -301,16 +347,16 @@ Decisions in the spec that need numbers from this block before the team can clos
 - [x] Bit-accurate ROM model, exact stats, exact price-bias metric, sweep
 - [x] RTL skeleton + generated ROM + vectors + testbench
 - [x] Draft `Lane_Interface_Spec.md` Section 3 (formats) and `u`/`z` interfaces
-- [ ] Walk the team through spec Section 9; record decisions D-3/D-4/D-5 with dates
-- [ ] `rtl/mc_pkg.sv`: format widths, `LAT_*` localparams, status-flag bit positions
-- [ ] `rtl/round_sat.sv` + `fxp.round_sat()` twin + unit test (ties, signs, saturation
-      both directions); Eric's datapath instantiates it
-- [ ] Run `tb_gauss_lut` on the lab VCS flow (no simulator on the laptop); fix lint
-- [ ] Contribute `gauss_lut(u_raw) -> z_raw` to `model/mc_lane.py` (spec Section 7)
+- [ ] Walk the team through spec Section 9 (Mon 2026-11-02); D-2/D-3/D-6 recorded, D-4/D-5 pending
+- [x] `rtl/mc_pkg.sv`: format widths, `LAT_*` localparams, status-flag bit positions (PR #4)
+- [x] `rtl/round_sat.sv` + `fxp.round_sat()` twin + unit test (ties, signs, saturation
+      both directions); drop-in for Eric's S2 verified bit-exact (PR #4)
+- [x] Run `tb_gauss_lut` on the lab VCS flow: PASS at `LATENCY` 1 and 2, lint clean (PR #4)
+- [x] `model/mc_lane.py` with `run_lane` / `trace_lane` chaining all four blocks (PR #4)
 
 ### Phase B - standalone synthesis and first numbers (Oct 10 -> Oct 24)
-- [ ] Synthesize `gauss_lut` alone for `ADDR_BITS = {8, 10, 12}` x `OUT_WIDTH = {12, 16}`
-      with Tyler's DC script; record area, Fmax, power -> `results/gauss_lut_ppa.csv`
+- [x] Synthesize `gauss_lut` alone for `ADDR_BITS = {8, 10, 12}` x `OUT_WIDTH = {12, 16}`
+      (`scripts/syn/run_sweep.sh`, gscl45nm) -> `results/gauss_lut_ppa.csv`, Section 6.1
 - [ ] Extend the sweep so `x`, `S_T`, `p` are quantized too (exact bias of the whole
       fixed-point chain with float `exp`) -> closes D-5, feeds the exp-table study
 - [ ] With Eric: exp-table range/precision study using the same exact-bias method;
