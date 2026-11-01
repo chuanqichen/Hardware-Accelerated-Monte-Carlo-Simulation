@@ -105,14 +105,7 @@ $(RS_VEC_U): model/gen_round_sat_vectors.py model/fxp.py
 	$(PYTHON) model/gen_round_sat_vectors.py --in-width 26 --out-width 16 --shift 8
 
 sim-rs: gen-rs
-	$(VCS_PRICE) +lint=all,noVCDE rtl/round_sat.sv tb/tb_round_sat.sv \
-	  -pvalue+tb_round_sat.IN_WIDTH=34 -pvalue+tb_round_sat.OUT_WIDTH=18 \
-	  -pvalue+tb_round_sat.SHIFT=14 -pvalue+tb_round_sat.SIGNED=1 \
-	  +define+VEC_FILE='"$(RS_VEC_S)"' -o simv_rs_s && ./simv_rs_s
-	$(VCS_PRICE) +lint=all,noVCDE rtl/round_sat.sv tb/tb_round_sat.sv \
-	  -pvalue+tb_round_sat.IN_WIDTH=26 -pvalue+tb_round_sat.OUT_WIDTH=16 \
-	  -pvalue+tb_round_sat.SHIFT=8 -pvalue+tb_round_sat.SIGNED=0 \
-	  +define+VEC_FILE='"$(RS_VEC_U)"' -o simv_rs_u && ./simv_rs_u
+	VCS="$(VCS)" RS_VEC_S="$(RS_VEC_S)" RS_VEC_U="$(RS_VEC_U)" bash scripts/sim/round_sat_sim.sh
 
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut
