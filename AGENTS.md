@@ -14,10 +14,11 @@ payoff accumulator; compare 1/2/4 lanes. Scope is `docs/Project_Proposal.md`.
 - Generated PDFs (`docs/*.pdf`) are gitignored; build with `make docs`
 
 ## Git
-- Author/committer: Chuanqi Chen <chuanqi.chen@gmail.com> (repo git config is already
-  set to this; do not add any other author or co-author).
-- Commit messages: plain summary + body only. Do NOT add "Generated with Devin"
-  or `Co-Authored-By: Devin ...` trailers.
+- Commit as ourselves. We are responsible for all code. Each team member commits
+  under their own name and email (`git config user.name` / `user.email` in your
+  clone); never commit under another member's identity.
+- Commit messages: plain summary + body. No AI-tool trailers (`Co-Authored-By`,
+  "Generated with ...").
 
 ## Conventions
 - Modules/files `snake_case`, parameters `UPPER_SNAKE`, active-low `_n`
