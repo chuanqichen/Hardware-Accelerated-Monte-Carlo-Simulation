@@ -29,10 +29,10 @@ module tb_round_sat;
     int fd, r;
     logic [IN_WIDTH-1:0] vi; logic [OUT_WIDTH-1:0] vo; logic vs;
     fd = $fopen(VEC_FILE, "r");
-    if (fd == 0) begin $error("cannot open %s", VEC_FILE); $finish; end
+    if (fd == 0) $fatal(1, "cannot open %s", VEC_FILE);
     while (!$feof(fd) && n_vec < MAX_VEC) begin
       r = $fscanf(fd, "%h %h %h\n", vi, vo, vs);
-      if (r != 3) continue;
+      if (r != 3) $fatal(1, "malformed/truncated vector %0d in %s", n_vec, VEC_FILE);
       in = vi;
       #1 n_vec++;   // settle the combinational DUT, then check
       if (vs) n_sat++;
@@ -42,9 +42,12 @@ module tb_round_sat;
           $error("vec %0d: in=%h got out=%h sat=%b exp out=%h sat=%b", n_vec - 1, vi, out, sat, vo, vs);
       end
     end
+    if (!$feof(fd)) $fatal(1, "vector limit exceeded: %0d", MAX_VEC);
     $fclose(fd);
-    $display("%s: tb_round_sat IN=%0d OUT=%0d SHIFT=%0d SIGNED=%0d, %0d checked, %0d errors (sat on %0d)",
-             n_err ? "FAIL" : "PASS", IN_WIDTH, OUT_WIDTH, SHIFT, SIGNED, n_vec, n_err, n_sat);
+    if (n_vec == 0) $fatal(1, "empty vector file: %s", VEC_FILE);
+    if (n_err != 0) $fatal(1, "%0d round_sat comparison errors", n_err);
+    $display("PASS: tb_round_sat IN=%0d OUT=%0d SHIFT=%0d SIGNED=%0d, %0d checked, 0 errors (sat on %0d)",
+             IN_WIDTH, OUT_WIDTH, SHIFT, SIGNED, n_vec, n_sat);
     $finish;
   end
 endmodule
