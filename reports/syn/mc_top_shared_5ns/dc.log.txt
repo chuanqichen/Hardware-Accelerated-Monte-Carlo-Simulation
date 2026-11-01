@@ -1,0 +1,1099 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+               Version T-2022.03-SP2 for linux64 - May 25, 2022 
+
+                    Copyright (c) 1988 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+# Design Compiler synthesis of one block / configuration on gscl45nm (FreePDK45).
+#
+# Driven entirely by environment variables so the same script serves every block
+# and every point of the parameter sweep (scripts/syn/run_sweep.sh):
+#
+#   DESIGN      top module name                       e.g. gauss_lut
+#   RTL_FILES   space-separated SystemVerilog files,   e.g. "rtl/mc_pkg.sv rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv"
+#               in compile order (packages first)
+#   PARAMS      comma-separated top-level parameter    e.g. "ADDR_BITS=10,OUT_WIDTH=16,FRAC_BITS=12,LATENCY=1"
+#               overrides (optional)
+#   TAG         run name used for the report folder    e.g. gauss_lut_a10_w16_l1
+#   SDC         constraints file                       default constraints/lane_5ns.sdc
+#   REPORT_DIR  where raw reports go                   default reports/syn/$TAG
+#   LIB_DB      standard-cell .db                      default FreePDK45 gscl45nm.db on peach
+#
+# Usage (peach, login shell with `module load syn/2022`):
+#   DESIGN=gauss_lut RTL_FILES="..." PARAMS="ADDR_BITS=10,..." TAG=gauss_lut_a10_w16_l1 \
+#     dc_shell -f scripts/syn/dc_synth.tcl | tee reports/syn/gauss_lut_a10_w16_l1/dc.log
+#
+# Outputs in $REPORT_DIR: area.rpt timing.rpt power.rpt qor.rpt resources.rpt
+# cells.rpt, the mapped netlist $DESIGN.mapped.v, the post-synthesis SDC, and
+# summary.txt (one line per key metric, parsed by scripts/parse_reports.py).
+set repo_root [file normalize [file join [file dirname [info script]] ../..]]
+/home/work/teh969/monte_carlo/combined_20261101_dkeY0L
+source [file join $repo_root scripts syn config.tcl]
+if {[catch {mc_synth_config $repo_root} cfg]} {
+  puts stderr "Synthesis setup error: $cfg"
+  exit 2
+}
+set DESIGN [dict get $cfg design]
+mc_top
+set RTL_FILES [dict get $cfg sources]
+/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_pkg.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/rst_sync.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/pipe.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/rng_lane.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/gauss_lut_rom.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/gauss_lut.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/exp2_rom.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/accumulator.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_controller.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_top.sv
+set PARAMS [dict get $cfg params]
+set TAG [dict get $cfg tag]
+mc_top_shared_5ns
+set SDC [dict get $cfg sdc]
+/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/constraints/lane_5ns.sdc
+set REPORT_DIR [dict get $cfg report_dir]
+/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/reports/syn/mc_top_shared_5ns
+set LIB_DB [dict get $cfg library]
+/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+set CLK_PERIOD [dict get $cfg period]
+5.0
+set OPCOND [dict get $cfg corner]
+typical
+if {[catch {
+file mkdir $REPORT_DIR
+file mkdir $REPORT_DIR/work
+define_design_lib WORK -path $REPORT_DIR/work
+set_svf $REPORT_DIR/design.svf
+set fd [open $REPORT_DIR/source_sha256.txt w]
+puts $fd [exec sha256sum {*}$RTL_FILES $SDC [file join $repo_root scripts syn config.tcl] [file join $repo_root scripts syn dc_synth.tcl]]
+close $fd
+set fd [open $REPORT_DIR/library_sha256.txt w]
+puts $fd [exec sha256sum $LIB_DB]
+close $fd
+set fd [open $REPORT_DIR/inputs.txt w]
+puts $fd "top=$DESIGN"
+puts $fd "corner_label=$OPCOND"
+puts $fd "clock_period_ns=$CLK_PERIOD"
+puts $fd "params=$PARAMS"
+puts $fd "sources=$RTL_FILES"
+puts $fd "library=$LIB_DB"
+puts $fd "tool=[get_app_var sh_product_version]"
+if {![catch {exec git -C $repo_root rev-parse HEAD} revision]} { puts $fd "git_revision=$revision" }
+close $fd
+
+# ---- library ------------------------------------------------------------------
+set_app_var target_library $LIB_DB
+set_app_var link_library   "* $LIB_DB"
+# gscl45nm has no DesignWare-specific library; DC's generic DW components still map.
+set_app_var synthetic_library {dw_foundation.sldb}
+set_app_var link_library "$link_library dw_foundation.sldb"
+
+# ---- read and elaborate -------------------------------------------------------
+# Packages must be analyzed before the modules that import them.
+foreach f $RTL_FILES {
+  if {![analyze -format sverilog $f]} { puts "ERROR: analyze failed on $f"; exit 1 }
+}
+set elab_args [list $DESIGN]
+if {$PARAMS ne ""} {
+  # "A=1,B=2" -> "A=>1,B=>2" (DC's -parameters syntax)
+  set p [string map {"=" "=>"} $PARAMS]
+  lappend elab_args -parameters $p
+}
+if {![eval elaborate $elab_args]} { puts "ERROR: elaborate failed"; exit 1 }
+# Elaborating with -parameters renames the design (e.g. gauss_lut_ADDR_BITS10_...);
+# rename back so reports and the netlist are predictable.
+set elab_name [get_object_name [current_design]]
+if {$elab_name ne $DESIGN} { rename_design $elab_name $DESIGN }
+current_design $DESIGN
+if {![link]} { error "Link failed" }
+if {![check_design]} { error "check_design failed" }
+check_design > $REPORT_DIR/check_design.rpt
+set_operating_conditions $OPCOND
+report_units > $REPORT_DIR/units.rpt
+
+# ---- constraints --------------------------------------------------------------
+source $SDC
+
+# ---- compile ------------------------------------------------------------------
+# No hierarchy to keep for a single block; flatten so the ROM logic can be
+# optimised with its consumer. Retiming is left off for now so the latency
+# measured in simulation is the latency synthesised (LATENCY / MUL_STAGES are
+# the knobs, as documented in the work plans).
+set_app_var compile_ultra_ungroup_dw true
+# Spec D-2: async reset. DC ignores the DFFSR recovery/removal arcs unless this
+# is set, and then reports the reset de-assertion path as "unconstrained".
+set_app_var enable_recovery_removal_arcs true
+# Hold is left to P&R (ideal clock here); the enable-mux feedback on DFFPOSX1
+# shows -0.03 ns and is listed in violators.rpt for the record.
+if {![compile_ultra -no_autoungroup]} { error "compile_ultra failed" }
+# Second pass to recover area once timing is met.
+optimize_netlist -area
+if {![check_design]} { error "post-compile check_design failed" }
+check_timing > $REPORT_DIR/timing_check.rpt
+
+# ---- reports ------------------------------------------------------------------
+report_area      -hierarchy -nosplit        > $REPORT_DIR/area.rpt
+report_timing    -max_paths 5 -nosplit -transition_time -capacitance \
+                                            > $REPORT_DIR/timing.rpt
+report_power     -nosplit -analysis_effort medium \
+                                            > $REPORT_DIR/power.rpt
+report_qor                                  > $REPORT_DIR/qor.rpt
+report_resources -nosplit                   > $REPORT_DIR/resources.rpt
+report_reference -nosplit                   > $REPORT_DIR/cells.rpt
+report_constraint -all_violators -nosplit   > $REPORT_DIR/violators.rpt
+# Full constraint summary (not just violators): includes the recovery/removal
+# rows for the async reset pins (spec D-2) and the hold summary.
+report_constraint -nosplit -significant_digits 4 > $REPORT_DIR/constraints.rpt
+# Reset de-assertion paths explicitly, so the D-2 obligation is auditable.
+set async_pins [get_pins -of_objects [all_registers] -filter "lib_pin_name == R || lib_pin_name == S"]
+redirect $REPORT_DIR/reset_timing.rpt {
+  if {[sizeof_collection $async_pins] > 0} {
+    report_timing -delay_type max -to $async_pins -max_paths 2 -nosplit
+    report_timing -delay_type min -to $async_pins -max_paths 2 -nosplit
+  } else { puts "no asynchronous reset pins in this design" }
+}
+
+# ---- outputs for P&R and for the parser ---------------------------------------
+change_names -rules verilog -hierarchy
+write -format verilog -hierarchy -output $REPORT_DIR/$DESIGN.mapped.v
+write_sdc $REPORT_DIR/$DESIGN.mapped.sdc
+write -format ddc -hierarchy -output $REPORT_DIR/$DESIGN.mapped.ddc
+
+# One-line-per-metric summary. Numbers come from DC collections, not from
+# re-parsing the text reports, so the CSV stays robust to report formatting.
+set clk_period [get_attribute [get_clocks clk] period]
+set wns        [get_attribute [get_timing_paths -max_paths 1] slack]
+# Design-level area is only exposed through report_area in this DC release.
+redirect -variable area_rpt {report_area -nosplit}
+foreach {key pat} {area_comb "Combinational area:" area_bufinv "Buf/Inv area:" \
+                   area_seq "Noncombinational area:" area_total "Total cell area:"} {
+  set $key ""
+  regexp "$pat\\s+(\[\\d.\]+)" $area_rpt -> $key
+}
+set cell_count [sizeof_collection [get_cells -hierarchical -filter "is_hierarchical == false"]]
+set seq_count  [sizeof_collection [all_registers]]
+set f [open $REPORT_DIR/summary.txt w]
+puts $f "design       $DESIGN"
+puts $f "tag          $TAG"
+puts $f "params       $PARAMS"
+puts $f "library      [file tail $LIB_DB]"
+puts $f "clk_period_ns $clk_period"
+puts $f "wns_ns       $wns"
+puts $f "fmax_mhz     [expr {1000.0 / ($clk_period - $wns)}]"
+puts $f "area_um2     $area_total"
+puts $f "area_comb_um2 $area_comb"
+puts $f "area_bufinv_um2 $area_bufinv"
+puts $f "area_seq_um2 $area_seq"
+puts $f "cells        $cell_count"
+puts $f "registers    $seq_count"
+close $f
+
+} reason]} {
+  puts stderr "Synthesis failed: $reason; partial evidence remains in $REPORT_DIR"
+  exit 1
+}
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_pkg.sv
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_pkg.sv:70: signed to unsigned conversion occurs. (VER-318)
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb'
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/rst_sync.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/pipe.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/rng_lane.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/gauss_lut_rom.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/gauss_lut.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/exp2_rom.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/accumulator.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_controller.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv:44: The 'unlabeled $fatal' construct is not supported.  It will be ignored. (VER-104)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv:46: The 'unlabeled $fatal' construct is not supported.  It will be ignored. (VER-104)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv:48: The 'unlabeled $fatal' construct is not supported.  It will be ignored. (VER-104)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv:44: The statements in initial blocks are ignored. (VER-281)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv:46: The statements in initial blocks are ignored. (VER-281)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_lane_array.sv:48: The statements in initial blocks are ignored. (VER-281)
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_top.sv
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/gtech.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/standard.sldb'
+  Loading link library 'gscl45nm'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Statistics for case statements in always block at line 38 in file
+	'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_top.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            45            |    auto/auto     |
+===============================================
+
+Statistics for case statements in always block at line 60 in file
+	'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_top.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            83            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine mc_top line 60 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_top.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    status_q_reg     | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      cfg_a_reg      | Flip-flop |  18   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      cfg_b_reg      | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      cfg_k_reg      | Flip-flop |  22   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   cfg_trials_reg    | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    cfg_seeds_reg    | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
+|    active_a_reg     | Flip-flop |  18   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    active_b_reg     | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    active_k_reg     | Flip-flop |  22   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  active_seeds_reg   | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (mc_top)
+Elaborated 1 design.
+Current design is now 'mc_top'.
+Information: Building the design 'rst_sync' instantiated from design 'mc_top' with
+	the parameters "STAGES=2". (HDL-193)
+
+Inferred memory devices in process
+	in routine rst_sync_STAGES2 line 24 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/rst_sync.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      chain_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (rst_sync_STAGES2)
+Information: Building the design 'mc_controller' instantiated from design 'mc_top' with
+	the parameters "LANES=1". (HDL-193)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_controller.sv:50: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 40 in file
+	'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_controller.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            50            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine mc_controller_LANES1 line 40 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/mc_controller.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   cycle_count_reg   | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      state_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  target_trials_reg  | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     issued_reg      | Flip-flop |  33   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      done_reg       | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (mc_controller_LANES1)
+Information: Building the design 'mc_lane_array' instantiated from design 'mc_top' with
+	the parameters "LANES=1,GAUSS_LATENCY=1,MUL_STAGES=1". (HDL-193)
+Presto compilation completed successfully. (mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1)
+Information: Building the design 'rng_lane'. (HDL-193)
+
+Inferred memory devices in process
+	in routine rng_lane line 29 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/rng_lane.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     u_valid_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       s0_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       s1_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       s2_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       s3_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|        u_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (rng_lane)
+Information: Building the design 'gauss_lut' instantiated from design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1' with
+	the parameters "ADDR_BITS=10,OUT_WIDTH=16,FRAC_BITS=12,LATENCY=1". (HDL-193)
+
+Inferred memory devices in process
+	in routine gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1 line 47 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/gauss_lut.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    out_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1 line 50 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/gauss_lut.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|        z_reg        | Flip-flop |  16   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1)
+Information: Building the design 'price_dp' instantiated from design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1' with
+	the parameters "EXP_ADDR_BITS=10,MUL_STAGES=1". (HDL-193)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv:65: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv:66: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv:68: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv:73: signed to unsigned part selection occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 44 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      acc_r_reg      | Flip-flop |  34   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 48 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      v_mul_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 72 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       sx2_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|       x2_reg        | Flip-flop |  18   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 76 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       v2_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 90 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       ss6_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|        p_reg        | Flip-flop |  22   |  Y  | N  | N  | N  | N  | N  | N  |
+|       sx6_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 95 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     p_valid_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (price_dp_EXP_ADDR_BITS10_MUL_STAGES1)
+Information: Building the design 'accumulator' instantiated from design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1' with
+	the parameters "LANES=1,P_WIDTH=22,SUM_WIDTH=64,CNT_WIDTH=32". (HDL-193)
+
+Inferred memory devices in process
+	in routine accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32 line 60 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/accumulator.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   sat_s_seen_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   payoff_sum_reg    | Flip-flop |  64   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   trial_count_reg   | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  acc_overflow_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   sat_x_seen_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32)
+Information: Building the design 'gauss_lut_rom' instantiated from design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1' with
+	the parameters "ADDR_BITS=10,OUT_WIDTH=16". (HDL-193)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/gauss_lut_rom.sv:8: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 7 in file
+	'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/gauss_lut_rom.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            8             |    user/user     |
+===============================================
+Presto compilation completed successfully. (gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16)
+Information: Building the design 'exp2_unit' instantiated from design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1' with
+	the parameters "EXP_ADDR_BITS=10". (HDL-193)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv:41: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv:42: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv:73: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv:74: signed to unsigned assignment occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 40 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      addr3_reg      | Flip-flop |  10   |  Y  | N  | N  | N  | N  | N  | N  |
+|       n3_reg        | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 51 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       n4_reg        | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|      rom4_reg       | Flip-flop |  17   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 80 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      sat_s_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|       s_t_reg       | Flip-flop |  22   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 86 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       v4_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    out_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       v3_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (exp2_unit_EXP_ADDR_BITS10)
+Information: Building the design 'pipe' instantiated from design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1' with
+	the parameters "W=1,N=3". (HDL-193)
+
+Inferred memory devices in process
+	in routine pipe_W1_N3 line 21 in file
+		'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/pipe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    g_regs.r_reg     | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (pipe_W1_N3)
+Information: Building the design 'exp2_rom' instantiated from design 'exp2_unit_EXP_ADDR_BITS10' with
+	the parameters "ADDR_BITS=10,OUT_WIDTH=17". (HDL-193)
+Warning:  /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/exp2_rom.sv:8: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 7 in file
+	'/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/rtl/generated/exp2_rom.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            8             |    auto/auto     |
+===============================================
+Presto compilation completed successfully. (exp2_rom_ADDR_BITS10_OUT_WIDTH17)
+Current design is 'mc_top'.
+Current design is 'mc_top'.
+
+  Linking design 'mc_top'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (12 designs)              /home/work/teh969/monte_carlo/combined_20261101_dkeY0L/mc_top.db, etc
+  gscl45nm (library)          /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+  dw_foundation.sldb (library) /usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb
+
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sun Nov  1 12:35:57 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                     26
+    Unconnected ports (LINT-28)                                    22
+    Shorted outputs (LINT-31)                                       1
+    Constant outputs (LINT-52)                                      3
+
+Cells                                                               9
+    Cells do not drive (LINT-1)                                     9
+--------------------------------------------------------------------------------
+
+Warning: In design 'mc_controller_LANES1', cell 'C790' does not drive any nets. (LINT-1)
+Warning: In design 'mc_controller_LANES1', cell 'C805' does not drive any nets. (LINT-1)
+Warning: In design 'mc_controller_LANES1', cell 'C807' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', cell 'C112' does not drive any nets. (LINT-1)
+Warning: In design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1', cell 'B_2' does not drive any nets. (LINT-1)
+Warning: In design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1', cell 'C293' does not drive any nets. (LINT-1)
+Warning: In design 'accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32', cell 'C477' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C450' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C472' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[21]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[20]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[8]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[15]' is connected directly to output port 'mag[14]'. (LINT-31)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[15]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[14]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'exp2_rom_ADDR_BITS10_OUT_WIDTH17', output port 'val[16]' is connected directly to 'logic 1'. (LINT-52)
+Using operating conditions 'typical' found in library 'gscl45nm'.
+Warning: Design rule attributes from the driving cell will be set on the port 'rst_n'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_we'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_addr[0]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[31]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[30]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[29]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[28]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[27]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[26]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[25]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[24]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[23]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[22]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[21]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[20]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[19]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[18]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[17]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[16]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'cfg_wdata[0]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'start'. (UID-401)
+Current design is 'mc_top'.
+Current design is 'mc_top'.
+Information: Performing power optimization. (PWR-850)
+Analyzing: "/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db"
+Library analysis succeeded.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | T-2022.03-DWBB_202203.2 |     *     |
+| Licensed DW Building Blocks        | T-2022.03-DWBB_202203.2 |     *     |
+============================================================================
+
+====================================================================================================
+| Flow Information                                                                                 |
+----------------------------------------------------------------------------------------------------
+| Flow         | Design Compiler WLM                                                               |
+| Comand Line  | compile_ultra -no_autoungroup                                                     |
+====================================================================================================
+| Design Information                                      | Value                                  |
+====================================================================================================
+| Number of Scenarios                                     | 0                                      |
+| Leaf Cell Count                                         | 7374                                   |
+| Number of User Hierarchies                              | 11                                     |
+| Sequential Cell Count                                   | 939                                    |
+| Macro Count                                             | 0                                      |
+| Number of Power Domains                                 | 0                                      |
+| Number of Path Groups                                   | 2                                      |
+| Number of VT Class                                      | 0                                      |
+| Number of Clocks                                        | 1                                      |
+| Number of Dont Touch Cells                              | 3157                                   |
+| Number of Dont Touch Nets                               | 0                                      |
+| Number of Size Only Cells                               | 0                                      |
+| Design with UPF Data                                    | false                                  |
+====================================================================================================
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 35 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'mc_top'
+Information: The register 'u_lanes/u_rng/u_reg[0]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[1]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[2]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[3]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[4]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[5]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[6]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[7]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[8]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[9]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[10]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[11]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[12]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[13]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[14]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[15]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[16]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[17]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[18]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[19]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[20]' will be removed. (OPT-1207)
+Information: The register 'u_lanes/u_rng/u_reg[21]' will be removed. (OPT-1207)
+
+Loaded alib file './alib-52/gscl45nm.db.alib'
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'exp2_rom_ADDR_BITS10_OUT_WIDTH17'
+ Implement Synthetic for 'exp2_rom_ADDR_BITS10_OUT_WIDTH17'.
+  Processing 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16'
+ Implement Synthetic for 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16'.
+  Processing 'mc_top'
+Information: The register 'status_q_reg[5]' is a constant and will be removed. (OPT-1206)
+Information: The register 'status_q_reg[6]' is a constant and will be removed. (OPT-1206)
+Information: The register 'status_q_reg[7]' is a constant and will be removed. (OPT-1206)
+  Processing 'rng_lane'
+ Implement Synthetic for 'rng_lane'.
+  Processing 'exp2_unit_EXP_ADDR_BITS10'
+Information: Added key list 'DesignWare' to design 'exp2_unit_EXP_ADDR_BITS10'. (DDB-72)
+Information: The register 'rom4_reg[16]' is a constant and will be removed. (OPT-1206)
+ Implement Synthetic for 'exp2_unit_EXP_ADDR_BITS10'.
+  Processing 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1'
+  Processing 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1'
+ Implement Synthetic for 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1'.
+Information: Added key list 'DesignWare' to design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1'. (DDB-72)
+  Processing 'mc_controller_LANES1'
+Information: Added key list 'DesignWare' to design 'mc_controller_LANES1'. (DDB-72)
+ Implement Synthetic for 'mc_controller_LANES1'.
+  Processing 'accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32'
+ Implement Synthetic for 'accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32'.
+  Processing 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1'
+ Implement Synthetic for 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1'.
+Information: Added key list 'DesignWare' to design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1'. (DDB-72)
+  Processing 'pipe_W1_N3'
+  Processing 'rst_sync_STAGES2'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: Complementing port 'busy' in design 'mc_controller_LANES1'.
+	 The new name of the port is 'busy_BAR'. (OPT-319)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+Information: Added key list 'DesignWare' to design 'rng_lane'. (DDB-72)
+Information: Added key list 'DesignWare' to design 'accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32'. (DDB-72)
+  Mapping Optimization (Phase 1)
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:38   30876.2      0.00       0.0   17980.1                           156392.7188
+    0:00:38   30861.6      0.00       0.0   17979.9                           156344.5469
+
+  Beginning Constant Register Removal
+  -----------------------------------
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+
+  Beginning Isolate Ports
+  -----------------------
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:41   29723.1      0.00       0.0   17731.0                           143080.5000
+    0:00:41   29723.1      0.00       0.0   17731.0                           143080.5000
+    0:00:41   29723.1      0.00       0.0   17731.0                           143080.5000
+    0:00:41   29723.1      0.00       0.0   17731.0                           143080.5000
+    0:00:42   29715.6      0.00       0.0   17703.8                           143059.3594
+    0:00:42   29713.3      0.00       0.0   17702.7                           143055.7500
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:00:44   29688.4      0.00       0.0   17693.1                           142932.6250
+    0:00:44   29688.4      0.00       0.0   17693.1                           142932.6250
+    0:00:44   29688.4      0.00       0.0   17693.1                           142932.6250
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_fanout)  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:44   29710.9      0.00       0.0   17715.3                           143187.2188
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+    0:00:48   32783.0      0.00       0.0   11749.1 u_lanes/u_price/u_exp/u_rom/net28135 162111.1094
+    0:00:48   32934.1      0.00       0.0   11102.2 u_lanes/u_price/u_exp/u_rom/net28430 163021.0000
+    0:00:49   33030.3      0.00       0.0   10705.2                           163717.2812
+    0:00:49   33030.3      0.00       0.0   10705.2                           163717.2812
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:49   33030.3      0.00       0.0   10705.2                           163717.2812
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+  Global Optimization (Phase 47)
+  Global Optimization (Phase 48)
+Information: Complementing port 's_t[14]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[14]_BAR'. (OPT-319)
+Information: Complementing port 's_t[12]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[12]_BAR'. (OPT-319)
+Information: Complementing port 's_t[10]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[10]_BAR'. (OPT-319)
+Information: Complementing port 's_t[9]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[9]_BAR'. (OPT-319)
+    0:00:51   32489.6      0.00       0.0    9952.9                           163085.5938
+    0:00:51   32489.6      0.00       0.0    9952.9                           163085.5938
+    0:00:51   32489.6      0.00       0.0    9952.9                           163085.5938
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:51   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:52   32454.4      0.00       0.0    9990.7                           162293.5781
+    0:00:52   32443.6      0.02       0.0    9989.1                           162094.6562
+    0:00:52   32457.7      0.00       0.0    9989.1                           162352.1562
+    0:00:52   32457.7      0.00       0.0    9989.1                           162352.1562
+    0:00:53   32464.3      0.00       0.0    9990.7                           162491.5156
+    0:00:54   32518.7      0.00       0.0    9910.6 u_lanes/u_gauss/u_rom/net25938 162579.1250
+    0:00:55   33176.2      0.00       0.0    8923.9 u_lanes/u_gauss/u_rom/net26124 166199.8438
+    0:00:55   33203.4      0.00       0.0    8863.1                           166416.7656
+    0:00:55   33203.4      0.00       0.0    8863.1                           166416.7656
+    0:00:55   33203.4      0.00       0.0    8863.1                           166416.7656
+    0:00:55   33203.4      0.00       0.0    8863.1                           166416.7656
+    0:00:55   33203.4      0.00       0.0    8863.1                           166416.7656
+    0:00:55   33203.4      0.00       0.0    8863.1                           166416.7656
+    0:00:55   33186.1      0.00       0.0    8864.5                           166157.0781
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+Information: There are 76 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Updating timing information
+
+
+  Beginning Area Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:00   33186.1      0.00       0.0    8864.5                           166157.0781
+    0:00:05   33016.2      0.00       0.0    8845.7                           165456.8281
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sun Nov  1 12:38:00 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                     53
+    Unconnected ports (LINT-28)                                    47
+    Shorted outputs (LINT-31)                                       3
+    Constant outputs (LINT-52)                                      3
+
+Cells                                                              23
+    Connected to power or ground (LINT-32)                         22
+    Nets connected to multiple pins on same cell (LINT-33)          1
+--------------------------------------------------------------------------------
+
+Warning: In design 'rng_lane', port 'u[21]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[20]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[8]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'rng_lane', port 'u[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[21]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[20]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[8]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1', port 'u[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', port 'mag[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', port 'mag[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'exp2_rom_ADDR_BITS10_OUT_WIDTH17', port 'val[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'mc_top', output port 'status[7]' is connected directly to output port 'status[5]'. (LINT-31)
+Warning: In design 'mc_top', output port 'status[7]' is connected directly to output port 'status[6]'. (LINT-31)
+Warning: In design 'mc_controller_LANES1', output port 'clear_accum' is connected directly to output port 'seed_load'. (LINT-31)
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[21]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[20]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[19]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[18]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[17]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[16]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[15]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[14]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[13]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[12]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[11]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[10]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[9]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[8]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[7]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[6]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[5]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[4]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[3]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[2]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[1]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', a pin on submodule 'u_gauss' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'u[0]' is connected to logic 0. 
+Warning: In design 'mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1', the same net is connected to more than one pin on submodule 'u_gauss'. (LINT-33)
+   Net 'n22' is connected to pins 'u[21]', 'u[20]'', 'u[19]', 'u[18]', 'u[17]', 'u[16]', 'u[15]', 'u[14]', 'u[13]', 'u[12]', 'u[11]', 'u[10]', 'u[9]', 'u[8]', 'u[7]', 'u[6]', 'u[5]', 'u[4]', 'u[3]', 'u[2]', 'u[1]', 'u[0]'.
+Warning: In design 'mc_top', output port 'status[7]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'mc_top', output port 'status[6]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'mc_top', output port 'status[5]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In the design mc_top, net 'status[7]' is connecting multiple ports. (UCN-1)
+Warning: In the design mc_controller_LANES1, net 'clear_accum' is connecting multiple ports. (UCN-1)
+Writing verilog file '/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/reports/syn/mc_top_shared_5ns/mc_top.mapped.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Writing ddc file '/home/work/teh969/monte_carlo/combined_20261101_dkeY0L/reports/syn/mc_top_shared_5ns/mc_top.mapped.ddc'.
+puts "SYNTH_DONE $TAG area=$area_total wns=$wns (review hold/electrical checks; pre-layout estimate only)"
+SYNTH_DONE mc_top_shared_5ns area=33016.193446 wns=0.000509739 (review hold/electrical checks; pre-layout estimate only)
+exit 0
+
+Memory usage for this session 142 Mbytes.
+Memory usage for this session including child processes 203 Mbytes.
+CPU usage for this session 127 seconds ( 0.04 hours ).
+Elapsed time for this session 131 seconds ( 0.04 hours ).
+
+Thank you...

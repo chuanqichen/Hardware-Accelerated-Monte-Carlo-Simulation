@@ -1,112 +1,96 @@
 # Integration, control, and tool flow
 
-Owner: Tyler Haverlah. Current local checkpoint: 2026-10-31.
+Owner: Tyler Haverlah. Verified publication checkpoint: 2026-11-01.
 
-## Source and ownership
+## Scope and source
 
-The active checkout is `HardwareAcceleratedMonteCarlo/.worktrees/one-lane-integration`,
-branch `tyler/one-lane-integration`, based on PR #4 head `c6da2ad` (not merged).
-Codex is the sole writer for this local integration change. The original checkout
-on `tyler/week1-control-synthesis` and its uncommitted October 18 work are preserved.
-No GitHub review, merge, push, team message, or approval was published.
+The one-lane top integrates Shentong's RNG, Chuanqi's Gaussian LUT and package,
+Eric's pricing datapath and accumulator, and Tyler's configuration/controller.
+PR #4 (shared infrastructure) and PR #5 (synthesis/reset) are approved and merged.
+The false-pass test gate was fixed and merged through PR #6 before approving #4.
 
-This branch depends on PR #4. Merge that prerequisite or restack after its review
-before publishing the integration. The Git-managed worktree was used because the
-native worktree tool rejected the nested repository as a source root.
+The active implementation branch is tyler/one-lane-integration, in the worktree
+HardwareAcceleratedMonteCarlo/.worktrees/one-lane-integration. The original dirty
+October 18 checkout is preserved. Tyler authorized publication and merging on
+November 1. No Slack message is sent by this task. The shared flow has one canonical
+dc_synth.tcl and parser, with the old-format parser retained for historical reports.
 
-## Implemented integration
+## Implemented contract
 
-`mc_top` now connects our controller/configuration to the production
-`mc_lane_array`: Shentong's RNG, Chuanqi's Gaussian block, Eric's pricing datapath,
-and Eric's accumulator. `mc_pkg` supplies the status bits, register map, and latency
-formulas. No teammate arithmetic source was modified. In particular, replacing
-price_dp's existing inline rounding with shared round_sat remains Eric's follow-up;
-the current implementation and the Python model already agree bit for bit.
+Production supports LANES=1, Gaussian/exp address bits 10, Q3.12 output, and
+GAUSS_LATENCY/MUL_STAGES each 1 or 2. Multi-lane control masking is tested with a
+separate mock; real 2/4-lane reduction and independent seeds are future work.
 
-The production adapter supports **one lane**, baseline Gaussian/exp address bits
-10 and Q3.12 Gaussian output. GAUSS_LATENCY and MUL_STAGES support 1 or 2. The
-1/2/4-lane control mock remains a separate test target and is excluded from
-production synthesis. No multi-lane reduction tree or independent seed policy is
-claimed by this checkpoint.
+The top uses mc_pkg status bits and cfg addresses and PR #5's two-stage rst_sync.
+LOAD loads the RNG seed, clears the accumulator, and flushes downstream valid bits.
+The RNG is not held in reset on its seed-load edge. Completion depends on actual
+completed trials. The top ignores old accumulator flags during LOAD; a saturated
+run followed by a normal run checks that flags do not leak across runs.
 
-LOAD loads the RNG seed and clears the accumulator. The same clear flushes only
-the downstream pipeline valid bits; resetting the RNG on that edge would suppress
-seed loading. Completion uses the actual completed trial count. Measured run cycles
-are `N + mc_pkg::lat_total(GAUSS_LATENCY,MUL_STAGES,1) + 2`, including start and done.
-For the default latency configuration, this is N+11 cycles.
+Measured busy-run cycles are N + lat_total(GAUSS_LATENCY,MUL_STAGES,1) + 2; default
+N+11. Configuration and reset-release time are outside this cycle counter.
+The output stream sustains II=1 after fill in RTL simulation. This does not alone
+establish routed frequency or host-to-host throughput.
 
-The accumulator reports sticky saturation flags. The top must ignore the previous
-run's flags during LOAD before clear takes effect. That integration correction is
-covered by a saturated run followed immediately by a normal run.
+Accepted start latches A/B/K/seeds and clears new-run status. Busy starts are ignored.
+Busy writes, unknown addresses, reserved high bits, zero trials/seeds, and concurrent
+write/start are flagged according to the implemented candidate contract. The latter
+rejects start while allowing the valid idle write. Results hold while idle; cycle
+count wraps modulo 2^32 on extremely long runs. These cfg concurrency details remain
+subject to team agreement. Numeric functions were not rewritten; Eric's inline
+rounding remains numerically equivalent pending his shared-module drop-in.
 
-## Candidate configuration contract
+## Verification
 
-The top uses the draft write-only cfg bus, software-provided 128-bit seeds, and
-a two-edge reset release synchronizer. Accepted start latches A/B/K/seeds and clears
-sticky status for the new run. Busy start pulses are ignored. Busy writes are
-ignored and set bad_cfg. Zero trials or a zero seed rejects start and preserves
-results. Unknown addresses and nonzero reserved high bits are ignored and flagged.
-A configuration-write/start collision rejects start but permits the idle write.
-These concurrency clarifications still need team agreement. The 32-bit cycle
-counter wraps for runs exceeding its range; it freezes while idle.
+- 69 model tests and 12 configuration/parser tests pass.
+- Four full-top latency combinations pass 22 cases each: 105,828 trial comparisons.
+  Every qualified u, z, x, S_T, payoff, flag, final sum/count/status, and cycle count
+  matches the unmodified lane model. Cases cover N=1/100/1000/10000, all five option
+  scenarios, three seeds, saturation, saturated-to-normal restart and reset in flight.
+- The real-adapter 100-trial bubble/pause/resume test passes. The control-only
+  regression passes ten runs each at 1/2/4 lanes with the mock.
+- The corrected rounding runner passes 12,067 signed and 11,552 unsigned vectors;
+  empty, missing, mismatching and malformed inputs each return failure.
+- All seven published Gaussian area/slack/power rows are preserved by the consolidated
+  parser. Source hashes match the tested exported Git tree, including line endings.
 
-## Verified results
+## Shared 5 ns synthesis result
 
-- PR #4's unchanged Python suite: 69 tests passed. Local setup/parser suite: 9 passed.
-- VCS T-2022.06: 22 full-top cases at each of four Gaussian/multiplier latency
-  combinations, 105,828 trial comparisons total. Every u, z, x, S_T, payoff, flag,
-  final sum/count/status, and cycle count matched the PR's unmodified lane model.
-- Cases include N=1/100/1000/10000, all five option scenarios, three deterministic
-  seeds, x/exp saturation, saturated-to-normal restart, and reset during flight.
-- Sustained one-payoff-per-cycle output was checked after pipeline fill. An
-  additional 100-trial real-adapter test verified pause/resume and bubble alignment.
-- Existing controller-only tests: ten runs each at LANES=1/2/4 passed with the mock.
-- Independent review of round_sat's original vectors: 12,067 signed and 11,552
-  unsigned comparisons passed. A separate harness defect is recorded in the shared
-  2026-10-31 handoff document; no arithmetic defect was found in the reviewed scope.
+The full top was mapped by DC T-2022.03-SP2 using gscl45nm typical 1.1 V/27 C and
+PR #5's shared constraints, with recovery/removal arcs enabled. Area is 33,016.193446
+um^2. Setup slack is +0.000509739 ns, roughly 0.51 ps: nominally met with negligible
+margin. There are 135 hold violations (worst -0.04 ns), 4,471 capacitance violations,
+and no transition violations. No unconstrained endpoints are reported. Sampled
+reset recovery/removal paths are reported separately and met in this run.
 
-The full top synthesized using DC T-2022.03-SP2 and the course gscl45nm library,
-typical at 1.1 V/27 C. At the initial 10 ns constraint, setup slack is +4.65 ns,
-critical path 5.06 ns, and cell area 39,412.75236 library units. There are 1,047 hold
-violations (worst -0.20 ns) and 4,702 max-capacitance violations. No unconstrained
-endpoints were reported. Reports use ideal clocks and no wire-load/extracted routing.
-These are synthesis smoke results with violations, not physical timing signoff,
-Fmax, power, or energy evidence. Parsed data is in `results/one_lane_synthesis.csv`.
+These are pre-layout estimates, not physical signoff. Clocks are ideal and wiring
+is not extracted. Reported 4.7455 mW power uses unannotated inputs, and slack-derived
+Fmax is not an achieved-frequency claim. Fix electrical/hold issues and establish
+routed margin before claiming 200 MHz operation or energy per trial. Historical
+10 ns results remain in results/one_lane_synthesis.csv; use the current
+results/one_lane_shared_5ns.csv for the shared-flow baseline.
 
-## Reproducibility and evidence
+## Evidence and reproduction
 
-See `scripts/README.md` for commands. Vector generation uses `model/mc_lane.py`
-without reimplementing its arithmetic. `make sim-top` and `make sim-lane-bubbles`
-use explicit committed/generated vectors and require final nonempty PASS markers;
-they do not silently regenerate the ROMs. Production source lists exclude mocks.
+Commands are in scripts/README.md. Inputs are committed baseline ROMs and vectors;
+regenerate deliberately with model scripts. Production source lists exclude mocks.
+Use unique run tags. The flow validates inputs, refuses overwrite, records source
+and library hashes, and retains timing/electrical violations in the parsed CSV.
 
-Raw local evidence is under `reports/sim/top_integrated_v2/`,
-`reports/sim/lane_bubbles/`, `reports/sim/control_integrated/`,
-`reports/syn/top_integrated/`, and `reports/review/`. Source manifests identify the
-executed uncommitted inputs. All simulation/synthesis hashes match local LF-normalized
-files. Logs are gitignored; retain them or deliberately include/export evidence when
-publishing. Libraries, models, licensed databases, and compiled executables were not
-copied into this repository.
+Current raw reports: reports/syn/mc_top_shared_5ns/. Validation summary:
+reports/integration_validation_2026-11-01.txt. Local VCS logs/manifests:
+reports/sim/top_combined/, bubbles_combined/, control_combined/, rs_combined/.
+No standard-cell library/model file or licensed executable was copied into the repository.
 
-The isolated lab workspace is recorded in `reports/integration_remote_path.txt`.
-Builds use `/home/work/teh969/monte_carlo/` on mario. The account's shared home quota
-is full; an earlier attempt hit a linker failure after three passing configurations.
-No unrelated files were deleted or moved. All final configurations passed on local
-disk. VCS lint still reports benign testbench sizing/label notes and the pre-existing
-exp2_unit signed comparison note; lint-clean status is not claimed.
+Tests used an isolated owned /home/work/teh969/monte_carlo directory on mario.
+The shared home quota is full; no unrelated files were moved or deleted. The
+original October 18 checkout remains intact. Commit/run manifests preserve the
+source snapshot; source-code whitespace checks exclude unchanged raw tool reports.
 
-## Handoff and next action
+## Handoff
 
-Writer released after this checkpoint; next writer acceptance pending. Keep this
-snapshot stable during review. Resolve the PR #4 harness finding and team cfg rules,
-then publish/review this integration when authorized. Improve synthesis constraints
-and investigate hold/capacitance violations before the physical flow. The next
-architecture milestone is an explicit registered reduction tree and jump-separated
-seeds for 2/4 lanes. Accuracy budgets and the interim presentation remain team work.
-
-## Authorized merge work, 2026-11-01
-
-Tyler authorized publication, merging, and approval when ready. Codex has accepted
-writer ownership in this checkout. The October 31 snapshot is being checkpointed
-before PR #4 harness hardening and reconciliation with PR #5. Original Week 1
-checkout remains preserved. Do not start another writer in this checkout.
+Codex owns the final publication step for Tyler. After merge, release this writer
+and recheck main before the next edit. Remaining work: cfg agreement, gate-level
+simulation, independent STA, hold/capacitance cleanup and physical implementation,
+then real 2/4-lane reduction and seed policy. No further RTL feature work belongs in
+this merge checkpoint.

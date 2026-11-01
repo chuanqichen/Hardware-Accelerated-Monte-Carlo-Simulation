@@ -1,0 +1,19 @@
+Combined integration validation, 2026-11-01
+Tested source: 2b0775e; source-equivalent runtime tree after merging main at c7c24c9.
+Local Python: 69 model tests and 12 flow/parser tests passed.
+RTL VCS:
+PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_top G=1 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_top G=2 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_top G=2 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+PASS: tb_mc_lane_bubbles 100 exact trials, pause/resume, valid latency=10
+PASS: mc_top control shell LANES=1, 10 runs (TEST BACKEND ONLY)
+PASS: mc_top control shell LANES=2, 10 runs (TEST BACKEND ONLY)
+PASS: mc_top control shell LANES=4, 10 runs (TEST BACKEND ONLY)
+PASS: tb_round_sat IN=26 OUT=16 SHIFT=8 SIGNED=0, 11552 checked, 0 errors (sat on 7933)
+PASS: tb_round_sat IN=34 OUT=18 SHIFT=14 SIGNED=1, 12067 checked, 0 errors (sat on 8381)
+DC: shared 5 ns constraint, typical 1.1 V / 27 C. Setup slack +0.000509739 ns.
+135 hold violations, worst -0.04 ns; 4471 max-capacitance violations.
+Power is an unannotated-input estimate. Fmax is a slack-derived estimate, not signoff.
+Full reports: reports/syn/mc_top_shared_5ns; parsed: results/one_lane_shared_5ns.csv.
+All simulation and synthesis runtime input hashes match the exported Git source tree.
