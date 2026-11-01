@@ -12,7 +12,7 @@ for lanes in 1 2 4; do
   lane_dir="$run_dir/lanes_$lanes"
   mkdir -p "$lane_dir"
   "$vcs_command" -full64 -sverilog -timescale=1ns/1ps \
-    rtl/mc_pkg.sv rtl/mc_controller.sv rtl/mc_top.sv tb/mocks/mc_lane_array.sv tb/tb_mc_control.sv \
+    rtl/mc_pkg.sv rtl/rst_sync.sv rtl/mc_controller.sv rtl/mc_top.sv tb/mocks/mc_lane_array.sv tb/tb_mc_control.sv \
     -pvalue+tb_mc_control.LANES="$lanes" \
     -Mdir="$lane_dir/csrc" -o "$lane_dir/simv" -l "$lane_dir/compile.log"
   "$lane_dir/simv" -l "$lane_dir/run.log"

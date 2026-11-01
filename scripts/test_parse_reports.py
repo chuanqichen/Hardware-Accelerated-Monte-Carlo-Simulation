@@ -2,7 +2,8 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from parse_reports import read_smoke
+from parse_smoke_reports import read_smoke
+from parse_reports import parse_qor
 
 
 class TestSmokeReportParsing(unittest.TestCase):
@@ -14,6 +15,7 @@ class TestSmokeReportParsing(unittest.TestCase):
                 "Cell Area: 3405.240777\nCritical Path Length: 5.16\nCritical Path Slack: 4.52\n"
                 "Worst Hold Violation: -0.20\nNo. of Hold Violations: 102.00\n"
                 "Max Cap Violations: 183\nMax Trans Violations: 0\n")
+            self.assertEqual(parse_qor(run / "qor.rpt")["result"], "mapped_with_violations")
             row = read_smoke(run)
             self.assertEqual(row["result"], "mapped_with_violations")
             self.assertEqual(row["worst_hold_slack_ns"], -0.20)

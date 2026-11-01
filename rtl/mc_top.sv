@@ -21,7 +21,6 @@ module mc_top #(
 );
   import mc_pkg::*;
 
-  (* async_reg = "true" *) logic [1:0] reset_sync;
   logic core_rst_n;
   logic signed [17:0] cfg_a, active_a;
   logic [15:0] cfg_b, active_b;
@@ -34,11 +33,7 @@ module mc_top #(
   logic [LANES-1:0] run_mask;
   logic sat_x, sat_s, acc_overflow;
 
-  always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n) reset_sync <= '0;
-    else reset_sync <= {reset_sync[0], 1'b1};
-  end
-  assign core_rst_n = reset_sync[1];
+  rst_sync #(.STAGES(2)) u_reset (.clk, .rst_in_n(rst_n), .rst_sync_n(core_rst_n));
 
   always_comb begin
     cfg_ok = cfg_trials != 0;

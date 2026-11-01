@@ -1,0 +1,45 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sun Nov  1 06:38:58 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                     25
+    Unconnected ports (LINT-28)                                    22
+    Shorted outputs (LINT-31)                                       1
+    Constant outputs (LINT-52)                                      2
+
+Cells                                                               1
+    Cells do not drive (LINT-1)                                     1
+--------------------------------------------------------------------------------
+
+Warning: In design 'gauss_lut', cell 'C157' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut', port 'u[21]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[20]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[8]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut', port 'u[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[15]' is connected directly to output port 'mag[14]'. (LINT-31)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[15]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16', output port 'mag[14]' is connected directly to 'logic 0'. (LINT-52)
+1

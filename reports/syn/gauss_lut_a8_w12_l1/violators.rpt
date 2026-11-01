@@ -1,0 +1,111 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : gauss_lut
+Version: T-2022.03-SP2
+Date   : Sun Nov  1 06:37:01 2026
+****************************************
+
+
+   min_delay/hold ('clk' group)
+
+                             Required        Actual
+   Endpoint                 Path Delay     Path Delay        Slack
+   -----------------------------------------------------------------
+   z_reg[10]/D                  0.16           0.13 f        -0.03  (VIOLATED)
+   z_reg[11]/D                  0.16           0.13 f        -0.03  (VIOLATED)
+
+
+   max_capacitance
+
+                             Required        Actual
+   Net                      Capacitance    Capacitance       Slack
+   -----------------------------------------------------------------
+   n51                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n52                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n53                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n54                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n55                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n56                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n57                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n58                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n59                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n60                          0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n109                         0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   n158                         0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n192                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n195                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n196                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n198                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n204                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n207                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n210                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n215                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n218                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n219                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n222                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n224                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n227                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n231                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n232                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n233                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n235                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n236                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n241                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n243                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n246                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n249                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n250                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n251                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n254                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n257                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n259                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n261                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n263                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n270                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n272                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n273                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n276                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n279                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n281                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n282                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n284                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n286                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n290                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n291                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n292                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n295                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n298                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n299                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n300                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n301                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n303                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n304                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n307                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n312                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n313                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n316                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n319                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n321                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n322                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n323                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n325                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n331                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n332                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n336                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n341                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n349                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n350                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n362                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n363                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n365                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n366                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n368                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n369                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+   u_rom/n370                   0.00           0.00           0.00  (VIOLATED: increase significant digits)
+
+   -----------------------------------------------------------------
+   Total                      82                 -0.13  
+
+1
