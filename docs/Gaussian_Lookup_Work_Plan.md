@@ -316,6 +316,35 @@ What the silicon numbers add to the model's conclusions:
    (7.98). With `enable_recovery_removal_arcs` set, DC checks the reset de-assertion
    path: recovery slack $+2.51$ ns, removal $+1.22$ ns.
 
+### 6.2 Width of $A$ and $x$ (decision D-5; `model/d5_x_width_study.py`, 2026-11-01)
+
+Exact price bias of the whole fixed-point chain against the same Gaussian table with
+float $\exp$ (so the number is what $A$/$x$ quantisation plus the $\exp$ table cost, not
+the table's tail bias). `results/d5_x_width.csv`; `ADDR_BITS = 10` shown, 8 and 12 agree.
+
+| $A$, $x$ format | bits | ITM 80 | ATM 100 | OTM 120 | ATM 100 $\sigma$.6 | OTM 150 $\sigma$.6 |
+|---|---:|---:|---:|---:|---:|---:|
+| **`Q5.12`** (baseline) | 18 | $+0.016\,\%$ | $+0.024\,\%$ | $+0.014\,\%$ | $-0.036\,\%$ | $-0.050\,\%$ |
+| `Q5.11` | 17 | $+0.025\,\%$ | $+0.045\,\%$ | $+0.066\,\%$ | $-0.030\,\%$ | $-0.041\,\%$ |
+| `Q5.10` | 16 | $-0.160\,\%$ | $-0.251\,\%$ | $-0.369\,\%$ | $+0.090\,\%$ | $+0.113\,\%$ |
+| `Q4.11` | 16 | $+0.025\,\%$ | $+0.045\,\%$ | $+0.066\,\%$ | $-0.030\,\%$ | $-0.041\,\%$ |
+
+1. **Dropping two fraction bits (`Q5.10`) costs $5$-$10\times$ in bias**, up to $0.37\,\%$ - as
+   large as the whole Gaussian table's tail bias at $a = 10$. The mechanism is not the
+   $x$ rounding (unbiased) but the **one-time rounding of $A$**: the price is very
+   sensitive to $A$, $\partial P/\partial A \approx S_0\,N(d_1) \approx 64$ for the ATM case,
+   so an $A$ error of half an LSB ($2^{-11} \approx 4.9\times10^{-4}$) moves the price by
+   $\approx 0.03$, i.e. $0.3\,\%$ of $10.45$. One extra fraction bit halves it.
+2. **A 16-bit $x$ is still possible as `Q4.11`**, with the same bias as `Q5.11`. The exp
+   unit clamps $S_T$ for $x \ge 9.7$ and underflows to 0 for $x \le -6.2$, so $x$ never
+   needs the $\pm 32$ range of `Q5`; $\pm 16$ is enough and saturating there is harmless
+   (`sat_x` would then fire at $|x| \ge 16$ instead of $32$ - still unreachable on the
+   grid). The spec's range column for `x` ("$\pm 32$, $\ln 10\,000 = 9.2$") was sized for
+   $A$, not for what $\exp$ can use.
+3. **Recommendation:** keep **`Q5.12` (18 b)** as the baseline - the bias is already a
+   factor $5$-$10$ below the table's. If the lane study shows the multiplier/exp width
+   matters (D-4/D-5 together), the 16-bit option is **`Q4.11`, never `Q5.10`**.
+
 ## 7. Interface and fixed-point contracts
 
 The authoritative definitions now live in `Lane_Interface_Spec.md`: Section 3 (every
@@ -347,7 +376,7 @@ Decisions in the spec that need numbers from this block before the team can clos
 - [x] Bit-accurate ROM model, exact stats, exact price-bias metric, sweep
 - [x] RTL skeleton + generated ROM + vectors + testbench
 - [x] Draft `Lane_Interface_Spec.md` Section 3 (formats) and `u`/`z` interfaces
-- [ ] Walk the team through spec Section 9 (Mon 2026-11-02); D-2/D-3/D-6 recorded, D-4/D-5 pending
+- [ ] Walk the team through spec Section 9 (Mon 2026-11-02); D-2/D-3/D-5/D-6 recorded, D-4 pending Eric's multiplier area
 - [x] `rtl/mc_pkg.sv`: format widths, `LAT_*` localparams, status-flag bit positions (PR #4)
 - [x] `rtl/round_sat.sv` + `fxp.round_sat()` twin + unit test (ties, signs, saturation
       both directions); drop-in for Eric's S2 verified bit-exact (PR #4)
@@ -357,8 +386,8 @@ Decisions in the spec that need numbers from this block before the team can clos
 ### Phase B - standalone synthesis and first numbers (Oct 10 -> Oct 24)
 - [x] Synthesize `gauss_lut` alone for `ADDR_BITS = {8, 10, 12}` x `OUT_WIDTH = {12, 16}`
       (`scripts/syn/run_sweep.sh`, gscl45nm) -> `results/gauss_lut_ppa.csv`, Section 6.1
-- [ ] Extend the sweep so `x`, `S_T`, `p` are quantized too (exact bias of the whole
-      fixed-point chain with float `exp`) -> closes D-5, feeds the exp-table study
+- [x] Extend the sweep so `x`, `S_T`, `p` are quantized too (exact bias of the whole
+      fixed-point chain) -> D-5 closed, Section 6.2 (`model/d5_x_width_study.py`)
 - [ ] With Eric: exp-table range/precision study using the same exact-bias method;
       decide D-3 and D-6
 - [ ] Help finish `model/mc_lane.py` so the integrated testbench has its golden model

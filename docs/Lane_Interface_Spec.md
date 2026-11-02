@@ -2,8 +2,8 @@
 
 _Status: proposal 2026-10-03; revised 2026-10-31 to match the merged RTL (`rng_lane`,
 `gauss_lut`, `price_dp`, `accumulator`, `round_sat`, `mc_pkg`), all of which pass their
-testbenches under VCS. Latencies in Section 6 are now measured. Decisions D-3 and D-6
-are closed in Section 9; D-4/D-5 wait on synthesis numbers. Once the remaining points
+testbenches under VCS. Latencies in Section 6 are now measured. Decisions D-2, D-3,
+D-5 and D-6 are closed in Section 9; D-4 waits on the multiplier area. Once the remaining points
 are agreed, this file is the contract that `model/`, `rtl/`, and `tb/` are written
 against. Shared constants live in `rtl/mc_pkg.sv`._
 
@@ -231,7 +231,7 @@ model, the trace against Eric's stage functions, `lat_total` against `mc_pkg`, a
 | D-2 | Reset style | async-assert/sync-deassert vs fully synchronous | **Closed 2026-10-31: async-assert / sync-de-assert**, as implemented in all blocks. Lab 3 guidance says "synchronous only; no async flop in the library", but gscl45nm's `DFFSR` is fully characterised (clear/preset arcs, recovery and removal constraints, LEF and sim model present). Measured cost is nil: a reset flop is `DFFSR` 10.32 um^2 either way vs `DFFPOSX1` 7.98 + `AND2X1` 2.35 = 10.33 for a synchronous reset. Benefits kept: reset without a running clock, no gate in the D path, standard ASIC practice. Obligations we take on: (1) only `valid`/control flops are reset, data flops are not (area); (2) `rtl/rst_sync.sv` in `mc_top` aligns de-assertion; blocks never see the raw pin; (3) `rst_n` is timed as a normal input in `constraints/lane_5ns.sdc` so DC/PT check recovery/removal - never false-path it; (4) P&R must buffer the reset tree (Week 7 risk item) | Chuanqi (decision), Tyler (`mc_top`/P&R) |
 | D-3 | $S_T = e^{A+Bz}$ vs $C\,e^{Bz}$ | see Section 3 | **Closed 2026-10-22: $e^{A+Bz}$.** Range reduction (D-6) makes the table size independent of the input range, so $C e^{Bz}$ would add a multiplier and lose the fused $A$ | Eric, Chuanqi |
 | D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | Open. 16 b implemented. Model says fraction bits do not change price bias (Gaussian plan Sec. 6); decide on `gauss_lut` + `B*z` multiplier area from the Week-3 synthesis sweep (`results/gauss_lut_ppa.csv`) | Chuanqi, Eric |
-| D-5 | `A`/`x` width | 18 b `Q5.12` vs 16 b `Q5.10` | Open, leaning 18 b. Eric's exact sweep: price bias plateaus at $\approx 0.03\,\%$ from `A`/`B`/`K` register quantisation at 18 b, independent of `EXP_ADDR_BITS` $\ge 8$; a 16 b `x` has not been measured yet | Eric, Chuanqi |
+| D-5 | `A`/`x` width | 18 b `Q5.12` vs 16 b `Q5.10` | **Closed 2026-11-01: keep 18 b `Q5.12`.** Exact-bias study (`model/d5_x_width_study.py`, Gaussian plan Sec. 6.2): `Q5.12` costs 0.01-0.05 % on the grid; `Q5.10` costs up to 0.37 % because the one-time rounding of `A` is amplified by $\partial P/\partial A \approx S_0 N(d_1)$. If a 16-bit `x` is ever needed for area it must be `Q4.11` (same bias as `Q5.11`; $x$ outside $\pm 16$ is already clamped/underflowed by `exp2_unit`), never `Q5.10` | Chuanqi, Eric |
 | D-6 | `exp` implementation | direct table on `x` vs range reduction + fractional table | **Closed 2026-10-22: range reduction** ($2^{y}$, $y = x\log_2 e$; `EXP_ADDR_BITS` entries of `UQ1.16`, default 10, 8 under consideration). Direct table would need $\approx 65$k entries | Eric |
 | D-7 | Top-level bus | cfg write bus (Section 4) vs all-parallel ports | cfg bus; register map constants in `mc_pkg` | Tyler |
 | D-8 | `N_TRIALS` not a multiple of `LANES` | lane mask on last beat vs require multiple | lane mask; `accumulator` already counts `popcount(p_valid)` | Tyler |
