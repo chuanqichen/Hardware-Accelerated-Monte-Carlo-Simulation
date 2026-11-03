@@ -13,13 +13,17 @@ canonical jump(), so they never overlap - spec D-1). Reported per option:
   bias_pct    (exact_hw - bs) / bs                    deterministic approximation bias
   noise_pct   mc_se / bs                              sampling error of one run of N_TRIALS
   coverage    fraction of the SEEDS runs whose own 95% CI (from the per-trial
-              sample variance, what the host computes from payoff_sum / sq_sum)
-              contains exact_hw
+              sample variance in this software study) contains exact_hw, not BS
+
+The current RTL exports payoff_sum/count, not a squared-payoff sum. These
+per-trial variance estimates are software verification evidence. The 1% target
+below applies to deterministic bias, not a bound on each run's total error.
 
 Pass criteria (weekly plan): |bias| <= 1% on the grid; coverage close to 0.95.
 
     python3 model/price_study.py                     # 100 seeds x 2^20 trials (~50 s)
     python3 model/price_study.py --seeds 8 --trials 65536
+    python3 model/price_study.py --plot-only          # reuse the committed CSV
 Writes results/price_vs_bs.csv and docs/figures/price_vs_bs.png.
 """
 from __future__ import annotations
@@ -104,7 +108,7 @@ def study(seeds: int, trials: int, root, cfg: LaneConfig):
         p = pd.price_dp(a, b, kk, z.ravel(), cfg.dp)["p"].reshape(seeds, trials)
         disc = math.exp(-r * T) / pd.ST_FMT.scale
         est = disc * p.sum(axis=1) / trials                      # one MC price per seed
-        se_each = disc * p.std(axis=1, ddof=1) / math.sqrt(trials)  # host's own SE per run
+        se_each = disc * p.std(axis=1, ddof=1) / math.sqrt(trials)  # software per-run SE
         bs = bs_call(s0, k, r, sigma, T)
         exact = pd.exact_price(s0, k, r, sigma, T, cfg.dp, lut)
         mean, se = est.mean(), est.std(ddof=1)
@@ -123,30 +127,40 @@ def plot(rows, path: Path):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(10.5, 3.8), gridspec_kw=dict(width_ratios=[3, 2]))
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(11.5, 4.8), gridspec_kw=dict(width_ratios=[3, 2]))
     x = np.arange(len(rows))
-    labels = [r["option"] for r in rows]
+    labels = [f"{r['option'].split()[0]}\nK={r['k']:g}\nsigma={r['sigma']:g}" for r in rows]
     bias = [r["bias_pct"] for r in rows]
     mc = [r["mc_vs_bs_pct"] for r in rows]
-    err = [1.96 * r["noise_pct"] for r in rows]
+    # CSV intervals describe the mean over seeds, not a single run's spread.
+    err = [[100 * (r["mc_mean"] - r["ci95_lo"]) / r["bs"] for r in rows],
+           [100 * (r["ci95_hi"] - r["mc_mean"]) / r["bs"] for r in rows]]
     a1.axhline(0, color="#999", lw=0.8)
-    a1.axhspan(-1, 1, color="#e8f4e8", zorder=0, label="target: |bias| <= 1 %")
+    a1.axhspan(-1, 1, color="#e8f4e8", zorder=0, label="deterministic bias target: +/-1%")
     a1.bar(x - 0.18, bias, 0.36, color="#4c72b0", label="deterministic bias (exact HW vs BS)")
     a1.errorbar(x + 0.18, mc, yerr=err, fmt="o", color="#c44e52", capsize=4,
-                label=f"one MC run of 2^{int(math.log2(rows[0]['trials']))} trials, 95 % interval")
-    a1.set_xticks(x); a1.set_xticklabels(labels, rotation=20, ha="right", fontsize=8)
+                label="mean Monte Carlo error, 95% CI of the mean")
+    a1.set_xticks(x); a1.set_xticklabels(labels, fontsize=8)
+    a1.set_ylim(-1.05, 1.05)
     a1.set_ylabel("relative error vs Black-Scholes [%]")
-    a1.set_title("Hardware price error: bias vs sampling noise", fontsize=10)
+    a1.set_title("Bias and mean Monte Carlo error", fontsize=10)
     a1.legend(fontsize=7.5, loc="lower left")
 
     cov = [r["coverage"] for r in rows]
-    a2.axhline(0.95, color="#999", lw=0.8, ls="--")
+    a2.axhline(0.95, color="#666", lw=0.8, ls="--", label="nominal 95% coverage")
     a2.bar(x, cov, 0.6, color="#55a868")
-    a2.set_ylim(0.6, 1.02)
-    a2.set_xticks(x); a2.set_xticklabels(labels, rotation=20, ha="right", fontsize=8)
-    a2.set_ylabel("fraction of runs whose 95 % CI covers exact HW")
-    a2.set_title(f"CI coverage over {rows[0]['seeds']} independent seeds", fontsize=10)
-    fig.tight_layout(); fig.savefig(path, dpi=200, bbox_inches="tight"); plt.close(fig)
+    for i, coverage in enumerate(cov):
+        a2.text(i, coverage + 0.015, f"{coverage:.0%}", ha="center", fontsize=8)
+    a2.set_ylim(0, 1.08)
+    a2.set_xticks(x); a2.set_xticklabels(labels, fontsize=8)
+    a2.set_ylabel("fraction of runs covering exact HW")
+    a2.set_title("Coverage of each run's 95% CI", fontsize=10)
+    a2.legend(fontsize=7.5, loc="lower left")
+    fig.suptitle(f"{rows[0]['seeds']:,} runs x {rows[0]['trials']:,} trials per run", fontsize=12)
+    fig.text(0.5, 0.025, "Coverage targets the hardware expectation, not Black-Scholes. "
+             "Per-run variance is measured in software.", ha="center", fontsize=8, color="#444")
+    fig.tight_layout(rect=(0, 0.065, 1, 0.94))
+    fig.savefig(path, dpi=200, bbox_inches="tight"); plt.close(fig)
 
 
 def main():
@@ -156,7 +170,17 @@ def main():
     ap.add_argument("--root", type=lambda s: int(s, 0), default=0x0123456789abcdef0fedcba987654321)
     ap.add_argument("--csv", type=Path, default=ROOT / "results" / "price_vs_bs.csv")
     ap.add_argument("--fig", type=Path, default=ROOT / "docs" / "figures" / "price_vs_bs.png")
+    ap.add_argument("--plot-only", action="store_true", help="redraw --fig from --csv without rerunning the study")
     a = ap.parse_args()
+    if a.plot_only:
+        with a.csv.open(newline="") as f:
+            rows = [{key: value if key == "option" else
+                     int(value) if key in ("seeds", "trials") else float(value)
+                     for key, value in row.items()} for row in csv.DictReader(f)]
+        a.fig.parent.mkdir(parents=True, exist_ok=True)
+        plot(rows, a.fig)
+        print(f"wrote {a.fig} from {a.csv}")
+        return
     cfg = LaneConfig()
     root = tuple((a.root >> (32 * i)) & MASK32 for i in range(4))
     rows = study(a.seeds, a.trials, root, cfg)

@@ -79,3 +79,26 @@ retained only for the older report format. Current comparisons use the shared fl
 
 Details and current limits: docs/Integration_Work_Plan.md. Raw simulator logs are
 local/gitignored; committed validation summaries and manifests preserve the evidence.
+
+## Accuracy plot and waveform evidence
+
+```bash
+python model/price_study.py --plot-only  # redraw from results/price_vs_bs.csv
+python -m unittest discover -s scripts -p 'test_dump_waves.py'
+MC_SIM_RUN_ID=waves_001 bash scripts/sim/dump_waves.sh  # lab login shell + VCS
+python scripts/plot_waves.py
+```
+
+The accuracy plot shows deterministic bias and the 95% confidence interval of the
+mean over all seed runs. Its coverage panel checks each run's interval against
+the exact hardware expectation, not Black-Scholes. Per-trial variance is measured
+in software; the current RTL exports sum/count and flags, not a squared-payoff
+sum. The 1% criterion bounds deterministic bias on the option grid, not each
+run's total error. Plot-only mode leaves the CSV unchanged.
+
+The waveform runner requires each block's nonempty PASS marker, no reported
+FAIL/ERROR/Fatal, successful execution, and a nonempty VCD. It retains build and
+simulation logs under reports/waves/<run_id>/ and refuses an existing run ID.
+Only after all three blocks pass does it replace reports/waves/{gauss_lut,
+rng_lane,price_dp}.vcd for plotting. It preserves other builds and older waveforms
+on failure. OUT and VCS can override the output directory and compiler executable.
