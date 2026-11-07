@@ -130,10 +130,20 @@ synth-smoke:
 flow-test:
 	$(PYTHON) -m unittest discover -s scripts -p 'test_*.py' -v
 
-figures: docs/figures/lane_block_diagram.png
+figures: docs/figures/lane_block_diagram.png docs/figures/wave_gauss_lut.png docs/figures/price_vs_bs.png
 
 docs/figures/lane_block_diagram.png: scripts/make_figures.py
 	$(PYTHON) scripts/make_figures.py
+
+# Waveform figures are rendered from VCDs produced on the lab machines by
+# scripts/sim/dump_waves.sh (reports/waves/*.vcd, not committed).
+docs/figures/wave_gauss_lut.png: scripts/plot_waves.py $(wildcard reports/waves/*.vcd)
+	@if ls reports/waves/*.vcd >/dev/null 2>&1; then $(PYTHON) scripts/plot_waves.py; \
+	else echo "no reports/waves/*.vcd - run scripts/sim/dump_waves.sh on peach first"; fi
+
+# Accuracy study: 100 seeds x 2^20 trials, ~1 minute.
+docs/figures/price_vs_bs.png results/price_vs_bs.csv: model/price_study.py model/mc_lane.py model/price_dp.py model/gauss_lut.py
+	$(PYTHON) model/price_study.py
 
 docs: figures $(DOC_PDF)
 

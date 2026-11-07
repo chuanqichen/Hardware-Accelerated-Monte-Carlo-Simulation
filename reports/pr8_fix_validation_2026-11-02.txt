@@ -1,0 +1,39 @@
+PR #8 waveform-gate and accuracy-plot fixes, 2026-11-02
+Starting PR head: 5349d0787645b3c7a0275589d305d1d08b332227
+Local branch: tyler/accuracy-wave-fixes
+
+Local verification
+  python -m unittest discover -s model -q: 79 tests PASS
+  python -m unittest discover -s scripts -p 'test_*.py' -q: 14 tests PASS
+  Waveform regression: one successful fixture and 24 failure subcases.
+  Each of three blocks rejects FAIL/exit-zero, Fatal/exit-zero, no marker,
+  zero checked samples, nonzero errors, nonzero exit, missing VCD and late Fatal.
+  Failure preserves previous plotting inputs and unrelated csrc files.
+  bash -n scripts/sim/dump_waves.sh: PASS
+  git diff --check: PASS
+
+Real VCS run on mario, T-2022.06, module synopsys/2022
+  Remote export: /home/work/teh969/monte_carlo/pr8_fixes_20261102_enoOZp
+  MC_SIM_RUN_ID=validation bash scripts/sim/dump_waves.sh: exit 0
+  PASS: 11029 checked, 0 errors
+  PASS rng_lane: 4440 cycles, 1763 valid words
+  PASS: tb_price_dp k=10 MUL_STAGES=1 LAT_DP=6, 11449 trials checked, 0 errors
+  sat_x 547 / expected 547; sat_s 2683 / expected 2683.
+  All three published VCDs are nonempty: 3102939, 3228117, 8571624 bytes.
+  Local/lab dump_waves.sh SHA256:
+    36017c6355b5cf0a2f9106da2c9e60c98e8f67d7a577d6d1f64587bf90e9b6e0
+  The optional VCS cfs_ident_exec source-identification helper reported a
+  segmentation fault during compilation. Main compiler commands returned zero,
+  produced fresh executables, and all simulations and VCD checks passed.
+  Complete local log: reports/review/pr8_fixed_waveform_vcs.log (gitignored).
+
+Accuracy figure
+  python model/price_study.py --plot-only: PASS, image visually inspected.
+  Mean error bars now use the stored ci95_lo/ci95_hi intervals of the mean.
+  Labels state run/trial counts, exact-hardware coverage, software variance and
+  deterministic-bias target. Tick labels do not overlap; coverage axis starts at 0.
+  Existing results/price_vs_bs.csv and numerical study logic are unchanged.
+  The full 100-stream Monte Carlo study was not rerun for this presentation fix.
+
+No production RTL or teammate arithmetic changed. Original dirty Week 1 checkout
+is preserved. Changes are local; nothing has been pushed or approved for PR #8.
