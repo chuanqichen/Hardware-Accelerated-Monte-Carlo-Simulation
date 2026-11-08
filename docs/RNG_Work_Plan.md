@@ -105,8 +105,9 @@ The baseline RTL and one-lane integration already have historical VCS logs:
 `reports/vcs_regression_2026-10-31.txt`,
 `reports/integration_validation_2026-11-01.txt`, and
 `reports/pr8_fix_validation_2026-11-02.txt`.
-Those runs predate the local shared-latency alias change; current-source VCS
-validation is still required.
+Those runs predate the shared-latency alias change. Shentong subsequently
+reported a completed current-source validation run on Mario; the supplied
+manifest and synthesis measurements are recorded below.
 
 ### Current checklist
 
@@ -117,13 +118,15 @@ validation is still required.
 - [x] Run three jump-separated model streams of 1,048,576 words each.
 - [x] Local regression: 85 model tests passed; 13 flow tests passed and two
   existing Bash-dependent waveform tests skipped on Windows.
-- [ ] Re-run standalone RNG and integrated one-lane VCS on the current sources.
-- [ ] Check long, uninterrupted RTL streams against the independent oracle;
+- [x] Re-run standalone RNG and integrated one-lane VCS (reported runner PASS).
+- [x] Check long, uninterrupted RTL streams against the independent oracle;
   confirm II=1, retain a short waveform and analyze the exported RTL words.
-- [ ] Run standalone RNG DC synthesis and report area, setup slack, critical-path
+- [x] Run standalone RNG DC synthesis and report area, setup slack, critical-path
   endpoints and remaining hold/electrical violations.
-- [ ] Add the resulting lab artifact paths and measurements here for the
-  November 10 checkpoint.
+- [x] Record supplied PPA measurements and run/source manifest for the checkpoint.
+- [ ] Transfer raw VCS/DC logs, RTL stream statistics, VCDs and synthesis reports.
+- [ ] Review 516 max-capacitance violations with Tyler using the raw reports;
+  document the resolution or the limitation.
 
 ### Local model evidence
 
@@ -164,7 +167,74 @@ Artifacts:
 `results/rng_model_manifest.json`, and
 `results/rng_model_quality.png`.
 
-### Run the pending lab work
+### Supplied RTL and synthesis evidence
+
+Run: `rng_20261108_231630` on Mario. The supplied terminal output reports
+`PASS RNG lab validation`, and the supplied manifest records
+`status=validation_completed` with three streams of 1,048,576 words each.
+The runner requires explicit PASS markers and canonical stream comparison
+before accepting these stages.
+
+| Metric | Reported result |
+|---|---|
+| Design / library | `rng_lane` / `gscl45nm.db` |
+| Clock constraint | 5 ns (200 MHz) |
+| Setup slack | +0.00604582 ns (+6.04582 ps) |
+| Cell area | 5,274.931992 um^2 |
+| Cells / registers | 1,568 / 161 |
+| Critical path | `s0_reg[0]` -> `u_reg[31]` |
+| Hold / max-transition violations | 0 / 0 reported |
+| Max-capacitance violations | **516** |
+| Synthesis result | **mapped_with_violations** |
+| Slack-derived Fmax estimate | 200.24212557 MHz, pre-layout only |
+| Total power estimate | 1.1657 mW, unannotated activity |
+
+The reported setup result supports the 200 MHz constraint with a small margin.
+At II=1 this corresponds to 200 million RNG words/second at the constrained
+clock; it does not establish whole-design or post-route throughput.
+Electrical violations remain. The unannotated power estimate does not support
+an activity-based energy-per-trial claim.
+
+Recorded evidence:
+- `results/rng_20261108_231630_ppa.csv`
+- `reports/rng_validation/rng_20261108_231630/manifest.json`
+- `reports/rng_validation/rng_20261108_231630/terminal_ppa_manifest.txt`
+- `reports/rng_validation/rng_20261108_231630/evidence_note.md`
+
+All **79 input hashes match the local runtime files of commit 6aa595f**.
+The source-export provenance is therefore traceable even though the run did
+not have a Git checkout. Raw VCS/DC logs, RTL screening tables and waveforms,
+synthesis inputs/library hash and timing/constraint reports still need to be
+transferred. Their contents have not been independently inspected here.
+
+### Transfer the remaining lab evidence
+
+From the extracted project root on Mario, package the reports, logs, short VCDs
+and analyzed RTL tables. Exclude compiled products and the large, reproducible
+raw stream captures:
+
+```bash
+RUN_TAG=rng_20261108_231630
+tar -czf "$HOME/rng_validation_evidence_$RUN_TAG.tar.gz" \
+  --exclude=csrc --exclude=work --exclude='simv*' --exclude='*.daidir' \
+  --exclude='stream_*.hex' \
+  "reports/rng_validation/$RUN_TAG" \
+  "reports/sim/${RUN_TAG}_sim-top" \
+  "reports/sim/${RUN_TAG}_sim-lane-bubbles" \
+  results/${RUN_TAG}_* SOURCE_MANIFEST.json
+```
+
+Then, from Windows PowerShell in the local repository:
+
+```powershell
+scp sz23492@mario.ece.utexas.edu:~/rng_validation_evidence_rng_20261108_231630.tar.gz build/
+```
+
+Keep the archive intact for inspection and selective import. The original
+stream hex files remain on Mario; their SHA-256 hashes are in the quality
+manifest. Review raw violations before changing drive/load constraints or RTL.
+
+### Reproduce the lab validation
 
 The supplied `scripts/run_rng_validation.py` performs all of these steps:
 
@@ -185,10 +255,10 @@ cannot be overwritten. Synthesis completion does not imply timing closure:
 the CSV retains hold/electrical violations and power-activity qualifications.
 
 Lab account confirmed by Shentong: `sz23492@mario.ece.utexas.edu`, using password
-login. This Codex session has no passwordless access, so no current-source
-VCS/DC execution or RNG area/timing numbers are claimed.
+login. Shentong ran the validation interactively. Codex imported the supplied
+terminal evidence and verified source hashes; it did not independently run VCS/DC.
 
-A source snapshot including the current uncommitted edits is packaged as
+The source snapshot used for the recorded validation is available locally as
 `build/rng_validation_sources.zip`. This avoids requiring a commit or modifying an
 existing lab checkout. Its `SOURCE_MANIFEST.json` records all packaged file
 hashes. Transfer it from Windows PowerShell:
@@ -198,23 +268,25 @@ scp build/rng_validation_sources.zip sz23492@mario.ece.utexas.edu:~/
 ssh sz23492@mario.ece.utexas.edu
 ```
 
-After login, extract into a **fresh writable scratch directory**. The example
-assumes your scratch parent `/home/work/sz23492` exists; adjust it to your lab
-storage location if necessary.
+After login, extract into a **fresh writable directory**. The confirmed home
+directory is `/home/ecelrc/students/sz23492`; the previously suggested
+`/home/work/sz23492` does not exist for this account.
 
 ```bash
-RNG_WORK=/home/work/sz23492/rng_validation_sources_20261108
+RNG_WORK="$HOME/rng_validation_sources_$(date -u +%Y%m%d_%H%M%S)"
 mkdir "$RNG_WORK" && unzip ~/rng_validation_sources.zip -d "$RNG_WORK" && cd "$RNG_WORK"
 module load synopsys/2022
-# Activate your Python environment, then verify it is Python 3.9+:
-python3 --version
-python3 -c 'import numpy, matplotlib; print(numpy.__version__, matplotlib.__version__)'
-python3 -B scripts/run_rng_validation.py
+source "$HOME/.venvs/monte_carlo/bin/activate"
+python --version
+python -c 'import numpy, matplotlib; print(numpy.__version__, matplotlib.__version__)'
+python -B scripts/run_rng_validation.py
 ```
 
 The recorded Mario flow used `synopsys/2022`; use `module avail` if the module
-name differs. Use your environment's Python executable instead of `python3`
-if necessary. The runner passes that same interpreter to Make.
+name differs. Mario defaults to Python 3.6.8. The working environment was
+created with `/usr/bin/python3.11 -m venv "$HOME/.venvs/monte_carlo"` and
+`python -m pip install numpy matplotlib` after activation. The runner passes
+that same interpreter to Make.
 
 Raw logs, source hashes, RTL streams, short VCDs and synthesis reports go under
 `reports/rng_validation/<tag>/`; analyzed tables and plot go under
@@ -229,7 +301,8 @@ complete the timing/area task. Use `--help` for sample counts and tags.
 
 ### Checkpoint handoff
 
-Once the lab run finishes, review the actual PPA CSV and raw timing report.
+The supplied PPA CSV has been reviewed. Transfer and inspect the raw timing
+and constraint reports before completing the evidence review.
 Record the measured area, constrained clock, setup slack, critical-path
 endpoints, hold/electrical violations and the RTL screening results.
 Report measured evidence without treating a pre-layout Fmax estimate as

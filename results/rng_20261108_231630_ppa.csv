@@ -1,0 +1,2 @@
+tag,design,params,library,clk_period_ns,wns_ns,fmax_mhz,area_um2,area_comb_um2,area_bufinv_um2,area_seq_um2,cells,registers,worst_hold_slack_ns,hold_violating_paths,max_cap_violations,max_transition_violations,result,power_activity,power_total_mw,power_dyn_mw,power_leak_mw,crit_start,crit_end
+rng_20261108_231630,rng_lane,,gscl45nm.db,5.000000,0.00604582,200.24212557,5274.931992,3612.671357,1114.587470,1662.260635,1568,161,0.0,0,516,0,mapped_with_violations,unannotated_estimate,1.1657,1.1338,0.0319,s0_reg[0],u_reg[31]
