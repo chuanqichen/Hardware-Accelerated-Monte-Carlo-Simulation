@@ -1,0 +1,4 @@
+origin,stream_a,stream_b,words,correlation,screen_limit,screening_pass
+imported_hex_canonical_checked,0,1,1048576,0.0007260561124380383,0.005859375,True
+imported_hex_canonical_checked,0,2,1048576,-0.00047322149346754587,0.005859375,True
+imported_hex_canonical_checked,1,2,1048576,-0.0015552455898225665,0.005859375,True

@@ -1,0 +1,29 @@
+ 
+****************************************
+Report : resources
+Design : rng_lane
+Version: T-2022.03-SP2
+Date   : Sun Nov  8 17:18:04 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/rng_lane.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| add_x_1        | DW01_add       | width=32   | add_23 (rng_lane.sv:23)    |
+| add_x_2        | DW01_add       | width=32   | add_24 (rng_lane.sv:24)    |
+=============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| add_x_1            | DW01_add         | apparch (area)     |                |
+| add_x_2            | DW01_add         | apparch (area)     |                |
+===============================================================================
+
+1

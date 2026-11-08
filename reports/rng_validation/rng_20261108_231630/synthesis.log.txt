@@ -1,0 +1,650 @@
+["dc_shell", "-f", "scripts/syn/dc_synth.tcl"]
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+               Version T-2022.03-SP2 for linux64 - May 25, 2022 
+
+                    Copyright (c) 1988 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+# Design Compiler synthesis of one block / configuration on gscl45nm (FreePDK45).
+#
+# Driven entirely by environment variables so the same script serves every block
+# and every point of the parameter sweep (scripts/syn/run_sweep.sh):
+#
+#   DESIGN      top module name                       e.g. gauss_lut
+#   RTL_FILES   space-separated SystemVerilog files,   e.g. "rtl/mc_pkg.sv rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv"
+#               in compile order (packages first)
+#   PARAMS      comma-separated top-level parameter    e.g. "ADDR_BITS=10,OUT_WIDTH=16,FRAC_BITS=12,LATENCY=1"
+#               overrides (optional)
+#   TAG         run name used for the report folder    e.g. gauss_lut_a10_w16_l1
+#   SDC         constraints file                       default constraints/lane_5ns.sdc
+#   REPORT_DIR  where raw reports go                   default reports/syn/$TAG
+#   LIB_DB      standard-cell .db                      default FreePDK45 gscl45nm.db on peach
+#
+# Usage (peach, login shell with `module load syn/2022`):
+#   DESIGN=gauss_lut RTL_FILES="..." PARAMS="ADDR_BITS=10,..." TAG=gauss_lut_a10_w16_l1 \
+#     dc_shell -f scripts/syn/dc_synth.tcl | tee reports/syn/gauss_lut_a10_w16_l1/dc.log
+#
+# Outputs in $REPORT_DIR: area.rpt timing.rpt power.rpt qor.rpt resources.rpt
+# cells.rpt, the mapped netlist $DESIGN.mapped.v, the post-synthesis SDC, and
+# summary.txt (one line per key metric, parsed by scripts/parse_reports.py).
+set repo_root [file normalize [file join [file dirname [info script]] ../..]]
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108
+source [file join $repo_root scripts syn config.tcl]
+if {[catch {mc_synth_config $repo_root} cfg]} {
+  puts stderr "Synthesis setup error: $cfg"
+  exit 2
+}
+set DESIGN [dict get $cfg design]
+rng_lane
+set RTL_FILES [dict get $cfg sources]
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/mc_pkg.sv /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/rng_lane.sv
+set PARAMS [dict get $cfg params]
+set TAG [dict get $cfg tag]
+rng_20261108_231630
+set SDC [dict get $cfg sdc]
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/constraints/lane_5ns.sdc
+set REPORT_DIR [dict get $cfg report_dir]
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630
+set LIB_DB [dict get $cfg library]
+/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+set CLK_PERIOD [dict get $cfg period]
+5.0
+set OPCOND [dict get $cfg corner]
+typical
+if {[catch {
+file mkdir $REPORT_DIR
+file mkdir $REPORT_DIR/work
+define_design_lib WORK -path $REPORT_DIR/work
+set_svf $REPORT_DIR/design.svf
+set fd [open $REPORT_DIR/source_sha256.txt w]
+puts $fd [exec sha256sum {*}$RTL_FILES $SDC [file join $repo_root scripts syn config.tcl] [file join $repo_root scripts syn dc_synth.tcl]]
+close $fd
+set fd [open $REPORT_DIR/library_sha256.txt w]
+puts $fd [exec sha256sum $LIB_DB]
+close $fd
+set fd [open $REPORT_DIR/inputs.txt w]
+puts $fd "top=$DESIGN"
+puts $fd "corner_label=$OPCOND"
+puts $fd "clock_period_ns=$CLK_PERIOD"
+puts $fd "params=$PARAMS"
+puts $fd "sources=$RTL_FILES"
+puts $fd "library=$LIB_DB"
+puts $fd "tool=[get_app_var sh_product_version]"
+if {![catch {exec git -C $repo_root rev-parse HEAD} revision]} { puts $fd "git_revision=$revision" }
+close $fd
+
+# ---- library ------------------------------------------------------------------
+set_app_var target_library $LIB_DB
+set_app_var link_library   "* $LIB_DB"
+# gscl45nm has no DesignWare-specific library; DC's generic DW components still map.
+set_app_var synthetic_library {dw_foundation.sldb}
+set_app_var link_library "$link_library dw_foundation.sldb"
+
+# ---- read and elaborate -------------------------------------------------------
+# Packages must be analyzed before the modules that import them.
+foreach f $RTL_FILES {
+  if {![analyze -format sverilog $f]} { puts "ERROR: analyze failed on $f"; exit 1 }
+}
+set elab_args [list $DESIGN]
+if {$PARAMS ne ""} {
+  # "A=1,B=2" -> "A=>1,B=>2" (DC's -parameters syntax)
+  set p [string map {"=" "=>"} $PARAMS]
+  lappend elab_args -parameters $p
+}
+if {![eval elaborate $elab_args]} { puts "ERROR: elaborate failed"; exit 1 }
+# Elaborating with -parameters renames the design (e.g. gauss_lut_ADDR_BITS10_...);
+# rename back so reports and the netlist are predictable.
+set elab_name [get_object_name [current_design]]
+if {$elab_name ne $DESIGN} { rename_design $elab_name $DESIGN }
+current_design $DESIGN
+if {![link]} { error "Link failed" }
+if {![check_design]} { error "check_design failed" }
+check_design > $REPORT_DIR/check_design.rpt
+set_operating_conditions $OPCOND
+report_units > $REPORT_DIR/units.rpt
+
+# ---- constraints --------------------------------------------------------------
+source $SDC
+
+# ---- compile ------------------------------------------------------------------
+# No hierarchy to keep for a single block; flatten so the ROM logic can be
+# optimised with its consumer. Retiming is left off for now so the latency
+# measured in simulation is the latency synthesised (LATENCY / MUL_STAGES are
+# the knobs, as documented in the work plans).
+set_app_var compile_ultra_ungroup_dw true
+# Spec D-2: async reset. DC ignores the DFFSR recovery/removal arcs unless this
+# is set, and then reports the reset de-assertion path as "unconstrained".
+set_app_var enable_recovery_removal_arcs true
+# Hold is left to P&R (ideal clock here); the enable-mux feedback on DFFPOSX1
+# shows -0.03 ns and is listed in violators.rpt for the record.
+if {![compile_ultra -no_autoungroup]} { error "compile_ultra failed" }
+# Second pass to recover area once timing is met.
+optimize_netlist -area
+if {![check_design]} { error "post-compile check_design failed" }
+check_timing > $REPORT_DIR/timing_check.rpt
+
+# ---- reports ------------------------------------------------------------------
+report_area      -hierarchy -nosplit        > $REPORT_DIR/area.rpt
+report_timing    -max_paths 5 -nosplit -transition_time -capacitance \
+                                            > $REPORT_DIR/timing.rpt
+report_power     -nosplit -analysis_effort medium \
+                                            > $REPORT_DIR/power.rpt
+report_qor                                  > $REPORT_DIR/qor.rpt
+report_resources -nosplit                   > $REPORT_DIR/resources.rpt
+report_reference -nosplit                   > $REPORT_DIR/cells.rpt
+report_constraint -all_violators -nosplit   > $REPORT_DIR/violators.rpt
+# Full constraint summary (not just violators): includes the recovery/removal
+# rows for the async reset pins (spec D-2) and the hold summary.
+report_constraint -nosplit -significant_digits 4 > $REPORT_DIR/constraints.rpt
+# Reset de-assertion paths explicitly, so the D-2 obligation is auditable.
+set async_pins [get_pins -of_objects [all_registers] -filter "lib_pin_name == R || lib_pin_name == S"]
+redirect $REPORT_DIR/reset_timing.rpt {
+  if {[sizeof_collection $async_pins] > 0} {
+    report_timing -delay_type max -to $async_pins -max_paths 2 -nosplit
+    report_timing -delay_type min -to $async_pins -max_paths 2 -nosplit
+  } else { puts "no asynchronous reset pins in this design" }
+}
+
+# ---- outputs for P&R and for the parser ---------------------------------------
+change_names -rules verilog -hierarchy
+write -format verilog -hierarchy -output $REPORT_DIR/$DESIGN.mapped.v
+write_sdc $REPORT_DIR/$DESIGN.mapped.sdc
+write -format ddc -hierarchy -output $REPORT_DIR/$DESIGN.mapped.ddc
+
+# One-line-per-metric summary. Numbers come from DC collections, not from
+# re-parsing the text reports, so the CSV stays robust to report formatting.
+set clk_period [get_attribute [get_clocks clk] period]
+set wns        [get_attribute [get_timing_paths -max_paths 1] slack]
+# Design-level area is only exposed through report_area in this DC release.
+redirect -variable area_rpt {report_area -nosplit}
+foreach {key pat} {area_comb "Combinational area:" area_bufinv "Buf/Inv area:" \
+                   area_seq "Noncombinational area:" area_total "Total cell area:"} {
+  set $key ""
+  regexp "$pat\\s+(\[\\d.\]+)" $area_rpt -> $key
+}
+set cell_count [sizeof_collection [get_cells -hierarchical -filter "is_hierarchical == false"]]
+set seq_count  [sizeof_collection [all_registers]]
+set f [open $REPORT_DIR/summary.txt w]
+puts $f "design       $DESIGN"
+puts $f "tag          $TAG"
+puts $f "params       $PARAMS"
+puts $f "library      [file tail $LIB_DB]"
+puts $f "clk_period_ns $clk_period"
+puts $f "wns_ns       $wns"
+puts $f "fmax_mhz     [expr {1000.0 / ($clk_period - $wns)}]"
+puts $f "area_um2     $area_total"
+puts $f "area_comb_um2 $area_comb"
+puts $f "area_bufinv_um2 $area_bufinv"
+puts $f "area_seq_um2 $area_seq"
+puts $f "cells        $cell_count"
+puts $f "registers    $seq_count"
+close $f
+
+} reason]} {
+  puts stderr "Synthesis failed: $reason; partial evidence remains in $REPORT_DIR"
+  exit 1
+}
+Running PRESTO HDLC
+Compiling source file /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/mc_pkg.sv
+Warning:  /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/mc_pkg.sv:70: signed to unsigned conversion occurs. (VER-318)
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb'
+Running PRESTO HDLC
+Compiling source file /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/rng_lane.sv
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/gtech.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/standard.sldb'
+  Loading link library 'gscl45nm'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Inferred memory devices in process
+	in routine rng_lane line 29 in file
+		'/home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/rng_lane.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     u_valid_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       s0_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       s1_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       s2_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|       s3_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+|        u_reg        | Flip-flop |  32   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (rng_lane)
+Elaborated 1 design.
+Current design is now 'rng_lane'.
+Current design is 'rng_lane'.
+Current design is 'rng_lane'.
+
+  Linking design 'rng_lane'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  rng_lane                    /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rng_lane.db
+  gscl45nm (library)          /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+  dw_foundation.sldb (library) /usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb
+
+Using operating conditions 'typical' found in library 'gscl45nm'.
+Warning: Design rule attributes from the driving cell will be set on the port 'rst_n'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_load'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[127]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[126]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[125]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[124]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[123]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[122]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[121]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[120]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[119]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[118]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[117]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[116]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[115]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[114]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[113]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[112]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[111]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[110]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[109]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[108]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[107]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[106]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[105]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[104]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[103]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[102]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[101]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[100]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[99]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[98]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[97]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[96]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[95]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[94]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[93]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[92]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[91]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[90]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[89]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[88]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[87]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[86]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[85]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[84]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[83]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[82]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[81]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[80]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[79]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[78]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[77]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[76]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[75]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[74]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[73]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[72]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[71]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[70]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[69]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[68]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[67]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[66]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[65]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[64]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[63]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[62]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[61]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[60]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[59]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[58]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[57]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[56]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[55]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[54]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[53]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[52]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[51]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[50]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[49]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[48]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[47]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[46]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[45]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[44]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[43]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[42]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[41]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[40]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[39]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[38]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[37]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[36]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[35]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[34]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[33]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[32]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[31]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[30]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[29]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[28]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[27]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[26]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[25]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[24]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[23]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[22]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[21]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[20]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[19]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[18]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[17]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[16]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'seed_state[0]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'run'. (UID-401)
+Current design is 'rng_lane'.
+Current design is 'rng_lane'.
+Information: Performing power optimization. (PWR-850)
+Analyzing: "/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db"
+Library analysis succeeded.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | T-2022.03-DWBB_202203.2 |     *     |
+| Licensed DW Building Blocks        | T-2022.03-DWBB_202203.2 |     *     |
+============================================================================
+
+====================================================================================================
+| Flow Information                                                                                 |
+----------------------------------------------------------------------------------------------------
+| Flow         | Design Compiler WLM                                                               |
+| Comand Line  | compile_ultra -no_autoungroup                                                     |
+====================================================================================================
+| Design Information                                      | Value                                  |
+====================================================================================================
+| Number of Scenarios                                     | 0                                      |
+| Leaf Cell Count                                         | 464                                    |
+| Number of User Hierarchies                              | 0                                      |
+| Sequential Cell Count                                   | 161                                    |
+| Macro Count                                             | 0                                      |
+| Number of Power Domains                                 | 0                                      |
+| Number of Path Groups                                   | 2                                      |
+| Number of VT Class                                      | 0                                      |
+| Number of Clocks                                        | 1                                      |
+| Number of Dont Touch Cells                              | 5                                      |
+| Number of Dont Touch Nets                               | 0                                      |
+| Number of Size Only Cells                               | 0                                      |
+| Design with UPF Data                                    | false                                  |
+====================================================================================================
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+  Simplifying Design 'rng_lane'
+
+Loaded alib file './alib-52/gscl45nm.db.alib'
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'rng_lane'
+ Implement Synthetic for 'rng_lane'.
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+Information: Added key list 'DesignWare' to design 'rng_lane'. (DDB-72)
+  Mapping Optimization (Phase 1)
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:02    4436.3      0.00       0.0    2752.7                           26544.7891
+    0:00:02    4436.3      0.00       0.0    2752.7                           26544.7891
+
+  Beginning Constant Register Removal
+  -----------------------------------
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+
+  Beginning Isolate Ports
+  -----------------------
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:02    4269.2      0.00       0.0    2746.3                           24779.6895
+    0:00:02    4269.2      0.00       0.0    2746.3                           24779.6895
+    0:00:02    4269.2      0.00       0.0    2746.3                           24779.6895
+    0:00:02    4269.2      0.00       0.0    2746.3                           24779.6895
+    0:00:02    4269.2      0.00       0.0    2746.3                           24779.6895
+    0:00:02    4269.2      0.00       0.0    2746.3                           24779.6895
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:00:02    4258.9      0.00       0.0    2745.5                           24763.0918
+    0:00:02    4258.9      0.00       0.0    2745.5                           24763.0918
+    0:00:02    4258.9      0.00       0.0    2745.5                           24763.0918
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+
+
+  Beginning Design Rule Fixing  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:02    4276.7      0.00       0.0    2792.1                           24972.8613
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+    0:00:03    5058.6      0.29       0.7    1035.0 u_reg[31]/D               29789.3809
+    0:00:03    5065.2      0.14       0.2    1027.3 u_reg[31]/D               30014.5215
+    0:00:04    5074.1      0.11       0.2    1025.1 u_reg[31]/D               30136.2363
+    0:00:04    5155.3      0.20       0.4     923.7 u_reg[31]/D               30765.2598
+    0:00:04    5165.6      0.16       0.3     921.6                           30845.5391
+    0:00:05    5166.1      0.00       0.0     956.4                           30711.8926
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:05    5166.1      0.00       0.0     956.4                           30711.8926
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+  Global Optimization (Phase 47)
+  Global Optimization (Phase 48)
+    0:00:05    5085.3      0.02       0.0     772.4                           31287.7637
+    0:00:05    5067.0      0.00       0.0     813.6                           31062.5977
+    0:00:05    5067.0      0.00       0.0     813.6                           31062.5977
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:05    5068.4      0.00       0.0     833.3                           31060.8398
+    0:00:06    5036.1      0.00       0.0     821.2                           30629.2227
+    0:00:06    5036.1      0.00       0.0     821.2                           30629.2227
+    0:00:06    5036.1      0.00       0.0     821.2                           30629.2227
+    0:00:06    5053.9      0.00       0.0     832.3                           30926.3145
+    0:00:06    5259.9      0.03       0.1     653.0 u_reg[31]/D               31807.9258
+    0:00:06    5332.2      0.03       0.1     622.9                           32409.9336
+    0:00:06    5395.5      0.00       0.0     738.7                           32693.2871
+    0:00:06    5395.5      0.00       0.0     738.7                           32693.2871
+    0:00:06    5395.5      0.00       0.0     738.7                           32693.2871
+    0:00:06    5395.5      0.00       0.0     738.7                           32693.2871
+    0:00:06    5395.5      0.00       0.0     738.7                           32693.2871
+    0:00:06    5383.3      0.00       0.0     737.1                           32531.0781
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+
+  Updating timing information
+
+
+  Beginning Area Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:00    5383.3      0.00       0.0     737.1                           32531.0781
+    0:00:01    5274.9      0.00       0.0     722.4                           31949.0410
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Writing verilog file '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/rng_lane.mapped.v'.
+Writing ddc file '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/rng_lane.mapped.ddc'.
+puts "SYNTH_DONE $TAG area=$area_total wns=$wns (review hold/electrical checks; pre-layout estimate only)"
+SYNTH_DONE rng_20261108_231630 area=5274.931992 wns=0.00604582 (review hold/electrical checks; pre-layout estimate only)
+exit 0
+
+Memory usage for this session 118 Mbytes.
+Memory usage for this session including child processes 118 Mbytes.
+CPU usage for this session 55 seconds ( 0.02 hours ).
+Elapsed time for this session 59 seconds ( 0.02 hours ).
+
+Thank you...

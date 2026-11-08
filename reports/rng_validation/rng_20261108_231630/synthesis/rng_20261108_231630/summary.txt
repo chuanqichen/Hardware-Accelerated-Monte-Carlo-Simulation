@@ -1,0 +1,13 @@
+design       rng_lane
+tag          rng_20261108_231630
+params       
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.00604582
+fmax_mhz     200.24212557
+area_um2     5274.931992
+area_comb_um2 3612.671357
+area_bufinv_um2 1114.587470
+area_seq_um2 1662.260635
+cells        1568
+registers    161

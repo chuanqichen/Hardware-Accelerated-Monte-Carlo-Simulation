@@ -1,0 +1,94 @@
+["/home/ecelrc/students/sz23492/.venvs/monte_carlo/bin/python", "-B", "-m", "unittest", "-v"]
+test_baseline_format_reproduces_price_dp_exact_price (test_d5_x_width_study.TestD5.test_baseline_format_reproduces_price_dp_exact_price) ... ok
+test_q4_11_equals_q5_11_on_grid (test_d5_x_width_study.TestD5.test_q4_11_equals_q5_11_on_grid) ... ok
+test_xcfg_y_frac_tracks_x_frac (test_d5_x_width_study.TestD5.test_xcfg_y_frac_tracks_x_frac) ... ok
+test_hex (test_gauss_lut.TestFxp.test_hex) ... ok
+test_round_half_even_and_saturate (test_gauss_lut.TestFxp.test_round_half_even_and_saturate) ... ok
+test_bs_price_sanity (test_gauss_lut.TestGaussLut.test_bs_price_sanity) ... ok
+test_only_top_bits_matter_in_rom_mode (test_gauss_lut.TestGaussLut.test_only_top_bits_matter_in_rom_mode) ... ok
+test_pwl_config (test_gauss_lut.TestGaussLut.test_pwl_config) ... ok
+test_rom_configs (test_gauss_lut.TestGaussLut.test_rom_configs) ... ok
+test_rom_matches_exact_quantile_at_midpoints (test_gauss_lut.TestGaussLut.test_rom_matches_exact_quantile_at_midpoints) ... ok
+test_round_shift_even (test_gauss_lut.TestGaussLut.test_round_shift_even) ... ok
+test_lat_total_matches_mc_pkg (test_mc_lane.TestLane.test_lat_total_matches_mc_pkg) ... ok
+test_monte_carlo_converges_to_exact_hw_price (test_mc_lane.TestLane.test_monte_carlo_converges_to_exact_hw_price) ... ok
+test_no_saturation_for_grid_options (test_mc_lane.TestLane.test_no_saturation_for_grid_options) ... ok
+test_payoff_sum_is_prefix_additive (test_mc_lane.TestLane.test_payoff_sum_is_prefix_additive) ... ok
+test_run_equals_trace_sum (test_mc_lane.TestLane.test_run_equals_trace_sum) ... ok
+test_run_is_deterministic (test_mc_lane.TestLane.test_run_is_deterministic) ... ok
+test_trace_is_consistent_with_blocks (test_mc_lane.TestLane.test_trace_is_consistent_with_blocks) ... ok
+test_gauss_stage_is_the_block_lookup (test_mc_lane.TestStreams.test_gauss_stage_is_the_block_lookup) ... ok
+test_rng_stream_matches_lane_control_model (test_mc_lane.TestStreams.test_rng_stream_matches_lane_control_model) ... ok
+test_seed_accepts_tuple_and_packed_bus (test_mc_lane.TestStreams.test_seed_accepts_tuple_and_packed_bus) ... ok
+test_zero_seed_rejected (test_mc_lane.TestStreams.test_zero_seed_rejected) ... ok
+test_gaps_and_clear_priority (test_price_dp.TestAccumulator.test_gaps_and_clear_priority) ... ok
+test_lanes_popcount (test_price_dp.TestAccumulator.test_lanes_popcount) ... ok
+test_overflow_sticky (test_price_dp.TestAccumulator.test_overflow_sticky) ... ok
+test_sat_flags_need_valid (test_price_dp.TestAccumulator.test_sat_flags_need_valid) ... ok
+test_error_bound_vs_k (test_price_dp.TestExp.test_error_bound_vs_k) ... ok
+test_monotonic_and_in_range (test_price_dp.TestExp.test_monotonic_and_in_range) ... ok
+test_overflow_edge (test_price_dp.TestExp.test_overflow_edge) ... ok
+test_rom_range (test_price_dp.TestExp.test_rom_range) ... ok
+test_underflow_to_zero_without_flag (test_price_dp.TestExp.test_underflow_to_zero_without_flag) ... ok
+test_end_to_end_bias_under_1pct (test_price_dp.TestPayoffAndBlock.test_end_to_end_bias_under_1pct) ... ok
+test_latency (test_price_dp.TestPayoffAndBlock.test_latency) ... ok
+test_option_to_regs_round_trip (test_price_dp.TestPayoffAndBlock.test_option_to_regs_round_trip) ... ok
+test_payoff (test_price_dp.TestPayoffAndBlock.test_payoff) ... ok
+test_worked_example (test_price_dp.TestPayoffAndBlock.test_worked_example) ... ok
+test_bz_alone_never_saturates (test_price_dp.TestRounding.test_bz_alone_never_saturates) ... ok
+test_fused_rounding_tie_with_odd_a (test_price_dp.TestRounding.test_fused_rounding_tie_with_odd_a) ... ok
+test_round_shift_even_signed (test_price_dp.TestRounding.test_round_shift_even_signed) ... ok
+test_sat_x_both_ends (test_price_dp.TestRounding.test_sat_x_both_ends) ... ok
+test_jump_is_a_state_advance (test_price_study.TestStreams.test_jump_is_a_state_advance) ... ok
+test_jump_linear_in_state (test_price_study.TestStreams.test_jump_linear_in_state) ... ok
+test_jump_step_function_is_the_lane_transition (test_price_study.TestStreams.test_jump_step_function_is_the_lane_transition) ... ok
+test_lane_seeds_distinct (test_price_study.TestStreams.test_lane_seeds_distinct) ... ok
+test_two_streams_are_independent_rows (test_price_study.TestStreams.test_two_streams_are_independent_rows) ... ok
+test_vectorised_stream_matches_reference (test_price_study.TestStreams.test_vectorised_stream_matches_reference) ... ok
+test_small_study_runs_and_is_sane (test_price_study.TestStudy.test_small_study_runs_and_is_sane) ... ok
+test_canonical_first_word_and_transition (test_rng_lane.TestRngAlgorithm.test_canonical_first_word_and_transition) ... ok
+test_independent_canonical_sequences (test_rng_lane.TestRngAlgorithm.test_independent_canonical_sequences) ... ok
+test_seed_bus_order_and_validation (test_rng_lane.TestRngAlgorithm.test_seed_bus_order_and_validation) ... ok
+test_continuous_one_stage (test_rng_lane.TestRngControl.test_continuous_one_stage) ... ok
+test_generated_vectors_against_independent_scoreboard (test_rng_lane.TestRngControl.test_generated_vectors_against_independent_scoreboard) ... ok
+test_pause_resume_and_ignored_seed_bus (test_rng_lane.TestRngControl.test_pause_resume_and_ignored_seed_bus) ... ok
+test_reseed_and_load_priority (test_rng_lane.TestRngControl.test_reseed_and_load_priority) ... ok
+test_reset_priority_and_recovery (test_rng_lane.TestRngControl.test_reset_priority_and_recovery) ... ok
+test_zero_seed_inhibits_and_replaces_active_state (test_rng_lane.TestRngControl.test_zero_seed_inhibits_and_replaces_active_state) ... ok
+test_constant_and_alternating_streams_fail (test_rng_quality.TestQualityMeasurements.test_constant_and_alternating_streams_fail) ... ok
+test_duplicated_streams_fail_cross_stream_screen (test_rng_quality.TestQualityMeasurements.test_duplicated_streams_fail_cross_stream_screen) ... ok
+test_generator_matches_independent_oracle_and_repeats (test_rng_quality.TestQualityMeasurements.test_generator_matches_independent_oracle_and_repeats) ... ok
+test_invalid_data_rejected (test_rng_quality.TestQualityMeasurements.test_invalid_data_rejected) ... ok
+test_known_bins_and_bit_counts (test_rng_quality.TestQualityMeasurements.test_known_bins_and_bit_counts) ... ok
+test_exact_stream_and_corruption (test_rng_quality.TestStreamImport.test_exact_stream_and_corruption) ... ok
+test_random_near_saturation_boundaries (test_round_sat.TestAgainstReference.test_random_near_saturation_boundaries) ... ok
+test_random_signed_price_dp_s2 (test_round_sat.TestAgainstReference.test_random_signed_price_dp_s2) ... ok
+test_random_unsigned (test_round_sat.TestAgainstReference.test_random_unsigned) ... ok
+test_scalar_and_array_agree (test_round_sat.TestAgainstReference.test_scalar_and_array_agree) ... ok
+test_above_half_rounds_up (test_round_sat.TestRoundHalfEven.test_above_half_rounds_up) ... ok
+test_below_half_rounds_down (test_round_sat.TestRoundHalfEven.test_below_half_rounds_down) ... ok
+test_negative_above_half_floors_then_rounds (test_round_sat.TestRoundHalfEven.test_negative_above_half_floors_then_rounds) ... ok
+test_negative_below_half (test_round_sat.TestRoundHalfEven.test_negative_below_half) ... ok
+test_negative_tie_even_quotient (test_round_sat.TestRoundHalfEven.test_negative_tie_even_quotient) ... ok
+test_negative_tie_odd_quotient (test_round_sat.TestRoundHalfEven.test_negative_tie_odd_quotient) ... ok
+test_shift_one_tie (test_round_sat.TestRoundHalfEven.test_shift_one_tie) ... ok
+test_shift_zero_is_identity (test_round_sat.TestRoundHalfEven.test_shift_zero_is_identity) ... ok
+test_tie_even_quotient_stays (test_round_sat.TestRoundHalfEven.test_tie_even_quotient_stays) ... ok
+test_tie_odd_quotient_rounds_up (test_round_sat.TestRoundHalfEven.test_tie_odd_quotient_rounds_up) ... ok
+test_below_min_saturates (test_round_sat.TestSaturation.test_below_min_saturates) ... ok
+test_exactly_max_does_not_saturate (test_round_sat.TestSaturation.test_exactly_max_does_not_saturate) ... ok
+test_exactly_min_does_not_saturate (test_round_sat.TestSaturation.test_exactly_min_does_not_saturate) ... ok
+test_max_plus_half_tie_stays_at_max (test_round_sat.TestSaturation.test_max_plus_half_tie_stays_at_max) ... ok
+test_min_minus_half_tie_stays_at_min (test_round_sat.TestSaturation.test_min_minus_half_tie_stays_at_min) ... ok
+test_round_up_carries_into_saturation (test_round_sat.TestSaturation.test_round_up_carries_into_saturation) ... ok
+test_shift_zero_pure_saturate (test_round_sat.TestSaturation.test_shift_zero_pure_saturate) ... ok
+test_unsigned_negative_input_clamps_to_zero (test_round_sat.TestSaturation.test_unsigned_negative_input_clamps_to_zero) ... ok
+test_unsigned_overflow (test_round_sat.TestSaturation.test_unsigned_overflow) ... ok
+
+----------------------------------------------------------------------
+Ran 85 tests in 2.373s
+
+OK
+stream 0: n=32768 mean_z=0.718 max_bit_z=1.867 chi2=1015.44 screen=PASS
+stream 1: n=32768 mean_z=0.718 max_bit_z=1.867 chi2=1015.44 screen=PASS
+test_fixture: FAIL RNG screening; outputs: /tmp/tmptnzdca_w/fixture_*

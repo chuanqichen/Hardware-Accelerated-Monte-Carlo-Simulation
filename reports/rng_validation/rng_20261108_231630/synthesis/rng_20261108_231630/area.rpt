@@ -1,0 +1,43 @@
+ 
+****************************************
+Report : area
+Design : rng_lane
+Version: T-2022.03-SP2
+Date   : Sun Nov  8 17:18:03 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                          165
+Number of nets:                          1734
+Number of cells:                         1568
+Number of combinational cells:           1406
+Number of sequential cells:               161
+Number of macros/black boxes:               0
+Number of buf/inv:                        617
+Number of references:                      19
+
+Combinational area:               3612.671357
+Buf/Inv area:                     1114.587470
+Noncombinational area:            1662.260635
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  5274.931992
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+rng_lane                          5274.9320    100.0  3612.6714  1662.2606  0.0000  rng_lane
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+Total                                                 3612.6714  1662.2606  0.0000
+
+1

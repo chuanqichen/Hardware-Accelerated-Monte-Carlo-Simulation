@@ -106,8 +106,8 @@ The baseline RTL and one-lane integration already have historical VCS logs:
 `reports/integration_validation_2026-11-01.txt`, and
 `reports/pr8_fix_validation_2026-11-02.txt`.
 Those runs predate the shared-latency alias change. Shentong subsequently
-reported a completed current-source validation run on Mario; the supplied
-manifest and synthesis measurements are recorded below.
+completed a current-source validation run on Mario. The raw reports and
+RTL tables have now been transferred and reviewed; results are recorded below.
 
 ### Current checklist
 
@@ -118,13 +118,14 @@ manifest and synthesis measurements are recorded below.
 - [x] Run three jump-separated model streams of 1,048,576 words each.
 - [x] Local regression: 85 model tests passed; 13 flow tests passed and two
   existing Bash-dependent waveform tests skipped on Windows.
-- [x] Re-run standalone RNG and integrated one-lane VCS (reported runner PASS).
+- [x] Re-run standalone RNG and integrated one-lane VCS; raw PASS logs reviewed.
 - [x] Check long, uninterrupted RTL streams against the independent oracle;
   confirm II=1, retain a short waveform and analyze the exported RTL words.
 - [x] Run standalone RNG DC synthesis and report area, setup slack, critical-path
   endpoints and remaining hold/electrical violations.
 - [x] Record supplied PPA measurements and run/source manifest for the checkpoint.
-- [ ] Transfer raw VCS/DC logs, RTL stream statistics, VCDs and synthesis reports.
+- [x] Transfer and review raw VCS/DC logs, RTL statistics, VCDs and synthesis
+  reports; independently reproduce all three stream checksums and statistics.
 - [ ] Review 516 max-capacitance violations with Tyler using the raw reports;
   document the resolution or the limitation.
 
@@ -167,13 +168,14 @@ Artifacts:
 `results/rng_model_manifest.json`, and
 `results/rng_model_quality.png`.
 
-### Supplied RTL and synthesis evidence
+### Reviewed RTL and synthesis evidence
 
-Run: `rng_20261108_231630` on Mario. The supplied terminal output reports
-`PASS RNG lab validation`, and the supplied manifest records
-`status=validation_completed` with three streams of 1,048,576 words each.
-The runner requires explicit PASS markers and canonical stream comparison
-before accepting these stages.
+Run: `rng_20261108_231630` on Mario. The raw model/VCS logs contain all
+expected PASS markers, including all four integrated configurations and
+three consecutive RTL streams of 1,048,576 words each. Each full stream was
+independently regenerated with the canonical oracle: all three hex-file
+checksums, histogram/bit counts and summary statistics match the lab evidence.
+The first 32 words of each short VCD also match, at 10 ns intervals.
 
 | Metric | Reported result |
 |---|---|
@@ -202,12 +204,44 @@ Recorded evidence:
 - `reports/rng_validation/rng_20261108_231630/evidence_note.md`
 
 All **79 input hashes match the local runtime files of commit 6aa595f**.
-The source-export provenance is therefore traceable even though the run did
-not have a Git checkout. Raw VCS/DC logs, RTL screening tables and waveforms,
-synthesis inputs/library hash and timing/constraint reports still need to be
-transferred. Their contents have not been independently inspected here.
+The source export is therefore traceable even though the run did not have
+a Git checkout. Raw VCS/DC logs, RTL screening tables, synthesis inputs/library
+hash and timing/constraint reports are now imported and reviewed. Raw logs
+retain their original bytes under `.log.txt` names. Short VCDs remain local
+and gitignored; binary DDC/SVF files remain in the original evidence archive.
+`archive_manifest.json` records every archive member hash and import path.
 
-### Transfer the remaining lab evidence
+### Raw-report review and remaining limitations
+
+The complete review is
+`reports/rng_validation/rng_20261108_231630/review.md`; its
+`archive_manifest.json` records the archive SHA-256 and import map.
+Lab RTL quality tables and plot are `results/rng_20261108_231630_*`.
+
+The raw library digest matches the existing one-lane synthesis baseline.
+DC is T-2022.03-SP2, using typical gscl45nm conditions; the power report
+records 1.1 V. Re-parsing the reports reproduces every canonical PPA CSV field.
+The critical path traverses arithmetic carry paths, with 95 reported logic
+levels. The small positive setup margin does not clear electrical violations.
+
+Of the 516 capacitance rows, 500 explicitly request more significant digits.
+Do not interpret rounded `0.00` pF limits as exact zero limits.
+Generate `report_constraint -all_violators -nosplit -significant_digits 6`
+from the saved mapped design, then inspect the relevant driver/load limits
+with Tyler under the shared constraints. Internal arithmetic/state nets are
+among the violations, so output loading alone is not an established cause.
+The full constraint report also flags `max_leakage_power`; the compiler log
+shows a zero leakage optimization target. This diagnostic is not represented
+by the current CSV's constraint columns and needs shared-flow review.
+
+The long-stream compile log records a `cfs_ident_exec` helper segmentation
+fault after executable linking. Subsequent fresh-executable runs and
+waveforms passed, as did independent checksum/data checks. Timescale/width
+lint diagnostics also remain. The evidence is not a warning-free build or
+physical signoff, and the original tool outputs are preserved.
+
+### Transfer the lab evidence
+
 
 From the extracted project root on Mario, package the reports, logs, short VCDs
 and analyzed RTL tables. Exclude compiled products and the large, reproducible
@@ -301,8 +335,8 @@ complete the timing/area task. Use `--help` for sample counts and tags.
 
 ### Checkpoint handoff
 
-The supplied PPA CSV has been reviewed. Transfer and inspect the raw timing
-and constraint reports before completing the evidence review.
+Raw timing and constraint reports have been reviewed. The remaining task
+is to agree the electrical/power-constraint follow-up with Tyler.
 Record the measured area, constrained clock, setup slack, critical-path
 endpoints, hold/electrical violations and the RTL screening results.
 Report measured evidence without treating a pre-layout Fmax estimate as
