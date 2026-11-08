@@ -15,9 +15,10 @@ The state uses the canonical XOR/shift updates and rotate-left by 11.
 Every operation is unsigned modulo 2^32. Fixed-point saturation does not apply.
 
 `rng_lane` has `clk`, `rst_n`, `seed_load`, `seed_state[127:0]`, `run`,
-`u[31:0]`, and `u_valid`. Localparam `LAT_RNG=1`: a run accepted at a rising
-edge produces the registered word/valid after that edge; a downstream register
-consumes it at the following rising edge. One word per cycle, no back-pressure.
+`u[31:0]`, and `u_valid`. The exported localparam `LAT_RNG` aliases
+`mc_pkg::LAT_RNG` (one cycle); compile `rtl/mc_pkg.sv` before `rtl/rng_lane.sv`.
+A run accepted at a rising edge produces the registered word/valid after that
+edge; a downstream register consumes it at the following rising edge. One word per cycle, no back-pressure.
 
 ## Proposed control contract
 
@@ -88,7 +89,7 @@ simulation uses simv_rng and its own build directory. No tool install is assumed
   run here. No synthesis, timing closure, or RNG statistical battery is claimed.
 - Changes remain local and uncommitted for review.
 
-## Remaining milestones
+## Milestone 1 follow-up list (historical)
 
 - Run VCS and Verilator on a machine with those tools; synthesize to measure II,
   timing and area (one stage is a structural design, not a timing-closure claim).
@@ -96,3 +97,142 @@ simulation uses simv_rng and its own build directory. No tool install is assumed
   lanes; keep jump hardware outside the lane.
 - Add stream statistics/export analysis, RNG-to-Gaussian integration, and mc_top
   bad_cfg checks. Algorithm equivalence is not a statistical-quality battery.
+
+## RNG validation evidence and lab handoff (2026-11-08)
+
+The weekly plan assigns Shentong RNG timing/area and stream-quality evidence.
+The baseline RTL and one-lane integration already have historical VCS logs:
+`reports/vcs_regression_2026-10-31.txt`,
+`reports/integration_validation_2026-11-01.txt`, and
+`reports/pr8_fix_validation_2026-11-02.txt`.
+Those runs predate the local shared-latency alias change; current-source VCS
+validation is still required.
+
+### Current checklist
+
+- [x] Use `mc_pkg::LAT_RNG` as the source for the exported block latency;
+  compile the package first in standalone RNG and waveform commands.
+- [x] Implement reproducible model stream screening, output tables, seed/source
+  manifest and a plot; malformed or noncanonical imported streams are rejected.
+- [x] Run three jump-separated model streams of 1,048,576 words each.
+- [x] Local regression: 85 model tests passed; 13 flow tests passed and two
+  existing Bash-dependent waveform tests skipped on Windows.
+- [ ] Re-run standalone RNG and integrated one-lane VCS on the current sources.
+- [ ] Check long, uninterrupted RTL streams against the independent oracle;
+  confirm II=1, retain a short waveform and analyze the exported RTL words.
+- [ ] Run standalone RNG DC synthesis and report area, setup slack, critical-path
+  endpoints and remaining hold/electrical violations.
+- [ ] Add the resulting lab artifact paths and measurements here for the
+  November 10 checkpoint.
+
+### Local model evidence
+
+Reproduce from the repository root (Python with NumPy and Matplotlib):
+
+```bash
+python -B model/rng_quality.py --words 1048576 --streams 3 --out-prefix results/rng_model --plot
+# Equivalent default configuration:
+make rng-study
+```
+
+All streams use the canonical xoshiro128++ transition. Seed 0 is packed
+`0123456789abcdef0fedcba987654321` in `{s3,s2,s1,s0}` order; seeds 1 and 2
+are successive canonical `jump()` states, each 2^64 transitions apart.
+The precise seeds and source SHA-256 hashes are in
+`results/rng_model_manifest.json`.
+
+| Stream | Mean of u/2^32 | Sample variance | Largest absolute bit-balance z | Top-10-bit chi-square |
+|---|---:|---:|---:|---:|
+| 0 | 0.500033596 | 0.083285271 | 2.375 | 1002.664 |
+| 1 | 0.500200825 | 0.083386228 | 2.191 | 943.355 |
+| 2 | 0.499751902 | 0.083441460 | 2.238 | 987.801 |
+
+Each 1,024-bin histogram has an expected count of 1,024 per bin and 1,023
+degrees of freedom. Predeclared engineering screens use:
+absolute mean/bit z <= 6; chi-square <= df + 6*sqrt(2*df) = 1294.396;
+and absolute correlation <= 6/sqrt(number of paired words).
+Serial lags are 1, 2, 4, 8 and 16. Variance is reported descriptively.
+
+All screens passed. Largest absolute serial correlation was 0.0015553;
+largest absolute cross-stream correlation was 0.0015552, against a limit of
+about 0.0058594. These are heuristic screens, not calibrated significance
+tests, a statistical test battery, or proof of independent random streams.
+These are **Python model results**, not measured RTL streams.
+
+Artifacts:
+`results/rng_model_{summary,histogram,bits,lags,cross_stream}.csv`,
+`results/rng_model_manifest.json`, and
+`results/rng_model_quality.png`.
+
+### Run the pending lab work
+
+The supplied `scripts/run_rng_validation.py` performs all of these steps:
+
+1. Run every model unit test.
+2. Run the existing RNG VCS regression, requiring a nonempty PASS.
+3. Run all four integrated Gaussian/multiplier pipeline configurations and the
+   real one-lane pause/resume test.
+4. Compile `tb/tb_rng_stream.sv` and check three continuous streams, including
+   every output word, internal state, valid cycle, load priority and final pause.
+   This testbench has an independent sequential canonical scoreboard.
+5. Export each stream, independently check it again in Python, and write
+   stream-quality CSVs/plot. VCD capture stops after the first 32 words.
+6. Synthesize `rng_lane` using the shared 5 ns SDC and parse the PPA reports.
+
+The runner rejects nonzero exits, explicit failure/error diagnostics and absent
+PASS markers. Each run has a new tag and source hashes; old run directories
+cannot be overwritten. Synthesis completion does not imply timing closure:
+the CSV retains hold/electrical violations and power-activity qualifications.
+
+Lab account confirmed by Shentong: `sz23492@mario.ece.utexas.edu`, using password
+login. This Codex session has no passwordless access, so no current-source
+VCS/DC execution or RNG area/timing numbers are claimed.
+
+A source snapshot including the current uncommitted edits is packaged as
+`build/rng_validation_sources.zip`. This avoids requiring a commit or modifying an
+existing lab checkout. Its `SOURCE_MANIFEST.json` records all packaged file
+hashes. Transfer it from Windows PowerShell:
+
+```powershell
+scp build/rng_validation_sources.zip sz23492@mario.ece.utexas.edu:~/
+ssh sz23492@mario.ece.utexas.edu
+```
+
+After login, extract into a **fresh writable scratch directory**. The example
+assumes your scratch parent `/home/work/sz23492` exists; adjust it to your lab
+storage location if necessary.
+
+```bash
+RNG_WORK=/home/work/sz23492/rng_validation_sources_20261108
+mkdir "$RNG_WORK" && unzip ~/rng_validation_sources.zip -d "$RNG_WORK" && cd "$RNG_WORK"
+module load synopsys/2022
+# Activate your Python environment, then verify it is Python 3.9+:
+python3 --version
+python3 -c 'import numpy, matplotlib; print(numpy.__version__, matplotlib.__version__)'
+python3 -B scripts/run_rng_validation.py
+```
+
+The recorded Mario flow used `synopsys/2022`; use `module avail` if the module
+name differs. Use your environment's Python executable instead of `python3`
+if necessary. The runner passes that same interpreter to Make.
+
+Raw logs, source hashes, RTL streams, short VCDs and synthesis reports go under
+`reports/rng_validation/<tag>/`; analyzed tables and plot go under
+`results/<tag>_*`, including `results/<tag>_ppa.csv`.
+Large raw stream hex files and build products are gitignored.
+The source bundle works without a Git checkout; the evidence records that fact.
+
+For an intentional simulation-only run:
+`python3 -B scripts/run_rng_validation.py --skip-synth`.
+Its manifest explicitly records that synthesis was skipped; this does not
+complete the timing/area task. Use `--help` for sample counts and tags.
+
+### Checkpoint handoff
+
+Once the lab run finishes, review the actual PPA CSV and raw timing report.
+Record the measured area, constrained clock, setup slack, critical-path
+endpoints, hold/electrical violations and the RTL screening results.
+Report measured evidence without treating a pre-layout Fmax estimate as
+post-route timing. Multi-lane hardware and physical implementation remain later
+milestones; the current RNG deliverable is one RNG block plus the one-lane
+integration evidence.

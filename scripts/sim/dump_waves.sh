@@ -35,7 +35,7 @@ echo "== gauss_lut (LATENCY=1)"
 run_and_check gauss_lut '^PASS: [1-9][0-9]* checked, 0 errors[[:space:]]*$'
 
 echo "== rng_lane"
-"${V[@]}" rtl/rng_lane.sv tb/tb_rng_lane.sv tb/vcd_dump.sv \
+"${V[@]}" rtl/mc_pkg.sv rtl/rng_lane.sv tb/tb_rng_lane.sv tb/vcd_dump.sv \
   -Mdir="$run_dir/rng_csrc" -o "$run_dir/simv_rng_lane" -l "$run_dir/rng_lane.compile.log" >/dev/null
 run_and_check rng_lane '^PASS rng_lane: [1-9][0-9]* cycles, [1-9][0-9]* valid words[[:space:]]*$'
 

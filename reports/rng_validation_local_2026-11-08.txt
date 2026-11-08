@@ -1,0 +1,25 @@
+RNG local validation record, 2026-11-08 (America/Chicago)
+Environment: Python 3.13.3, NumPy 2.3.3, Matplotlib 3.10.6
+Source: 9e769a3 plus the uncommitted RNG evidence changes; exact study source hashes
+are recorded in results/rng_model_manifest.json.
+
+Observed checks:
+  python -B -m unittest (cwd=model): 85 tests PASS.
+  python -B -m unittest discover -s scripts -p test_*.py:
+    15 tests discovered, 13 PASS, 2 existing Bash-dependent tests SKIP.
+  git diff --check: PASS.
+  python -B model/rng_quality.py --words 1048576 --streams 3
+    --out-prefix results/rng_model --plot: PASS.
+  All 3 model streams passed the declared screening limits.
+  Constant/alternating/duplicated-stream and malformed/truncated/mismatching
+  input tests verify that bad evidence is rejected.
+  The model quality figure was inspected.
+
+Pending lab evidence:
+  Current-source VCS compilation, regression, long-stream and II=1 checks.
+  Standalone RNG Design Compiler area/timing reports.
+  The new SV stream testbench is not compiled or simulated on this laptop.
+  No current RTL statistical result, RNG area, or RNG timing value is claimed.
+  Mario SSH requires password login; noninteractive authentication was denied.
+
+Artifact paths above use the purpose-based names adopted after execution; numerical results are unchanged.
