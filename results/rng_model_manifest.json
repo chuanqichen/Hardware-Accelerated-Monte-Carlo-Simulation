@@ -1,0 +1,35 @@
+{
+  "origin": "python_model",
+  "git_revision": "9e769a32bb0d498e1549879b75fcb01fdf21f4b4",
+  "source_sha256": {
+    "model/rng_quality.py": "f90266958f783530cafc24b49a4c2536fad44e71c4edf7880823e7c50d09c53d",
+    "model/rng_lane.py": "4b7b3473933d6c71f6d964532e6753314a960f9d2914e0d987ac5fd9f004653a",
+    "model/price_study.py": "f45b38fba4d00dede5fe2cc0a9e7707e174ff6236d36522be86d685f34e8cfd0",
+    "model/rng_canonical_reference.py": "0c2f14ede19c3c9c6a7c3ac3a5905bb1220dcedaca581f1b9ef4a022ab34ac65",
+    "rtl/mc_pkg.sv": "c3bf050f3f3d4c97bfcb78ec94cfa196cc2121645c0a7d62f5c001489c6c34d8",
+    "rtl/rng_lane.sv": "7a42dfd361e1e1b41b21d3572761146b70f9475f30744d4c1a79111af7666ac7"
+  },
+  "seed_order": "packed {s3,s2,s1,s0}; root then successive canonical 2^64 jumps",
+  "seeds": [
+    "0123456789abcdef0fedcba987654321",
+    "a21ddd67452a68254e0d1fe67c4a7a02",
+    "d797cc57f76cbec03fa0faa564fe5eaf"
+  ],
+  "words_per_stream": [
+    1048576,
+    1048576,
+    1048576
+  ],
+  "addr_bits": 10,
+  "lags": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "sigma": 6,
+  "screening_pass": true,
+  "interpretation": "Heuristic screens; no calibrated p-values or independence proof. Model results are not RTL measurements.",
+  "input_sha256": {}
+}

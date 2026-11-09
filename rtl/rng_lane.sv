@@ -11,9 +11,9 @@ module rng_lane (
   output logic [31:0]  u,
   output logic         u_valid
 );
-  // Exported latency contract; no shared mc_pkg exists yet.
+  // Export the shared latency contract for block-level users.
   /* verilator lint_off UNUSEDPARAM */
-  localparam int LAT_RNG = 1;
+  localparam int LAT_RNG = mc_pkg::LAT_RNG;
   /* verilator lint_on UNUSEDPARAM */
   logic [31:0] s0, s1, s2, s3;
   logic [31:0] sum03, xor31, xor20, shifted1;

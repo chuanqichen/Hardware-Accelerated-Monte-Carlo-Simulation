@@ -1,0 +1,11 @@
+Command: /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/simv -l /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS: tb_mc_top G=1 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+$finish called from file "tb/tb_mc_top.sv", line 139.
+$finish at simulation time            271727000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271727000 ps
+CPU Time:      0.300 seconds;       Data structure size:   0.3Mb
+Sun Nov  8 17:16:38 2026

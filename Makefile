@@ -35,10 +35,11 @@ VEC     := tb/vectors/gauss_lut_a$(ADDR_BITS)_w$(OUT_WIDTH)_f$(FRAC_BITS).hex
 PRICE_RTL := rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv rtl/accumulator.sv
 PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
              tb/vectors/accumulator_w64.hex tb/vectors/accumulator_w32.hex
+RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top sim-lane-bubbles control-sim synth-smoke flow-test
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate
 
 all: test gen
 
@@ -111,6 +112,29 @@ sim-rs: gen-rs
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut
 
+# Dedicated RNG targets; Gaussian RTL/TB/configuration above are unchanged.
+rng-test:
+	cd model && $(PYTHON) -m unittest -v test_rng_lane
+
+rng-gen: $(RNG_VEC)
+
+$(RNG_VEC): model/gen_rng_vectors.py model/rng_lane.py
+	$(PYTHON) model/gen_rng_vectors.py
+
+rng-sim: rng-gen
+	$(VCS) -sverilog -full64 -timescale=1ns/1ps rtl/mc_pkg.sv rtl/rng_lane.sv tb/tb_rng_lane.sv \
+	  -top tb_rng_lane -Mdir=csrc_rng -o simv_rng && ./simv_rng
+
+rng-lint:
+	$(VERILATOR) --lint-only -Wall rtl/mc_pkg.sv rtl/rng_lane.sv --top-module rng_lane
+
+# RNG evidence: local model study or complete lab VCS/DC validation.
+rng-study:
+	$(PYTHON) model/rng_quality.py --plot
+
+rng-validate:
+	$(PYTHON) scripts/run_rng_validation.py
+
 # Integrated one-lane target uses the committed baseline ROMs, not gen-price.
 gen-top:
 	$(PYTHON) model/gen_mc_top_vectors.py
@@ -154,4 +178,4 @@ docs/%.pdf: docs/%.md docs/figures/lane_block_diagram.png docs/templates/pdf-hea
 	  --shift-heading-level-by=-1 -H docs/templates/pdf-header.tex --metadata date="$(shell date +%Y-%m-%d)"
 
 clean:
-	rm -rf build simv simv.daidir simv_* csrc ucli.key *.log *.vcd *.fsdb obj_dir DVEfiles
+	rm -rf build simv simv.daidir simv_* simv_rng simv_rng.daidir csrc csrc_rng ucli.key *.log *.vcd *.fsdb obj_dir DVEfiles

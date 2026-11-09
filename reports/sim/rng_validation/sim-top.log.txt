@@ -1,0 +1,739 @@
+["make", "sim-top"]
+bash scripts/sim/top_sim.sh
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Sun Nov  8 17:16:35 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file 'rtl/rst_sync.sv'
+Parsing design file 'rtl/pipe.sv'
+Parsing design file 'rtl/rng_lane.sv'
+Parsing design file 'rtl/generated/gauss_lut_rom.sv'
+Parsing design file 'rtl/gauss_lut.sv'
+
+Lint-[NS] Null statement
+rtl/gauss_lut.sv, 68
+  Null statement is used in following verilog source.
+  Source info:   always_ff @(posedge clk) if (rst_n && in_valid) 
+  a_mag_positive: assert (mag[OUT_WIDTH-1] == 1'b0);
+
+Parsing design file 'rtl/generated/exp2_rom.sv'
+Parsing design file 'rtl/exp2_unit.sv'
+Parsing design file 'rtl/price_dp.sv'
+Parsing design file 'rtl/accumulator.sv'
+Parsing design file 'rtl/mc_controller.sv'
+Parsing design file 'rtl/mc_lane_array.sv'
+Parsing design file 'rtl/mc_top.sv'
+Parsing design file 'tb/tb_mc_top.sv'
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 16
+  Null statement is used in following verilog source.
+  Source info:   initial begin #3000000; $fatal(1, "integrated top timeout"); 
+  end
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 30
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 67
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b0; start = 1'b0; cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 68
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 70
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 74
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b1; cfg_addr = addr; cfg_wdata =
+  value;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 76
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 79
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 81
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b0;
+
+Top Level Modules:
+       tb_mc_top
+assign 1 tb_mc_top.GAUSS_LATENCY (Command line)
+assign 1 tb_mc_top.MUL_STAGES (Command line)
+TimeScale is 1 ns / 1 ps
+
+Lint-[ULCO] Unequal length in comparison operator
+rtl/exp2_unit.sv, 65
+exp2_unit, "(n4 >= ST_MAX_N)"
+  A left 8-bit expression is compared to a right 32-bit expression.
+  Comparing 'n4' of type logic signed [7:0]
+  with 'ST_MAX_N' of type int.
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 25
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 106
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 120
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 1;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 132
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 66
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+Starting vcs inline pass...
+
+2 modules and 0 UDP read.
+recompiling package mc_pkg
+recompiling module tb_mc_top
+Both modules done.
+make[1]: Entering directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m1/csrc'
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m1/simv ]; then chmod a-x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m1/simv; fi
+g++  -o /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m1/simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib -L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _355177_archive_1.so  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m1/simv up to date
+make[1]: Leaving directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m1/csrc'
+CPU time: .367 seconds to compile + .203 seconds to elab + .217 seconds to link
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+$finish called from file "tb/tb_mc_top.sv", line 139.
+$finish at simulation time            271507000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271507000 ps
+CPU Time:      0.320 seconds;       Data structure size:   0.3Mb
+Sun Nov  8 17:16:36 2026
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Sun Nov  8 17:16:37 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file 'rtl/rst_sync.sv'
+Parsing design file 'rtl/pipe.sv'
+Parsing design file 'rtl/rng_lane.sv'
+Parsing design file 'rtl/generated/gauss_lut_rom.sv'
+Parsing design file 'rtl/gauss_lut.sv'
+
+Lint-[NS] Null statement
+rtl/gauss_lut.sv, 68
+  Null statement is used in following verilog source.
+  Source info:   always_ff @(posedge clk) if (rst_n && in_valid) 
+  a_mag_positive: assert (mag[OUT_WIDTH-1] == 1'b0);
+
+Parsing design file 'rtl/generated/exp2_rom.sv'
+Parsing design file 'rtl/exp2_unit.sv'
+Parsing design file 'rtl/price_dp.sv'
+Parsing design file 'rtl/accumulator.sv'
+Parsing design file 'rtl/mc_controller.sv'
+Parsing design file 'rtl/mc_lane_array.sv'
+Parsing design file 'rtl/mc_top.sv'
+Parsing design file 'tb/tb_mc_top.sv'
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 16
+  Null statement is used in following verilog source.
+  Source info:   initial begin #3000000; $fatal(1, "integrated top timeout"); 
+  end
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 30
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 67
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b0; start = 1'b0; cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 68
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 70
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 74
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b1; cfg_addr = addr; cfg_wdata =
+  value;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 76
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 79
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 81
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b0;
+
+Top Level Modules:
+       tb_mc_top
+assign 1 tb_mc_top.GAUSS_LATENCY (Command line)
+assign 2 tb_mc_top.MUL_STAGES (Command line)
+TimeScale is 1 ns / 1 ps
+
+Lint-[ULCO] Unequal length in comparison operator
+rtl/exp2_unit.sv, 65
+exp2_unit, "(n4 >= ST_MAX_N)"
+  A left 8-bit expression is compared to a right 32-bit expression.
+  Comparing 'n4' of type logic signed [7:0]
+  with 'ST_MAX_N' of type int.
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 25
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 106
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 120
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 1;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 132
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 66
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+Starting vcs inline pass...
+
+2 modules and 0 UDP read.
+recompiling package mc_pkg
+recompiling module tb_mc_top
+Both modules done.
+make[1]: Entering directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/csrc'
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/simv ]; then chmod a-x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/simv; fi
+g++  -o /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib -L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _357754_archive_1.so  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/simv up to date
+make[1]: Leaving directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g1_m2/csrc'
+CPU time: .348 seconds to compile + .190 seconds to elab + .221 seconds to link
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS: tb_mc_top G=1 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+$finish called from file "tb/tb_mc_top.sv", line 139.
+$finish at simulation time            271727000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271727000 ps
+CPU Time:      0.300 seconds;       Data structure size:   0.3Mb
+Sun Nov  8 17:16:38 2026
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Sun Nov  8 17:16:39 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file 'rtl/rst_sync.sv'
+Parsing design file 'rtl/pipe.sv'
+Parsing design file 'rtl/rng_lane.sv'
+Parsing design file 'rtl/generated/gauss_lut_rom.sv'
+Parsing design file 'rtl/gauss_lut.sv'
+
+Lint-[NS] Null statement
+rtl/gauss_lut.sv, 68
+  Null statement is used in following verilog source.
+  Source info:   always_ff @(posedge clk) if (rst_n && in_valid) 
+  a_mag_positive: assert (mag[OUT_WIDTH-1] == 1'b0);
+
+Parsing design file 'rtl/generated/exp2_rom.sv'
+Parsing design file 'rtl/exp2_unit.sv'
+Parsing design file 'rtl/price_dp.sv'
+Parsing design file 'rtl/accumulator.sv'
+Parsing design file 'rtl/mc_controller.sv'
+Parsing design file 'rtl/mc_lane_array.sv'
+Parsing design file 'rtl/mc_top.sv'
+Parsing design file 'tb/tb_mc_top.sv'
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 16
+  Null statement is used in following verilog source.
+  Source info:   initial begin #3000000; $fatal(1, "integrated top timeout"); 
+  end
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 30
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 67
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b0; start = 1'b0; cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 68
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 70
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 74
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b1; cfg_addr = addr; cfg_wdata =
+  value;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 76
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 79
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 81
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b0;
+
+Top Level Modules:
+       tb_mc_top
+assign 2 tb_mc_top.GAUSS_LATENCY (Command line)
+assign 1 tb_mc_top.MUL_STAGES (Command line)
+TimeScale is 1 ns / 1 ps
+
+Lint-[ULCO] Unequal length in comparison operator
+rtl/exp2_unit.sv, 65
+exp2_unit, "(n4 >= ST_MAX_N)"
+  A left 8-bit expression is compared to a right 32-bit expression.
+  Comparing 'n4' of type logic signed [7:0]
+  with 'ST_MAX_N' of type int.
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 25
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 106
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 120
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 1;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 132
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 66
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+Starting vcs inline pass...
+
+2 modules and 0 UDP read.
+recompiling package mc_pkg
+recompiling module tb_mc_top
+Both modules done.
+make[1]: Entering directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m1/csrc'
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m1/simv ]; then chmod a-x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m1/simv; fi
+g++  -o /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m1/simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib -L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _360346_archive_1.so  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m1/simv up to date
+make[1]: Leaving directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m1/csrc'
+CPU time: .353 seconds to compile + .188 seconds to elab + .215 seconds to link
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS: tb_mc_top G=2 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+$finish called from file "tb/tb_mc_top.sv", line 139.
+$finish at simulation time            271727000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271727000 ps
+CPU Time:      0.300 seconds;       Data structure size:   0.3Mb
+Sun Nov  8 17:16:40 2026
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Sun Nov  8 17:16:41 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file 'rtl/rst_sync.sv'
+Parsing design file 'rtl/pipe.sv'
+Parsing design file 'rtl/rng_lane.sv'
+Parsing design file 'rtl/generated/gauss_lut_rom.sv'
+Parsing design file 'rtl/gauss_lut.sv'
+
+Lint-[NS] Null statement
+rtl/gauss_lut.sv, 68
+  Null statement is used in following verilog source.
+  Source info:   always_ff @(posedge clk) if (rst_n && in_valid) 
+  a_mag_positive: assert (mag[OUT_WIDTH-1] == 1'b0);
+
+Parsing design file 'rtl/generated/exp2_rom.sv'
+Parsing design file 'rtl/exp2_unit.sv'
+Parsing design file 'rtl/price_dp.sv'
+Parsing design file 'rtl/accumulator.sv'
+Parsing design file 'rtl/mc_controller.sv'
+Parsing design file 'rtl/mc_lane_array.sv'
+Parsing design file 'rtl/mc_top.sv'
+Parsing design file 'tb/tb_mc_top.sv'
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 16
+  Null statement is used in following verilog source.
+  Source info:   initial begin #3000000; $fatal(1, "integrated top timeout"); 
+  end
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 30
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 64
+  Null statement is used in following verilog source.
+  Source info:   task automatic tick; @(posedge clk); #2; endtask
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 67
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b0; start = 1'b0; cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 68
+  Null statement is used in following verilog source.
+  Source info:     #1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 70
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); rst_n = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 74
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b1; cfg_addr = addr; cfg_wdata =
+  value;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 76
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); cfg_we = 1'b0;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 79
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b1;
+
+
+Lint-[NS] Null statement
+tb/tb_mc_top.sv, 81
+  Null statement is used in following verilog source.
+  Source info:     @(negedge clk); start = 1'b0;
+
+Top Level Modules:
+       tb_mc_top
+assign 2 tb_mc_top.GAUSS_LATENCY (Command line)
+assign 2 tb_mc_top.MUL_STAGES (Command line)
+TimeScale is 1 ns / 1 ps
+
+Lint-[ULCO] Unequal length in comparison operator
+rtl/exp2_unit.sv, 65
+exp2_unit, "(n4 >= ST_MAX_N)"
+  A left 8-bit expression is compared to a right 32-bit expression.
+  Comparing 'n4' of type logic signed [7:0]
+  with 'ST_MAX_N' of type int.
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 25
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 106
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 120
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 1;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 132
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+
+Lint-[WMIA-L] Width mismatch in assignment
+tb/tb_mc_top.sv, 66
+  Width mismatch between LHS and RHS is found in assignment:
+  The following 32-bit wide expression is assigned to a 1-bit LHS target:
+  Source info: checking = 0;
+  Expression: checking
+
+Starting vcs inline pass...
+
+2 modules and 0 UDP read.
+recompiling package mc_pkg
+recompiling module tb_mc_top
+Both modules done.
+make[1]: Entering directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m2/csrc'
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m2/simv ]; then chmod a-x /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m2/simv; fi
+g++  -o /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m2/simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib -L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _362810_archive_1.so  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m2/simv up to date
+make[1]: Leaving directory '/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top/g2_m2/csrc'
+CPU time: .348 seconds to compile + .189 seconds to elab + .218 seconds to link
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS: tb_mc_top G=2 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+$finish called from file "tb/tb_mc_top.sv", line 139.
+$finish at simulation time            271947000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271947000 ps
+CPU Time:      0.300 seconds;       Data structure size:   0.3Mb
+Sun Nov  8 17:16:42 2026
+Integrated one-lane regression complete: /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-top

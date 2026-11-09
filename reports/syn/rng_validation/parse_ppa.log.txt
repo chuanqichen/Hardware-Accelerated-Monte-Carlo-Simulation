@@ -1,0 +1,3 @@
+["/home/ecelrc/students/sz23492/.venvs/monte_carlo/bin/python", "-B", "scripts/parse_reports.py", "--syn", "/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/synthesis", "--out", "/home/ecelrc/students/sz23492/rng_validation_sources_20261108/results/rng_20261108_231630_ppa.csv"]
+wrote 1 rows to /home/ecelrc/students/sz23492/rng_validation_sources_20261108/results/rng_20261108_231630_ppa.csv
+  rng_20261108_231630      area 5274.931992 um2  wns 0.00604582 ns  fmax 200.24212557 MHz  P   1.1657 mW  regs 161

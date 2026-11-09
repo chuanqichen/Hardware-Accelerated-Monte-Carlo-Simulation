@@ -224,6 +224,9 @@ __marimo__/
 # EDA tool outputs
 simv*
 csrc/
+csrc_rng/
+# Long RNG captures are reproducible; keep CSVs, manifests and reports.
+reports/sim/rng_*/stream_*.hex
 *.vcd
 *.fsdb
 *.log

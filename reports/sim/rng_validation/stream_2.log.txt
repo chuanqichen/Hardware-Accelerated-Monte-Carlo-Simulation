@@ -1,0 +1,11 @@
+["/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/simv_stream", "+SEED=d797cc57f76cbec03fa0faa564fe5eaf", "+STREAM_FILE=/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/stream_2.hex", "+VCD_FILE=/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/stream_2.vcd"]
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS rng_stream: 1048576 consecutive words, II=1, seed=d797cc57f76cbec03fa0faa564fe5eaf
+$finish called from file "tb/tb_rng_stream.sv", line 73.
+$finish at simulation time          10485786000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 10485786000 ps
+CPU Time:      1.200 seconds;       Data structure size:   0.0Mb
+Sun Nov  8 17:16:51 2026

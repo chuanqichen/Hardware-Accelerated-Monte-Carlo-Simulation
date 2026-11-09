@@ -26,5 +26,37 @@ class TestSmokeReportParsing(unittest.TestCase):
                 read_smoke(run)
 
 
+
+
+class TestReportDirectorySelection(unittest.TestCase):
+    def test_single_run_excludes_siblings_and_parent_mode_remains_supported(self):
+        import contextlib
+        import csv
+        import io
+        import shutil
+        from unittest.mock import patch
+        import parse_reports
+
+        fixture = Path(__file__).resolve().parents[1] / "reports/syn/rng_validation"
+        with tempfile.TemporaryDirectory() as directory:
+            parent = Path(directory) / "syn"
+            first, second = parent / "first_run", parent / "second_run"
+            first.mkdir(parents=True)
+            second.mkdir()
+            for target in (first, second):
+                for name in ("summary.txt", "qor.rpt", "power.rpt", "timing.rpt"):
+                    shutil.copyfile(fixture / name, target / name)
+            output = Path(directory) / "parsed.csv"
+            for source, count in ((first, 1), (parent, 2)):
+                with patch("sys.argv", ["parser", "--syn", str(source), "--out", str(output)]), \
+                     contextlib.redirect_stdout(io.StringIO()):
+                    parse_reports.main()
+                with output.open() as stream:
+                    rows = list(csv.DictReader(stream))
+                self.assertEqual(len(rows), count)
+                self.assertTrue(all(row["result"] == "mapped_with_violations" for row in rows))
+                self.assertTrue(all(row["max_cap_violations"] == "516" for row in rows))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,43 @@
+ 
+****************************************
+Report : reference
+Design : rng_lane
+Version: T-2022.03-SP2
+Date   : Sun Nov  8 17:18:04 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500     120    281.579990  
+AND2X2             gscl45nm       2.815800       2      5.631600  
+AOI21X1            gscl45nm       2.815800      46    129.526798  
+AOI22X1            gscl45nm       3.285100     165    542.041497  
+BUFX2              gscl45nm       2.346500     262    614.782979  
+DFFSR              gscl45nm      10.324600     161   1662.260635  n
+FAX1               gscl45nm       8.916700      44    392.334816  r
+HAX1               gscl45nm       4.693000       1      4.693000  r
+INVX1              gscl45nm       1.407900     355    499.804491  
+MUX2X1             gscl45nm       3.754400      60    225.264001  
+NAND2X1            gscl45nm       1.877200     105    197.106001  
+NAND3X1            gscl45nm       2.346500      23     53.969498  
+NOR2X1             gscl45nm       2.346500      16     37.543999  
+NOR3X1             gscl45nm       2.815800      35     98.552998  
+OAI21X1            gscl45nm       2.815800     135    380.132993  
+OR2X1              gscl45nm       2.346500       7     16.425499  
+OR2X2              gscl45nm       2.815800       4     11.263200  
+XNOR2X1            gscl45nm       4.693000      13     61.008998  
+XOR2X1             gscl45nm       4.693000      13     61.008998  
+-----------------------------------------------------------------------------
+Total 19 references                                  5274.931992
+1

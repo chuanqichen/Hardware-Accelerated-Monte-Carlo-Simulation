@@ -1,0 +1,5 @@
+["/home/ecelrc/students/sz23492/.venvs/monte_carlo/bin/python", "-B", "model/rng_quality.py", "--words", "1048576", "--streams", "3", "--root", "0x123456789abcdef0fedcba987654321", "--out-prefix", "/home/ecelrc/students/sz23492/rng_validation_sources_20261108/results/rng_20261108_231630", "--plot", "--stream", "/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/stream_0.hex", "--stream", "/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/stream_1.hex", "--stream", "/home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/rng_validation/rng_20261108_231630/stream_2.hex"]
+stream 0: n=1048576 mean_z=0.119 max_bit_z=2.375 chi2=1002.66 screen=PASS
+stream 1: n=1048576 mean_z=0.712 max_bit_z=2.191 chi2=943.36 screen=PASS
+stream 2: n=1048576 mean_z=-0.880 max_bit_z=2.238 chi2=987.80 screen=PASS
+imported_hex_canonical_checked: PASS RNG screening; outputs: /home/ecelrc/students/sz23492/rng_validation_sources_20261108/results/rng_20261108_231630_*

@@ -1,0 +1,11 @@
+Command: /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-lane-bubbles/simv -l /home/ecelrc/students/sz23492/rng_validation_sources_20261108/reports/sim/rng_20261108_231630_sim-lane-bubbles/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov  8 17:16 2026
+PASS: tb_mc_lane_bubbles 100 exact trials, pause/resume, valid latency=10
+$finish called from file "tb/tb_mc_lane_bubbles.sv", line 82.
+$finish at simulation time              1827000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1827000 ps
+CPU Time:      0.240 seconds;       Data structure size:   0.0Mb
+Sun Nov  8 17:16:44 2026

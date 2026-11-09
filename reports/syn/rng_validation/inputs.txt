@@ -1,0 +1,7 @@
+top=rng_lane
+corner_label=typical
+clock_period_ns=5.0
+params=
+sources=/home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/mc_pkg.sv /home/ecelrc/students/sz23492/rng_validation_sources_20261108/rtl/rng_lane.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2

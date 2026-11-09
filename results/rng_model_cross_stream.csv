@@ -1,0 +1,4 @@
+origin,stream_a,stream_b,words,correlation,screen_limit,screening_pass
+python_model,0,1,1048576,0.0007260561124380391,0.005859375,True
+python_model,0,2,1048576,-0.00047322149346754337,0.005859375,True
+python_model,1,2,1048576,-0.0015552455898225604,0.005859375,True
