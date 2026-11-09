@@ -13,8 +13,8 @@ supplied terminal transcript is preserved.
 
 ## Report locations
 
-Simulation logs and run/audit metadata are in reports/sim/rng_20261108_231630/.
-Synthesis reports and synthesis/parser logs are in reports/syn/rng_20261108_231630/.
+Simulation logs and run/audit metadata are in reports/sim/rng_validation/.
+Synthesis reports and synthesis/parser logs are in reports/syn/rng_validation/.
 Original archive member names, source hashes and paths embedded in raw logs
 are historical and unchanged. archive_manifest.json maps those members to
 their current local paths. Runner/parser layout changes after commit

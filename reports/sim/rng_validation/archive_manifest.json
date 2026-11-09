@@ -8,112 +8,112 @@
       "member": "reports/rng_validation/rng_20261108_231630/manifest.json",
       "sha256": "d9f9b99ed694ec4dd7a326eb5f9809c8a45d54e83e87e5b49ca775c91519d287",
       "bytes": 8170,
-      "local_path": "reports/sim/rng_20261108_231630/manifest.json",
+      "local_path": "reports/sim/rng_validation/manifest.json",
       "storage": "existing_semantically_identical"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/model.log",
       "sha256": "0d233dcfba11b4981e893a6e25de46c239805b20af6095a2eaf7614572285494",
       "bytes": 9027,
-      "local_path": "reports/sim/rng_20261108_231630/model.log.txt",
+      "local_path": "reports/sim/rng_validation/model.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/rng_sim.log",
       "sha256": "6cd7257964ad8b7774a57b4e99631f8f2387751c51c07a0821da70a5b3c44394",
       "bytes": 3265,
-      "local_path": "reports/sim/rng_20261108_231630/rng_sim.log.txt",
+      "local_path": "reports/sim/rng_validation/rng_sim.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/sim-top.log",
       "sha256": "b6358a9b7f8a0d2bdb4a48df7dec253a319d0ddda8381a67d9c45510b4bae5c9",
       "bytes": 30667,
-      "local_path": "reports/sim/rng_20261108_231630/sim-top.log.txt",
+      "local_path": "reports/sim/rng_validation/sim-top.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/sim-lane-bubbles.log",
       "sha256": "cced9a86212ff27c4259d99ced57c1dab0630639258504d603e5805e32f5ad02",
       "bytes": 4049,
-      "local_path": "reports/sim/rng_20261108_231630/sim-lane-bubbles.log.txt",
+      "local_path": "reports/sim/rng_validation/sim-lane-bubbles.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_compile.log",
       "sha256": "acec271593ae8b5c09592a8fcc986b4209b91dff8b2309fd06a7bdb5da50c266",
       "bytes": 7326,
-      "local_path": "reports/sim/rng_20261108_231630/stream_compile.log.txt",
+      "local_path": "reports/sim/rng_validation/stream_compile.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_0.vcd",
       "sha256": "6857edd1f71ea589597a06f7857ef3a74fbf9625af673da60f93bb9badba7611",
       "bytes": 23726,
-      "local_path": "reports/sim/rng_20261108_231630/stream_0.vcd",
+      "local_path": "reports/sim/rng_validation/stream_0.vcd",
       "storage": "copied_local_ignored_vcd"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_0.log",
       "sha256": "dcf4814ed794214c6da38e5638e8a43a52342c3ed07edf0edf33c630a4c324e9",
       "bytes": 963,
-      "local_path": "reports/sim/rng_20261108_231630/stream_0.log.txt",
+      "local_path": "reports/sim/rng_validation/stream_0.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_1.vcd",
       "sha256": "3a43d78eb016f2a94832f6a601923181ead7d9b9ee958708bb20ca549b4339a3",
       "bytes": 23726,
-      "local_path": "reports/sim/rng_20261108_231630/stream_1.vcd",
+      "local_path": "reports/sim/rng_validation/stream_1.vcd",
       "storage": "copied_local_ignored_vcd"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_1.log",
       "sha256": "93109af3416854bb6e756cf2120f55d325c17c848b462d09d5bfcefc64939694",
       "bytes": 963,
-      "local_path": "reports/sim/rng_20261108_231630/stream_1.log.txt",
+      "local_path": "reports/sim/rng_validation/stream_1.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_2.vcd",
       "sha256": "f68270503409c586696a0c659a65cd47e886e6420a4b3382be61d35b69a8c069",
       "bytes": 23726,
-      "local_path": "reports/sim/rng_20261108_231630/stream_2.vcd",
+      "local_path": "reports/sim/rng_validation/stream_2.vcd",
       "storage": "copied_local_ignored_vcd"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/stream_2.log",
       "sha256": "ed6a389536f9c8341f8fbc3e0c3b6bd539c7fa9370427c9b901afd2de518f92c",
       "bytes": 963,
-      "local_path": "reports/sim/rng_20261108_231630/stream_2.log.txt",
+      "local_path": "reports/sim/rng_validation/stream_2.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/quality.log",
       "sha256": "d0cf3a3aed65b04a41db9f218f2e054149da7cf3620fceca17f3d2fc79504a41",
       "bytes": 1073,
-      "local_path": "reports/sim/rng_20261108_231630/quality.log.txt",
+      "local_path": "reports/sim/rng_validation/quality.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/source_sha256.txt",
       "sha256": "4a6c3e7d3d70aa1afa3bebfa48092df1c4e57b05b440d4048742062a92874a42",
       "bytes": 743,
-      "local_path": "reports/syn/rng_20261108_231630/source_sha256.txt",
+      "local_path": "reports/syn/rng_validation/source_sha256.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/library_sha256.txt",
       "sha256": "e6db9924acbfc963f843ded9416c1107cc531dc1c597a08f6bba1f08b2f3f766",
       "bytes": 126,
-      "local_path": "reports/syn/rng_20261108_231630/library_sha256.txt",
+      "local_path": "reports/syn/rng_validation/library_sha256.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/inputs.txt",
       "sha256": "fddf3c1e2a3ae94700775a7a8dabab9d8e519fd05a5243e62a6378aaf60e0687",
       "bytes": 311,
-      "local_path": "reports/syn/rng_20261108_231630/inputs.txt",
+      "local_path": "reports/syn/rng_validation/inputs.txt",
       "storage": "copied"
     },
     {
@@ -126,98 +126,98 @@
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/check_design.rpt",
       "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
       "bytes": 2,
-      "local_path": "reports/syn/rng_20261108_231630/check_design.rpt",
+      "local_path": "reports/syn/rng_validation/check_design.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/units.rpt",
       "sha256": "1e45186d040f9f18c98647ae69fb9cd66c48dc57fb2035eeed4aa18932b78537",
       "bytes": 427,
-      "local_path": "reports/syn/rng_20261108_231630/units.rpt",
+      "local_path": "reports/syn/rng_validation/units.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/timing_check.rpt",
       "sha256": "140c69dff6cec1ed459bdf788d0ed445769e732d5923e7835b8a26db42dc158d",
       "bytes": 357,
-      "local_path": "reports/syn/rng_20261108_231630/timing_check.rpt",
+      "local_path": "reports/syn/rng_validation/timing_check.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/area.rpt",
       "sha256": "96867b25d5c1fe8a268d7b491fda277de3530882c1aca65c52bfaefb7f4eed56",
       "bytes": 1741,
-      "local_path": "reports/syn/rng_20261108_231630/area.rpt",
+      "local_path": "reports/syn/rng_validation/area.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/timing.rpt",
       "sha256": "b60f048500989da2e9603141ce733d590200ecda77b07af5af985cdbbbb4e2f6",
       "bytes": 39723,
-      "local_path": "reports/syn/rng_20261108_231630/timing.rpt",
+      "local_path": "reports/syn/rng_validation/timing.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/power.rpt",
       "sha256": "26023bdc018b767f3fc0449c69cf3d82c4aa675eebf86b8bfd72215f49092fd3",
       "bytes": 2164,
-      "local_path": "reports/syn/rng_20261108_231630/power.rpt",
+      "local_path": "reports/syn/rng_validation/power.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/qor.rpt",
       "sha256": "94cb26721d83de082a3469a28210121d53ce35502891c08da9696b9faa81fe3c",
       "bytes": 2410,
-      "local_path": "reports/syn/rng_20261108_231630/qor.rpt",
+      "local_path": "reports/syn/rng_validation/qor.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/resources.rpt",
       "sha256": "c1cb507677120d4e5b70d3507c43d39212dac56fdefcd32ec115a267f7cccffe",
       "bytes": 1364,
-      "local_path": "reports/syn/rng_20261108_231630/resources.rpt",
+      "local_path": "reports/syn/rng_validation/resources.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/cells.rpt",
       "sha256": "a968336cef34e5d09c113ad0a824bb40d4fb6cb208f5f386dc37fc89429fb2bc",
       "bytes": 1993,
-      "local_path": "reports/syn/rng_20261108_231630/cells.rpt",
+      "local_path": "reports/syn/rng_validation/cells.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/violators.rpt",
       "sha256": "06e01f185af6bb3f152e9efdc29e0ebb764044bbfe79cf04648159f66bd61c49",
       "bytes": 55806,
-      "local_path": "reports/syn/rng_20261108_231630/violators.rpt",
+      "local_path": "reports/syn/rng_validation/violators.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/constraints.rpt",
       "sha256": "9c69f9bd001aa936c99599babdfba9004ff2db2f5c061badd98a2fc9c8fe176f",
       "bytes": 1978,
-      "local_path": "reports/syn/rng_20261108_231630/constraints.rpt",
+      "local_path": "reports/syn/rng_validation/constraints.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/reset_timing.rpt",
       "sha256": "7ed0b3a65a260eaf4e780eeec1c5115e838832b8165fd4e7896796b9a69088f6",
       "bytes": 5796,
-      "local_path": "reports/syn/rng_20261108_231630/reset_timing.rpt",
+      "local_path": "reports/syn/rng_validation/reset_timing.rpt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/rng_lane.mapped.v",
       "sha256": "a39ea9dbf7d414d856dba7328d7414bd492664885acf0b292bfb7d0a248b77e3",
       "bytes": 103767,
-      "local_path": "reports/syn/rng_20261108_231630/rng_lane.mapped.v",
+      "local_path": "reports/syn/rng_validation/rng_lane.mapped.v",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/rng_lane.mapped.sdc",
       "sha256": "5c59b2eb8d856fd998605b1a73b8474c72cd3d267b104dab76cb2d4487d9a8a0",
       "bytes": 21075,
-      "local_path": "reports/syn/rng_20261108_231630/rng_lane.mapped.sdc",
+      "local_path": "reports/syn/rng_validation/rng_lane.mapped.sdc",
       "storage": "copied"
     },
     {
@@ -230,174 +230,175 @@
       "member": "reports/rng_validation/rng_20261108_231630/synthesis/rng_20261108_231630/summary.txt",
       "sha256": "f52247f69606e88db076214c14baf0254d258dee1ddeaaf6e6aac41fcd8be4d4",
       "bytes": 306,
-      "local_path": "reports/syn/rng_20261108_231630/summary.txt",
+      "local_path": "reports/syn/rng_validation/summary.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/synthesis.log",
       "sha256": "573121373271d2b99565ab29d1faf43589f9bdc281a21f28356c97d87a36d529",
       "bytes": 42834,
-      "local_path": "reports/syn/rng_20261108_231630/synthesis.log.txt",
+      "local_path": "reports/syn/rng_validation/synthesis.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/rng_validation/rng_20261108_231630/parse_ppa.log",
       "sha256": "68d9ba7c53cdaa6c2636e7f680e64b9ff711b9ad695f19e41c9aefac99f2b831",
       "bytes": 564,
-      "local_path": "reports/syn/rng_20261108_231630/parse_ppa.log.txt",
+      "local_path": "reports/syn/rng_validation/parse_ppa.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-lane-bubbles/source_sha256.txt",
       "sha256": "b613dd6ba1504181e468af296562d8b3aaa5b4ef3697e41e1145e0659389029a",
       "bytes": 1128,
-      "local_path": "reports/sim/rng_20261108_231630_sim-lane-bubbles/source_sha256.txt",
+      "local_path": "reports/sim/rng_validation_sim-lane-bubbles/source_sha256.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-lane-bubbles/compile.log",
       "sha256": "4028811aa16b3807b9bded2753633be8f870281d88cdf9904ce5a95151a5bd4c",
       "bytes": 4123,
-      "local_path": "reports/sim/rng_20261108_231630_sim-lane-bubbles/compile.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-lane-bubbles/compile.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-lane-bubbles/run.log",
       "sha256": "251d98f4b83af2603db096120f176e48db61eb301c5a1fe4f55652326e50023d",
       "bytes": 769,
-      "local_path": "reports/sim/rng_20261108_231630_sim-lane-bubbles/run.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-lane-bubbles/run.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/source_sha256.txt",
       "sha256": "0ea244285e3ef7621cad11b4d6e375ee5a1b8d861a47606635016ac45f3922bf",
       "bytes": 1368,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/source_sha256.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/source_sha256.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g1_m1/compile.log",
       "sha256": "025d2492102f856ef6655b00f07ae206738f8aba663a09c317096f818ebac69e",
       "bytes": 7884,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g1_m1/compile.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g1_m1/compile.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g1_m1/run.log",
       "sha256": "c7249797650b34b58222c03c22ea3096be4afaaa5ce770411e691170ff0e5f2c",
       "bytes": 767,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g1_m1/run.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g1_m1/run.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g1_m2/compile.log",
       "sha256": "d85d551764d229dbb6d6e2b3f0ea036d38f5c3b4d65c3dee1888d0dd1deceb98",
       "bytes": 7884,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g1_m2/compile.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g1_m2/compile.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g1_m2/run.log",
       "sha256": "63aa3b3070500927450d484fbaecdb5627b6579ac9167f0c987981a0049932d2",
       "bytes": 767,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g1_m2/run.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g1_m2/run.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g2_m1/compile.log",
       "sha256": "3e41b2ec023c070fa3594321649bb3effc884208d7106273bf6a50dce9d5b0fc",
       "bytes": 7884,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g2_m1/compile.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g2_m1/compile.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g2_m1/run.log",
       "sha256": "a32e941371fb8c539ad5337c286861ade7de05af375c9534f9b5b4a4f8a62c2c",
       "bytes": 767,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g2_m1/run.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g2_m1/run.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g2_m2/compile.log",
       "sha256": "e8a46f2ba34d2e4cdf38c5373896c64e3589bd471d100b204ed31be38c8e4ffa",
       "bytes": 7884,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g2_m2/compile.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g2_m2/compile.log.txt",
       "storage": "copied"
     },
     {
       "member": "reports/sim/rng_20261108_231630_sim-top/g2_m2/run.log",
       "sha256": "6226289cb8038954e432b7ec02a208acda3ed956ef8e5df9758940f92864afb7",
       "bytes": 767,
-      "local_path": "reports/sim/rng_20261108_231630_sim-top/g2_m2/run.log.txt",
+      "local_path": "reports/sim/rng_validation_sim-top/g2_m2/run.log.txt",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_bits.csv",
       "sha256": "04ee33c2d9c7b09316b2f8fbf68de8ac4ba983fe83672d1eb6003dbe301f0da8",
       "bytes": 10361,
-      "local_path": "results/rng_20261108_231630_bits.csv",
+      "local_path": "results/rng_20261108_bits.csv",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_cross_stream.csv",
       "sha256": "a16ebfd030207de3f2ff54ea90fe1b97c9771526912bb525ec15ea1bc11db629",
       "bytes": 324,
-      "local_path": "results/rng_20261108_231630_cross_stream.csv",
+      "local_path": "results/rng_20261108_cross_stream.csv",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_histogram.csv",
       "sha256": "6d2abca35dae874f27bb04bde4e7a7c04bba480aa9e4ff38a59742a6f55fc7c2",
       "bytes": 254093,
-      "local_path": "results/rng_20261108_231630_histogram.csv",
+      "local_path": "results/rng_20261108_histogram.csv",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_lags.csv",
       "sha256": "12865639a7a05b4277dc150fa95eb064c9ff5c40837bde1b541ed8491e51492b",
       "bytes": 1742,
-      "local_path": "results/rng_20261108_231630_lags.csv",
+      "local_path": "results/rng_20261108_lags.csv",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_manifest.json",
       "sha256": "609bdb56abaeb87fbbc2bdac29574d3d24ecd04b0dfedfba92e4d90c9da2263a",
       "bytes": 1809,
-      "local_path": "results/rng_20261108_231630_manifest.json",
+      "local_path": "results/rng_20261108_manifest.json",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_ppa.csv",
       "sha256": "39ff69f347cd09e8fd4dc05b32395db19eed3f39e84691beaa8b16e2ce6cc526",
       "bytes": 525,
-      "local_path": "results/rng_20261108_231630_ppa.csv",
+      "local_path": "results/rng_20261108_ppa.csv",
       "storage": "existing_identical"
     },
     {
       "member": "results/rng_20261108_231630_quality.png",
       "sha256": "9eef9cbd704f13e5e07c68adf96580ce2696ad4ac30064a9815cabfc74ad532a",
       "bytes": 535990,
-      "local_path": "results/rng_20261108_231630_quality.png",
+      "local_path": "results/rng_20261108_quality.png",
       "storage": "copied"
     },
     {
       "member": "results/rng_20261108_231630_summary.csv",
       "sha256": "44bc968df0804b636dde59875830c63f07c88d02fc4ce47a409535f78bc9edba",
       "bytes": 887,
-      "local_path": "results/rng_20261108_231630_summary.csv",
+      "local_path": "results/rng_20261108_summary.csv",
       "storage": "copied"
     },
     {
       "member": "SOURCE_MANIFEST.json",
       "sha256": "0dfacd63213ba242e67b4b243dee60b2378422f40f6bd8c81b3d159498c0cdf7",
       "bytes": 11653,
-      "local_path": "reports/sim/rng_20261108_231630/export_source_manifest.json",
+      "local_path": "reports/sim/rng_validation/export_source_manifest.json",
       "storage": "copied"
     }
   ],
   "report_layout": {
-    "simulation": "reports/sim/rng_20261108_231630",
-    "synthesis": "reports/syn/rng_20261108_231630",
-    "historical_member_paths": "Original archive member names and SHA-256 values are unchanged."
+    "simulation": "reports/sim/rng_validation",
+    "synthesis": "reports/syn/rng_validation",
+    "historical_member_paths": "Original archive member names and SHA-256 values are unchanged.",
+    "results_prefix": "results/rng_20261108"
   }
 }

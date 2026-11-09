@@ -43,14 +43,17 @@ def run_logged(command, log, env=None, markers=(), cwd=ROOT):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--tag", default="rng_" + datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S"))
+    p.add_argument("--tag", default="rng_validation", help="descriptive report directory name")
+    p.add_argument("--results-tag", default="rng_" + datetime.now(timezone.utc).strftime("%Y%m%d"),
+                   help="result filename prefix; defaults to rng_YYYYMMDD (UTC date)")
     p.add_argument("--words", type=int, default=1 << 20)
     p.add_argument("--streams", type=int, default=3)
     p.add_argument("--root", type=lambda s: int(s, 0), default=DEFAULT_ROOT)
     p.add_argument("--skip-synth", action="store_true", help="explicitly leave synthesis pending")
     a = p.parse_args()
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", a.tag):
-        p.error("invalid tag")
+    if not all(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", tag)
+               for tag in (a.tag, a.results_tag)):
+        p.error("invalid report or results tag")
     if a.words < 20480 or a.words > 100000000 or a.streams < 1:
         p.error("need 20480..100000000 words and positive streams")
     if not 0 < a.root < 2**128:
@@ -70,6 +73,9 @@ def main():
     syn_dir = ROOT / "reports/syn" / a.tag
     if not a.skip_synth and syn_dir.exists():
         p.error(f"Synthesis run already exists: {syn_dir}; choose a new tag")
+    prefix = ROOT / "results" / a.results_tag
+    if list(prefix.parent.glob(prefix.name + "_*")):
+        p.error(f"Results already exist: {prefix}_*; choose a new --results-tag")
     run_dir.mkdir(parents=True, exist_ok=False)
     # Source exports work without a .git directory; record exact input bytes.
     source_files = [p.relative_to(ROOT).as_posix()
@@ -123,7 +129,6 @@ def main():
                         "+VCD_FILE=" + str(run_dir / f"stream_{index}.vcd")],
                        run_dir / f"stream_{index}.log", env,
                        markers=(rf"^PASS rng_stream: {a.words} consecutive words, II=1,",))
-        prefix = ROOT / "results" / a.tag
         run_logged([sys.executable, "-B", "model/rng_quality.py", "--words", a.words,
                     "--streams", a.streams, "--root", hex(a.root),
                     "--out-prefix", prefix, "--plot", *inputs], run_dir / "quality.log", env,
@@ -145,7 +150,7 @@ def main():
         else:
             manifest["synthesis"] = "explicitly_skipped"
         manifest["status"] = "validation_completed"
-        manifest["results_prefix"] = str(prefix.relative_to(ROOT))
+        manifest["results_prefix"] = prefix.relative_to(ROOT).as_posix()
         print(f"PASS RNG lab validation: {run_dir}")
         print("Read the PPA CSV for violations; this is not physical signoff.")
         return 0

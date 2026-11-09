@@ -57,7 +57,7 @@ the passing duplicate-stream rejection test. It is not a failed unit test.
 ## Synthesis findings
 
 Replaying scripts/parse_reports.py on the raw reports reproduces every field
-of results/rng_20261108_231630_ppa.csv after normalizing CSV scalar types.
+of results/rng_20261108_ppa.csv after normalizing CSV scalar types.
 
 - Cell area: 5,274.931992 um^2; 1,568 cells / 161 registers in summary.txt.
 - Setup slack: +0.00604582 ns at 5 ns, with ideal clocks.
@@ -113,8 +113,8 @@ archive_manifest.json. Binary DDC/SVF artifacts remain in the original archive.
 
 ## Report locations
 
-Simulation logs and run/audit metadata are in reports/sim/rng_20261108_231630/.
-Synthesis reports and synthesis/parser logs are in reports/syn/rng_20261108_231630/.
+Simulation logs and run/audit metadata are in reports/sim/rng_validation/.
+Synthesis reports and synthesis/parser logs are in reports/syn/rng_validation/.
 Original archive member names, source hashes and paths embedded in raw logs
 are historical and unchanged. archive_manifest.json maps those members to
 their current local paths. Runner/parser layout changes after commit

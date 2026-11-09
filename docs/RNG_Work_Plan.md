@@ -198,10 +198,10 @@ Electrical violations remain. The unannotated power estimate does not support
 an activity-based energy-per-trial claim.
 
 Recorded evidence:
-- `results/rng_20261108_231630_ppa.csv`
-- `reports/sim/rng_20261108_231630/manifest.json`
-- `reports/sim/rng_20261108_231630/terminal_ppa_manifest.txt`
-- `reports/sim/rng_20261108_231630/evidence_note.md`
+- `results/rng_20261108_ppa.csv`
+- `reports/sim/rng_validation/manifest.json`
+- `reports/sim/rng_validation/terminal_ppa_manifest.txt`
+- `reports/sim/rng_validation/evidence_note.md`
 
 All **79 input hashes match the local runtime files of commit 6aa595f**.
 The source export is therefore traceable even though the run did not have
@@ -214,9 +214,9 @@ and gitignored; binary DDC/SVF files remain in the original evidence archive.
 ### Raw-report review and remaining limitations
 
 The complete review is
-`reports/sim/rng_20261108_231630/review.md`; its
+`reports/sim/rng_validation/review.md`; its
 `archive_manifest.json` records the archive SHA-256 and import map.
-Lab RTL quality tables and plot are `results/rng_20261108_231630_*`.
+Lab RTL quality tables and plot are `results/rng_20261108_*`.
 
 The raw library digest matches the existing one-lane synthesis baseline.
 DC is T-2022.03-SP2, using typical gscl45nm conditions; the power report
@@ -242,10 +242,11 @@ physical signoff, and the original tool outputs are preserved.
 
 ### Standard report layout
 
-Simulation evidence is in `reports/sim/rng_20261108_231630/`; synthesis
-evidence is in `reports/syn/rng_20261108_231630/`. The integration run
-directories already under `reports/sim/` retain their names. The local-only
-model validation record is `reports/sim/rng_validation_local_2026-11-08.txt`.
+Simulation evidence is in `reports/sim/rng_validation/`; synthesis
+evidence is in `reports/syn/rng_validation/`. The integration run
+directories are `rng_validation_sim-top` and
+`rng_validation_sim-lane-bubbles`. The local-only
+model validation record is `reports/sim/rng_validation_local.txt`.
 Current runner output follows the same structure.
 
 Raw log contents, source hashes and original archive member names are
@@ -267,7 +268,8 @@ and analyzed RTL tables. Exclude compiled products and the large, reproducible
 raw stream captures:
 
 ```bash
-RUN_TAG=rng_20261108_231630
+RUN_TAG=rng_validation
+RESULTS_TAG=rng_20261108
 tar -czf "$HOME/rng_validation_evidence_$RUN_TAG.tar.gz" \
   --exclude=csrc --exclude=work --exclude='simv*' --exclude='*.daidir' \
   --exclude='stream_*.hex' \
@@ -275,13 +277,13 @@ tar -czf "$HOME/rng_validation_evidence_$RUN_TAG.tar.gz" \
   "reports/syn/$RUN_TAG" \
   "reports/sim/${RUN_TAG}_sim-top" \
   "reports/sim/${RUN_TAG}_sim-lane-bubbles" \
-  results/${RUN_TAG}_* SOURCE_MANIFEST.json
+  results/${RESULTS_TAG}_* SOURCE_MANIFEST.json
 ```
 
 Then, from Windows PowerShell in the local repository:
 
 ```powershell
-scp sz23492@mario.ece.utexas.edu:~/rng_validation_evidence_rng_20261108_231630.tar.gz build/
+scp sz23492@mario.ece.utexas.edu:~/rng_validation_evidence_rng_validation.tar.gz build/
 ```
 
 Keep the archive intact for inspection and selective import. The original
@@ -304,7 +306,8 @@ The supplied `scripts/run_rng_validation.py` performs all of these steps:
 6. Synthesize `rng_lane` using the shared 5 ns SDC and parse the PPA reports.
 
 The runner rejects nonzero exits, explicit failure/error diagnostics and absent
-PASS markers. Each run has a new tag and source hashes; old run directories
+PASS markers. Each run records source hashes; existing run directories and
+result prefixes
 cannot be overwritten. Synthesis completion does not imply timing closure:
 the CSV retains hold/electrical violations and power-activity qualifications.
 
@@ -346,7 +349,9 @@ that same interpreter to Make.
 Simulation logs, streams, VCDs and run/audit manifests go under
 `reports/sim/<tag>/`. Synthesis reports and synthesis/parser logs go under
 `reports/syn/<tag>/`. Analyzed tables and plots go under
-`results/<tag>_*`, including `results/<tag>_ppa.csv`.
+`results/rng_YYYYMMDD_*` by default, including the PPA CSV.
+Report tags default to `rng_validation`; use descriptive `--tag` and
+`--results-tag` values for additional runs without overwriting evidence.
 Large raw stream hex files and build products are gitignored.
 The source bundle works without a Git checkout; the evidence records that fact.
 

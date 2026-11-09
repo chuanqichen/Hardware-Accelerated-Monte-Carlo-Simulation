@@ -37,7 +37,7 @@ class TestReportDirectorySelection(unittest.TestCase):
         from unittest.mock import patch
         import parse_reports
 
-        fixture = Path(__file__).resolve().parents[1] / "reports/syn/rng_20261108_231630"
+        fixture = Path(__file__).resolve().parents[1] / "reports/syn/rng_validation"
         with tempfile.TemporaryDirectory() as directory:
             parent = Path(directory) / "syn"
             first, second = parent / "first_run", parent / "second_run"
