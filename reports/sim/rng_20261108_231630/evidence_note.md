@@ -10,3 +10,12 @@ archive_manifest.json records original archive/member hashes and imported
 paths. Raw logs use .log.txt names with unchanged bytes. VCDs are local and
 ignored; binary DDC/SVF files remain in the original archive. The original
 supplied terminal transcript is preserved.
+
+## Report locations
+
+Simulation logs and run/audit metadata are in reports/sim/rng_20261108_231630/.
+Synthesis reports and synthesis/parser logs are in reports/syn/rng_20261108_231630/.
+Original archive member names, source hashes and paths embedded in raw logs
+are historical and unchanged. archive_manifest.json maps those members to
+their current local paths. Runner/parser layout changes after commit
+6aa595f do not alter the recorded RTL validation.

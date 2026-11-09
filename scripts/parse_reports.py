@@ -83,13 +83,16 @@ def parse_qor(path: Path) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--syn", type=Path, default=Path("reports/syn"))
+    ap.add_argument("--syn", type=Path, default=Path("reports/syn"),
+                    help="one synthesis run directory or a parent containing multiple runs")
     ap.add_argument("--out", type=Path, default=Path("results/gauss_lut_ppa.csv"))
     ap.add_argument("--filter", default="", help="only tags containing this substring")
     a = ap.parse_args()
 
     rows = []
-    for summ in sorted(a.syn.glob("*/summary.txt")):
+    summaries = ([a.syn / "summary.txt"] if (a.syn / "summary.txt").is_file()
+                 else sorted(a.syn.glob("*/summary.txt")))
+    for summ in summaries:
         if a.filter and a.filter not in summ.parent.name:
             continue
         row = parse_summary(summ)

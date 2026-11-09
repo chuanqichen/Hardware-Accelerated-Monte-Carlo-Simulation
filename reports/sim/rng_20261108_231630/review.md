@@ -8,7 +8,7 @@ archive_manifest.json. The original transcript remains preserved separately.
 ## Provenance and reproducibility
 
 - All 79 runtime source hashes agree between the exported source manifest,
-  the run manifest and the current runtime files of source commit 6aa595f.
+  the run manifest and the runtime source snapshot of commit 6aa595f.
 - All six source hashes in the RTL quality manifest match the run manifest.
 - The synthesis input hashes match the RNG RTL/package, shared constraints,
   config.tcl and dc_synth.tcl.
@@ -110,3 +110,12 @@ No claim of a warning-free build is made.
 Raw logs are versioned as .log.txt with unchanged bytes. VCDs are retained
 locally and remain gitignored; their exact bytes and paths are covered by
 archive_manifest.json. Binary DDC/SVF artifacts remain in the original archive.
+
+## Report locations
+
+Simulation logs and run/audit metadata are in reports/sim/rng_20261108_231630/.
+Synthesis reports and synthesis/parser logs are in reports/syn/rng_20261108_231630/.
+Original archive member names, source hashes and paths embedded in raw logs
+are historical and unchanged. archive_manifest.json maps those members to
+their current local paths. Runner/parser layout changes after commit
+6aa595f do not alter the recorded RTL validation.

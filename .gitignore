@@ -226,7 +226,7 @@ simv*
 csrc/
 csrc_rng/
 # Long RNG captures are reproducible; keep CSVs, manifests and reports.
-reports/rng_validation/**/stream_*.hex
+reports/sim/rng_*/stream_*.hex
 *.vcd
 *.fsdb
 *.log

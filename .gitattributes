@@ -2,6 +2,6 @@
 *.sh text eol=lf
 
 # Preserve imported RNG evidence bytes for the archive SHA-256 audit.
-reports/rng_validation/** -text
-reports/sim/rng_*_sim-*/** -text
+reports/sim/rng_*/** -text
+reports/syn/rng_*/** -text
 results/rng_[0-9]*_* -text

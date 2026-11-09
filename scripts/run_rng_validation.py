@@ -30,6 +30,7 @@ def run_logged(command, log, env=None, markers=(), cwd=ROOT):
     print("Running:", " ".join(map(str, command)), flush=True)
     result = subprocess.run([str(part) for part in command], cwd=cwd, env=env,
                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    Path(log).parent.mkdir(parents=True, exist_ok=True)
     Path(log).write_text(json.dumps(list(map(str, command))) + "\n" + result.stdout,
                          encoding="utf-8")
     if result.returncode or ERROR.search(result.stdout):
@@ -65,7 +66,10 @@ def main():
             path = ROOT / name
             if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
                 p.error(f"source export differs from its manifest: {name}; use a fresh export")
-    run_dir = ROOT / "reports/rng_validation" / a.tag
+    run_dir = ROOT / "reports/sim" / a.tag
+    syn_dir = ROOT / "reports/syn" / a.tag
+    if not a.skip_synth and syn_dir.exists():
+        p.error(f"Synthesis run already exists: {syn_dir}; choose a new tag")
     run_dir.mkdir(parents=True, exist_ok=False)
     # Source exports work without a .git directory; record exact input bytes.
     source_files = [p.relative_to(ROOT).as_posix()
@@ -87,7 +91,9 @@ def main():
                     git_revision=revision, working_status=status,
                     source_sha256={name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
                                    for name in source_files if (ROOT / name).is_file()},
-                    words=a.words, streams=a.streams, synthesis="pending", status="running")
+                    words=a.words, streams=a.streams, synthesis="pending", status="running",
+                    report_paths=dict(simulation=run_dir.relative_to(ROOT).as_posix(),
+                                      synthesis=None if a.skip_synth else syn_dir.relative_to(ROOT).as_posix()))
     manifest_path = run_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     env = dict(os.environ, PYTHON=sys.executable, VCS=vcs)
@@ -126,15 +132,15 @@ def main():
             syn_env = dict(env, DESIGN="rng_lane", RTL_FILES="rtl/mc_pkg.sv rtl/rng_lane.sv",
                            CLK_PERIOD_NS="5.0", TAG=a.tag, PARAMS="",
                            SDC=str(ROOT / "constraints/lane_5ns.sdc"),
-                           REPORT_DIR=str(run_dir / "synthesis" / a.tag))
+                           REPORT_DIR=str(syn_dir))
             run_logged([dc, "-f", "scripts/syn/dc_synth.tcl"],
-                       run_dir / "synthesis.log", syn_env,
+                       syn_dir / "synthesis.log", syn_env,
                        markers=(rf"^SYNTH_DONE {re.escape(a.tag)} ",))
-            if not (run_dir / "synthesis" / a.tag / "summary.txt").is_file():
+            if not (syn_dir / "summary.txt").is_file():
                 raise RuntimeError("synthesis did not produce summary.txt")
             run_logged([sys.executable, "-B", "scripts/parse_reports.py",
-                        "--syn", run_dir / "synthesis", "--out", str(prefix) + "_ppa.csv"],
-                       run_dir / "parse_ppa.log", env, markers=(r"^wrote 1 rows",))
+                        "--syn", syn_dir, "--out", str(prefix) + "_ppa.csv"],
+                       syn_dir / "parse_ppa.log", env, markers=(r"^wrote 1 rows",))
             manifest["synthesis"] = "reports_produced_check_ppa_for_violations"
         else:
             manifest["synthesis"] = "explicitly_skipped"

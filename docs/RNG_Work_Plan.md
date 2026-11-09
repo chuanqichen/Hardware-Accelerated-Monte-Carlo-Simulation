@@ -116,7 +116,7 @@ RTL tables have now been transferred and reviewed; results are recorded below.
 - [x] Implement reproducible model stream screening, output tables, seed/source
   manifest and a plot; malformed or noncanonical imported streams are rejected.
 - [x] Run three jump-separated model streams of 1,048,576 words each.
-- [x] Local regression: 85 model tests passed; 13 flow tests passed and two
+- [x] Local regression: 85 model tests passed; 16 flow tests passed and two
   existing Bash-dependent waveform tests skipped on Windows.
 - [x] Re-run standalone RNG and integrated one-lane VCS; raw PASS logs reviewed.
 - [x] Check long, uninterrupted RTL streams against the independent oracle;
@@ -199,9 +199,9 @@ an activity-based energy-per-trial claim.
 
 Recorded evidence:
 - `results/rng_20261108_231630_ppa.csv`
-- `reports/rng_validation/rng_20261108_231630/manifest.json`
-- `reports/rng_validation/rng_20261108_231630/terminal_ppa_manifest.txt`
-- `reports/rng_validation/rng_20261108_231630/evidence_note.md`
+- `reports/sim/rng_20261108_231630/manifest.json`
+- `reports/sim/rng_20261108_231630/terminal_ppa_manifest.txt`
+- `reports/sim/rng_20261108_231630/evidence_note.md`
 
 All **79 input hashes match the local runtime files of commit 6aa595f**.
 The source export is therefore traceable even though the run did not have
@@ -214,7 +214,7 @@ and gitignored; binary DDC/SVF files remain in the original evidence archive.
 ### Raw-report review and remaining limitations
 
 The complete review is
-`reports/rng_validation/rng_20261108_231630/review.md`; its
+`reports/sim/rng_20261108_231630/review.md`; its
 `archive_manifest.json` records the archive SHA-256 and import map.
 Lab RTL quality tables and plot are `results/rng_20261108_231630_*`.
 
@@ -240,6 +240,25 @@ waveforms passed, as did independent checksum/data checks. Timescale/width
 lint diagnostics also remain. The evidence is not a warning-free build or
 physical signoff, and the original tool outputs are preserved.
 
+### Standard report layout
+
+Simulation evidence is in `reports/sim/rng_20261108_231630/`; synthesis
+evidence is in `reports/syn/rng_20261108_231630/`. The integration run
+directories already under `reports/sim/` retain their names. The local-only
+model validation record is `reports/sim/rng_validation_local_2026-11-08.txt`.
+Current runner output follows the same structure.
+
+Raw log contents, source hashes and original archive member names are
+historical evidence and remain unchanged. The audit index updates only its
+current `local_path` mappings. Paths embedded in the original logs, source
+export and RTL quality manifest describe the original Mario run.
+The recorded 79 input hashes describe source commit 6aa595f; subsequent
+runner/parser path handling changes are covered by local layout tests and
+do not imply a new VCS/DC execution or any RTL change.
+
+The archive-transfer command below applies to future runs with the current
+runner. The original copied archive and validated source ZIP are preserved.
+
 ### Transfer the lab evidence
 
 
@@ -252,7 +271,8 @@ RUN_TAG=rng_20261108_231630
 tar -czf "$HOME/rng_validation_evidence_$RUN_TAG.tar.gz" \
   --exclude=csrc --exclude=work --exclude='simv*' --exclude='*.daidir' \
   --exclude='stream_*.hex' \
-  "reports/rng_validation/$RUN_TAG" \
+  "reports/sim/$RUN_TAG" \
+  "reports/syn/$RUN_TAG" \
   "reports/sim/${RUN_TAG}_sim-top" \
   "reports/sim/${RUN_TAG}_sim-lane-bubbles" \
   results/${RUN_TAG}_* SOURCE_MANIFEST.json
@@ -292,10 +312,11 @@ Lab account confirmed by Shentong: `sz23492@mario.ece.utexas.edu`, using passwor
 login. Shentong ran the validation interactively. Codex imported the supplied
 terminal evidence and verified source hashes; it did not independently run VCS/DC.
 
-The source snapshot used for the recorded validation is available locally as
-`build/rng_validation_sources.zip`. This avoids requiring a commit or modifying an
-existing lab checkout. Its `SOURCE_MANIFEST.json` records all packaged file
-hashes. Transfer it from Windows PowerShell:
+The original validated source ZIP is preserved locally as
+`build/rng_validation_sources_validated_20261108.zip`. The refreshed
+`build/rng_validation_sources.zip` contains the current runner and standard
+sim/syn report layout for future runs. Its `SOURCE_MANIFEST.json` records the
+packaged file hashes. Transfer the current sources from Windows PowerShell:
 
 ```powershell
 scp build/rng_validation_sources.zip sz23492@mario.ece.utexas.edu:~/
@@ -322,8 +343,9 @@ created with `/usr/bin/python3.11 -m venv "$HOME/.venvs/monte_carlo"` and
 `python -m pip install numpy matplotlib` after activation. The runner passes
 that same interpreter to Make.
 
-Raw logs, source hashes, RTL streams, short VCDs and synthesis reports go under
-`reports/rng_validation/<tag>/`; analyzed tables and plot go under
+Simulation logs, streams, VCDs and run/audit manifests go under
+`reports/sim/<tag>/`. Synthesis reports and synthesis/parser logs go under
+`reports/syn/<tag>/`. Analyzed tables and plots go under
 `results/<tag>_*`, including `results/<tag>_ppa.csv`.
 Large raw stream hex files and build products are gitignored.
 The source bundle works without a Git checkout; the evidence records that fact.
