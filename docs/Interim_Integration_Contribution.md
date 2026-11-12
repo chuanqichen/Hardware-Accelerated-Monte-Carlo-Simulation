@@ -16,7 +16,7 @@ use a 16-bit Q3.12 Gaussian sample and an 18-bit Q5.12 exponential input.
 The integrated RTL has passed 88 cases across four latency configurations,
 comparing 105,828 trials with the Python reference. These checks cover every
 qualified stage value, final results, saturation flags, reset/restart and
-sustained II=1. The newest main passes 85 model tests and 21 flow tests. On
+sustained II=1. The interim integration branch passes 85 model tests and 21 flow tests. On
 November 11, a freshly synthesized one-lane netlist also passed an independent
 interface-only replay of 22 cases and 26,457 trials. This confirms preservation of
 results, status, reset/restart and busy-cycle counts through synthesis. It is a
@@ -104,3 +104,19 @@ evaluation tasks before final claims.
 This contribution does not replace the report's required 3–5-source literature
 review. Reuse the team's checked references and connect each source to a design
 choice; the older broad research plan includes features outside the current scope.
+
+## Shared draft review, 2026-11-12
+
+Shentong invited direct corrections to the shared draft. Tyler reviewed and edited
+the integration, synthesis and feedback sections against the committed evidence.
+The draft now distinguishes deterministic bias from software CI coverage, states
+that 199.78 Mtrials/s is conditional on an unclosed 5 ns clock, and separates common
+pre-layout lane comparisons from the later routed baseline. The large module
+screenshot was replaced by a native text excerpt of the default lane connections.
+The native equations, architecture/waveform figures and responsibilities table are
+preserved. The table heading/header now stays with its rows.
+
+The edited Google Doc was read back and exported for visual QA: seven equations,
+one responsibilities table and seven rendered pages were verified. Temporary PDF
+exports and review PNGs are disposable; the shared Doc is the report source.
+Shentong's November 17/24/30 schedule was retained. No Slack message was sent.
