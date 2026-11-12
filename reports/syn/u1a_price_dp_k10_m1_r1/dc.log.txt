@@ -1,0 +1,795 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+               Version T-2022.03-SP2 for linux64 - May 25, 2022 
+
+                    Copyright (c) 1988 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+# Design Compiler synthesis of one block / configuration on gscl45nm (FreePDK45).
+#
+# Driven entirely by environment variables so the same script serves every block
+# and every point of the parameter sweep (scripts/syn/run_sweep.sh):
+#
+#   DESIGN      top module name                       e.g. gauss_lut
+#   RTL_FILES   space-separated SystemVerilog files,   e.g. "rtl/mc_pkg.sv rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv"
+#               in compile order (packages first)
+#   PARAMS      comma-separated top-level parameter    e.g. "ADDR_BITS=10,OUT_WIDTH=16,FRAC_BITS=12,LATENCY=1"
+#               overrides (optional)
+#   TAG         run name used for the report folder    e.g. gauss_lut_a10_w16_l1
+#   SDC         constraints file                       default constraints/lane_5ns.sdc
+#   REPORT_DIR  where raw reports go                   default reports/syn/$TAG
+#   LIB_DB      standard-cell .db                      default FreePDK45 gscl45nm.db on peach
+#   RETIME      0 (default, or unset) | 1              1 adds -retime to compile_ultra (registers
+#                                                      move, so simulated latency is no longer the
+#                                                      synthesised latency of every path)
+#
+# Usage (peach, login shell with `module load syn/2022`):
+#   DESIGN=gauss_lut RTL_FILES="..." PARAMS="ADDR_BITS=10,..." TAG=gauss_lut_a10_w16_l1 \
+#     dc_shell -f scripts/syn/dc_synth.tcl | tee reports/syn/gauss_lut_a10_w16_l1/dc.log
+#
+# Outputs in $REPORT_DIR: area.rpt timing.rpt power.rpt qor.rpt resources.rpt
+# cells.rpt, the mapped netlist $DESIGN.mapped.v, the post-synthesis SDC, and
+# summary.txt (one line per key metric, parsed by scripts/parse_reports.py).
+set repo_root [file normalize [file join [file dirname [info script]] ../..]]
+/misc/scratch/eg37885/mc/repo
+source [file join $repo_root scripts syn config.tcl]
+if {[catch {mc_synth_config $repo_root} cfg]} {
+  puts stderr "Synthesis setup error: $cfg"
+  exit 2
+}
+set DESIGN [dict get $cfg design]
+price_dp
+set RTL_FILES [dict get $cfg sources]
+/misc/scratch/eg37885/mc/repo/rtl/mc_pkg.sv /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv /misc/scratch/eg37885/mc/repo/rtl/pipe.sv /misc/scratch/eg37885/mc/syn_scratch/u1a_price_dp_k10_m1_r1/generated/exp2_rom.sv /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv /misc/scratch/eg37885/mc/repo/rtl/price_dp.sv
+set PARAMS [dict get $cfg params]
+EXP_ADDR_BITS=10,MUL_STAGES=1
+set TAG [dict get $cfg tag]
+u1a_price_dp_k10_m1_r1
+set SDC [dict get $cfg sdc]
+/misc/scratch/eg37885/mc/repo/constraints/lane_5ns.sdc
+set REPORT_DIR [dict get $cfg report_dir]
+/misc/scratch/eg37885/mc/repo/reports/syn/u1a_price_dp_k10_m1_r1
+set LIB_DB [dict get $cfg library]
+/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+set CLK_PERIOD [dict get $cfg period]
+5.0
+set OPCOND [dict get $cfg corner]
+typical
+set RETIME [dict get $cfg retime]
+1
+if {[catch {
+file mkdir $REPORT_DIR
+file mkdir $REPORT_DIR/work
+define_design_lib WORK -path $REPORT_DIR/work
+set_svf $REPORT_DIR/design.svf
+set fd [open $REPORT_DIR/source_sha256.txt w]
+puts $fd [exec sha256sum {*}$RTL_FILES $SDC [file join $repo_root scripts syn config.tcl] [file join $repo_root scripts syn dc_synth.tcl]]
+close $fd
+set fd [open $REPORT_DIR/library_sha256.txt w]
+puts $fd [exec sha256sum $LIB_DB]
+close $fd
+set fd [open $REPORT_DIR/inputs.txt w]
+puts $fd "top=$DESIGN"
+puts $fd "corner_label=$OPCOND"
+puts $fd "clock_period_ns=$CLK_PERIOD"
+puts $fd "params=$PARAMS"
+puts $fd "retime=$RETIME"
+puts $fd "sources=$RTL_FILES"
+puts $fd "library=$LIB_DB"
+puts $fd "tool=[get_app_var sh_product_version]"
+if {![catch {exec git -C $repo_root rev-parse HEAD} revision]} { puts $fd "git_revision=$revision" }
+close $fd
+
+# ---- library ------------------------------------------------------------------
+set_app_var target_library $LIB_DB
+set_app_var link_library   "* $LIB_DB"
+# gscl45nm has no DesignWare-specific library; DC's generic DW components still map.
+set_app_var synthetic_library {dw_foundation.sldb}
+set_app_var link_library "$link_library dw_foundation.sldb"
+
+# ---- read and elaborate -------------------------------------------------------
+# Packages must be analyzed before the modules that import them.
+foreach f $RTL_FILES {
+  if {![analyze -format sverilog $f]} { puts "ERROR: analyze failed on $f"; exit 1 }
+}
+set elab_args [list $DESIGN]
+if {$PARAMS ne ""} {
+  # "A=1,B=2" -> "A=>1,B=>2" (DC's -parameters syntax)
+  set p [string map {"=" "=>"} $PARAMS]
+  lappend elab_args -parameters $p
+}
+if {![eval elaborate $elab_args]} { puts "ERROR: elaborate failed"; exit 1 }
+# Elaborating with -parameters renames the design (e.g. gauss_lut_ADDR_BITS10_...);
+# rename back so reports and the netlist are predictable.
+set elab_name [get_object_name [current_design]]
+if {$elab_name ne $DESIGN} { rename_design $elab_name $DESIGN }
+current_design $DESIGN
+if {![link]} { error "Link failed" }
+if {![check_design]} { error "check_design failed" }
+check_design > $REPORT_DIR/check_design.rpt
+set_operating_conditions $OPCOND
+report_units > $REPORT_DIR/units.rpt
+
+# ---- constraints --------------------------------------------------------------
+source $SDC
+
+# ---- compile ------------------------------------------------------------------
+# No hierarchy to keep for a single block; flatten so the ROM logic can be
+# optimised with its consumer. Retiming is off by default so the latency
+# measured in simulation is the latency synthesised (LATENCY / MUL_STAGES are
+# the knobs, as documented in the work plans); RETIME=1 opts in to -retime.
+set_app_var compile_ultra_ungroup_dw true
+# Spec D-2: async reset. DC ignores the DFFSR recovery/removal arcs unless this
+# is set, and then reports the reset de-assertion path as "unconstrained".
+set_app_var enable_recovery_removal_arcs true
+# Hold is left to P&R (ideal clock here); the enable-mux feedback on DFFPOSX1
+# shows -0.03 ns and is listed in violators.rpt for the record.
+set compile_args [list -no_autoungroup]
+if {$RETIME} { lappend compile_args -retime }
+puts "compile_ultra $compile_args"
+if {![eval compile_ultra $compile_args]} { error "compile_ultra failed" }
+# Second pass to recover area once timing is met.
+optimize_netlist -area
+if {![check_design]} { error "post-compile check_design failed" }
+check_timing > $REPORT_DIR/timing_check.rpt
+
+# ---- reports ------------------------------------------------------------------
+report_area      -hierarchy -nosplit        > $REPORT_DIR/area.rpt
+report_timing    -max_paths 5 -nosplit -transition_time -capacitance \
+                                            > $REPORT_DIR/timing.rpt
+report_power     -nosplit -analysis_effort medium \
+                                            > $REPORT_DIR/power.rpt
+report_qor                                  > $REPORT_DIR/qor.rpt
+report_resources -nosplit                   > $REPORT_DIR/resources.rpt
+report_reference -nosplit                   > $REPORT_DIR/cells.rpt
+report_constraint -all_violators -nosplit   > $REPORT_DIR/violators.rpt
+# Full constraint summary (not just violators): includes the recovery/removal
+# rows for the async reset pins (spec D-2) and the hold summary.
+report_constraint -nosplit -significant_digits 4 > $REPORT_DIR/constraints.rpt
+# Reset de-assertion paths explicitly, so the D-2 obligation is auditable.
+set async_pins [get_pins -of_objects [all_registers] -filter "lib_pin_name == R || lib_pin_name == S"]
+redirect $REPORT_DIR/reset_timing.rpt {
+  if {[sizeof_collection $async_pins] > 0} {
+    report_timing -delay_type max -to $async_pins -max_paths 2 -nosplit
+    report_timing -delay_type min -to $async_pins -max_paths 2 -nosplit
+  } else { puts "no asynchronous reset pins in this design" }
+}
+
+# ---- outputs for P&R and for the parser ---------------------------------------
+change_names -rules verilog -hierarchy
+write -format verilog -hierarchy -output $REPORT_DIR/$DESIGN.mapped.v
+write_sdc $REPORT_DIR/$DESIGN.mapped.sdc
+write -format ddc -hierarchy -output $REPORT_DIR/$DESIGN.mapped.ddc
+
+# One-line-per-metric summary. Numbers come from DC collections, not from
+# re-parsing the text reports, so the CSV stays robust to report formatting.
+set clk_period [get_attribute [get_clocks clk] period]
+set wns        [get_attribute [get_timing_paths -max_paths 1] slack]
+# Design-level area is only exposed through report_area in this DC release.
+redirect -variable area_rpt {report_area -nosplit}
+foreach {key pat} {area_comb "Combinational area:" area_bufinv "Buf/Inv area:" \
+                   area_seq "Noncombinational area:" area_total "Total cell area:"} {
+  set $key ""
+  regexp "$pat\\s+(\[\\d.\]+)" $area_rpt -> $key
+}
+set cell_count [sizeof_collection [get_cells -hierarchical -filter "is_hierarchical == false"]]
+set seq_count  [sizeof_collection [all_registers]]
+set f [open $REPORT_DIR/summary.txt w]
+puts $f "design       $DESIGN"
+puts $f "tag          $TAG"
+puts $f "params       $PARAMS"
+puts $f "retime       $RETIME"
+puts $f "library      [file tail $LIB_DB]"
+puts $f "clk_period_ns $clk_period"
+puts $f "wns_ns       $wns"
+puts $f "fmax_mhz     [expr {1000.0 / ($clk_period - $wns)}]"
+puts $f "area_um2     $area_total"
+puts $f "area_comb_um2 $area_comb"
+puts $f "area_bufinv_um2 $area_bufinv"
+puts $f "area_seq_um2 $area_seq"
+puts $f "cells        $cell_count"
+puts $f "registers    $seq_count"
+close $f
+
+} reason]} {
+  puts stderr "Synthesis failed: $reason; partial evidence remains in $REPORT_DIR"
+  exit 1
+}
+Running PRESTO HDLC
+Compiling source file /misc/scratch/eg37885/mc/repo/rtl/mc_pkg.sv
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/mc_pkg.sv:70: signed to unsigned conversion occurs. (VER-318)
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb'
+Running PRESTO HDLC
+Compiling source file /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /misc/scratch/eg37885/mc/repo/rtl/pipe.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /misc/scratch/eg37885/mc/syn_scratch/u1a_price_dp_k10_m1_r1/generated/exp2_rom.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /misc/scratch/eg37885/mc/repo/rtl/price_dp.sv
+Presto compilation completed successfully.
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/gtech.db'
+Loading db file '/usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/standard.sldb'
+  Loading link library 'gscl45nm'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 45 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      acc_r_reg      | Flip-flop |  34   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 49 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      v_mul_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 67 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       sx2_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|       x2_reg        | Flip-flop |  18   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 71 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       v2_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 85 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       ss6_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|        p_reg        | Flip-flop |  22   |  Y  | N  | N  | N  | N  | N  | N  |
+|       sx6_reg       | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine price_dp_EXP_ADDR_BITS10_MUL_STAGES1 line 90 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/price_dp.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     p_valid_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (price_dp_EXP_ADDR_BITS10_MUL_STAGES1)
+Elaborated 1 design.
+Current design is now 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1'.
+Information: Building the design 'round_sat' instantiated from design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1' with
+	the parameters "IN_WIDTH=34,OUT_WIDTH=18,SHIFT=14,SIGNED=1". (HDL-193)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv:49: signed to unsigned conversion occurs. (VER-318)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv:66: signed to unsigned part selection occurs. (VER-318)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv:84: signed to unsigned part selection occurs. (VER-318)
+Presto compilation completed successfully. (round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1)
+Information: Building the design 'exp2_unit' instantiated from design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1' with
+	the parameters "EXP_ADDR_BITS=10". (HDL-193)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv:41: signed to unsigned part selection occurs. (VER-318)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv:42: signed to unsigned part selection occurs. (VER-318)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv:73: signed to unsigned conversion occurs. (VER-318)
+Warning:  /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv:74: signed to unsigned assignment occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 40 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      addr3_reg      | Flip-flop |  10   |  Y  | N  | N  | N  | N  | N  | N  |
+|       n3_reg        | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 51 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       n4_reg        | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|      rom4_reg       | Flip-flop |  17   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 80 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      sat_s_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|       s_t_reg       | Flip-flop |  22   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine exp2_unit_EXP_ADDR_BITS10 line 86 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       v4_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    out_valid_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       v3_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (exp2_unit_EXP_ADDR_BITS10)
+Information: Building the design 'pipe' instantiated from design 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1' with
+	the parameters "W=1,N=3". (HDL-193)
+
+Inferred memory devices in process
+	in routine pipe_W1_N3 line 21 in file
+		'/misc/scratch/eg37885/mc/repo/rtl/pipe.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    g_regs.r_reg     | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (pipe_W1_N3)
+Information: Building the design 'exp2_rom' instantiated from design 'exp2_unit_EXP_ADDR_BITS10' with
+	the parameters "ADDR_BITS=10,OUT_WIDTH=17". (HDL-193)
+Warning:  /misc/scratch/eg37885/mc/syn_scratch/u1a_price_dp_k10_m1_r1/generated/exp2_rom.sv:8: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 7 in file
+	'/misc/scratch/eg37885/mc/syn_scratch/u1a_price_dp_k10_m1_r1/generated/exp2_rom.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            8             |    auto/auto     |
+===============================================
+Presto compilation completed successfully. (exp2_rom_ADDR_BITS10_OUT_WIDTH17)
+Current design is 'price_dp_EXP_ADDR_BITS10_MUL_STAGES1'.
+Information: Renaming design /misc/scratch/eg37885/mc/repo/price_dp_EXP_ADDR_BITS10_MUL_STAGES1.db:price_dp_EXP_ADDR_BITS10_MUL_STAGES1 to /misc/scratch/eg37885/mc/repo/price_dp_EXP_ADDR_BITS10_MUL_STAGES1.db:price_dp. (UIMG-45)
+Current design is 'price_dp'.
+Current design is 'price_dp'.
+
+  Linking design 'price_dp'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (5 designs)               /misc/scratch/eg37885/mc/repo/price_dp_EXP_ADDR_BITS10_MUL_STAGES1.db, etc
+  gscl45nm (library)          /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+  dw_foundation.sldb (library) /usr/local/packages/synopsys_2022/syn/T-2022.03-SP2/libraries/syn/dw_foundation.sldb
+
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Thu Nov 12 16:47:40 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      1
+    Constant outputs (LINT-52)                                      1
+
+Cells                                                               3
+    Cells do not drive (LINT-1)                                     3
+--------------------------------------------------------------------------------
+
+Warning: In design 'price_dp', cell 'C235' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C450' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C472' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_rom_ADDR_BITS10_OUT_WIDTH17', output port 'val[16]' is connected directly to 'logic 1'. (LINT-52)
+Using operating conditions 'typical' found in library 'gscl45nm'.
+Warning: Design rule attributes from the driving cell will be set on the port 'rst_n'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[17]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[16]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'a[0]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'b[0]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[21]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[20]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[19]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[18]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[17]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[16]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'k[0]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z_valid'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[15]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[14]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[13]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[12]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[11]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[10]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[9]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[8]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[7]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[6]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[5]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[4]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[3]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[2]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[1]'. (UID-401)
+Warning: Design rule attributes from the driving cell will be set on the port 'z[0]'. (UID-401)
+Current design is 'price_dp'.
+Current design is 'price_dp'.
+compile_ultra -no_autoungroup -retime
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | T-2022.03-DWBB_202203.2 |     *     |
+| Licensed DW Building Blocks        | T-2022.03-DWBB_202203.2 |     *     |
+============================================================================
+
+====================================================================================================
+| Flow Information                                                                                 |
+----------------------------------------------------------------------------------------------------
+| Flow         | Design Compiler WLM                                                               |
+| Comand Line  | compile_ultra -no_autoungroup -retime                                             |
+====================================================================================================
+| Design Information                                      | Value                                  |
+====================================================================================================
+| Number of Scenarios                                     | 0                                      |
+| Leaf Cell Count                                         | 3913                                   |
+| Number of User Hierarchies                              | 4                                      |
+| Sequential Cell Count                                   | 152                                    |
+| Macro Count                                             | 0                                      |
+| Number of Power Domains                                 | 0                                      |
+| Number of Path Groups                                   | 2                                      |
+| Number of VT Class                                      | 0                                      |
+| Number of Clocks                                        | 1                                      |
+| Number of Dont Touch Cells                              | 2069                                   |
+| Number of Dont Touch Nets                               | 0                                      |
+| Number of Size Only Cells                               | 0                                      |
+| Design with UPF Data                                    | false                                  |
+====================================================================================================
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+Information: Retiming is enabled. SVF file must be used for formal verification. (OPT-1210)
+
+Information: There are 4 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'price_dp'
+
+Loaded alib file './alib-52/gscl45nm.db.alib'
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'exp2_rom_ADDR_BITS10_OUT_WIDTH17'
+ Implement Synthetic for 'exp2_rom_ADDR_BITS10_OUT_WIDTH17'.
+  Processing 'exp2_unit_EXP_ADDR_BITS10'
+Information: Added key list 'DesignWare' to design 'exp2_unit_EXP_ADDR_BITS10'. (DDB-72)
+Information: The register 'rom4_reg[16]' is a constant and will be removed. (OPT-1206)
+ Implement Synthetic for 'exp2_unit_EXP_ADDR_BITS10'.
+  Processing 'price_dp'
+ Implement Synthetic for 'price_dp'.
+  Processing 'round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1'
+ Implement Synthetic for 'round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1'.
+Information: Added key list 'DesignWare' to design 'round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1'. (DDB-72)
+  Processing 'pipe_W1_N3'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+Information: Added key list 'DesignWare' to design 'price_dp'. (DDB-72)
+  Mapping Optimization (Phase 1)
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:17   12574.9      0.00       0.0    7142.2                           48504.8242
+    0:00:17   12541.1      0.01       0.0    7160.2                           48340.8125
+
+  Beginning Constant Register Removal
+  -----------------------------------
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Mapping 'price_dp_DP_OP_7J1_123_5674_1'
+
+  Beginning Isolate Ports
+  -----------------------
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:18   12071.8      0.06       0.1    6931.0                           41759.5352
+    0:00:18   12102.8      0.00       0.0    6955.0                           41914.7734
+    0:00:18   12102.8      0.00       0.0    6955.0                           41914.7734
+    0:00:18   12102.8      0.00       0.0    6955.0                           41914.7734
+    0:00:18   12092.5      0.00       0.0    6927.7                           41876.3750
+    0:00:18   12090.1      0.00       0.0    6926.7                           41872.7539
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:00:19   12059.1      0.00       0.0    6921.8                           41708.3789
+    0:00:19   12059.1      0.00       0.0    6921.8                           41708.3789
+    0:00:19   12059.1      0.00       0.0    6921.8                           41708.3789
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+
+
+  Beginning Design Rule Fixing  (max_fanout)  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:19   12091.0      0.00       0.0    6921.8                           42097.2031
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+    0:00:20   13631.8      0.00       0.0    4267.6 u_exp/u_rom/net15831      49649.2812
+    0:00:20   13804.9      0.00       0.0    3825.1                           50840.8047
+    0:00:20   13804.9      0.00       0.0    3825.1                           50840.8047
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:20   13804.9      0.00       0.0    3825.1                           50840.8047
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+  Global Optimization (Phase 47)
+  Global Optimization (Phase 48)
+Information: Complementing port 's_t[14]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[14]_BAR'. (OPT-319)
+Information: Complementing port 's_t[12]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[12]_BAR'. (OPT-319)
+Information: Complementing port 's_t[10]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[10]_BAR'. (OPT-319)
+Information: Complementing port 's_t[9]' in design 'exp2_unit_EXP_ADDR_BITS10'.
+	 The new name of the port is 's_t[9]_BAR'. (OPT-319)
+    0:00:21   13329.5      0.00       0.0    3341.3                           50581.2305
+    0:00:21   13329.5      0.00       0.0    3341.3                           50581.2305
+    0:00:21   13329.5      0.00       0.0    3341.3                           50581.2305
+    0:00:21   13336.6      0.01       0.0    3360.8                           50420.2344
+    0:00:21   13336.6      0.01       0.0    3360.8                           50420.2344
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:21   13318.3      0.00       0.0    3397.0                           50328.2031
+    0:00:21   13276.0      0.00       0.0    3396.2                           49867.9531
+    0:00:21   13276.0      0.00       0.0    3396.2                           49867.9531
+    0:00:21   13276.0      0.00       0.0    3396.2                           49867.9531
+    0:00:22   13307.0      0.00       0.0    3396.5                           50238.8906
+    0:00:22   13866.4      0.02       0.0    2827.2 acc_r_reg[0][33]/D        52932.7422
+    0:00:22   13984.7      0.00       0.0    2671.1                           53915.8320
+    0:00:22   13984.7      0.00       0.0    2671.1                           53915.8320
+    0:00:22   13984.7      0.00       0.0    2671.1                           53915.8320
+    0:00:22   13984.7      0.00       0.0    2671.1                           53915.8320
+    0:00:22   13984.7      0.00       0.0    2671.1                           53915.8320
+    0:00:22   13984.7      0.00       0.0    2671.1                           53915.8320
+    0:00:22   13950.4      0.00       0.0    2671.5                           53530.2070
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+
+Information: There are 1 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Updating timing information
+
+
+  Beginning Area Optimization
+  -----------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:00   13950.4      0.00       0.0    2671.5                           53530.2070
+    0:00:02   13754.2      0.00       0.0    2660.2                           52957.1562
+Loading db file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Thu Nov 12 16:48:06 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      1
+    Unconnected ports (LINT-28)                                     1
+--------------------------------------------------------------------------------
+
+Warning: In design 'exp2_rom_ADDR_BITS10_OUT_WIDTH17', port 'val[16]' is not connected to any nets. (LINT-28)
+Writing verilog file '/misc/scratch/eg37885/mc/repo/reports/syn/u1a_price_dp_k10_m1_r1/price_dp.mapped.v'.
+Writing ddc file '/misc/scratch/eg37885/mc/repo/reports/syn/u1a_price_dp_k10_m1_r1/price_dp.mapped.ddc'.
+puts "SYNTH_DONE $TAG area=$area_total wns=$wns (review hold/electrical checks; pre-layout estimate only)"
+SYNTH_DONE u1a_price_dp_k10_m1_r1 area=13754.244236 wns=0.00139141 (review hold/electrical checks; pre-layout estimate only)
+exit 0
+
+Memory usage for this session 131 Mbytes.
+Memory usage for this session including child processes 191 Mbytes.
+CPU usage for this session 29 seconds ( 0.01 hours ).
+Elapsed time for this session 31 seconds ( 0.01 hours ).
+
+Thank you...

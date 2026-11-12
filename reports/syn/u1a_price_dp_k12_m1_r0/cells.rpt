@@ -1,0 +1,47 @@
+ 
+****************************************
+Report : reference
+Design : price_dp
+Version: T-2022.03-SP2
+Date   : Thu Nov 12 16:50:34 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500      28     65.701998  
+AND2X2             gscl45nm       2.815800       5     14.079000  
+AOI21X1            gscl45nm       2.815800      31     87.289798  
+AOI22X1            gscl45nm       3.285100      29     95.267900  
+BUFX2              gscl45nm       2.346500      53    124.364496  
+BUFX4              gscl45nm       2.815800       2      5.631600  
+DFFPOSX1           gscl45nm       7.978100      77    614.313686  n
+DFFSR              gscl45nm      10.324600       3     30.973801  n
+FAX1               gscl45nm       8.916700     142   1266.171452  r
+HAX1               gscl45nm       4.693000      13     61.008998  r
+INVX1              gscl45nm       1.407900     202    284.395795  
+INVX2              gscl45nm       1.877200       5      9.386000  
+MUX2X1             gscl45nm       3.754400     298   1118.811204  
+NAND2X1            gscl45nm       1.877200      79    148.298801  
+NAND3X1            gscl45nm       2.346500      12     28.157999  
+NOR2X1             gscl45nm       2.346500      28     65.701998  
+OAI21X1            gscl45nm       2.815800      61    171.763797  
+OR2X1              gscl45nm       2.346500      33     77.434497  
+XNOR2X1            gscl45nm       4.693000      25    117.324996  
+XOR2X1             gscl45nm       4.693000      16     75.087997  
+exp2_unit_EXP_ADDR_BITS12     19261.948836       1  19261.948836  h, n
+pipe_W1_N3                       33.320301       1     33.320301  h, n
+round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1   185.842796       1   185.842796 h
+-----------------------------------------------------------------------------
+Total 23 references                                 23942.277745
+1

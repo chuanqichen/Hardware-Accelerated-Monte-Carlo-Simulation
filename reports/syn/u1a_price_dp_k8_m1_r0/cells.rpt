@@ -1,0 +1,49 @@
+ 
+****************************************
+Report : reference
+Design : price_dp
+Version: T-2022.03-SP2
+Date   : Thu Nov 12 16:46:03 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500      64    150.175995  
+AND2X2             gscl45nm       2.815800       5     14.079000  
+AOI21X1            gscl45nm       2.815800      28     78.842399  
+AOI22X1            gscl45nm       3.285100      29     95.267900  
+BUFX2              gscl45nm       2.346500      66    154.868995  
+BUFX4              gscl45nm       2.815800       2      5.631600  
+DFFPOSX1           gscl45nm       7.978100      77    614.313686  n
+DFFSR              gscl45nm      10.324600       3     30.973801  n
+FAX1               gscl45nm       8.916700     142   1266.171452  r
+HAX1               gscl45nm       4.693000      13     61.008998  r
+INVX1              gscl45nm       1.407900     247    347.751294  
+INVX2              gscl45nm       1.877200      13     24.403600  
+INVX8              gscl45nm       3.285100       2      6.570200  
+MUX2X1             gscl45nm       3.754400     297   1115.056804  
+NAND2X1            gscl45nm       1.877200      48     90.105600  
+NAND3X1            gscl45nm       2.346500      11     25.811499  
+NOR2X1             gscl45nm       2.346500      25     58.662498  
+OAI21X1            gscl45nm       2.815800      61    171.763797  
+OR2X1              gscl45nm       2.346500      42     98.552997  
+OR2X2              gscl45nm       2.815800       1      2.815800  
+XNOR2X1            gscl45nm       4.693000      28    131.403996  
+XOR2X1             gscl45nm       4.693000      13     61.008998  
+exp2_unit_EXP_ADDR_BITS8       5209.229914       1   5209.229914  h, n
+pipe_W1_N3                       33.320301       1     33.320301  h, n
+round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1   186.781396       1   186.781396 h
+-----------------------------------------------------------------------------
+Total 25 references                                 10034.572518
+1

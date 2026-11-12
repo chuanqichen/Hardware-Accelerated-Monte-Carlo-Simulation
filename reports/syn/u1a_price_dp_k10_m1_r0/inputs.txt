@@ -1,0 +1,8 @@
+top=price_dp
+corner_label=typical
+clock_period_ns=5.0
+params=EXP_ADDR_BITS=10,MUL_STAGES=1
+retime=0
+sources=/misc/scratch/eg37885/mc/repo/rtl/mc_pkg.sv /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv /misc/scratch/eg37885/mc/repo/rtl/pipe.sv /misc/scratch/eg37885/mc/syn_scratch/u1a_price_dp_k10_m1_r0/generated/exp2_rom.sv /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv /misc/scratch/eg37885/mc/repo/rtl/price_dp.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2
