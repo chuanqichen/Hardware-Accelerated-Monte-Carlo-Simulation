@@ -1,0 +1,13 @@
+design       mc_top
+tag          mc_top_interim_20261111
+params       
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.000509739
+fmax_mhz     200.020391639
+area_um2     33016.193446
+area_comb_um2 23960.580508
+area_bufinv_um2 5696.832570
+area_seq_um2 9055.612938
+cells        10680
+registers    913

@@ -1,0 +1,54 @@
+ 
+****************************************
+Report : area
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Wed Nov 11 18:44:06 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                         1123
+Number of nets:                         11872
+Number of cells:                        10691
+Number of combinational cells:           9752
+Number of sequential cells:               913
+Number of macros/black boxes:               0
+Number of buf/inv:                       3499
+Number of references:                      16
+
+Combinational area:              23960.580508
+Buf/Inv area:                     5696.832570
+Noncombinational area:            9055.612938
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 33016.193446
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ----------------------------- 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-  Black-
+                                  Total       Total    national    national   boxes   Design
+--------------------------------  ----------  -------  ----------  ---------  ------  ------------------------------------------------------
+mc_top                            33016.1934    100.0   3053.2658  4181.4631  0.0000  mc_top
+u_controller                       2892.7652      8.8   1860.3052  1032.4600  0.0000  mc_controller_LANES1
+u_lanes                           22862.8879     69.2      6.5702     0.0000  0.0000  mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1
+u_lanes/u_accumulator              2539.8516      7.7   1517.7162  1022.1354  0.0000  accumulator_LANES1_P_WIDTH22_SUM_WIDTH64_CNT_WIDTH32
+u_lanes/u_gauss                    3052.7964      9.2    273.1326   137.9742  0.0000  gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1
+u_lanes/u_gauss/u_rom              2641.6896      8.0   2641.6896     0.0000  0.0000  gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16
+u_lanes/u_price                   13123.5051     39.7   3892.8435   645.2875  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1
+u_lanes/u_price/u_exp              8552.0537     25.9   2485.8821   549.5503  0.0000  exp2_unit_EXP_ADDR_BITS10
+u_lanes/u_price/u_exp/u_rom        5516.6214     16.7   5516.6214     0.0000  0.0000  exp2_rom_ADDR_BITS10_OUT_WIDTH17
+u_lanes/u_price/u_sx                 33.3203      0.1      2.3465    30.9738  0.0000  pipe_W1_N3
+u_lanes/u_rng                      4140.1646     12.5   2705.0452  1435.1194  0.0000  rng_lane
+u_reset                              25.8115      0.1      5.1623    20.6492  0.0000  rst_sync_STAGES2
+--------------------------------  ----------  -------  ----------  ---------  ------  ------------------------------------------------------
+Total                                                  23960.5805  9055.6129  0.0000
+
+1

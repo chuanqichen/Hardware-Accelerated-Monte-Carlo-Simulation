@@ -1,0 +1,84 @@
+Interim integration checkpoint, 2026-11-11
+Base revision: a83501c2d66665636002141d6ad82824f4ee1880 (merged main)
+Branch: tyler/interim-integration-update; owner: Tyler Haverlah
+Lab workspace: /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp
+
+Context / scope
+  Read #all-utece382m-7 through November 11 and Shentong's shared report draft.
+  PR #8 (accuracy/fixes) and #10 (RNG evidence) are now merged.
+  Shared report assembly remains Shentong's work; no Slack message or shared-Doc
+  edit was made. This checkpoint adds a versioned contribution and proposed dates.
+  Production RTL, numeric model functions and existing synthesis constraints are
+  unchanged. New verification observes only the mapped top's public interface.
+
+Local checks
+  python -m unittest discover -s model -q: 85 tests passed.
+  python -m unittest discover -s scripts -p 'test_*.py' -q: original 18 passed.
+  python -m unittest discover -s scripts -p test_prelayout_runner.py -v:
+    3 additional tests passed (21 flow tests total).
+    Includes exit-zero Error on stderr after STA_DONE, missing marker/summary,
+    and completed analysis with negative slack (completion != timing closure).
+  Shell syntax checks for gate_sim.sh and prelayout.sh passed.
+  plot_integration.py regenerated the CSV/PNG; figure visually checked.
+  Forty local source/netlist/SDC/evidence SHA256 comparisons passed across fresh
+  DC, mapped replay, clean PT and Shentong's November 8 integrated RTL manifests.
+  External cell library/model inputs were not copied or locally rehashed.
+
+Fresh synthesis: DESIGN=mc_top TAG=mc_top_interim_20261111
+  DC T-2022.03-SP2, gscl45nm typical 1.1 V / 27 C, 5 ns clock.
+  Area: 33016.193446 um^2; 10680 cells; 913 registers.
+  Setup slack: +0.000509739 ns.
+  Hold violations: 135; worst reported -0.04 ns.
+  Max-capacitance violations: 4471; max-transition violations: 0.
+  Power: 4.7455 mW, unannotated inputs, not measured energy/trial.
+  The zero max_leakage_power optimization target produces a constraint diagnostic;
+  retain it for shared-flow review. Do not hide it as a physical power claim.
+  Raw reports/netlist/SDC: reports/syn/mc_top_interim_20261111/
+  Parsed result: results/one_lane_interim_5ns.csv
+
+Mapped functional replay
+  VCS T-2022.06, library gscl45nm.v, +notimingcheck +nospecify, no SDF.
+  NETLIST=reports/syn/mc_top_interim_20261111/mc_top.mapped.v
+  MC_SIM_RUN_ID=gate_interim_20261111 bash scripts/sim/gate_sim.sh
+  PASS: tb_mc_top_gate cases=22 trials=26457, exact results/status/cycles,
+        zero-delay cells.
+  Covers all five scenarios / three seeds in the shared corpus, saturation flags,
+  saturation-to-normal restart, reset in flight, unconfigured start and stable
+  idle outputs. Default busy cycles N+11 agree on every case.
+  Corrupted expected sum: runner exit 1. Empty corpus: preflight exit 2.
+  Raw positive evidence: reports/sim/gate_interim_20261111/
+  Negative logs: reports/review/gate_negative.log, gate_empty.log (local only).
+
+Independent pre-layout STA
+  PrimeTime T-2022.03-SP5, same .db digest, mapped netlist and exported SDC.
+  STA_TAG=mc_top_interim_20261111_clean bash scripts/sta/prelayout.sh
+  Clean analysis completed: zero command errors, four warnings.
+  Setup slack: -0.200381 ns; hold slack: -0.041280 ns.
+  One violated setup check, 135 violated hold checks, 4538 untested checks overall.
+  check_timing warns about 755 asynchronous set pins without clocks; constant and
+  reset-check coverage needs review. No timing or coverage signoff is claimed.
+  Worst path: active_b_reg_3_ -> u_lanes/u_price/acc_r_reg_0__32_.
+  PT data arrival 3.682677 ns; DC prints 3.68 ns. Endpoint setup terms differ:
+  PT -1.417704 ns versus DC -1.22 ns. Root cause remains unresolved.
+  Invalid SDC command: runner exit 1 even though the tool can continue analysis.
+  Raw reports: reports/sta/mc_top_interim_20261111_clean/
+  Parsed result: results/one_lane_interim_sta.csv
+  Initial attempt used an unsupported PT application-variable name; it was removed.
+  The accepted clean run includes recovery/removal coverage without that variable.
+  Earlier/negative diagnostic logs remain local under reports/review/.
+
+Throughput / report handoff
+  N=10000 completes in 10011 busy cycles: 0.998901 trials per busy cycle.
+  Projected 199.780 Mtrials/s requires a 5 ns clock that has NOT closed in PT.
+  Configuration/reset-release time is excluded. Real 2/4-lane scaling, routed
+  frequency and activity-based power remain incomplete.
+  Contribution: docs/Interim_Integration_Contribution.md
+  Figure/data: results/one_lane_interim_throughput.{png,csv}
+  Reproduce: python scripts/plot_integration.py
+  Existing November 8 four-configuration RTL logs remain the 88-case / 105828-
+  trial proof of internal traces and sustained II=1; no new full RTL rerun is claimed.
+  Source hashes: reports/interim_source_manifest_2026-11-11.json plus run manifests.
+
+Next: reconcile the timing-engine discrepancy, classify timing/reset coverage and
+electrical diagnostics, agree configuration behavior, then physical implementation
+and real multi-lane scaling. Proposed dates are in the contribution for team review.
