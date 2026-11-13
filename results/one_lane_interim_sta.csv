@@ -1,0 +1,2 @@
+design,clock_period_ns,tool,setup_slack_ns,hold_slack_ns,setup_violated_checks,hold_violated_checks,all_untested_checks,scope
+mc_top,5.0,PrimeTime_T-2022.03-SP5,-0.200381,-0.041280,1,135,4538,prelayout_ideal_clock_no_extracted_parasitics

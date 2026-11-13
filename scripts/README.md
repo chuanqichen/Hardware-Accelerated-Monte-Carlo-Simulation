@@ -102,3 +102,36 @@ simulation logs under reports/waves/<run_id>/ and refuses an existing run ID.
 Only after all three blocks pass does it replace reports/waves/{gauss_lut,
 rng_lane,price_dp}.vcd for plotting. It preserves other builds and older waveforms
 on failure. OUT and VCS can override the output directory and compiler executable.
+
+## Mapped functional replay and independent pre-layout STA
+
+Use the netlist and exported SDC from the same synthesis run. Load the lab module
+in a login shell and choose fresh MC_SIM_RUN_ID / STA_TAG values. No cell models
+or libraries should be copied into the repository.
+
+```bash
+DESIGN=mc_top TAG=mc_top_new dc_shell -f scripts/syn/dc_synth.tcl
+NETLIST=reports/syn/mc_top_new/mc_top.mapped.v make sim-gate
+NETLIST=reports/syn/mc_top_new/mc_top.mapped.v \
+MAPPED_SDC=reports/syn/mc_top_new/mc_top.mapped.sdc make sta
+make integration-figures PYTHON=python3  # from the committed interim cycle/PPA CSVs
+```
+
+sim-gate uses the library's functional Verilog model (CELL_MODEL override),
+disables specify/timing checks, and compares the default one-lane netlist's
+external results/status/cycles against the complete golden corpus. It does not
+depend on RTL hierarchy. This is zero-delay simulation, with no SDF or formal
+equivalence claim. GATE_CASES can select a deliberately corrupted corpus for a
+negative check; NETLIST is required so a stale mapping is never silently selected.
+
+sta uses PrimeTime, LIB_DB (the shared gscl45nm default) and the exported mapped
+SDC. It retains setup/hold, electrical, reset and coverage reports. Its successful
+exit means analysis completed without command errors; inspect slack and untested
+checks before making any timing claim. PrimeTime can log errors and still exit
+zero, so the wrapper also requires STA_DONE and rejects logged errors. Both tools
+preserve failed runs; correct the issue and select a new tag rather than reusing
+or deleting old evidence. This flow has ideal clocks and no extracted parasitics.
+
+The November 11 run confirms mapped functionality but PrimeTime misses 5 ns by
+0.200381 ns. Its result supersedes any implication that DC's barely positive
+setup slack establishes independent timing closure. See docs/Integration_Work_Plan.md.

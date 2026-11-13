@@ -1,0 +1,17 @@
+****************************************
+Report : clock
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Wed Nov 11 18:46:10 2026
+****************************************
+
+Attributes:
+    p - Propagated clock
+    G - Generated  clock
+    I - Inactive   clock
+
+Clock             Period          Waveform            Attrs     Sources
+-----------------------------------------------------------------------
+clk                 5.00          {0 2.5}                       {clk}
+
+1

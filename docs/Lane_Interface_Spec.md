@@ -192,7 +192,10 @@ issues $\lceil \texttt{N\_TRIALS} / \texttt{LANES} \rceil$ beats and masks the u
 | **one-lane total** | **9** (defaults) | `lat_total(1, 1, 1)` | `rng 1 + gauss 1 + dp 6 + acc 1`; `lat_total(2, 1, 4) = 12` |
 
 All blocks are II = 1 (one trial per cycle per lane after fill). Throughput goal:
-$\texttt{N\_TRIALS} + \texttt{LAT\_TOTAL} + \approx 3$ cycles per run for one lane.
+The integrated default one-lane design measures
+$\texttt{N\_TRIALS} + \texttt{LAT\_TOTAL} + 2$ busy cycles per run, or `N + 11`
+at defaults. Both RTL and zero-delay mapped replay check this count. Configuration
+and reset-release cycles are excluded; this count does not establish clock closure.
 
 ## 7. Python reference contract (`model/mc_lane.py`)
 
@@ -227,7 +230,7 @@ model, the trace against Eric's stage functions, `lat_total` against `mc_pkg`, a
 
 | ID | Question | Options | Status | Owner |
 |-----|-----------------|-----------------------|-------------------|----------|
-| D-1 | Seed delivery for multiple lanes | (a) software writes 128 b per lane via cfg bus; (b) hardware jump from one root | **(a) implemented** in `rng_lane` (2026-10-13: `seed_load` + 128 b bus, no jump hardware). Software jump for lanes 2/4 still to be added to the model | Shentong, Tyler |
+| D-1 | Seed delivery for multiple lanes | (a) software writes 128 b per lane via cfg bus; (b) hardware jump from one root | **(a) chosen:** `rng_lane` accepts a 128-bit seed; no jump hardware. PR #8 adds software `jump()` / `lane_seeds()` in `model/price_study.py`; PR #10 adds stream screening. Production integration is still one lane. Real 2/4-lane seed delivery and final team review remain | Shentong, Tyler |
 | D-2 | Reset style | async-assert/sync-deassert vs fully synchronous | **Closed 2026-10-31: async-assert / sync-de-assert**, as implemented in all blocks. Lab 3 guidance says "synchronous only; no async flop in the library", but gscl45nm's `DFFSR` is fully characterised (clear/preset arcs, recovery and removal constraints, LEF and sim model present). Measured cost is nil: a reset flop is `DFFSR` 10.32 um^2 either way vs `DFFPOSX1` 7.98 + `AND2X1` 2.35 = 10.33 for a synchronous reset. Benefits kept: reset without a running clock, no gate in the D path, standard ASIC practice. Obligations we take on: (1) only `valid`/control flops are reset, data flops are not (area); (2) `rtl/rst_sync.sv` in `mc_top` aligns de-assertion; blocks never see the raw pin; (3) `rst_n` is timed as a normal input in `constraints/lane_5ns.sdc` so DC/PT check recovery/removal - never false-path it; (4) P&R must buffer the reset tree (Week 7 risk item) | Chuanqi (decision), Tyler (`mc_top`/P&R) |
 | D-3 | $S_T = e^{A+Bz}$ vs $C\,e^{Bz}$ | see Section 3 | **Closed 2026-10-22: $e^{A+Bz}$.** Range reduction (D-6) makes the table size independent of the input range, so $C e^{Bz}$ would add a multiplier and lose the fused $A$ | Eric, Chuanqi |
 | D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | Open. 16 b implemented. Model says fraction bits do not change price bias (Gaussian plan Sec. 6); decide on `gauss_lut` + `B*z` multiplier area from the Week-3 synthesis sweep (`results/gauss_lut_ppa.csv`) | Chuanqi, Eric |
