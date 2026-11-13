@@ -32,6 +32,34 @@ diagnostics and will review their causes before timing signoff. There is no rout
 layout yet. The 4.7455 mW synthesis power is an unannotated estimate, so energy per
 trial is not established.
 
+### Gaussian address-width rationale added to the shared report, 2026-11-13
+
+The Gaussian address is the upper 10 bits of the 32-bit RNG word, `u[31:22]`:
+1,024 equal-probability midpoint bins, with symmetry storing 512 positive 16-bit
+magnitudes (8,192 bits). The lower 22 bits do not affect the baseline lookup.
+
+The matched 16-bit-output / LATENCY=1 area and full-chain pricing sweeps support
+this baseline on the five-case grid:
+
+| Address bits | Worst absolute full-chain bias vs Black-Scholes | Standalone Gaussian cell area (um²) |
+|---:|---:|---:|
+| 8 | 1.178314345% | 1,617.677062 |
+| 10 | 0.381450507% | 4,059.914197 |
+| 12 | 0.141929688% | 8,151.740816 |
+
+Thus 8 bits misses the 1% criterion, while 12 bits improves accuracy at roughly
+twice the area of 10 bits. This is a measured baseline tradeoff, not a claim of
+global optimality or standalone timing signoff. Sources: `results/d5_x_width.csv`
+at Q5.12 (18-bit x) and `results/gauss_lut_ppa.csv` at 16-bit Gaussian output.
+These full-chain bias values differ from the Gaussian-only float-exp bias table.
+
+The November 13 bounded check reproduced all 15 relevant pricing rows and compared
+all 1,024 addresses with quantized normal midpoint values. It confirmed the 512-word
+half-ROM and lower-bit invariance. The existing 11,029-vector corpus covers all
+1,024 address prefixes and agrees with the model; the archived baseline VCS runs
+passed those vectors at LATENCY=1 and 2 (`reports/vcs_regression_2026-10-31.txt`).
+No fresh VCS run or RTL change is claimed for this report addition.
+
 ## IV. Team responsibilities
 
 | Member | Contributions to date | Remaining responsibility |
