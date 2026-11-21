@@ -1,0 +1,452 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 5
+        -transition_time
+        -capacitance
+Design : RandDist_int
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 15:27:45 2026
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: LFSR0/r_LFSR_reg[6]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: result[5] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  LFSR0/r_LFSR_reg[6]/CLK (DFFPOSX1)                      0.10      0.00       0.00 r
+  LFSR0/r_LFSR_reg[6]/Q (DFFPOSX1)              0.01      0.03      0.08       0.08 r
+  LFSR0/o_LFSR_Data[5] (LFSR_NUM_BITS12_2)                          0.00       0.08 r
+  prop0_0/randint[5] (propabmaker_12_7fd)                           0.00       0.08 r
+  prop0_0/U10/Y (NAND3X1)                       0.00      0.02      0.02       0.10 f
+  prop0_0/U4/Y (BUFX2)                          0.00      0.00      0.03       0.14 f
+  prop0_0/U3/Y (OR2X1)                          0.00      0.02      0.05       0.19 f
+  prop0_0/U11/Y (NOR3X1)                        0.00      0.05      0.04       0.23 r
+  prop0_0/U12/Y (OR2X1)                         0.05      0.24      0.19       0.41 r
+  prop0_0/propbit (propabmaker_12_7fd)                              0.00       0.41 r
+  dt/pbits0 (decisiontree)                                          0.00       0.41 r
+  dt/muxbit1/sel[0] (mux_N1_86)                                     0.00       0.41 r
+  dt/muxbit1/U1/Y (XNOR2X1)                     0.02      0.12      0.12       0.53 r
+  dt/muxbit1/result_BAR (mux_N1_86)                                 0.00       0.53 r
+  dt/U11/Y (BUFX2)                              0.07      0.16      0.14       0.67 r
+  dt/muxbit2/sel[0]_BAR (mux_N2_42)                                 0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/sel[0]_BAR (mux_N1_84)                0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.06       0.73 r
+  dt/muxbit2/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       0.75 f
+  dt/muxbit2/genblk1.lowermux/result (mux_N1_84)                    0.00       0.75 f
+  dt/muxbit2/U3/Y (OAI21X1)                     0.05      0.27      0.20       0.95 r
+  dt/muxbit2/result_BAR (mux_N2_42)                                 0.00       0.95 r
+  dt/U12/Y (INVX1)                              0.00      0.01      0.09       1.04 f
+  dt/U10/Y (INVX1)                              0.05      0.23      0.16       1.20 r
+  dt/muxbit3/sel[0]_BAR (mux_N3_20)                                 0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/sel[0]_BAR (mux_N2_40)                0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N1_81)     0.00     1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.07     1.26 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.29 f
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/result (mux_N1_81)     0.00     1.29 f
+  dt/muxbit3/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.33 r
+  dt/muxbit3/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.36 f
+  dt/muxbit3/genblk1.lowermux/result (mux_N2_40)                    0.00       1.36 f
+  dt/muxbit3/U1/Y (MUX2X1)                      0.04      0.20      0.15       1.51 r
+  dt/muxbit3/result_BAR (mux_N3_20)                                 0.00       1.51 r
+  dt/U15/Y (INVX1)                              0.01      0.02      0.08       1.60 f
+  dt/U9/Y (INVX1)                               0.03      0.13      0.11       1.70 r
+  dt/muxbit4/sel[0]_BAR (mux_N4_9)                                  0.00       1.70 r
+  dt/muxbit4/genblk1.lowermux/sel[0]_BAR (mux_N3_18)                0.00       1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N2_37)     0.00     1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_75)     0.00     1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.05     1.76 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.78 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_75)     0.00     1.78 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     1.82 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.85 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/result (mux_N2_37)     0.00     1.85 f
+  dt/muxbit4/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.89 r
+  dt/muxbit4/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.92 f
+  dt/muxbit4/genblk1.lowermux/result (mux_N3_18)                    0.00       1.92 f
+  dt/muxbit4/U3/Y (OAI21X1)                     0.00      0.05      0.05       1.97 r
+  dt/muxbit4/result_BAR (mux_N4_9)                                  0.00       1.97 r
+  dt/U5/Y (BUFX2)                               0.07      0.16      0.13       2.10 r
+  dt/muxbit6/sel[0]_BAR (mux_N5_0)                                  0.00       2.10 r
+  dt/muxbit6/genblk1.lowermux/sel[0]_BAR (mux_N4_0)                 0.00       2.10 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N3_1)     0.00     2.10 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N2_3)     0.00     2.10 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_7)     0.00     2.10 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.06     2.16 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     2.18 f
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_7)     0.00     2.18 f
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     2.23 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     2.25 f
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N2_3)     0.00     2.25 f
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     2.29 r
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     2.32 f
+  dt/muxbit6/genblk1.lowermux/genblk1.uppermux/result (mux_N3_1)     0.00      2.32 f
+  dt/muxbit6/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       2.36 r
+  dt/muxbit6/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       2.39 f
+  dt/muxbit6/genblk1.lowermux/result (mux_N4_0)                     0.00       2.39 f
+  dt/muxbit6/U1/Y (MUX2X1)                      0.00      0.04      0.04       2.43 r
+  dt/muxbit6/U2/Y (INVX1)                       0.01      0.03      0.04       2.47 f
+  dt/muxbit6/result (mux_N5_0)                                      0.00       2.47 f
+  dt/result[5] (decisiontree)                                       0.00       2.47 f
+  result[5] (out)                                         0.03      0.00       2.47 f
+  data arrival time                                                            2.47
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  output external delay                                            -1.50       3.40
+  data required time                                                           3.40
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.40
+  data arrival time                                                           -2.47
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.93
+
+
+  Startpoint: LFSR0/r_LFSR_reg[6]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: result[6] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  LFSR0/r_LFSR_reg[6]/CLK (DFFPOSX1)                      0.10      0.00       0.00 r
+  LFSR0/r_LFSR_reg[6]/Q (DFFPOSX1)              0.01      0.03      0.08       0.08 r
+  LFSR0/o_LFSR_Data[5] (LFSR_NUM_BITS12_2)                          0.00       0.08 r
+  prop0_0/randint[5] (propabmaker_12_7fd)                           0.00       0.08 r
+  prop0_0/U10/Y (NAND3X1)                       0.00      0.02      0.02       0.10 f
+  prop0_0/U4/Y (BUFX2)                          0.00      0.00      0.03       0.14 f
+  prop0_0/U3/Y (OR2X1)                          0.00      0.02      0.05       0.19 f
+  prop0_0/U11/Y (NOR3X1)                        0.00      0.05      0.04       0.23 r
+  prop0_0/U12/Y (OR2X1)                         0.05      0.24      0.19       0.41 r
+  prop0_0/propbit (propabmaker_12_7fd)                              0.00       0.41 r
+  dt/pbits0 (decisiontree)                                          0.00       0.41 r
+  dt/muxbit1/sel[0] (mux_N1_86)                                     0.00       0.41 r
+  dt/muxbit1/U1/Y (XNOR2X1)                     0.02      0.12      0.12       0.53 r
+  dt/muxbit1/result_BAR (mux_N1_86)                                 0.00       0.53 r
+  dt/U11/Y (BUFX2)                              0.07      0.16      0.14       0.67 r
+  dt/muxbit2/sel[0]_BAR (mux_N2_42)                                 0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/sel[0]_BAR (mux_N1_84)                0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.06       0.73 r
+  dt/muxbit2/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       0.75 f
+  dt/muxbit2/genblk1.lowermux/result (mux_N1_84)                    0.00       0.75 f
+  dt/muxbit2/U3/Y (OAI21X1)                     0.05      0.27      0.20       0.95 r
+  dt/muxbit2/result_BAR (mux_N2_42)                                 0.00       0.95 r
+  dt/U12/Y (INVX1)                              0.00      0.01      0.09       1.04 f
+  dt/U10/Y (INVX1)                              0.05      0.23      0.16       1.20 r
+  dt/muxbit3/sel[0]_BAR (mux_N3_20)                                 0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/sel[0]_BAR (mux_N2_40)                0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N1_81)     0.00     1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.07     1.26 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.29 f
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/result (mux_N1_81)     0.00     1.29 f
+  dt/muxbit3/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.33 r
+  dt/muxbit3/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.36 f
+  dt/muxbit3/genblk1.lowermux/result (mux_N2_40)                    0.00       1.36 f
+  dt/muxbit3/U1/Y (MUX2X1)                      0.04      0.20      0.15       1.51 r
+  dt/muxbit3/result_BAR (mux_N3_20)                                 0.00       1.51 r
+  dt/U15/Y (INVX1)                              0.01      0.02      0.08       1.60 f
+  dt/U9/Y (INVX1)                               0.03      0.13      0.11       1.70 r
+  dt/muxbit4/sel[0]_BAR (mux_N4_9)                                  0.00       1.70 r
+  dt/muxbit4/genblk1.lowermux/sel[0]_BAR (mux_N3_18)                0.00       1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N2_37)     0.00     1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_75)     0.00     1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.05     1.76 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.78 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_75)     0.00     1.78 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     1.82 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.85 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/result (mux_N2_37)     0.00     1.85 f
+  dt/muxbit4/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.89 r
+  dt/muxbit4/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.92 f
+  dt/muxbit4/genblk1.lowermux/result (mux_N3_18)                    0.00       1.92 f
+  dt/muxbit4/U3/Y (OAI21X1)                     0.00      0.05      0.05       1.97 r
+  dt/muxbit4/result_BAR (mux_N4_9)                                  0.00       1.97 r
+  dt/U6/Y (BUFX2)                               0.07      0.16      0.13       2.10 r
+  dt/muxbit5/sel[0]_BAR (mux_N5_1)                                  0.00       2.10 r
+  dt/muxbit5/genblk1.lowermux/sel[0]_BAR (mux_N4_2)                 0.00       2.10 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N3_5)     0.00     2.10 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N2_11)     0.00     2.10 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_23)     0.00     2.10 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.06     2.16 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     2.18 f
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_23)     0.00     2.18 f
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     2.23 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     2.25 f
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N2_11)     0.00     2.25 f
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     2.29 r
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     2.32 f
+  dt/muxbit5/genblk1.lowermux/genblk1.uppermux/result (mux_N3_5)     0.00      2.32 f
+  dt/muxbit5/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       2.36 r
+  dt/muxbit5/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       2.39 f
+  dt/muxbit5/genblk1.lowermux/result (mux_N4_2)                     0.00       2.39 f
+  dt/muxbit5/U1/Y (MUX2X1)                      0.00      0.04      0.04       2.43 r
+  dt/muxbit5/U2/Y (INVX1)                       0.01      0.03      0.04       2.47 f
+  dt/muxbit5/result (mux_N5_1)                                      0.00       2.47 f
+  dt/result[6] (decisiontree)                                       0.00       2.47 f
+  result[6] (out)                                         0.03      0.00       2.47 f
+  data arrival time                                                            2.47
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  output external delay                                            -1.50       3.40
+  data required time                                                           3.40
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.40
+  data arrival time                                                           -2.47
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  0.93
+
+
+  Startpoint: LFSR0/r_LFSR_reg[6]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: result[7] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  LFSR0/r_LFSR_reg[6]/CLK (DFFPOSX1)                      0.10      0.00       0.00 r
+  LFSR0/r_LFSR_reg[6]/Q (DFFPOSX1)              0.01      0.03      0.08       0.08 r
+  LFSR0/o_LFSR_Data[5] (LFSR_NUM_BITS12_2)                          0.00       0.08 r
+  prop0_0/randint[5] (propabmaker_12_7fd)                           0.00       0.08 r
+  prop0_0/U10/Y (NAND3X1)                       0.00      0.02      0.02       0.10 f
+  prop0_0/U4/Y (BUFX2)                          0.00      0.00      0.03       0.14 f
+  prop0_0/U3/Y (OR2X1)                          0.00      0.02      0.05       0.19 f
+  prop0_0/U11/Y (NOR3X1)                        0.00      0.05      0.04       0.23 r
+  prop0_0/U12/Y (OR2X1)                         0.05      0.24      0.19       0.41 r
+  prop0_0/propbit (propabmaker_12_7fd)                              0.00       0.41 r
+  dt/pbits0 (decisiontree)                                          0.00       0.41 r
+  dt/muxbit1/sel[0] (mux_N1_86)                                     0.00       0.41 r
+  dt/muxbit1/U1/Y (XNOR2X1)                     0.02      0.12      0.12       0.53 r
+  dt/muxbit1/result_BAR (mux_N1_86)                                 0.00       0.53 r
+  dt/U11/Y (BUFX2)                              0.07      0.16      0.14       0.67 r
+  dt/muxbit2/sel[0]_BAR (mux_N2_42)                                 0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/sel[0]_BAR (mux_N1_84)                0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.06       0.73 r
+  dt/muxbit2/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       0.75 f
+  dt/muxbit2/genblk1.lowermux/result (mux_N1_84)                    0.00       0.75 f
+  dt/muxbit2/U3/Y (OAI21X1)                     0.05      0.27      0.20       0.95 r
+  dt/muxbit2/result_BAR (mux_N2_42)                                 0.00       0.95 r
+  dt/U12/Y (INVX1)                              0.00      0.01      0.09       1.04 f
+  dt/U10/Y (INVX1)                              0.05      0.23      0.16       1.20 r
+  dt/muxbit3/sel[0]_BAR (mux_N3_20)                                 0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/sel[0]_BAR (mux_N2_40)                0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N1_81)     0.00     1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.07     1.26 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.29 f
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/result (mux_N1_81)     0.00     1.29 f
+  dt/muxbit3/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.33 r
+  dt/muxbit3/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.36 f
+  dt/muxbit3/genblk1.lowermux/result (mux_N2_40)                    0.00       1.36 f
+  dt/muxbit3/U1/Y (MUX2X1)                      0.04      0.20      0.15       1.51 r
+  dt/muxbit3/result_BAR (mux_N3_20)                                 0.00       1.51 r
+  dt/U15/Y (INVX1)                              0.01      0.02      0.08       1.60 f
+  dt/U9/Y (INVX1)                               0.03      0.13      0.11       1.70 r
+  dt/muxbit4/sel[0]_BAR (mux_N4_9)                                  0.00       1.70 r
+  dt/muxbit4/genblk1.lowermux/sel[0]_BAR (mux_N3_18)                0.00       1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N2_37)     0.00     1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_75)     0.00     1.70 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.05     1.76 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.78 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_75)     0.00     1.78 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     1.82 r
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.85 f
+  dt/muxbit4/genblk1.lowermux/genblk1.uppermux/result (mux_N2_37)     0.00     1.85 f
+  dt/muxbit4/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.89 r
+  dt/muxbit4/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.92 f
+  dt/muxbit4/genblk1.lowermux/result (mux_N3_18)                    0.00       1.92 f
+  dt/muxbit4/U3/Y (OAI21X1)                     0.00      0.05      0.05       1.97 r
+  dt/muxbit4/result_BAR (mux_N4_9)                                  0.00       1.97 r
+  dt/result[7]_BAR (decisiontree)                                   0.00       1.97 r
+  U12/Y (INVX1)                                 0.01      0.03      0.04       2.01 f
+  result[7] (out)                                         0.03      0.00       2.01 f
+  data arrival time                                                            2.01
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  output external delay                                            -1.50       3.40
+  data required time                                                           3.40
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.40
+  data arrival time                                                           -2.01
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  1.39
+
+
+  Startpoint: LFSR0/r_LFSR_reg[6]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: result[4] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  LFSR0/r_LFSR_reg[6]/CLK (DFFPOSX1)                      0.10      0.00       0.00 r
+  LFSR0/r_LFSR_reg[6]/Q (DFFPOSX1)              0.01      0.03      0.08       0.08 r
+  LFSR0/o_LFSR_Data[5] (LFSR_NUM_BITS12_2)                          0.00       0.08 r
+  prop0_0/randint[5] (propabmaker_12_7fd)                           0.00       0.08 r
+  prop0_0/U10/Y (NAND3X1)                       0.00      0.02      0.02       0.10 f
+  prop0_0/U4/Y (BUFX2)                          0.00      0.00      0.03       0.14 f
+  prop0_0/U3/Y (OR2X1)                          0.00      0.02      0.05       0.19 f
+  prop0_0/U11/Y (NOR3X1)                        0.00      0.05      0.04       0.23 r
+  prop0_0/U12/Y (OR2X1)                         0.05      0.24      0.19       0.41 r
+  prop0_0/propbit (propabmaker_12_7fd)                              0.00       0.41 r
+  dt/pbits0 (decisiontree)                                          0.00       0.41 r
+  dt/muxbit1/sel[0] (mux_N1_86)                                     0.00       0.41 r
+  dt/muxbit1/U1/Y (XNOR2X1)                     0.02      0.12      0.12       0.53 r
+  dt/muxbit1/result_BAR (mux_N1_86)                                 0.00       0.53 r
+  dt/U11/Y (BUFX2)                              0.07      0.16      0.14       0.67 r
+  dt/muxbit2/sel[0]_BAR (mux_N2_42)                                 0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/sel[0]_BAR (mux_N1_84)                0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.06       0.73 r
+  dt/muxbit2/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       0.75 f
+  dt/muxbit2/genblk1.lowermux/result (mux_N1_84)                    0.00       0.75 f
+  dt/muxbit2/U3/Y (OAI21X1)                     0.05      0.27      0.20       0.95 r
+  dt/muxbit2/result_BAR (mux_N2_42)                                 0.00       0.95 r
+  dt/U12/Y (INVX1)                              0.00      0.01      0.09       1.04 f
+  dt/U10/Y (INVX1)                              0.05      0.23      0.16       1.20 r
+  dt/muxbit3/sel[0]_BAR (mux_N3_20)                                 0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/sel[0]_BAR (mux_N2_40)                0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N1_81)     0.00     1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.07     1.26 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.29 f
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/result (mux_N1_81)     0.00     1.29 f
+  dt/muxbit3/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.33 r
+  dt/muxbit3/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.36 f
+  dt/muxbit3/genblk1.lowermux/result (mux_N2_40)                    0.00       1.36 f
+  dt/muxbit3/U1/Y (MUX2X1)                      0.04      0.20      0.15       1.51 r
+  dt/muxbit3/result_BAR (mux_N3_20)                                 0.00       1.51 r
+  dt/U15/Y (INVX1)                              0.01      0.02      0.08       1.60 f
+  dt/U2/Y (INVX1)                               0.03      0.13      0.11       1.70 r
+  dt/muxbit7/sel[0]_BAR (mux_N4_8)                                  0.00       1.70 r
+  dt/muxbit7/genblk1.lowermux/sel[0]_BAR (mux_N3_16)                0.00       1.70 r
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N2_33)     0.00     1.70 r
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_67)     0.00     1.70 r
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.05     1.76 r
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.78 f
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_67)     0.00     1.78 f
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     1.82 r
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.85 f
+  dt/muxbit7/genblk1.lowermux/genblk1.uppermux/result (mux_N2_33)     0.00     1.85 f
+  dt/muxbit7/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.89 r
+  dt/muxbit7/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.92 f
+  dt/muxbit7/genblk1.lowermux/result (mux_N3_16)                    0.00       1.92 f
+  dt/muxbit7/U1/Y (MUX2X1)                      0.00      0.04      0.04       1.96 r
+  dt/muxbit7/U2/Y (INVX1)                       0.01      0.03      0.04       2.00 f
+  dt/muxbit7/result (mux_N4_8)                                      0.00       2.00 f
+  dt/result[4] (decisiontree)                                       0.00       2.00 f
+  result[4] (out)                                         0.03      0.00       2.00 f
+  data arrival time                                                            2.00
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  output external delay                                            -1.50       3.40
+  data required time                                                           3.40
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.40
+  data arrival time                                                           -2.00
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  1.40
+
+
+  Startpoint: LFSR0/r_LFSR_reg[6]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: result[1] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Cap     Trans      Incr       Path
+  ------------------------------------------------------------------------------------
+  clock clk (rise edge)                                             0.00       0.00
+  clock network delay (ideal)                                       0.00       0.00
+  LFSR0/r_LFSR_reg[6]/CLK (DFFPOSX1)                      0.10      0.00       0.00 r
+  LFSR0/r_LFSR_reg[6]/Q (DFFPOSX1)              0.01      0.03      0.08       0.08 r
+  LFSR0/o_LFSR_Data[5] (LFSR_NUM_BITS12_2)                          0.00       0.08 r
+  prop0_0/randint[5] (propabmaker_12_7fd)                           0.00       0.08 r
+  prop0_0/U10/Y (NAND3X1)                       0.00      0.02      0.02       0.10 f
+  prop0_0/U4/Y (BUFX2)                          0.00      0.00      0.03       0.14 f
+  prop0_0/U3/Y (OR2X1)                          0.00      0.02      0.05       0.19 f
+  prop0_0/U11/Y (NOR3X1)                        0.00      0.05      0.04       0.23 r
+  prop0_0/U12/Y (OR2X1)                         0.05      0.24      0.19       0.41 r
+  prop0_0/propbit (propabmaker_12_7fd)                              0.00       0.41 r
+  dt/pbits0 (decisiontree)                                          0.00       0.41 r
+  dt/muxbit1/sel[0] (mux_N1_86)                                     0.00       0.41 r
+  dt/muxbit1/U1/Y (XNOR2X1)                     0.02      0.12      0.12       0.53 r
+  dt/muxbit1/result_BAR (mux_N1_86)                                 0.00       0.53 r
+  dt/U11/Y (BUFX2)                              0.07      0.16      0.14       0.67 r
+  dt/muxbit2/sel[0]_BAR (mux_N2_42)                                 0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/sel[0]_BAR (mux_N1_84)                0.00       0.67 r
+  dt/muxbit2/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.06       0.73 r
+  dt/muxbit2/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       0.75 f
+  dt/muxbit2/genblk1.lowermux/result (mux_N1_84)                    0.00       0.75 f
+  dt/muxbit2/U3/Y (OAI21X1)                     0.05      0.27      0.20       0.95 r
+  dt/muxbit2/result_BAR (mux_N2_42)                                 0.00       0.95 r
+  dt/U12/Y (INVX1)                              0.00      0.01      0.09       1.04 f
+  dt/U10/Y (INVX1)                              0.05      0.23      0.16       1.20 r
+  dt/muxbit3/sel[0]_BAR (mux_N3_20)                                 0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/sel[0]_BAR (mux_N2_40)                0.00       1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N1_81)     0.00     1.20 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.07     1.26 r
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.29 f
+  dt/muxbit3/genblk1.lowermux/genblk1.uppermux/result (mux_N1_81)     0.00     1.29 f
+  dt/muxbit3/genblk1.lowermux/U1/Y (MUX2X1)     0.00      0.04      0.04       1.33 r
+  dt/muxbit3/genblk1.lowermux/U2/Y (INVX1)      0.00      0.01      0.02       1.36 f
+  dt/muxbit3/genblk1.lowermux/result (mux_N2_40)                    0.00       1.36 f
+  dt/muxbit3/U1/Y (MUX2X1)                      0.04      0.20      0.15       1.51 r
+  dt/muxbit3/result_BAR (mux_N3_20)                                 0.00       1.51 r
+  dt/U15/Y (INVX1)                              0.01      0.02      0.08       1.60 f
+  dt/U13/Y (INVX1)                              0.03      0.13      0.11       1.70 r
+  dt/muxbit10/sel[0]_BAR (mux_N4_5)                                 0.00       1.70 r
+  dt/muxbit10/genblk1.lowermux/sel[0]_BAR (mux_N3_10)               0.00       1.70 r
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/sel[0]_BAR (mux_N2_21)     0.00     1.70 r
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/sel[0]_BAR (mux_N1_43)     0.00     1.70 r
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.05     1.76 r
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.78 f
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/result (mux_N1_43)     0.00     1.78 f
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/U1/Y (MUX2X1)     0.00     0.04     0.04     1.82 r
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/U2/Y (INVX1)     0.00     0.01     0.02     1.85 f
+  dt/muxbit10/genblk1.lowermux/genblk1.uppermux/result (mux_N2_21)     0.00     1.85 f
+  dt/muxbit10/genblk1.lowermux/U1/Y (MUX2X1)     0.00     0.04      0.04       1.89 r
+  dt/muxbit10/genblk1.lowermux/U2/Y (INVX1)     0.00      0.01      0.02       1.92 f
+  dt/muxbit10/genblk1.lowermux/result (mux_N3_10)                   0.00       1.92 f
+  dt/muxbit10/U1/Y (MUX2X1)                     0.00      0.04      0.04       1.96 r
+  dt/muxbit10/U2/Y (INVX1)                      0.01      0.03      0.04       2.00 f
+  dt/muxbit10/result (mux_N4_5)                                     0.00       2.00 f
+  dt/result[1] (decisiontree)                                       0.00       2.00 f
+  result[1] (out)                                         0.03      0.00       2.00 f
+  data arrival time                                                            2.00
+
+  clock clk (rise edge)                                             5.00       5.00
+  clock network delay (ideal)                                       0.00       5.00
+  clock uncertainty                                                -0.10       4.90
+  output external delay                                            -1.50       3.40
+  data required time                                                           3.40
+  ------------------------------------------------------------------------------------
+  data required time                                                           3.40
+  data arrival time                                                           -2.00
+  ------------------------------------------------------------------------------------
+  slack (MET)                                                                  1.40
+
+
+1

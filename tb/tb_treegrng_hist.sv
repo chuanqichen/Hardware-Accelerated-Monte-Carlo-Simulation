@@ -4,13 +4,18 @@
 `timescale 1ns/1ps
 module tb_treegrng_hist;
   parameter int N = 1 << 22;
+  parameter int W = 8;                 // output width of the design under test
   logic clk = 0, ld = 1;
-  logic [7:0] result;
+  logic [W-1:0] result;
+`ifdef TOP
+  `TOP dut (.clk(clk), .LD_seed(ld), .result(result));
+`else
   compGRNG dut (.clk(clk), .LD_seed(ld), .result(result));
+`endif
   always #5 clk = ~clk;
-  longint cnt [256];
+  longint cnt [1 << W];
   initial begin
-    for (int i = 0; i < 256; i++) cnt[i] = 0;
+    for (int i = 0; i < (1 << W); i++) cnt[i] = 0;
     repeat (2) @(posedge clk);
     ld = 0;
     repeat (16) @(posedge clk);          // let the LFSRs run off the seed
@@ -18,7 +23,7 @@ module tb_treegrng_hist;
       @(posedge clk); #1;
       cnt[result]++;
     end
-    for (int i = 0; i < 256; i++) $display("HIST %0d %0d", i, cnt[i]);
+    for (int i = 0; i < (1 << W); i++) if (cnt[i] != 0) $display("HIST %0d %0d", i, cnt[i]);
     $finish;
   end
 endmodule

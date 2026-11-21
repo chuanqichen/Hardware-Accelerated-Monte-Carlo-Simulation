@@ -1,0 +1,126 @@
+ 
+****************************************
+Report : reference
+Design : RandDist_int
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 15:27:45 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+INVX1              gscl45nm       1.407900       8     11.263200  
+LFSR_NUM_BITS11_0               120.140797       1    120.140797  h, n
+LFSR_NUM_BITS11_1               120.610097       1    120.610097  h, n
+LFSR_NUM_BITS11_2               120.610097       1    120.610097  h, n
+LFSR_NUM_BITS12_0               144.075097       1    144.075097  h, n
+LFSR_NUM_BITS12_1               144.075097       1    144.075097  h, n
+LFSR_NUM_BITS12_2               142.197897       1    142.197897  h, n
+LFSR_NUM_BITS13_0               154.399696       1    154.399696  h, n
+LFSR_NUM_BITS13_1               176.926096       1    176.926096  h, n
+LFSR_NUM_BITS13_2               152.991796       1    152.991796  h, n
+LFSR_NUM_BITS14_0               164.724296       1    164.724296  h, n
+LFSR_NUM_BITS14_1               190.066496       1    190.066496  h, n
+LFSR_NUM_BITS14_2               163.316396       1    163.316396  h, n
+decisiontree                    984.591395       1    984.591395  h
+propabmaker_11_1d0               15.017600       1     15.017600  h
+propabmaker_11_3c4               20.649199       1     20.649199  h
+propabmaker_11_3cc               23.934299       1     23.934299  h
+propabmaker_11_3d4               20.649199       1     20.649199  h
+propabmaker_11_3dc               22.526399       1     22.526399  h
+propabmaker_11_3e4               16.425500       1     16.425500  h
+propabmaker_11_3eb               25.342199       1     25.342199  h
+propabmaker_11_3f3               23.464999       1     23.464999  h
+propabmaker_11_3fb_0             22.057099       1     22.057099  h
+propabmaker_11_3fb_1             22.057099       1     22.057099  h
+propabmaker_11_3fc_0             19.710599       1     19.710599  h
+propabmaker_11_3fc_1             19.710599       1     19.710599  h
+propabmaker_11_3fd_0             22.995699       1     22.995699  h
+propabmaker_11_3fd_1             22.995699       1     22.995699  h
+propabmaker_11_3fe_0             20.649199       1     20.649199  h
+propabmaker_11_3fe_1             20.649199       1     20.649199  h
+propabmaker_11_3ff               24.403599       1     24.403599  h
+propabmaker_11_137               26.280799       1     26.280799  h
+propabmaker_11_297               27.688699       1     27.688699  h
+propabmaker_11_382               17.833400       1     17.833400  h
+propabmaker_12_4ee               25.342199       1     25.342199  h
+propabmaker_12_5d0               17.364100       1     17.364100  h
+propabmaker_12_6c3               27.688699       1     27.688699  h
+propabmaker_12_7bf               24.872899       1     24.872899  h
+propabmaker_12_7c3               25.342199       1     25.342199  h
+propabmaker_12_7cb               27.219399       1     27.219399  h
+propabmaker_12_7d3               27.688699       1     27.688699  h
+propabmaker_12_7db               26.750099       1     26.750099  h
+propabmaker_12_7e3               27.219399       1     27.219399  h
+propabmaker_12_7eb               27.688699       1     27.688699  h
+propabmaker_12_7f3               24.403599       1     24.403599  h
+propabmaker_12_7fb               25.811499       1     25.811499  h
+propabmaker_12_7fd               23.464999       1     23.464999  h
+propabmaker_12_55d               30.035199       1     30.035199  h
+propabmaker_12_484               18.302700       1     18.302700  h
+propabmaker_12_648               20.179899       1     20.179899  h
+propabmaker_12_740               12.671100       1     12.671100  h
+propabmaker_13_0c33              27.688699       1     27.688699  h
+propabmaker_13_0c70              18.771999       1     18.771999  h
+propabmaker_13_0cad              30.504499       1     30.504499  h
+propabmaker_13_0cea              27.219399       1     27.219399  h
+propabmaker_13_0d28              22.057099       1     22.057099  h
+propabmaker_13_0d66              26.750099       1     26.750099  h
+propabmaker_13_0da4              25.811499       1     25.811499  h
+propabmaker_13_0de3              29.565899       1     29.565899  h
+propabmaker_13_0e22              22.057099       1     22.057099  h
+propabmaker_13_0e61              29.565899       1     29.565899  h
+propabmaker_13_0ea0              16.425500       1     16.425500  h
+propabmaker_13_0ee0              18.302699       1     18.302699  h
+propabmaker_13_0f1f              26.750099       1     26.750099  h
+propabmaker_13_0f5f              32.850999       1     32.850999  h
+propabmaker_13_0f9f              28.627299       1     28.627299  h
+propabmaker_13_0fc3              29.096599       1     29.096599  h
+propabmaker_13_0fcb              29.565899       1     29.565899  h
+propabmaker_13_0fd3              30.035199       1     30.035199  h
+propabmaker_13_0fdb              30.504499       1     30.504499  h
+propabmaker_13_0fdf              30.035199       1     30.035199  h
+propabmaker_13_0fe3              29.096599       1     29.096599  h
+propabmaker_13_0feb              28.627299       1     28.627299  h
+propabmaker_13_0ff3              28.157999       1     28.157999  h
+propabmaker_13_0ffb              26.750099       1     26.750099  h
+propabmaker_13_0173              29.096599       1     29.096599  h
+propabmaker_14_1c34              24.403599       1     24.403599  h
+propabmaker_14_1c73              29.565899       1     29.565899  h
+propabmaker_14_1cb2              27.688699       1     27.688699  h
+propabmaker_14_1cf1              33.789599       1     33.789599  h
+propabmaker_14_1d31              29.565899       1     29.565899  h
+propabmaker_14_1d70              22.526399       1     22.526399  h
+propabmaker_14_1db0              27.688699       1     27.688699  h
+propabmaker_14_1df0              24.403599       1     24.403599  h
+propabmaker_14_1e2f              30.504499       1     30.504499  h
+propabmaker_14_1e6f              35.666799       1     35.666799  h
+propabmaker_14_1eaf              33.320299       1     33.320299  h
+propabmaker_14_1eef              30.035199       1     30.035199  h
+propabmaker_14_1f2f              36.136099       1     36.136099  h
+propabmaker_14_1f6f              32.850999       1     32.850999  h
+propabmaker_14_1faf              31.912399       1     31.912399  h
+propabmaker_14_1fc3              30.035199       1     30.035199  h
+propabmaker_14_1fcb              30.504499       1     30.504499  h
+propabmaker_14_1fd3              30.973799       1     30.973799  h
+propabmaker_14_1fdb              31.443099       1     31.443099  h
+propabmaker_14_1fe3              32.381699       1     32.381699  h
+propabmaker_14_1feb              32.381699       1     32.381699  h
+propabmaker_14_1fef              31.912399       1     31.912399  h
+propabmaker_14_1ff3              29.096599       1     29.096599  h
+propabmaker_14_1ffb              29.096599       1     29.096599  h
+propabmaker_14_03b5              30.973799       1     30.973799  h
+propabmaker_14_1236              29.096599       1     29.096599  h
+-----------------------------------------------------------------------------
+Total 102 references                                 5098.944389
+1

@@ -83,3 +83,33 @@ DESIGN=compGRNG_int RTL_FILES="rtl/third_party/treegrng/lfsr.sv rtl/third_party/
   TAG=treegrng_int8_5ns dc_shell -f scripts/syn/dc_synth.tcl
 python3 model/treegrng_study.py          # laptop
 ```
+
+## Update 2026-11-21 (prototype step 1, claim T1): matched output width
+
+TreeGRNG regenerated with the authors' `makeVerilogCode.py` at 12 and 16 bits
+(`scripts/research/gen_treegrng.py`; `rtl/third_party/treegrng/gen/`), same flow, 4M-cycle RTL
+histograms (`results/treegrng_hist_{12,16}.txt`), `reports/syn/treegrng_int{12,16}_5ns/`.
+
+| Generator | Area um^2 | K-S | P(z > 3.5) (true 2.3e-4) | Worst bias |
+|---|---:|---:|---:|---:|
+| Tree 8 b (32/sigma) | 2,144 | 0.0144 | 1.6e-4 | 4.33 % |
+| Tree 12 b (512/sigma) | 5,099 | 0.0008 | 1.9e-4 | 0.81 % |
+| Tree 16 b (8192/sigma) | 8,562 | 0.0004 | 1.9e-4 | **0.37 %** |
+| LUT a=8 | 1,618 | 0.0020 | **0** | 1.18 % |
+| LUT a=10 | 4,060 | 0.0005 | **0** | **0.38 %** |
+| LUT a=12 | 8,152 | 0.0002 | 2.4e-4 | 0.14 % |
+
+**T1 go-criterion not met**: at 16 bits the tree passes the 1 % target. The INT8 failure was a
+width artefact and must be labelled as such. What the matched data shows instead:
+
+1. The ROM table still dominates the Pareto front by ~2x: equal bias costs the tree 2.1x the
+   area (8,562 vs 4,060); equal area buys the ROM 2.6x lower bias (0.14 vs 0.37 %).
+2. **Complementary failure modes that K-S cannot see.** The ROM has an exact body and *zero*
+   tail mass beyond |z|max (P(z>3.5) = 0 for a <= 10: a rare-event estimator returns exactly 0);
+   the tree keeps tail mass (1.9e-4) but distorts the body. K-S ranks Tree-16 and LUT-10 as
+   equal (0.0004 vs 0.0005) and is blind to the ROM's missing tail.
+3. This is the motivation for the tail-refined segmented table: exact body *and* tails at
+   ROM-class area. The design (claim C3) becomes the centre of the paper; the FoM is the lens.
+
+Reframed thesis: *body-dominated metrics hide complementary tail failures in table and tree
+GRNGs; an application-level FoM exposes them; a tail-refined segmented table fixes both.*
