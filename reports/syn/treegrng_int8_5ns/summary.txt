@@ -1,0 +1,13 @@
+design       compGRNG_int
+tag          treegrng_int8_5ns
+params       
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       1.08305
+fmax_mhz     255.300680376
+area_um2     2144.231659
+area_comb_um2 1601.720871
+area_bufinv_um2 557.528387
+area_seq_um2 542.510788
+cells        825
+registers    68

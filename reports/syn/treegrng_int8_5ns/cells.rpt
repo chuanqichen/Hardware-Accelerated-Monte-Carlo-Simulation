@@ -1,0 +1,79 @@
+ 
+****************************************
+Report : reference
+Design : compGRNG_int
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 12:40:39 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+INVX1              gscl45nm       1.407900       6      8.447400  
+LFSR_NUM_BITS7_0                 80.719598       1     80.719598  h, n
+LFSR_NUM_BITS7_1                 80.250298       1     80.250298  h, n
+LFSR_NUM_BITS8_0                102.307398       1    102.307398  h, n
+LFSR_NUM_BITS8_1                 99.960898       1     99.960898  h, n
+LFSR_NUM_BITS9_0                122.487297       1    122.487297  h, n
+LFSR_NUM_BITS9_1                102.776698       1    102.776698  h, n
+LFSR_NUM_BITS10_0               113.101297       1    113.101297  h, n
+LFSR_NUM_BITS10_1               111.224097       1    111.224097  h, n
+gaussianSimplified8             603.519798       1    603.519798  h
+propabmaker_7_1d                 15.017600       1     15.017600  h
+propabmaker_7_3b_0               14.079000       1     14.079000  h
+propabmaker_7_3b_1               14.079000       1     14.079000  h
+propabmaker_7_3d_0               11.732500       1     11.732500  h
+propabmaker_7_3d_1               11.732500       1     11.732500  h
+propabmaker_7_3e                 12.671100       1     12.671100  h
+propabmaker_7_13                 15.486900       1     15.486900  h
+propabmaker_7_29                 15.486900       1     15.486900  h
+propabmaker_7_38_0                8.447400       1      8.447400  h
+propabmaker_7_38_1                8.447400       1      8.447400  h
+propabmaker_7_38_2                8.447400       1      8.447400  h
+propabmaker_7_39                 11.732500       1     11.732500  h
+propabmaker_8_4e                 17.364100       1     17.364100  h
+propabmaker_8_5d                 17.364100       1     17.364100  h
+propabmaker_8_6c                 13.140400       1     13.140400  h
+propabmaker_8_7c                 12.671100       1     12.671100  h
+propabmaker_8_48                  8.916700       1      8.916700  h
+propabmaker_8_55                 16.894800       1     16.894800  h
+propabmaker_8_64                 10.793900       1     10.793900  h
+propabmaker_8_74                 12.671100       1     12.671100  h
+propabmaker_8_80                  0.000000       1      0.000000  h
+propabmaker_9_0c3                19.241300       1     19.241300  h
+propabmaker_9_0c6                17.833400       1     17.833400  h
+propabmaker_9_0ca                17.833400       1     17.833400  h
+propabmaker_9_0ce                19.710599       1     19.710599  h
+propabmaker_9_0d2                17.364100       1     17.364100  h
+propabmaker_9_0d6                19.710600       1     19.710600  h
+propabmaker_9_0da                19.710599       1     19.710599  h
+propabmaker_9_0de                19.241300       1     19.241300  h
+propabmaker_9_0e2                14.079000       1     14.079000  h
+propabmaker_9_0e6                19.710599       1     19.710599  h
+propabmaker_9_0ea                16.425500       1     16.425500  h
+propabmaker_9_0ee                18.302699       1     18.302699  h
+propabmaker_9_0f2                17.833400       1     17.833400  h
+propabmaker_9_0f6                20.179899       1     20.179899  h
+propabmaker_9_0fa                15.956200       1     15.956200  h
+propabmaker_9_0fe                17.364100       1     17.364100  h
+propabmaker_9_017                20.179899       1     20.179899  h
+propabmaker_10_1e1               22.995699       1     22.995699  h
+propabmaker_10_1e6               23.934299       1     23.934299  h
+propabmaker_10_1ee               22.526399       1     22.526399  h
+propabmaker_10_1f5               21.118499       1     21.118499  h
+propabmaker_10_1fa               19.710599       1     19.710599  h
+propabmaker_10_03b               17.833400       1     17.833400  h
+propabmaker_10_123               23.464999       1     23.464999  h
+-----------------------------------------------------------------------------
+Total 55 references                                  2144.231659
+1

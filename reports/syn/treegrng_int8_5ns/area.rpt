@@ -1,0 +1,206 @@
+ 
+****************************************
+Report : area
+Design : compGRNG_int
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 12:40:39 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                         1541
+Number of nets:                          2210
+Number of cells:                          988
+Number of combinational cells:            705
+Number of sequential cells:                68
+Number of macros/black boxes:               0
+Number of buf/inv:                        344
+Number of references:                      55
+
+Combinational area:               1601.720871
+Buf/Inv area:                      557.528387
+Noncombinational area:             542.510788
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  2144.231659
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  -------------------
+compGRNG_int                      2144.2317    100.0     8.4474     0.0000  0.0000  compGRNG_int
+LFSR0                              113.1013      5.3    33.3203    79.7810  0.0000  LFSR_NUM_BITS10_0
+LFSR1                               80.7196      3.8    24.8729    55.8467  0.0000  LFSR_NUM_BITS7_0
+LFSR2                              122.4873      5.7    50.6844    71.8029  0.0000  LFSR_NUM_BITS9_0
+LFSR3                              102.3074      4.8    38.4826    63.8248  0.0000  LFSR_NUM_BITS8_0
+LFSR4                               80.2503      3.7    24.4036    55.8467  0.0000  LFSR_NUM_BITS7_1
+LFSR5                              111.2241      5.2    31.4431    79.7810  0.0000  LFSR_NUM_BITS10_1
+LFSR6                              102.7767      4.8    30.9738    71.8029  0.0000  LFSR_NUM_BITS9_1
+LFSR7                               99.9609      4.7    36.1361    63.8248  0.0000  LFSR_NUM_BITS8_1
+gauss                              603.5198     28.1    13.1404     0.0000  0.0000  gaussianSimplified8
+gauss/muxbit0                       77.4345      3.6     5.1623     0.0000  0.0000  mux_N4_4
+gauss/muxbit0/genblk1.lowermux      36.1361      1.7     5.1623     0.0000  0.0000  mux_N3_8
+gauss/muxbit0/genblk1.lowermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_16
+gauss/muxbit0/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_32
+gauss/muxbit0/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_33
+gauss/muxbit0/genblk1.lowermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_17
+gauss/muxbit0/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_34
+gauss/muxbit0/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_35
+gauss/muxbit0/genblk1.uppermux      36.1361      1.7     5.1623     0.0000  0.0000  mux_N3_9
+gauss/muxbit0/genblk1.uppermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_18
+gauss/muxbit0/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_36
+gauss/muxbit0/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_37
+gauss/muxbit0/genblk1.uppermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_19
+gauss/muxbit0/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_38
+gauss/muxbit0/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_39
+gauss/muxbit1                      160.0313      7.5     5.1623     0.0000  0.0000  mux_N5_0
+gauss/muxbit1/genblk1.lowermux      77.4345      3.6     5.1623     0.0000  0.0000  mux_N4_0
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_0
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_0
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_0
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_1
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_1
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_2
+gauss/muxbit1/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_3
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_1
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_2
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_4
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_5
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_3
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_6
+gauss/muxbit1/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_7
+gauss/muxbit1/genblk1.uppermux      77.4345      3.6     5.1623     0.0000  0.0000  mux_N4_1
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_2
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_4
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_8
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_9
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_5
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_10
+gauss/muxbit1/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_11
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_3
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_6
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_12
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_13
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_7
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_14
+gauss/muxbit1/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_15
+gauss/muxbit2                      160.0313      7.5     5.1623     0.0000  0.0000  mux_N5_1
+gauss/muxbit2/genblk1.lowermux      77.4345      3.6     5.1623     0.0000  0.0000  mux_N4_2
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_4
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_8
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_16
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_17
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_9
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_18
+gauss/muxbit2/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_19
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_5
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_10
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_20
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_21
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_11
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_22
+gauss/muxbit2/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_23
+gauss/muxbit2/genblk1.uppermux      77.4345      3.6     5.1623     0.0000  0.0000  mux_N4_3
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_6
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_12
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_24
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_25
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_13
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_26
+gauss/muxbit2/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_27
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux   36.1361     1.7    5.1623    0.0000 0.0000 mux_N3_7
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_14
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_28
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_29
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_15
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_30
+gauss/muxbit2/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_31
+gauss/muxbit3                       76.0266      3.5     3.7544     0.0000  0.0000  mux_N4_5
+gauss/muxbit3/genblk1.lowermux      36.1361      1.7     5.1623     0.0000  0.0000  mux_N3_10
+gauss/muxbit3/genblk1.lowermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_20
+gauss/muxbit3/genblk1.lowermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_40
+gauss/muxbit3/genblk1.lowermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_41
+gauss/muxbit3/genblk1.lowermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_21
+gauss/muxbit3/genblk1.lowermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_42
+gauss/muxbit3/genblk1.lowermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_43
+gauss/muxbit3/genblk1.uppermux      36.1361      1.7     5.1623     0.0000  0.0000  mux_N3_11
+gauss/muxbit3/genblk1.uppermux/genblk1.lowermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_22
+gauss/muxbit3/genblk1.uppermux/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_44
+gauss/muxbit3/genblk1.uppermux/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_45
+gauss/muxbit3/genblk1.uppermux/genblk1.uppermux   15.4869     0.7    5.1623    0.0000 0.0000 mux_N2_23
+gauss/muxbit3/genblk1.uppermux/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_46
+gauss/muxbit3/genblk1.uppermux/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_47
+gauss/muxbit4                       34.7282      1.6     3.7544     0.0000  0.0000  mux_N3_12
+gauss/muxbit4/genblk1.lowermux      15.4869      0.7     5.1623     0.0000  0.0000  mux_N2_24
+gauss/muxbit4/genblk1.lowermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_48
+gauss/muxbit4/genblk1.lowermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_49
+gauss/muxbit4/genblk1.uppermux      15.4869      0.7     5.1623     0.0000  0.0000  mux_N2_25
+gauss/muxbit4/genblk1.uppermux/genblk1.lowermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_50
+gauss/muxbit4/genblk1.uppermux/genblk1.uppermux    5.1623     0.2    5.1623    0.0000 0.0000 mux_N1_51
+gauss/muxbit5                       14.0790      0.7     3.7544     0.0000  0.0000  mux_N2_26
+gauss/muxbit5/genblk1.lowermux       5.1623      0.2     5.1623     0.0000  0.0000  mux_N1_52
+gauss/muxbit5/genblk1.uppermux       5.1623      0.2     5.1623     0.0000  0.0000  mux_N1_53
+gauss/muxbit6                        4.6930      0.2     4.6930     0.0000  0.0000  mux_N1_54
+gauss/rev0                           8.4474      0.4     8.4474     0.0000  0.0000  reverser_N8_0
+gauss/rev1                          12.6711      0.6    12.6711     0.0000  0.0000  reverser_N16_0
+gauss/rev2                          22.5264      1.1    22.5264     0.0000  0.0000  reverser_N16_1
+gauss/rev3                          11.2632      0.5    11.2632     0.0000  0.0000  reverser_N8_1
+gauss/rev4                           5.6316      0.3     5.6316     0.0000  0.0000  reverser_N4
+gauss/rev5                           2.8158      0.1     2.8158     0.0000  0.0000  reverser_N2
+prob00                              22.9957      1.1    22.9957     0.0000  0.0000  propabmaker_10_1e1
+prob01                              23.9343      1.1    23.9343     0.0000  0.0000  propabmaker_10_1e6
+prob03                              22.5264      1.1    22.5264     0.0000  0.0000  propabmaker_10_1ee
+prob05                              21.1185      1.0    21.1185     0.0000  0.0000  propabmaker_10_1f5
+prob06                              19.7106      0.9    19.7106     0.0000  0.0000  propabmaker_10_1fa
+prob10                               8.4474      0.4     8.4474     0.0000  0.0000  propabmaker_7_38_0
+prob11                               8.4474      0.4     8.4474     0.0000  0.0000  propabmaker_7_38_1
+prob111                             11.7325      0.5    11.7325     0.0000  0.0000  propabmaker_7_3d_1
+prob113                             12.6711      0.6    12.6711     0.0000  0.0000  propabmaker_7_3e
+prob13                              11.7325      0.5    11.7325     0.0000  0.0000  propabmaker_7_39
+prob15                              14.0790      0.7    14.0790     0.0000  0.0000  propabmaker_7_3b_0
+prob17                              14.0790      0.7    14.0790     0.0000  0.0000  propabmaker_7_3b_1
+prob19                              11.7325      0.5    11.7325     0.0000  0.0000  propabmaker_7_3d_0
+prob20                              19.2413      0.9    19.2413     0.0000  0.0000  propabmaker_9_0c3
+prob21                              17.8334      0.8    17.8334     0.0000  0.0000  propabmaker_9_0c6
+prob210                             16.4255      0.8    16.4255     0.0000  0.0000  propabmaker_9_0ea
+prob211                             18.3027      0.9    18.3027     0.0000  0.0000  propabmaker_9_0ee
+prob212                             17.8334      0.8    17.8334     0.0000  0.0000  propabmaker_9_0f2
+prob213                             20.1799      0.9    20.1799     0.0000  0.0000  propabmaker_9_0f6
+prob214                             15.9562      0.7    15.9562     0.0000  0.0000  propabmaker_9_0fa
+prob215                             17.3641      0.8    17.3641     0.0000  0.0000  propabmaker_9_0fe
+prob22                              17.8334      0.8    17.8334     0.0000  0.0000  propabmaker_9_0ca
+prob23                              19.7106      0.9    19.7106     0.0000  0.0000  propabmaker_9_0ce
+prob24                              17.3641      0.8    17.3641     0.0000  0.0000  propabmaker_9_0d2
+prob25                              19.7106      0.9    19.7106     0.0000  0.0000  propabmaker_9_0d6
+prob26                              19.7106      0.9    19.7106     0.0000  0.0000  propabmaker_9_0da
+prob27                              19.2413      0.9    19.2413     0.0000  0.0000  propabmaker_9_0de
+prob28                              14.0790      0.7    14.0790     0.0000  0.0000  propabmaker_9_0e2
+prob29                              19.7106      0.9    19.7106     0.0000  0.0000  propabmaker_9_0e6
+prob30                               8.9167      0.4     8.9167     0.0000  0.0000  propabmaker_8_48
+prob31                              17.3641      0.8    17.3641     0.0000  0.0000  propabmaker_8_4e
+prob32                              16.8948      0.8    16.8948     0.0000  0.0000  propabmaker_8_55
+prob33                              17.3641      0.8    17.3641     0.0000  0.0000  propabmaker_8_5d
+prob34                              10.7939      0.5    10.7939     0.0000  0.0000  propabmaker_8_64
+prob35                              13.1404      0.6    13.1404     0.0000  0.0000  propabmaker_8_6c
+prob36                              12.6711      0.6    12.6711     0.0000  0.0000  propabmaker_8_74
+prob37                              12.6711      0.6    12.6711     0.0000  0.0000  propabmaker_8_7c
+prob40                              15.4869      0.7    15.4869     0.0000  0.0000  propabmaker_7_13
+prob41                              15.0176      0.7    15.0176     0.0000  0.0000  propabmaker_7_1d
+prob42                              15.4869      0.7    15.4869     0.0000  0.0000  propabmaker_7_29
+prob43                               8.4474      0.4     8.4474     0.0000  0.0000  propabmaker_7_38_2
+prob50                              17.8334      0.8    17.8334     0.0000  0.0000  propabmaker_10_03b
+prob51                              23.4650      1.1    23.4650     0.0000  0.0000  propabmaker_10_123
+prob61                              20.1799      0.9    20.1799     0.0000  0.0000  propabmaker_9_017
+prop71                               0.0000      0.0     0.0000     0.0000  0.0000  propabmaker_8_80
+--------------------------------  ---------  -------  ---------  ---------  ------  -------------------
+Total                                                 1601.7209   542.5108  0.0000
+
+1

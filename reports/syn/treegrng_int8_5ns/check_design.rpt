@@ -1,0 +1,240 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sat Nov 21 12:39:52 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      8
+    Unconnected ports (LINT-28)                                     7
+    Feedthrough (LINT-29)                                           1
+
+Cells                                                             101
+    Connected to power or ground (LINT-32)                         76
+    Nets connected to multiple pins on same cell (LINT-33)         25
+
+Nets                                                                8
+    Unloaded nets (LINT-2)                                          8
+--------------------------------------------------------------------------------
+
+Warning: In design 'compGRNG_int', net 'LFSR3Done' driven by pin 'LFSR3/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR2Done' driven by pin 'LFSR2/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR1Done' driven by pin 'LFSR1/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR0Done' driven by pin 'LFSR0/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR4Done' driven by pin 'LFSR4/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR5Done' driven by pin 'LFSR5/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR6Done' driven by pin 'LFSR6/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'compGRNG_int', net 'LFSR7Done' driven by pin 'LFSR7/o_LFSR_Done' has no loads. (LINT-2)
+Warning: In design 'propabmaker_8_80', port 'randint[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', port 'randint[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', port 'randint[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', port 'randint[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', port 'randint[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', port 'randint[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', port 'randint[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'propabmaker_8_80', input port 'randint[7]' is connected directly to output port 'propbit'. (LINT-29)
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[7]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR7' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[8]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[7]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR6' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[9]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[8]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[7]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR5' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR4' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[7]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[8]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[7]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Enable' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[9]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[8]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[7]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[6]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[5]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[4]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[3]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[2]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[1]' is connected to logic 1. 
+Warning: In design 'compGRNG_int', a pin on submodule 'LFSR0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'i_Seed_Data[0]' is connected to logic 0. 
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR7'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[7]'', 'i_Seed_Data[5]', 'i_Seed_Data[3]', 'i_Seed_Data[1]', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR7'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[6]', 'i_Seed_Data[4]'', 'i_Seed_Data[2]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR6'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[8]'', 'i_Seed_Data[7]', 'i_Seed_Data[4]', 'i_Seed_Data[3]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR6'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[6]', 'i_Seed_Data[5]'', 'i_Seed_Data[2]', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR5'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[7]'', 'i_Seed_Data[5]', 'i_Seed_Data[4]', 'i_Seed_Data[2]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR5'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[9]', 'i_Seed_Data[8]'', 'i_Seed_Data[6]', 'i_Seed_Data[3]', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR4'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[6]'', 'i_Seed_Data[4]', 'i_Seed_Data[2]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR4'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[5]', 'i_Seed_Data[3]'', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR3'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[7]'', 'i_Seed_Data[6]', 'i_Seed_Data[4]', 'i_Seed_Data[2]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR3'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[5]', 'i_Seed_Data[3]'', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR2'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[8]'', 'i_Seed_Data[5]', 'i_Seed_Data[3]', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR2'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[7]', 'i_Seed_Data[6]'', 'i_Seed_Data[4]', 'i_Seed_Data[2]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR1'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[4]'', 'i_Seed_Data[3]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR1'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[6]', 'i_Seed_Data[5]'', 'i_Seed_Data[2]', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR0'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'i_Enable', 'i_Seed_Data[9]'', 'i_Seed_Data[6]', 'i_Seed_Data[5]', 'i_Seed_Data[4]', 'i_Seed_Data[3]', 'i_Seed_Data[1]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'LFSR0'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'i_Seed_Data[8]', 'i_Seed_Data[7]'', 'i_Seed_Data[2]', 'i_Seed_Data[0]'.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1[14]' is connected to pins 'pbits1[1]', 'pbits1[2]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1_12' is connected to pins 'pbits1[3]', 'pbits1[4]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1_10' is connected to pins 'pbits1[5]', 'pbits1[6]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1_8' is connected to pins 'pbits1[7]', 'pbits1[8]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1_6' is connected to pins 'pbits1[9]', 'pbits1[10]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1_4' is connected to pins 'pbits1[11]', 'pbits1[12]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit1_2' is connected to pins 'pbits1[13]', 'pbits1[14]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit0[4]' is connected to pins 'pbits0[3]', 'pbits0[4]''.
+Warning: In design 'compGRNG_int', the same net is connected to more than one pin on submodule 'gauss'. (LINT-33)
+   Net 'pBit0_2' is connected to pins 'pbits0[5]', 'pbits0[6]''.
+1
