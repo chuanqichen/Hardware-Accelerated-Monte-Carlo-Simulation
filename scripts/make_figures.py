@@ -31,13 +31,13 @@ def arrow(ax, p0, p1, label=None, sub=None, dy=0.1):
 
 
 def lane_block_diagram(path: Path):
-    fig, ax = plt.subplots(figsize=(10.5, 3.8))
+    fig, ax = plt.subplots(figsize=(10.5, 4.3))
     ax.set_xlim(0, 11.6)
-    ax.set_ylim(0, 3.7)
+    ax.set_ylim(-0.55, 3.7)
     ax.axis("off")
 
     # mc_top frame
-    ax.add_patch(FancyBboxPatch((1.0, 0.25), 8.9, 3.2, boxstyle="round,pad=0.02,rounding_size=0.1",
+    ax.add_patch(FancyBboxPatch((1.0, -0.4), 8.9, 3.85, boxstyle="round,pad=0.02,rounding_size=0.1",
                                 fc="none", ec="#888", lw=1.0, ls="--"))
     ax.text(1.15, 3.3, "mc_top  (Tyler)", ha="left", va="center", size=8.5, color="#555", family="monospace")
 
@@ -63,6 +63,12 @@ def lane_block_diagram(path: Path):
     ax.add_patch(FancyArrowPatch((8.1, 2.2), (3.0, 2.2), arrowstyle="-|>", mutation_scale=12, lw=1.1,
                                  color="#222", shrinkA=0, shrinkB=0))
     ax.text(5.5, 2.12, "trial_count", ha="center", va="top", size=8, family="monospace")
+
+    # reset synchroniser (spec D-2): async assert, sync de-assert, feeds every block
+    # Drawn as a rail along the bottom of mc_top: rst_n enters once, core_rst_n fans out.
+    box(ax, 1.3, -0.25, 1.4, 0.5, "rst_sync", "2-FF (D-2)", fc="#f9f4ea")
+    arrow(ax, (0.05, 0.0), (1.3, 0.0), "clk, rst_n", dy=0.04)
+    arrow(ax, (2.7, 0.0), (9.6, 0.0), "core_rst_n  (async assert, sync de-assert)  -> every block", dy=0.04)
 
     # top-level I/O
     arrow(ax, (0.05, 2.75), (1.3, 2.75), "cfg bus", dy=0.06)
@@ -165,7 +171,7 @@ def gauss_lut_datapath(path: Path):
     arrow(ax, (0.15, yv), (10.5, yv)); ax.text(5.3, yv + 0.08, "in_valid", ha="center", va="bottom", **F)
     ax.add_patch(FancyBboxPatch((10.5, yv - 0.28), 0.55, 0.56, boxstyle="square,pad=0", fc="#ddd", ec="#333"))
     arrow(ax, (11.05, yv), (11.95, yv)); ax.text(11.1, yv + 0.1, "out_valid", ha="left", va="bottom", family="monospace", size=9.5)
-    ax.text(6.0, -0.35, "LATENCY = 1 shown. LATENCY = 2 inserts a register between ROM and negate.",
+    ax.text(6.0, -0.35, "LATENCY = 1 shown; LATENCY = 2 adds a register between ROM and negate. Only out_valid is reset; z loads on in_valid (spec D-2).",
             ha="center", va="bottom", size=9.5, color="#555")
     fig.savefig(path, dpi=200, bbox_inches="tight"); plt.close(fig)
 

@@ -1,0 +1,13 @@
+design       mc_top
+tag          lane_20261121_mc_top_a12_k10
+params       GAUSS_ADDR_BITS=12,EXP_ADDR_BITS=10,LANES=1,GAUSS_LATENCY=1,MUL_STAGES=1
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.00661492
+fmax_mhz     200.264947321
+area_um2     37391.477266
+area_comb_um2 28315.215128
+area_bufinv_um2 6419.554557
+area_seq_um2 9076.262138
+cells        12661
+registers    915

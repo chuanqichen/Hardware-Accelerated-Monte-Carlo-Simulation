@@ -4,7 +4,9 @@
 module mc_top #(
   parameter int LANES = 1,
   parameter int GAUSS_LATENCY = 1,
-  parameter int MUL_STAGES = 1
+  parameter int MUL_STAGES = 1,
+  parameter int GAUSS_ADDR_BITS = 10,   // weekly-plan configs D/A/E = 8/10/12
+  parameter int EXP_ADDR_BITS = 10
 ) (
   input  logic clk,
   input  logic rst_n,
@@ -102,7 +104,8 @@ module mc_top #(
   );
 
   // Eric owns accumulation; this boundary returns registered totals and sticky flags.
-  mc_lane_array #(.LANES(LANES), .GAUSS_LATENCY(GAUSS_LATENCY), .MUL_STAGES(MUL_STAGES)) u_lanes (
+  mc_lane_array #(.LANES(LANES), .GAUSS_LATENCY(GAUSS_LATENCY), .MUL_STAGES(MUL_STAGES),
+                  .GAUSS_ADDR_BITS(GAUSS_ADDR_BITS), .EXP_ADDR_BITS(EXP_ADDR_BITS)) u_lanes (
     .clk, .rst_n(core_rst_n), .clear_accum, .seed_load, .run_mask,
     .seed_state(active_seeds), .a(active_a), .b(active_b), .k(active_k),
     .payoff_sum, .trial_count, .sat_x, .sat_s, .acc_overflow
