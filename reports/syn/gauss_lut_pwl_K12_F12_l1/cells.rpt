@@ -1,0 +1,49 @@
+ 
+****************************************
+Report : reference
+Design : gauss_lut_pwl
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 17:08:34 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500     152    356.667988  
+AND2X2             gscl45nm       2.815800      38    107.000398  
+AOI21X1            gscl45nm       2.815800      42    118.263598  
+AOI22X1            gscl45nm       3.285100      19     62.416900  
+BUFX2              gscl45nm       2.346500      67    157.215495  
+BUFX4              gscl45nm       2.815800       4     11.263200  
+DFFPOSX1           gscl45nm       7.978100      16    127.649597  n
+DFFSR              gscl45nm      10.324600       1     10.324600  n
+FAX1               gscl45nm       8.916700      81    722.252729  r
+HAX1               gscl45nm       4.693000       8     37.543999  r
+INVX1              gscl45nm       1.407900     385    542.041491  
+INVX2              gscl45nm       1.877200      23     43.175600  
+INVX4              gscl45nm       3.285100       3      9.855300  
+INVX8              gscl45nm       3.285100       2      6.570200  
+MUX2X1             gscl45nm       3.754400      32    120.140800  
+NAND2X1            gscl45nm       1.877200      34     63.824800  
+NAND3X1            gscl45nm       2.346500      33     77.434497  
+NOR2X1             gscl45nm       2.346500      19     44.583498  
+NOR3X1             gscl45nm       2.815800       9     25.342200  
+OAI21X1            gscl45nm       2.815800     130    366.053994  
+OR2X1              gscl45nm       2.346500     162    380.132987  
+OR2X2              gscl45nm       2.815800      11     30.973799  
+XNOR2X1            gscl45nm       4.693000     108    506.843983  
+XOR2X1             gscl45nm       4.693000      40    187.719994  
+gauss_lut_pwl_rom_K_BITS4       271.724693       1    271.724693  h
+-----------------------------------------------------------------------------
+Total 25 references                                  4387.016340
+1

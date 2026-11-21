@@ -23,6 +23,7 @@ sys.path.insert(0, str(ROOT / "model"))
 import grng_fom                                   # noqa: E402
 from gauss_lut_seg import SegLut, SegLutConfig    # noqa: E402
 import clt_grng                                   # noqa: E402
+from gauss_lut_pwl import PwlLut, PwlConfig       # noqa: E402
 
 
 def area(tag):
@@ -41,6 +42,8 @@ def main():
     for K, B, tag in ((8, 4, "gauss_lut_seg_K8_B4_l1"), (12, 4, "gauss_lut_seg_K12_B4_l1")):
         z, p = SegLut(SegLutConfig(K, B)).distribution()
         rows.append(dict(grng_fom.fom(z, p, f"segmented K={K} B={B}", area(tag)), kind="ROM segmented (ours)"))
+    z, p = PwlLut(PwlConfig(12, 12)).distribution()
+    rows.append(dict(grng_fom.fom(z, p, "PWL dyadic K=12 F=12 (Giles form)", area("gauss_lut_pwl_K12_F12_l1")), kind="PWL dyadic (Giles & S-M form)"))
     z, p = clt_grng.distribution()
     rows.append(dict(grng_fom.fom(z, p, "CLT-12", area("clt12_5ns")), kind="CLT-12"))
 
@@ -49,7 +52,7 @@ def main():
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
 
     style = {"ROM uniform": ("o", "#4c72b0"), "TreeGRNG": ("^", "#dd8452"),
-             "ROM segmented (ours)": ("*", "#c44e52"), "CLT-12": ("s", "#55a868")}
+             "ROM segmented (ours)": ("*", "#c44e52"), "CLT-12": ("s", "#55a868"), "PWL dyadic (Giles & S-M form)": ("D", "#8172b2")}
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(11.5, 4.4))
     for kind, (mk, col) in style.items():
         pts = [r for r in rows if r["kind"] == kind]
@@ -59,7 +62,7 @@ def main():
         a1.scatter(x, [r["call_worst_bias_pct"] for r in pts], marker=mk, s=140 if "ours" in kind else 70,
                    color=col, label=kind, zorder=3)
         for r, xi in zip(pts, x):
-            lab = r["generator"].replace("ROM LUT ", "").replace("TreeGRNG ", "tree ").replace("segmented ", "seg ")
+            lab = r["generator"].replace("ROM LUT ", "").replace("TreeGRNG ", "tree ").replace("segmented ", "seg ").replace(" (Giles form)", "")
             a1.annotate(f"{lab}\nKS {r['ks']:.4f}", (xi, r["call_worst_bias_pct"]), textcoords="offset points",
                         xytext=(7, -2), fontsize=6.8, color="#333")
         y2 = [abs(r["digital_K200_bias_pct"]) if r["digital_K200_hw"] > 0 else np.nan for r in pts]

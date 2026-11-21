@@ -1,0 +1,105 @@
+ 
+****************************************
+Report : resources
+Design : gauss_lut_pwl
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 17:08:34 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/research/gauss_lut_pwl.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| gte_x_32       | DW_cmp         | width=5    | gte_46 (gauss_lut_pwl.sv:46) |
+| sub_x_34       | DW01_sub       | width=7    | sub_50 (gauss_lut_pwl.sv:50) |
+| ashr_35        | DW_rightsh     | A_width=31 | srl_51_S2 (gauss_lut_pwl.sv:51) |
+            |                | SH_width=32 |                           |
+| ash_36         | DW_leftsh      | A_width=12 | sll_52 (gauss_lut_pwl.sv:52) |
+               |                | SH_width=32 |                           |
+| gt_x_38        | DW_cmp         | width=14   | gt_62 (gauss_lut_pwl.sv:62) |
+| eq_x_39        | DW_cmp         | width=14   | eq_62 (gauss_lut_pwl.sv:62) |
+| sub_x_41       | DW01_sub       | width=16   | sub_72_S2 (gauss_lut_pwl.sv:72) |
+| DP_OP_66J1_122_305              |            |                            |
+|                | DP_OP_66J1_122_305 |        |                            |
+| DP_OP_67J1_123_3921             |            |                            |
+|                | DP_OP_67J1_123_3921 |       |                            |
+=============================================================================
+
+Datapath Report for DP_OP_66J1_122_305
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_66J1_122_305   | sub_50_2 (gauss_lut_pwl.sv:50)                      |
+|                      | gte_51 (gauss_lut_pwl.sv:51)                        |
+|                      | sub_52 (gauss_lut_pwl.sv:52)                        |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Unsigned | 5     |                                          |
+| O1    | PO   | Signed   | 8     | I1 - $unsigned(4'b1100) (gauss_lut_pwl.sv:50) |
+| O2    | PO   | Signed   | 1     | O1 >= $signed(1'b0) (gauss_lut_pwl.sv:51) |
+| O3    | PO   | Signed   | 9     | $signed(1'b0) - O1 (gauss_lut_pwl.sv:52) |
+==============================================================================
+
+Datapath Report for DP_OP_67J1_123_3921
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_67J1_123_3921  | mult_59 (gauss_lut_pwl.sv:59)                       |
+|                      | add_62_S2 (gauss_lut_pwl.sv:62)                     |
+|                      | C706 (gauss_lut_pwl.sv:62)                          |
+|                      | sub_63 (gauss_lut_pwl.sv:63)                        |
+|                      | lt_64 (gauss_lut_pwl.sv:64)                         |
+|                      | gt_64 (gauss_lut_pwl.sv:64)                         |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Unsigned | 14    |                                          |
+| I2    | PI   | Unsigned | 12    |                                          |
+| I3    | PI   | Unsigned | 1     |                                          |
+| I4    | PI   | Unsigned | 1     |                                          |
+| I5    | PI   | Unsigned | 15    |                                          |
+| T62   | IFO  | Unsigned | 14    | O1[27:14]                                |
+| T43   | IFO  | Unsigned | 15    | T62 + $unsigned(1'b1) (gauss_lut_pwl.sv:62) |
+| T47   | IFO  | Unsigned | 15    | { I3, I4 } ? T43 : T62 (gauss_lut_pwl.sv:62) |
+| O1    | PO   | Unsigned | 28    | I1 * I2 (gauss_lut_pwl.sv:59)            |
+| O2    | PO   | Signed   | 18    | I5 - T47 (gauss_lut_pwl.sv:63)           |
+| O3    | PO   | Signed   | 1     | O2 < $signed(1'b0) (gauss_lut_pwl.sv:64) |
+| O4    | PO   | Signed   | 1     | O2 > $signed(16'b0111111111111111) (gauss_lut_pwl.sv:64) |
+==============================================================================
+
+
+Datapath Extraction Report
+
+Information: Operator associated with resources 'sub_50_2 (gauss_lut_pwl.sv:50)' in design 'gauss_lut_pwl' breaks the datapath extraction because there is leakage due to truncation on the fanout of its driver 'sub_50 (gauss_lut_pwl.sv:50)'.  (HDL-120)
+
+Information: Operator associated with resources 'gt_62 (gauss_lut_pwl.sv:62)' in design 'gauss_lut_pwl' breaks the datapath extraction because there is leakage due to truncation on the fanout of its driver 'mult_59 (gauss_lut_pwl.sv:59)'.  (HDL-120)
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| gte_x_32           | DW_cmp           | apparch (area)     |                |
+| sub_x_34           | DW01_sub         | apparch (area)     |                |
+| ashr_35            | DW_rightsh       | astr (area)        |                |
+| ash_36             | DW_leftsh        | astr (area)        |                |
+| gt_x_38            | DW_cmp           | apparch (area)     |                |
+| eq_x_39            | DW_cmp           | apparch (area)     |                |
+| sub_x_41           | DW01_sub         | apparch (area)     |                |
+| DP_OP_66J1_122_305 | DP_OP_66J1_122_305 | str (area)       |                |
+| DP_OP_67J1_123_3921                   |                    |                |
+|                    | DP_OP_67J1_123_3921 | str (area,speed)                 |
+|                    |                  | mult_arch: benc_radix4              |
+===============================================================================
+
+1

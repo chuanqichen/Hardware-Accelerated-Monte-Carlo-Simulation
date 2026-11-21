@@ -186,3 +186,22 @@ output range (`scripts/research/gen_treegrng.py --internal-acc/--lfsr-amount`); 
 
 Tuning repairs the tree's tail (P(z>3.5) within 0.3 %) but not its cost: the best tree is 3.6x
 the bias at 3.9x the area of the segmented table. Risk 2 closed by measurement.
+
+## Update 2026-11-21 (R4): Giles & Sheridan-Methven piecewise-linear dyadic table, in hardware
+
+`model/gauss_lut_pwl.py`, `rtl/research/gauss_lut_pwl.sv`: same LZC front end as our segmented
+table, but one L2-fitted (intercept, slope) pair per dyadic band and a 16x12 multiplier (their
+Theorem 2.5 construction transcribed to fixed point; bit-exact TB passes at both latencies).
+
+| Table | Storage | Multiplier | Area um^2 | K-S | Call worst | Digital K=200 |
+|---|---|---|---:|---:|---:|---:|
+| PWL dyadic K=12 F=12 (Giles form) | 24 coefficients | 16x12 | 4,387 | 0.0051 | 0.188 % | -0.6 % |
+| **segmented K=12 B=4 (ours)** | 192 cells | none | **2,579** | 0.0078 | **0.059 %** | +0.2 % |
+| uniform a=10 (production) | 512 cells | none | 4,060 | 0.0005 | 0.381 % | -100 % |
+
+Two findings. (1) In hardware the multiplier costs more than the cells it saves: the PWL form is
+1.7x the area of the piecewise-constant dyadic table. (2) The L2-optimal line per band is *not*
+bias-optimal: its strong error is lower (K-S 0.0051 vs 0.0078) but its pricing bias is 3.2x
+higher, because one line cannot follow Phi^-1's curvature inside the far bands and the fit
+minimises the wrong norm. Sweeping K and F does not help (0.18-0.31 % for K = 8..16). This is
+the overlap with Giles turned into a result: their construction, our metric, their form loses.
