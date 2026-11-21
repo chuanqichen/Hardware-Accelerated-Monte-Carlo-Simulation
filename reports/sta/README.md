@@ -1,5 +1,18 @@
 # reports/sta - static timing (PrimeTime) evidence
 
+## Reproduction and interpretation
+
+Use `NETLIST=... SDC=... OUT=reports/sta/<fresh-tag> bash scripts/sta/clock_transition.sh`.
+The wrapper rejects exit-zero command errors and incomplete evidence. Both the
+wrapper and Tcl refuse to overwrite a previous run. New runs record input/library
+SHA-256 hashes, tool version and both transition assumptions. Historical reports
+below are preserved unchanged and predate this metadata gate.
+
+The 0.06 ns run changes the assumed clock transition. It is a sensitivity study,
+not a repaired library, measured clock slew, or 200 MHz signoff. The setup-table
+anomaly described below needs TA/library review. Hold, capacitance, coverage and
+routed-clock issues remain open; the positive setup slack does not waive them.
+
 Raw PrimeTime output. Never edited by hand; regenerate with the scripts named below.
 
 | Directory | Script | What it shows |

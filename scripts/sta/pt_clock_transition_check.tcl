@@ -1,35 +1,40 @@
-# PrimeTime sensitivity check for the gscl45nm DFFPOSX1 setup-table artefact.
-#
-# Re-times a mapped netlist with its own SDC, then re-times it once more with the
-# clock transition set to 0.06 ns - the first (clean) row of DFFPOSX1's setup
-# table in gscl45nm.lib. Everything else is identical. If the worst setup slack
-# moves by ~1 ns while arrival times do not change, the reported violation is
-# the corrupt table entries (6.2 / 5.125 / 3.075 ns at CLK transition 0.3-0.6),
-# not the design. See PR #5 and Gaussian work plan Sec. 6.1 item 3.
-#
-#   NETLIST=reports/syn/<tag>/mc_top.mapped.v SDC=reports/syn/<tag>/mc_top.mapped.sdc \
-#   TOP=mc_top OUT=reports/sta/<tag>_clkslew pt_shell -f scripts/sta/pt_clock_transition_check.tcl
+# Clock-transition sensitivity study, not timing closure or a library repair.
+# Run through clock_transition.sh to reject exit-zero PrimeTime command errors.
 proc env_or {n d} { if {[info exists ::env($n)] && $::env($n) ne ""} { return $::env($n) }; return $d }
+if {[catch {
 set NETLIST [env_or NETLIST reports/syn/mc_top_shared_5ns/mc_top.mapped.v]
 set SDC     [env_or SDC     reports/syn/mc_top_shared_5ns/mc_top.mapped.sdc]
 set TOP     [env_or TOP     mc_top]
-set OUT     [env_or OUT     reports/sta/mc_top_shared_5ns_clkslew]
+set OUT     [env_or OUT     reports/sta/clkslew_[clock format [clock seconds] -format %Y%m%d_%H%M%S]]
 set LIB     [env_or LIB_DB  /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db]
+foreach input [list $NETLIST $SDC $LIB] {
+  if {![file isfile $input]} { error "Missing input: $input" }
+}
+if {[file exists $OUT]} { error "Run exists: $OUT; choose a fresh OUT" }
 file mkdir $OUT
-file delete -force $OUT/summary.txt
+set f [open $OUT/source_sha256.txt w]
+puts $f [exec sha256sum $NETLIST $SDC $LIB [info script]]
+close $f
+set f [open $OUT/inputs.txt w]
+puts $f "tool=[get_app_var sh_product_version]\ntop=$TOP\nnetlist=$NETLIST\nsdc=$SDC\nlibrary=$LIB"
+puts $f "analysis=prelayout_ideal_clock_slew_sensitivity_no_extracted_parasitics"
+close $f
 
 set_app_var search_path [list . [file dirname $LIB]]
-set_app_var link_path   [list * [file tail $LIB]]
+set_app_var link_path   [list * $LIB]
+set_app_var link_create_black_boxes false
 # (PrimeTime checks recovery/removal by default; the DC variable does not exist here.)
 read_verilog $NETLIST
 current_design $TOP
-link_design
+if {![link_design $TOP]} { error "PrimeTime link failed" }
 read_sdc $SDC
 
 foreach slew {0.10 0.06} {
   set_clock_transition $slew [get_clocks clk]
+  if {[sizeof_collection [get_clocks clk]] != 1} { error "Expected one clock named clk" }
   update_timing
   set p [get_timing_paths -delay_type max -max_paths 1]
+  if {[sizeof_collection $p] != 1} { error "Missing setup timing path" }
   set ep   [get_object_name [get_attribute $p endpoint]]
   set arr  [get_attribute $p arrival]
   set slk  [get_attribute $p slack]
@@ -44,4 +49,9 @@ foreach slew {0.10 0.06} {
   puts $line
   set f [open $OUT/summary.txt a]; puts $f $line; close $f
 }
-exit
+} reason]} {
+  puts stderr "CLKSLEW failed: $reason"
+  exit 1
+}
+puts "CLKSLEW_DONE $OUT (sensitivity only; not timing signoff)"
+exit 0
