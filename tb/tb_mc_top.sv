@@ -3,6 +3,8 @@ module tb_mc_top;
   import mc_pkg::*;
   parameter int GAUSS_LATENCY = 1;
   parameter int MUL_STAGES = 1;
+  parameter int GAUSS_ADDR_BITS = 10;
+  parameter int EXP_ADDR_BITS = 10;
   localparam int MAX_TRIALS = 10000;
   logic clk = 1'b0, rst_n = 1'b0, cfg_we = 1'b0, start = 1'b0;
   logic [7:0] cfg_addr = '0;
@@ -11,7 +13,8 @@ module tb_mc_top;
   logic [63:0] payoff_sum;
   logic [31:0] trial_count, cycle_count;
   logic [7:0] status;
-  mc_top #(.GAUSS_LATENCY(GAUSS_LATENCY), .MUL_STAGES(MUL_STAGES)) dut (.*);
+  mc_top #(.GAUSS_LATENCY(GAUSS_LATENCY), .MUL_STAGES(MUL_STAGES),
+           .GAUSS_ADDR_BITS(GAUSS_ADDR_BITS), .EXP_ADDR_BITS(EXP_ADDR_BITS)) dut (.*);
   always #5 clk = ~clk;
   initial begin #3000000; $fatal(1, "integrated top timeout"); end
 
@@ -83,6 +86,7 @@ module tb_mc_top;
 
   initial begin
     int mf, tf, r;
+    string vector_dir;
     logic [17:0] a;
     logic [15:0] b;
     logic [21:0] k;
@@ -90,8 +94,9 @@ module tb_mc_top;
     logic [31:0] n;
     logic [63:0] expected_sum;
     logic [7:0] expected_status;
-    mf = $fopen("tb/vectors/mc_top_cases.hex", "r");
-    tf = $fopen("tb/vectors/mc_top_trace.hex", "r");
+    if (!$value$plusargs("VECTOR_DIR=%s", vector_dir)) vector_dir = "tb/vectors";
+    mf = $fopen({vector_dir,"/mc_top_cases.hex"}, "r");
+    tf = $fopen({vector_dir,"/mc_top_trace.hex"}, "r");
     if (!mf || !tf) $fatal(1, "missing integrated vectors; run make gen-top");
     reset_dut();
     pulse_start();

@@ -135,3 +135,50 @@ or deleting old evidence. This flow has ideal clocks and no extracted parasitics
 The November 11 run confirms mapped functionality but PrimeTime misses 5 ns by
 0.200381 ns. Its result supersedes any implication that DC's barely positive
 setup slack establishes independent timing closure. See docs/Integration_Work_Plan.md.
+
+## Final-integration candidate: teammate lab replay
+
+Use a separate checkout/worktree of `tyler/final-integration` and your own lab
+account. Keep the checkout and builds on the large lab scratch disk, not the
+2 GB home directory. The Python interpreter needs NumPy and the project's
+existing Python environment. Chuanqi's peach setup uses `module load syn/2022`;
+Tyler's mario setup uses `module load synopsys/2022`. Choose fresh input/run tags.
+Allow roughly 30 minutes and a few GB of scratch for 27 serial VCS builds; actual
+tool runtime may differ. No waveforms are requested. No PDK files are copied.
+
+```bash
+# In the isolated candidate checkout, login shell, lab module loaded:
+export PYTHON=/path/to/your/existing/python
+"$PYTHON" -m unittest discover -s model -p 'test_*.py'
+"$PYTHON" scripts/prepare_array_sim.py --out tmp/array_inputs_001
+MC_SIM_RUN_ID=baseline_001 bash scripts/sim/top_sim.sh
+MC_SIM_RUN_ID=control_001 bash scripts/sim/control_sim.sh
+MC_SIM_RUN_ID=bubbles_001 bash scripts/sim/lane_bubbles_sim.sh
+ARRAY_INPUTS=tmp/array_inputs_001 MC_SIM_RUN_ID=array_001 bash scripts/sim/array_sim.sh
+# Compact handoff: source manifests and logs, excluding generated binaries/csrc.
+find reports/sim/{baseline_001,control_001,bubbles_001,array_001} -type f \
+  \( -name '*.log' -o -name '*sha256.txt' \) -print0 | \
+  tar --null -T - -czf reports/final_integration_vcs_001.tar.gz
+```
+
+Record `git rev-parse HEAD` with the returned archive. Keep failed runs and choose
+new tags when retrying. `ARRAY_DONE array_001` requires all 24 real-array cases,
+both registered-tree benches and the k8 detailed trace test to reach their exact
+nonempty PASS markers. A logged failure after PASS is rejected even at exit zero.
+The per-configuration manifests hash the actual ROM and expectation file used.
+The baseline 4-configuration trace regression additionally checks existing behavior.
+
+Local preparation needs no EDA license:
+
+```bash
+python -m unittest discover -s model -p 'test_*.py'
+python -m unittest discover -s scripts -p 'test_*.py'
+python scripts/prepare_array_sim.py --out tmp/array_inputs_001
+# Optional isolated static parser; no project runtime dependency is introduced.
+python -m pip install --target tmp/rtl_parser pyslang==12.2.0
+python scripts/check_array_elaboration.py --parser-dir tmp/rtl_parser --inputs tmp/array_inputs_001
+```
+
+Static checks are not simulation. Defaults stay a10/k10 and the DC gate stays at
+one lane until VCS replay passes. Preserve the failed and untested timing checks
+in all comparisons; do not report conditional 200 MHz throughput as achieved.

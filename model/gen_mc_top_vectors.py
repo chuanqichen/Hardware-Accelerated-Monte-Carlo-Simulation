@@ -7,9 +7,9 @@ contains A,B,K,seed,N,raw payoff sum,status. No pricing arithmetic is duplicated
 import argparse
 from pathlib import Path
 
-from gauss_lut import OPTION_GRID
-from mc_lane import run_lane, trace_lane
-from price_dp import option_to_regs
+from gauss_lut import OPTION_GRID, GaussLutConfig
+from mc_lane import LaneConfig, run_lane, trace_lane
+from price_dp import PriceDpConfig, option_to_regs
 from rng_lane import pack_state
 
 
@@ -29,13 +29,14 @@ def cases():
     yield (*atm, seeds[0], 100)
 
 
-def generate(out: Path):
+def generate(out: Path, gauss_bits=10, exp_bits=10):
+    cfg = LaneConfig(gauss=GaussLutConfig(gauss_bits, 16, 12), dp=PriceDpConfig(exp_addr_bits=exp_bits))
     out.mkdir(parents=True, exist_ok=True)
     n_cases = n_trials = 0
     with (out / "mc_top_cases.hex").open("w") as meta, (out / "mc_top_trace.hex").open("w") as trace:
         for a, b, k, seed, n in cases():
-            result = run_lane(a, b, k, seed, n)
-            t = trace_lane(a, b, k, seed, n)
+            result = run_lane(a, b, k, seed, n, cfg)
+            t = trace_lane(a, b, k, seed, n, cfg)
             status = 1 | (int(result["sat_x"]) << 1) | (int(result["sat_s"]) << 2) | (int(result["acc_overflow"]) << 3)
             meta.write(f"{a & 0x3ffff:05x} {b:04x} {k:06x} {seed:032x} {n:08x} {result['payoff_sum']:016x} {status:02x}\n")
             for i in range(n):
@@ -49,4 +50,7 @@ def generate(out: Path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=Path("tb/vectors"))
-    generate(parser.parse_args().out)
+    parser.add_argument("--gauss-bits", type=int, default=10, choices=range(6, 13))
+    parser.add_argument("--exp-bits", type=int, default=10, choices=range(6, 13))
+    args = parser.parse_args()
+    generate(args.out, args.gauss_bits, args.exp_bits)

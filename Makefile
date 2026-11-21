@@ -29,6 +29,7 @@ VERILATOR ?= verilator
 PANDOC ?= pandoc
 DC_SHELL ?= dc_shell
 PT_SHELL ?= pt_shell
+ARRAY_INPUTS ?= tmp/array_inputs
 
 RTL     := rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
 TB      := tb/tb_gauss_lut.sv
@@ -40,7 +41,7 @@ RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures
 
 all: test gen
 
@@ -142,6 +143,12 @@ gen-top:
 
 sim-top:
 	bash scripts/sim/top_sim.sh
+
+gen-array:
+	$(PYTHON) scripts/prepare_array_sim.py --out "$(ARRAY_INPUTS)"
+
+sim-array:
+	ARRAY_INPUTS="$(ARRAY_INPUTS)" VCS="$(VCS)" bash scripts/sim/array_sim.sh
 
 sim-lane-bubbles:
 	bash scripts/sim/lane_bubbles_sim.sh

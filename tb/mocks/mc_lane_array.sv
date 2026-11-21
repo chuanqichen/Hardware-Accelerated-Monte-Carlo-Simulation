@@ -4,6 +4,8 @@ module mc_lane_array #(
   parameter int LANES = 1,
   parameter int GAUSS_LATENCY = 1,
   parameter int MUL_STAGES = 1,
+  parameter int GAUSS_ADDR_BITS = 10, // interface only; this mock has no tables
+  parameter int EXP_ADDR_BITS = 10,
   parameter int TEST_LATENCY = 3
 ) (
   input logic clk, rst_n, clear_accum, seed_load,

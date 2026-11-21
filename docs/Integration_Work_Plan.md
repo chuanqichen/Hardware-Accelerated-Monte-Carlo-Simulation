@@ -2,6 +2,54 @@
 
 Owner: Tyler Haverlah. Verified interim checkpoint: 2026-11-11.
 
+## Active final-integration candidate, 2026-11-21
+
+Writer: Tyler/Codex, branch `tyler/final-integration` in
+`HardwareAcceleratedMonteCarlo/.worktrees/final-integration`. No other writer is
+assigned to this checkout. The original dirty October checkout is preserved.
+PR #11 and reviewed PRs #12/#13 are merged into main. PRs #15/#16 supplied the
+timing-runner gate and the exact k8 accuracy correction before those reviews.
+
+This branch adds real 1/2/4-lane replication and optional registered reduction in
+Eric's accumulator. The standalone accumulator defaults to its prior behavior;
+the adapter selects one tree stage at 2 lanes and two at 4 lanes. Sum, population
+count and qualified flags travel together, and LOAD/reset flush every stage.
+The controller already masks the tail beat and completes from the actual count.
+Lane zero hierarchy and all numeric formats/default table sizes remain intact.
+The control-only mock now accepts the exposed table parameters; it has no ROMs.
+
+Host seed delivery is `root, jump(root), jump^2(root), ...`; `model/mc_array.py`
+composes the existing jump helper and unmodified one-lane pricing functions.
+Hardware receives seeds through its existing per-lane configuration registers.
+Shentong retains ownership of RNG optimization; `rng_lane.sv` is unchanged.
+
+Local checks pass: 89 model tests, 27 flow tests, and slang 12.2.0 elaboration of
+24 real-array configurations (L=1/2/4, G=1/2, M=1/2, exp k=10/8), both tree lane
+counts, default trace/bubble benches and all three control-mock lane counts.
+The default vector generator still reproduces the committed corpus after LF
+normalization. Static elaboration does not establish cycle-level correctness.
+
+VCS replay is pending. The new runner covers 26/27/28 cases and
+27,492/27,495/27,502 trials per 1/2/4-lane configuration, exact sum/count/status,
+tails, seed legality, in-flight reset, restart, busy starts/writes and idle drain.
+The separate tree bench covers every mask, bubbles, flush and 32-bit overflow.
+The k8 detailed-trace replay uses a matching generated ROM and golden vectors.
+Runner fixtures reject empty input, missing PASS and exit-zero failures after
+PASS in every phase. These fixtures test process boundaries, not hardware.
+
+The synthesis gate intentionally still permits only LANES=1 until real multi-lane
+simulation passes. No fresh synthesis, PT, mapped replay or P&R result is claimed.
+Shared-clock/library caveats remain; k8 is a candidate, not the new default.
+Full VCS/DC/PT access is currently blocked by the disconnected UT VPN. The Chrome
+plugin/native bridge is installed, but browser extension setup remains incomplete.
+
+Next: a teammate can run the commands in `scripts/README.md` from their own lab
+account and return the compact evidence archive. Review actual VCS results before
+enabling LANES=2/4 in synthesis, then obtain matched DC/PT scaling results. Audit
+Innovus and technology/cell LEFs on the lab host before preparing the physical
+flow. Do not patch the library or select a cleaner clock transition as a substitute
+for closure. Sections below preserve the verified interim checkpoint.
+
 ## Scope and source
 
 The one-lane top integrates Shentong's RNG, Chuanqi's Gaussian LUT and package,
