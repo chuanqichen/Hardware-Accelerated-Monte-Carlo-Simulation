@@ -1,0 +1,2 @@
+CLKSLEW 0.10 worst_endpoint u_lanes/u_price/acc_r_reg_0__32_/D arrival 3.6827 slack -0.2004
+CLKSLEW 0.06 worst_endpoint u_lanes/u_rng/u_reg_31_/D arrival 4.7573 slack 0.0546
