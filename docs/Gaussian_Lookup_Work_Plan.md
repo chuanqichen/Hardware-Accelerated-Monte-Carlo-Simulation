@@ -377,15 +377,23 @@ model bias with the LUT-only and lane-level PPA: `results/accuracy_vs_area.csv`,
    column is the honest metric.
 5. Power is flat (4.73-4.77 mW, default toggle rates) - the LUT is combinational ROM
    logic whose activity-based power needs a VCD/SAIF run (Week 7).
-6. Timing closes at 5 ns for all three; the reported slack is the `DFFPOSX1` library
-   artefact (Sec. 6.1 item 3, `reports/sta/`). The design's true critical path is in
-   `rng_lane`, independent of `ADDR_BITS`.
+6. DC reports nominal setup slack at 5 ns for all three, with very little margin.
+   Independent PT misses setup on the baseline at the shared 0.10 ns clock
+   transition. At an assumed 0.06 ns transition the worst observed path is in
+   `rng_lane`; this is a sensitivity study, not physical timing closure.
+   Hold, electrical and coverage issues remain open (Sec. 6.1 item 3, `reports/sta/`).
 7. **Exp-table optimisation (Eric's knob, one extra point):** `run_lane_sweep.sh 10 8`
    synthesises the baseline with `EXP_ADDR_BITS = 8`. Lane area drops from 33 016 to
-   **29 346 $\mu$m$^2$ ($-11\,\%$, $-3\,670\,\mu$m$^2$, all combinational ROM logic)**, timing
-   still closes, and Eric's exact sweep (Pricing plan Sec. 5) shows no measurable change in
-   price bias beyond $k = 8$ because `A`/`B`/`K` register rounding dominates. This is a
-   clean before/after optimisation result: $-11\,\%$ lane area at zero accuracy cost.
+   **29 346 $\mu$m$^2$ ($-11\,\%$, $-3\,670\,\mu$m$^2$)**. DC reports nominal setup
+   slack, subject to the timing limitations above. Enumerating all 1,024 reachable
+   Gaussian outputs for each of the five option scenarios shows small price
+   changes, not bit-identical behavior. Maximum absolute grid bias is 0.357000%
+   at k8 versus 0.381451% at k10; both meet the 1% deterministic-bias criterion.
+   The largest exact-price change is 0.0029211 in the option's price units.
+   Reproduce with `python scripts/check_exp_candidate.py`; results are in
+   `results/exp_k8_candidate.csv`. This checks model accuracy, not RTL equivalence,
+   Monte Carlo confidence, or physical signoff. Defaults remain k10 pending Eric's
+   agreement and matching-ROM RTL replay. Synthesis evidence:
    `reports/syn/lane_20261121_mc_top_a10_k8/`.
 
 ## 7. Interface and fixed-point contracts
