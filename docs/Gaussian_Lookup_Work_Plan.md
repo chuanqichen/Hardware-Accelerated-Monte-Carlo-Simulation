@@ -345,6 +345,42 @@ the table's tail bias). `results/d5_x_width.csv`; `ADDR_BITS = 10` shown, 8 and 
    factor $5$-$10$ below the table's. If the lane study shows the multiplier/exp width
    matters (D-4/D-5 together), the 16-bit option is **`Q4.11`, never `Q5.10`**.
 
+### 6.3 Whole-lane tradeoff: accuracy vs area (configs D / A / E; 2026-11-21)
+
+`scripts/syn/run_lane_sweep.sh` synthesises the complete one-lane `mc_top` at each
+table size with the shared 5 ns flow (`mc_top` now exposes `GAUSS_ADDR_BITS`;
+everything else at the baseline). `scripts/plot_accuracy_vs_area.py` joins the exact
+model bias with the LUT-only and lane-level PPA: `results/accuracy_vs_area.csv`,
+`docs/figures/accuracy_vs_area.png`.
+
+![Exact price bias vs one-lane area for `ADDR_BITS` = 8 / 10 / 12, and the LUT's share of the lane.](figures/accuracy_vs_area.png)
+
+| Config | `ADDR_BITS` | ROM bits | Worst bias (OTM 150, $\sigma$.6) | ATM bias | LUT $\mu$m$^2$ | Lane $\mu$m$^2$ | LUT share | Lane power | Slack |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| D | 8 | 2 048 | **1.18 %** | $-0.08\,\%$ | 1 618 | 31 309 | 5 % | 4.73 mW | $+0.001$ ns |
+| **A** | **10** | 8 192 | **0.38 %** | $-0.01\,\%$ | 4 060 | **33 016** | 12 % | 4.75 mW | $+0.001$ ns |
+| E | 12 | 32 768 | **0.14 %** | $+0.03\,\%$ | 8 152 | 37 391 | 22 % | 4.77 mW | $+0.007$ ns |
+
+1. **`ADDR_BITS = 8` fails the 1 % accuracy target** on the worst grid case (1.18 %), so
+   config D is not an acceptable baseline; it is the "what you lose" point of the curve.
+2. **`a = 10` is the knee**: 0.38 % worst-case bias for $+5.5\,\%$ lane area over $a = 8$.
+   Going to $a = 12$ buys another $2.7\times$ in worst-case bias for $+13\,\%$ lane area
+   ($+4\,375\,\mu$m$^2$, all of it LUT). Both are below the 1 % target; the choice between
+   them is an area-vs-tail-accuracy preference, which is exactly the tradeoff the project
+   set out to measure.
+3. **The rest of the lane is constant at $\approx 29.2\,$k $\mu$m$^2$** across the three
+   runs, which confirms the sweep isolates the table and that the shared flow is
+   repeatable (the $a = 10$ point reproduces Tyler's 33 016 $\mu$m$^2$ run exactly).
+4. The ATM bias is not monotonic ($-0.08 \rightarrow -0.01 \rightarrow +0.03\,\%$): the
+   table's tail bias is negative and the datapath's register-rounding bias (Sec. 6.2) is
+   $\approx +0.03\,\%$; at $a = 10$ they happen to cancel for the ATM case. The worst-case
+   column is the honest metric.
+5. Power is flat (4.73-4.77 mW, default toggle rates) - the LUT is combinational ROM
+   logic whose activity-based power needs a VCD/SAIF run (Week 7).
+6. Timing closes at 5 ns for all three; the reported slack is the `DFFPOSX1` library
+   artefact (Sec. 6.1 item 3, `reports/sta/`). The design's true critical path is in
+   `rng_lane`, independent of `ADDR_BITS`.
+
 ## 7. Interface and fixed-point contracts
 
 The authoritative definitions now live in `Lane_Interface_Spec.md`: Section 3 (every
@@ -398,8 +434,10 @@ Decisions in the spec that need numbers from this block before the team can clos
 - [ ] Interim slides: block description, exact-bias table, standalone PPA
 
 ### Phase D - numerical tradeoff study (Nov 10 -> Nov 24)
-- [ ] Full-lane PPA for `ADDR_BITS = {8, 10, 12}` at `LANES = 1` (and 4 if flow time allows)
-- [ ] Plot: price bias / KS distance vs. ROM area and lane energy per trial
+- [x] Full-lane PPA for `ADDR_BITS = {8, 10, 12}` at `LANES = 1` (`scripts/syn/run_lane_sweep.sh`;
+      `mc_top` now takes `GAUSS_ADDR_BITS` / `EXP_ADDR_BITS`) -> `results/lane_addr_bits_ppa.csv`, Sec. 6.3
+- [x] Plot: price bias vs. LUT and lane area (`scripts/plot_accuracy_vs_area.py` ->
+      `docs/figures/accuracy_vs_area.png`, `results/accuracy_vs_area.csv`)
 - [ ] Stretch: nonuniform tail-refined segmented LUT (`mode="pwl"` rewritten with
       leading-zero-count segment select); include only if bit-exact and synthesized
 - [ ] Result freeze Nov 24
