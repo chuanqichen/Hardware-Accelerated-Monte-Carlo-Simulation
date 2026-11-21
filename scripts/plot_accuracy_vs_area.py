@@ -81,7 +81,7 @@ def main():
     a1.plot(x, [abs(r["bias_atm_pct"]) for r in rows], "s--", color="#4c72b0", label="ATM K=100, sigma=0.2")
     for r, xi in zip(rows, x):
         a1.annotate(f"a={r['addr_bits']}", (xi, r["bias_worst_pct"]), textcoords="offset points", xytext=(6, 4), fontsize=8)
-    a1.axhline(1.0, color="#999", lw=0.8, ls=":"); a1.text(x[0], 1.03, "1 % target", fontsize=7.5, color="#666")
+    a1.axhline(1.0, color="#999", lw=0.8, ls=":"); a1.text(x[-1], 1.06, "1 % accuracy target", fontsize=7.5, color="#666", ha="right")
     a1.set_yscale("log")
     a1.set_xlabel("one-lane area [10^3 um^2]" if have_lane else "gauss_lut area [10^3 um^2]")
     a1.set_ylabel("|exact price bias| vs Black-Scholes [%]")
@@ -98,6 +98,7 @@ def main():
             a2.text(i, r["lane_area_um2"] / 1e3 + 0.4, f"{100 * r['lut_area_um2'] / r['lane_area_um2']:.0f}% LUT",
                     ha="center", fontsize=7.5)
         a2.set_ylabel("area [10^3 um^2]"); a2.set_title("Where the lane area goes", fontsize=10)
+        a2.set_ylim(0, max(r["lane_area_um2"] for r in rows) / 1e3 * 1.35)   # headroom for labels + legend
     else:
         a2.bar(labels, lut, color="#4c72b0", label="gauss_lut")
         a2.set_ylabel("gauss_lut area [10^3 um^2]"); a2.set_title("LUT area (lane sweep pending)", fontsize=10)

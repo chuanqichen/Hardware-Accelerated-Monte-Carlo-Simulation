@@ -380,6 +380,13 @@ model bias with the LUT-only and lane-level PPA: `results/accuracy_vs_area.csv`,
 6. Timing closes at 5 ns for all three; the reported slack is the `DFFPOSX1` library
    artefact (Sec. 6.1 item 3, `reports/sta/`). The design's true critical path is in
    `rng_lane`, independent of `ADDR_BITS`.
+7. **Exp-table optimisation (Eric's knob, one extra point):** `run_lane_sweep.sh 10 8`
+   synthesises the baseline with `EXP_ADDR_BITS = 8`. Lane area drops from 33 016 to
+   **29 346 $\mu$m$^2$ ($-11\,\%$, $-3\,670\,\mu$m$^2$, all combinational ROM logic)**, timing
+   still closes, and Eric's exact sweep (Pricing plan Sec. 5) shows no measurable change in
+   price bias beyond $k = 8$ because `A`/`B`/`K` register rounding dominates. This is a
+   clean before/after optimisation result: $-11\,\%$ lane area at zero accuracy cost.
+   `reports/syn/lane_20261121_mc_top_a10_k8/`.
 
 ## 7. Interface and fixed-point contracts
 
