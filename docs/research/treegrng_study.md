@@ -113,3 +113,19 @@ width artefact and must be labelled as such. What the matched data shows instead
 
 Reframed thesis: *body-dominated metrics hide complementary tail failures in table and tree
 GRNGs; an application-level FoM exposes them; a tail-refined segmented table fixes both.*
+
+## Update 2026-11-21 (prototype step 3, claim T5): second workload
+
+`model/grng_fom.py` -> `results/grng_fom.csv`. Digital (cash-or-nothing) calls at K = 150 / 180 /
+200 (exercise probability 2.9 % / 0.25 % / 0.04 %) are pure tail probabilities through the same
+fixed-point lane.
+
+| Generator | K-S | European worst | Digital K=180 | Digital K=200 |
+|---|---:|---:|---:|---:|
+| ROM a=10 | 0.0005 | 0.38 % | +11 % | **-100 % (returns exactly 0)** |
+| ROM a=12 | 0.0002 | 0.14 % | +1.6 % | +6.8 % |
+| Tree 16 b | 0.0004 | 0.37 % | -0.3 % | -9.0 % |
+
+The ranking flips with the workload; K-S (equal for ROM-10 and Tree-16) predicts neither column.
+ROM: exact body, no tail beyond |z|max. Tree: tail present, body distorted. Neither baseline is
+acceptable on both workloads -> the segmented table (steps 4-5) is the paper's design centre.
