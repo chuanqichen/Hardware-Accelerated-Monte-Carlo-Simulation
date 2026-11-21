@@ -151,3 +151,22 @@ with 192 entries it beats uniform a=12 on every metric and restores the far tail
 A/B/K register-rounding floor (Gaussian plan Sec. 6.2) - the table is no longer the limit.
 Note K-S *worsens* (0.0078 vs 0.0020) while bias improves 9x: a third K-S mis-ranking.
 Next: RTL (`clz31` + K small case-ROMs) and DC area to place it on the Pareto plot.
+
+## Update 2026-11-21 (prototype step 5): segmented table in RTL, synthesised
+
+`rtl/research/gauss_lut_seg.sv` (clz31 + generated case-ROM + negate, LATENCY 1/2, D-2 reset
+policy), `tb/tb_gauss_lut_seg.sv` bit-exact vs `model/gauss_lut_seg.py` (10k vectors incl.
+every band edge, both latencies, PASS). Shared DC flow, 5 ns, gscl45nm:
+
+| Table | Entries | Area um^2 | Call worst bias | Digital K=200 | vs uniform ROM |
+|---|---:|---:|---:|---:|---|
+| uniform a=8 | 128 | 1,618 | 1.178 % | -100 % | - |
+| **seg K=8 B=4** | 128 | **1,832** | **0.133 %** | +6.8 % | +13 % area, 9x lower bias (= uniform a=12 accuracy at 22 % of its area) |
+| uniform a=10 | 512 | 4,060 | 0.381 % | -100 % | - |
+| **seg K=12 B=4** | 192 | **2,579** | **0.059 %** | **+0.2 %** | 36 % smaller than a=10 with 6.5x lower bias and real tails |
+| uniform a=12 | 2048 | 8,152 | 0.142 % | +6.8 % | - |
+| TreeGRNG 16 b | - | 8,562 | 0.37 % | -9.0 % | - |
+
+The segmented table dominates every other point on both workloads: at 2,579 um^2 it beats the
+8,152 um^2 uniform table and the 8,562 um^2 comparator tree on worst-case bias (2.4x / 6x) and
+on the digital-call tail. Claim C3 is measured. Timing closes (slack is the DFFPOSX1 artefact).

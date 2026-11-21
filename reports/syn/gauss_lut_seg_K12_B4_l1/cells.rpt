@@ -1,0 +1,43 @@
+ 
+****************************************
+Report : reference
+Design : gauss_lut_seg
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 15:46:48 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500      15     35.197499  
+AND2X2             gscl45nm       2.815800       9     25.342200  
+AOI21X1            gscl45nm       2.815800      11     30.973799  
+AOI22X1            gscl45nm       3.285100      32    105.123199  
+BUFX2              gscl45nm       2.346500      45    105.592496  
+DFFPOSX1           gscl45nm       7.978100      16    127.649597  n
+DFFSR              gscl45nm      10.324600       1     10.324600  n
+HAX1               gscl45nm       4.693000       1      4.693000  r
+INVX1              gscl45nm       1.407900     112    157.684797  
+INVX2              gscl45nm       1.877200       4      7.508800  
+INVX4              gscl45nm       3.285100       1      3.285100  
+MUX2X1             gscl45nm       3.754400      32    120.140800  
+NAND2X1            gscl45nm       1.877200       4      7.508800  
+NAND3X1            gscl45nm       2.346500       1      2.346500  
+NOR3X1             gscl45nm       2.815800       5     14.079000  
+OAI21X1            gscl45nm       2.815800      10     28.158000  
+OR2X1              gscl45nm       2.346500      12     28.157999  
+OR2X2              gscl45nm       2.815800       8     22.526400  
+gauss_lut_seg_rom_K_BITS4_B4_OUT_WIDTH16  1742.510855       1  1742.510855 h
+-----------------------------------------------------------------------------
+Total 19 references                                  2578.803442
+1

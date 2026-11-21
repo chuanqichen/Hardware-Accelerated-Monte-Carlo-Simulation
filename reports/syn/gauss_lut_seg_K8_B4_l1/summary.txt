@@ -1,0 +1,13 @@
+design       gauss_lut_seg
+tag          gauss_lut_seg_K8_B4_l1
+params       K=8,B=4,OUT_WIDTH=16,LATENCY=1
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.000899553
+fmax_mhz     200.035988595
+area_um2     1831.677858
+area_comb_um2 1693.703661
+area_bufinv_um2 628.392684
+area_seq_um2 137.974197
+cells        762
+registers    17

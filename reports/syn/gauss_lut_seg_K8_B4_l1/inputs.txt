@@ -1,0 +1,8 @@
+top=gauss_lut_seg
+corner_label=typical
+clock_period_ns=5.0
+params=K=8,B=4,OUT_WIDTH=16,LATENCY=1
+sources=/home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/mc_pkg.sv /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/research/gen_K8_B4/gauss_lut_seg_rom.sv /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/research/gauss_lut_seg.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2
+git_revision=a83501c2d66665636002141d6ad82824f4ee1880

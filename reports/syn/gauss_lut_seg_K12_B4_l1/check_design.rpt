@@ -1,0 +1,21 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sat Nov 21 15:45:54 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      1
+    Constant outputs (LINT-52)                                      1
+
+Cells                                                               3
+    Cells do not drive (LINT-1)                                     3
+--------------------------------------------------------------------------------
+
+Warning: In design 'gauss_lut_seg', cell 'B_34' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_seg', cell 'B_35' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_seg', cell 'C786' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_seg_rom_K_BITS4_B4_OUT_WIDTH16', output port 'mag[15]' is connected directly to 'logic 0'. (LINT-52)
+1
