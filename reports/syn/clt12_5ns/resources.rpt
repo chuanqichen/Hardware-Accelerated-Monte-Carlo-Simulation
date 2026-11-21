@@ -1,0 +1,66 @@
+ 
+****************************************
+Report : resources
+Design : clt_grng
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 15:51:19 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/research/clt_grng.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| DP_OP_36J1_122_6439             |            |                            |
+|                | DP_OP_36J1_122_6439 |       |                            |
+=============================================================================
+
+Datapath Report for DP_OP_36J1_122_6439
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_36J1_122_6439  | add_18_S4_I2 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I3 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I4 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I5 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I6 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I7 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I8 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I9 (clt_grng.sv:18)                       |
+|                      | add_18_S4_I10 (clt_grng.sv:18)                      |
+|                      | add_18_S4_I11 (clt_grng.sv:18)                      |
+|                      | add_18_S4_I12 (clt_grng.sv:18)                      |
+|                      | sub_23_S2 (clt_grng.sv:23)                          |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Unsigned | 12    |                                          |
+| I2    | PI   | Unsigned | 12    |                                          |
+| I3    | PI   | Unsigned | 12    |                                          |
+| I4    | PI   | Unsigned | 12    |                                          |
+| I5    | PI   | Unsigned | 12    |                                          |
+| I6    | PI   | Unsigned | 12    |                                          |
+| I7    | PI   | Unsigned | 12    |                                          |
+| I8    | PI   | Unsigned | 12    |                                          |
+| I9    | PI   | Unsigned | 12    |                                          |
+| I10   | PI   | Unsigned | 12    |                                          |
+| I11   | PI   | Unsigned | 12    |                                          |
+| I12   | PI   | Unsigned | 12    |                                          |
+| O1    | PO   | Signed   | 16    | I1 + I2 + I3 + I4 + I5 + I6 + I7 + I8 + I9 + I10 + I11 + I12 - $unsigned(15'b110000000000000) ( clt_grng.sv:18 clt_grng.sv:23 ) |
+==============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| DP_OP_36J1_122_6439                   |                    |                |
+|                    | DP_OP_36J1_122_6439 | str (area)      |                |
+===============================================================================
+
+1
