@@ -5,3 +5,8 @@
 reports/sim/rng_*/** -text
 reports/syn/rng_*/** -text
 results/rng_[0-9]*_* -text
+
+# Preserve the exact exported timing/simulation evidence used for the interim.
+reports/syn/mc_top_interim_20261111/** -text
+reports/sta/mc_top_interim_20261111_clean/** -text
+reports/sim/gate_interim_20261111/** -text

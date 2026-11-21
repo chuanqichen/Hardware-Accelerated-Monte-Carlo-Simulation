@@ -1,0 +1,6 @@
+trials,measured_busy_cycles,trials_per_busy_cycle,target_period_ns,projected_mtrials_s,scope
+1,12,0.08333333333333333,5.0,16.666666666666668,conditional_on_target_frequency_no_configuration_overhead
+100,111,0.9009009009009009,5.0,180.18018018018017,conditional_on_target_frequency_no_configuration_overhead
+128,139,0.920863309352518,5.0,184.1726618705036,conditional_on_target_frequency_no_configuration_overhead
+1000,1011,0.9891196834817013,5.0,197.82393669634027,conditional_on_target_frequency_no_configuration_overhead
+10000,10011,0.9989012086704625,5.0,199.7802417340925,conditional_on_target_frequency_no_configuration_overhead

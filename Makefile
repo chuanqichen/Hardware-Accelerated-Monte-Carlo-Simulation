@@ -28,6 +28,7 @@ VCS    ?= vcs
 VERILATOR ?= verilator
 PANDOC ?= pandoc
 DC_SHELL ?= dc_shell
+PT_SHELL ?= pt_shell
 
 RTL     := rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
 TB      := tb/tb_gauss_lut.sv
@@ -39,7 +40,7 @@ RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures
 
 all: test gen
 
@@ -153,6 +154,16 @@ synth-smoke:
 
 flow-test:
 	$(PYTHON) -m unittest discover -s scripts -p 'test_*.py' -v
+
+# NETLIST and MAPPED_SDC must name the same synthesis run. No SDF/SPEF yet.
+sim-gate:
+	bash scripts/sim/gate_sim.sh
+
+sta:
+	PT_SHELL="$(PT_SHELL)" bash scripts/sta/prelayout.sh
+
+integration-figures:
+	$(PYTHON) scripts/plot_integration.py
 
 figures: docs/figures/lane_block_diagram.png docs/figures/wave_gauss_lut.png docs/figures/price_vs_bs.png
 

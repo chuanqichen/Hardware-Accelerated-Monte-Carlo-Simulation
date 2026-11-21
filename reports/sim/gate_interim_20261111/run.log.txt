@@ -1,0 +1,11 @@
+Command: /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/reports/sim/gate_interim_20261111/simv +cases=tb/vectors/mc_top_cases.hex +cycle_csv=/home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/reports/sim/gate_interim_20261111/cycles.csv -l /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/reports/sim/gate_interim_20261111/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 11 18:44 2026
+PASS: tb_mc_top_gate cases=22 trials=26457, exact results/status/cycles, zero-delay cells
+$finish called from file "tb/tb_mc_top_gate.sv", line 90.
+$finish at simulation time            271507000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271507000 ps
+CPU Time:      3.280 seconds;       Data structure size:   0.6Mb
+Wed Nov 11 18:44:52 2026

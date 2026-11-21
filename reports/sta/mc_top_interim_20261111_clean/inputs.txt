@@ -1,0 +1,6 @@
+tool=T-2022.03-SP5
+netlist=/home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/reports/syn/mc_top_interim_20261111/mc_top.mapped.v
+sdc=/home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/reports/syn/mc_top_interim_20261111/mc_top.mapped.sdc
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+corner=typical
+analysis=prelayout_ideal_clock_no_extracted_parasitics

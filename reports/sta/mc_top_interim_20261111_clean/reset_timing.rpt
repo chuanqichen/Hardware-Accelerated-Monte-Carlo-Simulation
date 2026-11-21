@@ -1,0 +1,31 @@
+****************************************
+Report : timing
+	-path_type full
+	-delay_type max
+	-slack_lesser_than 0.000000
+	-max_paths 2
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Wed Nov 11 18:46:10 2026
+****************************************
+
+Warning: There are 755 invalid end points for constrained paths. (UITE-416)
+No paths with slack less than 0.000000.
+
+****************************************
+Report : timing
+	-path_type full
+	-delay_type min
+	-slack_lesser_than 0.000000
+	-max_paths 2
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Wed Nov 11 18:46:10 2026
+****************************************
+
+Warning: There are 755 invalid end points for constrained paths. (UITE-416)
+No paths with slack less than 0.000000.
+
+1

@@ -1,0 +1,7 @@
+top=mc_top
+corner_label=typical
+clock_period_ns=5.0
+params=
+sources=/home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/mc_pkg.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/rst_sync.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/pipe.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/rng_lane.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/generated/gauss_lut_rom.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/gauss_lut.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/generated/exp2_rom.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/exp2_unit.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/price_dp.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/accumulator.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/mc_controller.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/mc_lane_array.sv /home/work/teh969/monte_carlo/interim_20261111_ZqV2fp/rtl/mc_top.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2
