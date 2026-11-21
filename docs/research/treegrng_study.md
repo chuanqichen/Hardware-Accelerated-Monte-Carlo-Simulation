@@ -129,3 +129,25 @@ fixed-point lane.
 The ranking flips with the workload; K-S (equal for ROM-10 and Tree-16) predicts neither column.
 ROM: exact body, no tail beyond |z|max. Tree: tail present, body distorted. Neither baseline is
 acceptable on both workloads -> the segmented table (steps 4-5) is the paper's design centre.
+
+## Update 2026-11-21 (prototype step 4, claim T3): tail-refined segmented table - model
+
+`model/gauss_lut_seg.py` -> `results/seg_lut_sweep.csv`. Entries spent evenly in log2(tail
+probability) via a 31-bit leading-zero count; K dyadic bands x 2^B cells; last band absorbs
+the whole remaining tail. Same Q3.12 output and rounding policy as the uniform ROM.
+
+| Table | Entries | max\|z\| | K-S | P(z>3.5) err | Call worst | Digital K=200 |
+|---|---:|---:|---:|---:|---:|---:|
+| uniform a=8 | 128 | 2.89 | 0.0020 | -100 % | 1.178 % | -100 % |
+| **seg K=8 B=4** | **128** | 3.67 | 0.0078 | +4.9 % | **0.133 %** | +6.8 % |
+| uniform a=12 | 2048 | 3.67 | 0.0002 | +4.9 % | 0.142 % | +6.8 % |
+| **seg K=12 B=4** | **192** | 4.32 | 0.0078 | -1.6 % | **0.059 %** | **+0.2 %** |
+| seg K=16 B=5 | 512 | 5.04 | 0.0040 | 0.0 % | 0.061 % | +0.2 % |
+
+**T3 go-criterion met with margin**: at *equal* entry count (128) the segmented table has
+**9x lower** worst-case bias than uniform a=8 and matches uniform a=12 (16x more entries);
+with 192 entries it beats uniform a=12 on every metric and restores the far tail
+(digital K=200: +0.2 % vs -100 % / +6.8 %). The residual ~0.06 % is the datapath's
+A/B/K register-rounding floor (Gaussian plan Sec. 6.2) - the table is no longer the limit.
+Note K-S *worsens* (0.0078 vs 0.0020) while bias improves 9x: a third K-S mis-ranking.
+Next: RTL (`clz31` + K small case-ROMs) and DC area to place it on the Pareto plot.
