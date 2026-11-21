@@ -1,0 +1,27 @@
+Local validation record, 2026-11-21. This is a summary, not a raw tool log.
+Runtime commit: 474d0b2244223b484b64906c30d8f6d8eca1a084
+Python: 3.14.6; NumPy: 2.5.2; pyslang: 12.2.0.
+
+PASS: 89 model unit tests (python -m unittest discover -s model -p 'test_*.py').
+PASS: 27 flow tests (python -m unittest discover -s scripts -p 'test_*.py').
+Negative fixture messages in these tests are deliberate and are asserted to fail.
+PASS: 24 real-array static configurations: LANES=1/2/4, G=1/2, M=1/2, exp k=10/8.
+PASS: static elaboration of registered trees at 2/4 lanes, one-lane trace and bubble
+benches, and control-only mocks at 1/2/4 lanes. Six compilations: zero errors/warnings.
+Command: python scripts/check_array_elaboration.py --parser-dir tmp/rtl_parser --inputs tmp/array_inputs
+PASS: regenerated default top vectors match committed case/trace files after LF normalization.
+PASS: generated array corpus totals: L1 26 cases/27492 trials; L2 27/27495; L4 28/27502,
+for each k10/k8. The generator uses canonical jump-separated seeds and mc_lane pricing.
+PASS: source whitespace checks. Hash manifest records Git blob bytes, not Windows
+checkout line endings; all listed working sources match after LF normalization.
+
+NOT RUN: cycle-level simulation of this candidate, DC mapping, mapped simulation,
+PrimeTime replay, Innovus, routed timing, activity-based power. UT VPN is disconnected.
+Static elaboration and fake-runner checks do not establish hardware function or throughput.
+The synthesis config still rejects LANES != 1. No default table or RNG change.
+
+Teammate replay commands and compact archive recipe: scripts/README.md,
+section 'Final-integration candidate: teammate lab replay'. Use own lab account,
+a scratch checkout of this commit/branch and a new run tag; return source commit,
+compile/run logs and source manifests. Review actual VCS evidence before widening
+the synthesis gate or claiming multi-lane scaling.
