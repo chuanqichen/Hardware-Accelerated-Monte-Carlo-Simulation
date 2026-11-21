@@ -28,6 +28,8 @@ Local checks pass: 89 model tests, 27 flow tests, and slang 12.2.0 elaboration o
 counts, default trace/bubble benches and all three control-mock lane counts.
 The default vector generator still reproduces the committed corpus after LF
 normalization. Static elaboration does not establish cycle-level correctness.
+Evidence: `reports/final_integration_local_2026-11-21.txt` and its Git-blob SHA-256
+manifest. Runtime checkpoint: `474d0b2`; draft PR #17 carries the candidate.
 
 VCS replay is pending. The new runner covers 26/27/28 cases and
 27,492/27,495/27,502 trials per 1/2/4-lane configuration, exact sum/count/status,

@@ -162,7 +162,7 @@ find reports/sim/{baseline_001,control_001,bubbles_001,array_001} -type f \
 ```
 
 Record `git rev-parse HEAD` with the returned archive. Keep failed runs and choose
-new tags when retrying. `ARRAY_DONE array_001` requires all 24 real-array cases,
+new tags when retrying. `ARRAY_DONE array_001` requires all 24 real-array configurations,
 both registered-tree benches and the k8 detailed trace test to reach their exact
 nonempty PASS markers. A logged failure after PASS is rejected even at exit zero.
 The per-configuration manifests hash the actual ROM and expectation file used.
