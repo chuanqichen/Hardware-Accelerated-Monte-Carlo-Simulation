@@ -170,3 +170,19 @@ every band edge, both latencies, PASS). Shared DC flow, 5 ns, gscl45nm:
 The segmented table dominates every other point on both workloads: at 2,579 um^2 it beats the
 8,152 um^2 uniform table and the 8,562 um^2 comparator tree on worst-case bias (2.4x / 6x) and
 on the digital-call tail. Claim C3 is measured. Timing closes (slack is the DFFPOSX1 artefact).
+
+## Update 2026-11-21 (R2): best-tuned 16-bit trees
+
+Authors' generator with finer thresholds (INTERNAL_ACC 20), eight LFSR lengths, and a +-8 sigma
+output range (`scripts/research/gen_treegrng.py --internal-acc/--lfsr-amount`); same flow.
+
+| Variant | Area um^2 | K-S | P(z>3.5) err | Call worst | Digital K=200 |
+|---|---:|---:|---:|---:|---:|
+| Tree 16 b (paper defaults) | 8,562 | 0.0004 | -17 % | 0.370 % | -9.0 % |
+| + acc=20 | 10,186 | 0.0004 | -6 % | 0.389 % | -2.9 % |
+| + lfsr=8 | 8,557 | 0.0003 | -17 % | 0.342 % | -5.8 % |
+| **best: acc20, lfsr8, +-8 sigma** | 9,963 | 0.0007 | -0.3 % | **0.214 %** | **-1.1 %** |
+| segmented K=12 B=4 (ours) | **2,579** | 0.0078 | -1.6 % | **0.059 %** | **+0.2 %** |
+
+Tuning repairs the tree's tail (P(z>3.5) within 0.3 %) but not its cost: the best tree is 3.6x
+the bias at 3.9x the area of the segmented table. Risk 2 closed by measurement.

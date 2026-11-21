@@ -1,0 +1,13 @@
+design       RandDist_int
+tag          treegrng_int16_acc20_5ns
+params       
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.763832
+fmax_mhz     236.062403569
+area_um2     10185.686970
+area_comb_um2 7568.870228
+area_bufinv_um2 2382.636041
+area_seq_um2 2616.816742
+cells        3752
+registers    328

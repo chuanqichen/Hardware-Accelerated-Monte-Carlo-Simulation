@@ -1,0 +1,8 @@
+top=RandDist_int
+corner_label=typical
+clock_period_ns=5.0
+params=
+sources=/home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/third_party/treegrng/lfsr.sv /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/third_party/treegrng/comparator.sv /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/third_party/treegrng/gen/treegrng16_lfsr8_int.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2
+git_revision=a83501c2d66665636002141d6ad82824f4ee1880
