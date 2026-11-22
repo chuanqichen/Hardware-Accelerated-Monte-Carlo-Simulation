@@ -1,0 +1,145 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 2
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:03:58 2026
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: rst_n (input port clocked by clk)
+  Endpoint: g_tree.g_level[1].g_node[0].ss_q_reg
+            (rising-edge recovery check against clock clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    1.50       1.50 r
+  rst_n (in)                                              0.15       1.65 r
+  U933/Y (INVX1)                                          0.09       1.74 f
+  U934/Y (INVX1)                                          0.21       1.95 r
+  g_tree.g_level[1].g_node[0].ss_q_reg/R (DFFSR)          0.00       1.95 r
+  data arrival time                                                  1.95
+
+  clock clk (rise edge)                                   5.00       5.00
+  clock network delay (ideal)                             0.00       5.00
+  clock uncertainty                                      -0.10       4.90
+  g_tree.g_level[1].g_node[0].ss_q_reg/CLK (DFFSR)        0.00       4.90 r
+  library recovery time                                   0.04       4.94
+  data required time                                                 4.94
+  --------------------------------------------------------------------------
+  data required time                                                 4.94
+  data arrival time                                                 -1.95
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.99
+
+
+  Startpoint: rst_n (input port clocked by clk)
+  Endpoint: g_tree.g_level[1].g_node[0].sum_q_reg[22]
+            (rising-edge recovery check against clock clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    1.50       1.50 r
+  rst_n (in)                                              0.15       1.65 r
+  U933/Y (INVX1)                                          0.09       1.74 f
+  U934/Y (INVX1)                                          0.21       1.95 r
+  g_tree.g_level[1].g_node[0].sum_q_reg[22]/R (DFFSR)     0.00       1.95 r
+  data arrival time                                                  1.95
+
+  clock clk (rise edge)                                   5.00       5.00
+  clock network delay (ideal)                             0.00       5.00
+  clock uncertainty                                      -0.10       4.90
+  g_tree.g_level[1].g_node[0].sum_q_reg[22]/CLK (DFFSR)     0.00     4.90 r
+  library recovery time                                   0.04       4.94
+  data required time                                                 4.94
+  --------------------------------------------------------------------------
+  data required time                                                 4.94
+  data arrival time                                                 -1.95
+  --------------------------------------------------------------------------
+  slack (MET)                                                        2.99
+
+
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 2
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:03:58 2026
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: rst_n (input port clocked by clk)
+  Endpoint: payoff_sum_reg[7]
+            (rising-edge removal check against clock clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.50       1.50 r
+  rst_n (in)                               0.15       1.65 r
+  payoff_sum_reg[7]/R (DFFSR)              0.00       1.65 r
+  data arrival time                                   1.65
+
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  clock uncertainty                        0.10       0.10
+  payoff_sum_reg[7]/CLK (DFFSR)            0.00       0.10 r
+  library removal time                     0.17       0.27
+  data required time                                  0.27
+  -----------------------------------------------------------
+  data required time                                  0.27
+  data arrival time                                  -1.65
+  -----------------------------------------------------------
+  slack (MET)                                         1.38
+
+
+  Startpoint: rst_n (input port clocked by clk)
+  Endpoint: payoff_sum_reg[6]
+            (rising-edge removal check against clock clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.50       1.50 r
+  rst_n (in)                               0.15       1.65 r
+  payoff_sum_reg[6]/R (DFFSR)              0.00       1.65 r
+  data arrival time                                   1.65
+
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  clock uncertainty                        0.10       0.10
+  payoff_sum_reg[6]/CLK (DFFSR)            0.00       0.10 r
+  library removal time                     0.17       0.27
+  data required time                                  0.27
+  -----------------------------------------------------------
+  data required time                                  0.27
+  data arrival time                                  -1.65
+  -----------------------------------------------------------
+  slack (MET)                                         1.38
+
+
+1

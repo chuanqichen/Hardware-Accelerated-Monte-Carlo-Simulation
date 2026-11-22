@@ -8,6 +8,13 @@
   accumulator_w<W>.hex one line per cycle: "c v pppppp f ssss..ss cccccccc g"
                        inputs clear, valid, p, flags {sat_s,sat_x}; then the expected
                        registers after that edge: sum, count, {sat_s,sat_x,overflow}
+  accumulator_l<L>_w<W>.hex   the same for L = 2, 4 lanes. Line:
+                       "c vmask p_packed f_packed ssss..ss cccccccc g"
+                       vmask     L bits, bit i = lane i valid
+                       p_packed  L*22 bits, lane i in bits [22*i +: 22]
+                       f_packed  2*L bits, lane i: bit 2*i = sat_x, bit 2*i+1 = sat_s
+                       Expected values include the adder-tree latency ceil(log2 L)
+                       (price_dp.accumulate default), i.e. the registers after each edge.
 
     python3 model/gen_price_vectors.py --exp-addr-bits 10
 """
@@ -119,6 +126,81 @@ def write_acc(out: Path, rng, sum_width: int, cycles: int) -> Path:
     return path
 
 
+def _acc_lines(path: Path, lanes, clear, valid, p, sat_x, sat_s, exp):
+    with path.open("w") as f:
+        for t in range(len(clear)):
+            vm = sum(int(valid[t][i]) << i for i in range(lanes))
+            pp = sum(int(p[t][i]) << (22 * i) for i in range(lanes))
+            ff = sum((int(sat_x[t][i]) | int(sat_s[t][i]) << 1) << (2 * i) for i in range(lanes))
+            s_, c, ovf, sx, ss = exp[t]
+            f.write(f"{int(clear[t])} {_h(vm, lanes)} {_h(pp, 22 * lanes)} {_h(ff, 2 * lanes)} "
+                    f"{_h(s_, 64)} {_h(c, 32)} {int(ss) * 4 + int(sx) * 2 + int(ovf)}\n")
+
+
+def write_acc_lanes(out: Path, rng, lanes: int, sum_width: int, random_cycles: int) -> Path:
+    """Multi-lane accumulator vectors (see module docstring for the line format)."""
+    tree_lat = (lanes - 1).bit_length()
+    mx = pd.ST_FMT.max_raw
+    segs = []     # (clear, valid, p, sat_x, sat_s) blocks, concatenated at the end
+
+    def block(n, valid, p, sx=None, ss=None, clear=None):
+        z = np.zeros((n, lanes), bool)
+        segs.append((np.zeros(n, bool) if clear is None else clear, valid, p,
+                     z if sx is None else sx, z if ss is None else ss))
+
+    def idle(n):
+        block(n, np.zeros((n, lanes), bool), np.zeros((n, lanes), np.int64))
+
+    if sum_width == 64:
+        # (a) random streams: random per-lane valid, clears (some back to back), sat flags
+        n = random_cycles
+        clear = rng.random(n) < 0.01
+        clear[[0, n // 2, n // 2 + 1]] = True
+        block(n, rng.random((n, lanes)) < 0.7, rng.integers(0, 1 << 22, (n, lanes)),
+              rng.random((n, lanes)) < 0.01, rng.random((n, lanes)) < 0.01, clear)
+        # (b) controller-style runs: clear, floor(N/L) full beats, one masked beat, drain
+        for N in (101, 1001, 10003):
+            full, rem = divmod(N, lanes)
+            nb = full + (1 if rem else 0)
+            valid = np.ones((nb, lanes), bool)
+            if rem:
+                valid[-1, rem:] = False                      # low lanes carry the remainder
+            clear = np.zeros(nb + 1, bool)
+            clear[0] = True
+            block(nb + 1, np.vstack([np.zeros((1, lanes), bool), valid]),
+                  rng.integers(0, 1 << 22, (nb + 1, lanes)),
+                  rng.random((nb + 1, lanes)) < 0.002, rng.random((nb + 1, lanes)) < 0.002, clear)
+            idle(tree_lat + 2)
+        # (c) sustained full-rate beats of maximum p
+        n = 2000
+        clear = np.zeros(n, bool)
+        clear[0] = True
+        block(n, np.ones((n, lanes), bool), np.full((n, lanes), mx), clear=clear)
+        idle(tree_lat + 2)
+    else:
+        # overflow: mostly max payoffs so the 32-bit sum wraps; clears let it wrap again
+        n = 5000
+        clear = np.zeros(n, bool)
+        clear[[0, n // 3, n // 3 + 1]] = True
+        clear[rng.integers(1, n, 3)] = True
+        p = np.where(rng.random((n, lanes)) < 0.9, mx, rng.integers(0, 1 << 22, (n, lanes)))
+        block(n, rng.random((n, lanes)) < 0.9, p,
+              rng.random((n, lanes)) < 0.002, rng.random((n, lanes)) < 0.002, clear)
+        idle(tree_lat + 2)
+    clear, valid, p, sx, ss = (np.concatenate([sg[i] for sg in segs]) for i in range(5))
+    exp = pd.accumulate(p, valid, clear, sx, ss, sum_width)
+    if sum_width == 64:       # each controller-style run ends with trial_count == N exactly
+        pos = random_cycles
+        for N in (101, 1001, 10003):
+            nb = -(-N // lanes) + 1
+            pos += nb + tree_lat + 2
+            assert exp[pos - 1][1] == N, (lanes, N, exp[pos - 1][1])
+    path = out / f"accumulator_l{lanes}_w{sum_width}.hex"
+    _acc_lines(path, lanes, clear, valid, p, sx, ss, exp)
+    print(f"wrote {len(clear)} accumulator cycles to {path} (overflow seen: {any(e[2] for e in exp)})")
+    return path
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--exp-addr-bits", type=int, default=10)
@@ -136,6 +218,10 @@ def main():
     write_price(cfg, a.out, rng, a.groups, a.per_group)
     write_acc(a.out, rng, 64, a.acc_cycles)
     write_acc(a.out, rng, 32, 5000)
+    rng_l = np.random.default_rng(a.seed + 1)      # separate stream: one-lane files stay unchanged
+    for lanes in (2, 4):
+        for w in (64, 32):
+            write_acc_lanes(a.out, rng_l, lanes, w, 10000)
 
 
 if __name__ == "__main__":

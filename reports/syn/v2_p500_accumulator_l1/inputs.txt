@@ -1,0 +1,7 @@
+top=accumulator
+corner_label=typical
+clock_period_ns=5.00
+params=LANES=1,REGISTER_TREE=0
+sources=/misc/scratch/eg37885/mc/repo/rtl/accumulator.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2

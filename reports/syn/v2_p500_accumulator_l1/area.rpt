@@ -1,0 +1,43 @@
+ 
+****************************************
+Report : area
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:03:51 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                          127
+Number of nets:                          1041
+Number of cells:                          980
+Number of combinational cells:            880
+Number of sequential cells:                99
+Number of macros/black boxes:               0
+Number of buf/inv:                        490
+Number of references:                      16
+
+Combinational area:               2101.056047
+Buf/Inv area:                      909.972675
+Noncombinational area:            1022.135422
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  3123.191469
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+accumulator                       3123.1915    100.0  2101.0560  1022.1354  0.0000  accumulator
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+Total                                                 2101.0560  1022.1354  0.0000
+
+1

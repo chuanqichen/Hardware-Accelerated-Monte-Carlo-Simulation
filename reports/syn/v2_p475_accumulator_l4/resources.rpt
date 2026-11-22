@@ -1,0 +1,41 @@
+ 
+****************************************
+Report : resources
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:04:27 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /misc/scratch/eg37885/mc/repo/rtl/accumulator.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| add_x_5        | DW01_add       | width=23   | add_70 (accumulator.sv:70) |
+| add_x_6        | DW01_add       | width=2    | add_71 (accumulator.sv:71) |
+| add_x_11       | DW01_add       | width=23   | add_70_G2_G1 (accumulator.sv:70) |
+| add_x_12       | DW01_add       | width=2    | add_71_G2_G1 (accumulator.sv:71) |
+| add_x_17       | DW01_add       | width=25   | add_70_G2 (accumulator.sv:70) |
+| add_x_18       | DW01_add       | width=3    | add_71_G2 (accumulator.sv:71) |
+| add_x_23       | DW01_add       | width=65   | add_104 (accumulator.sv:104) |
+| add_x_24       | DW01_add       | width=32   | add_121 (accumulator.sv:121) |
+=============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| add_x_5            | DW01_add         | apparch (area)     |                |
+| add_x_6            | DW01_add         | apparch (area)     |                |
+| add_x_11           | DW01_add         | apparch (area)     |                |
+| add_x_12           | DW01_add         | apparch (area)     |                |
+| add_x_17           | DW01_add         | apparch (area)     |                |
+| add_x_18           | DW01_add         | apparch (area)     |                |
+| add_x_23           | DW01_add         | apparch (area)     |                |
+| add_x_24           | DW01_add         | apparch (area)     |                |
+===============================================================================
+
+1

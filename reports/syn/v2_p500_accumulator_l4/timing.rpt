@@ -1,0 +1,510 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 5
+        -transition_time
+        -capacitance
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:04:05 2026
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: payoff_sum_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: payoff_sum_reg[63]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  payoff_sum_reg[0]/CLK (DFFSR)            0.10      0.00       0.00 r
+  payoff_sum_reg[0]/Q (DFFSR)     0.00     0.01      0.12       0.12 f
+  U1060/Y (BUFX2)                0.02      0.02      0.05       0.17 f
+  U1038/Y (AND2X1)               0.00      0.02      0.03       0.20 f
+  U1037/Y (INVX1)                0.01      0.01      0.03       0.23 r
+  U1345/Y (OR2X1)                0.00      0.02      0.05       0.28 r
+  U1346/Y (AOI22X1)              0.00      0.03      0.02       0.30 f
+  U812/Y (BUFX2)                 0.01      0.01      0.04       0.34 f
+  intadd_0/U23/YC (FAX1)         0.01      0.03      0.08       0.42 f
+  intadd_0/U22/YC (FAX1)         0.01      0.03      0.08       0.50 f
+  intadd_0/U21/YC (FAX1)         0.01      0.03      0.08       0.58 f
+  intadd_0/U20/YC (FAX1)         0.01      0.03      0.08       0.67 f
+  intadd_0/U19/YC (FAX1)         0.01      0.03      0.08       0.75 f
+  intadd_0/U18/YC (FAX1)         0.01      0.03      0.08       0.83 f
+  intadd_0/U17/YC (FAX1)         0.01      0.03      0.08       0.91 f
+  intadd_0/U16/YC (FAX1)         0.01      0.03      0.08       0.99 f
+  intadd_0/U15/YC (FAX1)         0.01      0.03      0.08       1.07 f
+  intadd_0/U14/YC (FAX1)         0.01      0.03      0.08       1.15 f
+  intadd_0/U13/YC (FAX1)         0.01      0.03      0.08       1.24 f
+  intadd_0/U12/YC (FAX1)         0.01      0.03      0.08       1.32 f
+  intadd_0/U11/YC (FAX1)         0.01      0.03      0.08       1.40 f
+  intadd_0/U10/YC (FAX1)         0.01      0.03      0.08       1.48 f
+  intadd_0/U9/YC (FAX1)          0.01      0.03      0.08       1.56 f
+  intadd_0/U8/YC (FAX1)          0.01      0.03      0.08       1.64 f
+  intadd_0/U7/YC (FAX1)          0.01      0.03      0.08       1.73 f
+  intadd_0/U6/YC (FAX1)          0.01      0.03      0.08       1.81 f
+  intadd_0/U5/YC (FAX1)          0.01      0.03      0.08       1.89 f
+  intadd_0/U4/YC (FAX1)          0.01      0.03      0.08       1.97 f
+  intadd_0/U3/YC (FAX1)          0.01      0.03      0.08       2.05 f
+  intadd_0/U2/YC (FAX1)          0.01      0.04      0.09       2.14 f
+  U1349/Y (NAND3X1)              0.00      0.03      0.03       2.17 r
+  U1028/Y (BUFX2)                0.01      0.02      0.04       2.22 r
+  U800/Y (OR2X1)                 0.00      0.02      0.04       2.25 r
+  U801/Y (INVX1)                 0.00      0.02      0.02       2.27 f
+  U734/Y (AND2X1)                0.01      0.03      0.05       2.33 f
+  U735/Y (AND2X1)                0.00      0.02      0.04       2.37 f
+  U736/Y (AND2X1)                0.01      0.03      0.06       2.42 f
+  U737/Y (AND2X1)                0.00      0.02      0.04       2.46 f
+  U738/Y (AND2X1)                0.01      0.03      0.06       2.52 f
+  U739/Y (AND2X1)                0.00      0.02      0.04       2.56 f
+  U740/Y (AND2X1)                0.01      0.03      0.06       2.61 f
+  U741/Y (AND2X1)                0.00      0.02      0.04       2.65 f
+  U742/Y (AND2X1)                0.01      0.03      0.06       2.71 f
+  U743/Y (AND2X1)                0.00      0.02      0.04       2.75 f
+  U744/Y (AND2X1)                0.01      0.03      0.06       2.80 f
+  U745/Y (AND2X1)                0.00      0.02      0.04       2.84 f
+  U746/Y (AND2X1)                0.01      0.03      0.06       2.90 f
+  U747/Y (AND2X1)                0.00      0.02      0.04       2.94 f
+  U748/Y (AND2X1)                0.01      0.03      0.06       2.99 f
+  U749/Y (AND2X1)                0.00      0.02      0.04       3.03 f
+  U750/Y (AND2X1)                0.01      0.03      0.06       3.09 f
+  U751/Y (AND2X1)                0.00      0.02      0.04       3.13 f
+  U752/Y (AND2X1)                0.01      0.03      0.06       3.18 f
+  U753/Y (AND2X1)                0.00      0.02      0.04       3.22 f
+  U754/Y (AND2X1)                0.01      0.03      0.06       3.28 f
+  U755/Y (AND2X1)                0.00      0.02      0.04       3.32 f
+  U756/Y (AND2X1)                0.01      0.03      0.06       3.37 f
+  U757/Y (AND2X1)                0.00      0.02      0.04       3.41 f
+  U758/Y (AND2X1)                0.01      0.03      0.06       3.47 f
+  U759/Y (AND2X1)                0.00      0.02      0.04       3.51 f
+  U760/Y (AND2X1)                0.01      0.03      0.06       3.56 f
+  U761/Y (AND2X1)                0.00      0.02      0.04       3.60 f
+  U762/Y (AND2X1)                0.01      0.03      0.06       3.66 f
+  U763/Y (AND2X1)                0.00      0.02      0.04       3.70 f
+  U764/Y (AND2X1)                0.01      0.03      0.06       3.75 f
+  U765/Y (AND2X1)                0.00      0.02      0.04       3.79 f
+  U766/Y (AND2X1)                0.01      0.03      0.06       3.85 f
+  U767/Y (AND2X1)                0.00      0.02      0.04       3.88 f
+  U768/Y (AND2X1)                0.01      0.03      0.06       3.94 f
+  U1351/Y (NAND3X1)              0.00      0.03      0.03       3.98 r
+  U876/Y (BUFX2)                 0.01      0.02      0.04       4.02 r
+  U1639/Y (OAI21X1)              0.00      0.00      0.02       4.03 f
+  payoff_sum_reg[63]/D (DFFSR)             0.00      0.00       4.03 f
+  data arrival time                                             4.03
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  payoff_sum_reg[63]/CLK (DFFSR)                     0.00       4.90 r
+  library setup time                                -0.13       4.77
+  data required time                                            4.77
+  ---------------------------------------------------------------------
+  data required time                                            4.77
+  data arrival time                                            -4.03
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.74
+
+
+  Startpoint: payoff_sum_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: acc_overflow_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  payoff_sum_reg[0]/CLK (DFFSR)            0.10      0.00       0.00 r
+  payoff_sum_reg[0]/Q (DFFSR)     0.00     0.01      0.12       0.12 f
+  U1060/Y (BUFX2)                0.02      0.02      0.05       0.17 f
+  U1038/Y (AND2X1)               0.00      0.02      0.03       0.20 f
+  U1037/Y (INVX1)                0.01      0.01      0.03       0.23 r
+  U1345/Y (OR2X1)                0.00      0.02      0.05       0.28 r
+  U1346/Y (AOI22X1)              0.00      0.03      0.02       0.30 f
+  U812/Y (BUFX2)                 0.01      0.01      0.04       0.34 f
+  intadd_0/U23/YC (FAX1)         0.01      0.03      0.08       0.42 f
+  intadd_0/U22/YC (FAX1)         0.01      0.03      0.08       0.50 f
+  intadd_0/U21/YC (FAX1)         0.01      0.03      0.08       0.58 f
+  intadd_0/U20/YC (FAX1)         0.01      0.03      0.08       0.67 f
+  intadd_0/U19/YC (FAX1)         0.01      0.03      0.08       0.75 f
+  intadd_0/U18/YC (FAX1)         0.01      0.03      0.08       0.83 f
+  intadd_0/U17/YC (FAX1)         0.01      0.03      0.08       0.91 f
+  intadd_0/U16/YC (FAX1)         0.01      0.03      0.08       0.99 f
+  intadd_0/U15/YC (FAX1)         0.01      0.03      0.08       1.07 f
+  intadd_0/U14/YC (FAX1)         0.01      0.03      0.08       1.15 f
+  intadd_0/U13/YC (FAX1)         0.01      0.03      0.08       1.24 f
+  intadd_0/U12/YC (FAX1)         0.01      0.03      0.08       1.32 f
+  intadd_0/U11/YC (FAX1)         0.01      0.03      0.08       1.40 f
+  intadd_0/U10/YC (FAX1)         0.01      0.03      0.08       1.48 f
+  intadd_0/U9/YC (FAX1)          0.01      0.03      0.08       1.56 f
+  intadd_0/U8/YC (FAX1)          0.01      0.03      0.08       1.64 f
+  intadd_0/U7/YC (FAX1)          0.01      0.03      0.08       1.73 f
+  intadd_0/U6/YC (FAX1)          0.01      0.03      0.08       1.81 f
+  intadd_0/U5/YC (FAX1)          0.01      0.03      0.08       1.89 f
+  intadd_0/U4/YC (FAX1)          0.01      0.03      0.08       1.97 f
+  intadd_0/U3/YC (FAX1)          0.01      0.03      0.08       2.05 f
+  intadd_0/U2/YC (FAX1)          0.01      0.04      0.09       2.14 f
+  U1349/Y (NAND3X1)              0.00      0.03      0.03       2.17 r
+  U1028/Y (BUFX2)                0.01      0.02      0.04       2.22 r
+  U800/Y (OR2X1)                 0.00      0.02      0.04       2.25 r
+  U801/Y (INVX1)                 0.00      0.02      0.02       2.27 f
+  U734/Y (AND2X1)                0.01      0.03      0.05       2.33 f
+  U735/Y (AND2X1)                0.00      0.02      0.04       2.37 f
+  U736/Y (AND2X1)                0.01      0.03      0.06       2.42 f
+  U737/Y (AND2X1)                0.00      0.02      0.04       2.46 f
+  U738/Y (AND2X1)                0.01      0.03      0.06       2.52 f
+  U739/Y (AND2X1)                0.00      0.02      0.04       2.56 f
+  U740/Y (AND2X1)                0.01      0.03      0.06       2.61 f
+  U741/Y (AND2X1)                0.00      0.02      0.04       2.65 f
+  U742/Y (AND2X1)                0.01      0.03      0.06       2.71 f
+  U743/Y (AND2X1)                0.00      0.02      0.04       2.75 f
+  U744/Y (AND2X1)                0.01      0.03      0.06       2.80 f
+  U745/Y (AND2X1)                0.00      0.02      0.04       2.84 f
+  U746/Y (AND2X1)                0.01      0.03      0.06       2.90 f
+  U747/Y (AND2X1)                0.00      0.02      0.04       2.94 f
+  U748/Y (AND2X1)                0.01      0.03      0.06       2.99 f
+  U749/Y (AND2X1)                0.00      0.02      0.04       3.03 f
+  U750/Y (AND2X1)                0.01      0.03      0.06       3.09 f
+  U751/Y (AND2X1)                0.00      0.02      0.04       3.13 f
+  U752/Y (AND2X1)                0.01      0.03      0.06       3.18 f
+  U753/Y (AND2X1)                0.00      0.02      0.04       3.22 f
+  U754/Y (AND2X1)                0.01      0.03      0.06       3.28 f
+  U755/Y (AND2X1)                0.00      0.02      0.04       3.32 f
+  U756/Y (AND2X1)                0.01      0.03      0.06       3.37 f
+  U757/Y (AND2X1)                0.00      0.02      0.04       3.41 f
+  U758/Y (AND2X1)                0.01      0.03      0.06       3.47 f
+  U759/Y (AND2X1)                0.00      0.02      0.04       3.51 f
+  U760/Y (AND2X1)                0.01      0.03      0.06       3.56 f
+  U761/Y (AND2X1)                0.00      0.02      0.04       3.60 f
+  U762/Y (AND2X1)                0.01      0.03      0.06       3.66 f
+  U763/Y (AND2X1)                0.00      0.02      0.04       3.70 f
+  U764/Y (AND2X1)                0.01      0.03      0.06       3.75 f
+  U765/Y (AND2X1)                0.00      0.02      0.04       3.79 f
+  U766/Y (AND2X1)                0.01      0.03      0.06       3.85 f
+  U767/Y (AND2X1)                0.00      0.02      0.04       3.88 f
+  U768/Y (AND2X1)                0.01      0.03      0.06       3.94 f
+  U1351/Y (NAND3X1)              0.00      0.03      0.03       3.98 r
+  U876/Y (BUFX2)                 0.01      0.02      0.04       4.02 r
+  U1353/Y (OAI21X1)              0.00      0.00      0.02       4.03 f
+  acc_overflow_reg/D (DFFSR)               0.00      0.00       4.03 f
+  data arrival time                                             4.03
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  acc_overflow_reg/CLK (DFFSR)                       0.00       4.90 r
+  library setup time                                -0.13       4.77
+  data required time                                            4.77
+  ---------------------------------------------------------------------
+  data required time                                            4.77
+  data arrival time                                            -4.03
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.74
+
+
+  Startpoint: payoff_sum_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: payoff_sum_reg[61]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  payoff_sum_reg[0]/CLK (DFFSR)            0.10      0.00       0.00 r
+  payoff_sum_reg[0]/Q (DFFSR)     0.00     0.01      0.12       0.12 f
+  U1060/Y (BUFX2)                0.02      0.02      0.05       0.17 f
+  U1038/Y (AND2X1)               0.00      0.02      0.03       0.20 f
+  U1037/Y (INVX1)                0.01      0.01      0.03       0.23 r
+  U1345/Y (OR2X1)                0.00      0.02      0.05       0.28 r
+  U1346/Y (AOI22X1)              0.00      0.03      0.02       0.30 f
+  U812/Y (BUFX2)                 0.01      0.01      0.04       0.34 f
+  intadd_0/U23/YC (FAX1)         0.01      0.03      0.08       0.42 f
+  intadd_0/U22/YC (FAX1)         0.01      0.03      0.08       0.50 f
+  intadd_0/U21/YC (FAX1)         0.01      0.03      0.08       0.58 f
+  intadd_0/U20/YC (FAX1)         0.01      0.03      0.08       0.67 f
+  intadd_0/U19/YC (FAX1)         0.01      0.03      0.08       0.75 f
+  intadd_0/U18/YC (FAX1)         0.01      0.03      0.08       0.83 f
+  intadd_0/U17/YC (FAX1)         0.01      0.03      0.08       0.91 f
+  intadd_0/U16/YC (FAX1)         0.01      0.03      0.08       0.99 f
+  intadd_0/U15/YC (FAX1)         0.01      0.03      0.08       1.07 f
+  intadd_0/U14/YC (FAX1)         0.01      0.03      0.08       1.15 f
+  intadd_0/U13/YC (FAX1)         0.01      0.03      0.08       1.24 f
+  intadd_0/U12/YC (FAX1)         0.01      0.03      0.08       1.32 f
+  intadd_0/U11/YC (FAX1)         0.01      0.03      0.08       1.40 f
+  intadd_0/U10/YC (FAX1)         0.01      0.03      0.08       1.48 f
+  intadd_0/U9/YC (FAX1)          0.01      0.03      0.08       1.56 f
+  intadd_0/U8/YC (FAX1)          0.01      0.03      0.08       1.64 f
+  intadd_0/U7/YC (FAX1)          0.01      0.03      0.08       1.73 f
+  intadd_0/U6/YC (FAX1)          0.01      0.03      0.08       1.81 f
+  intadd_0/U5/YC (FAX1)          0.01      0.03      0.08       1.89 f
+  intadd_0/U4/YC (FAX1)          0.01      0.03      0.08       1.97 f
+  intadd_0/U3/YC (FAX1)          0.01      0.03      0.08       2.05 f
+  intadd_0/U2/YC (FAX1)          0.01      0.04      0.09       2.14 f
+  U1349/Y (NAND3X1)              0.00      0.03      0.03       2.17 r
+  U1028/Y (BUFX2)                0.01      0.02      0.04       2.22 r
+  U800/Y (OR2X1)                 0.00      0.02      0.04       2.25 r
+  U801/Y (INVX1)                 0.00      0.02      0.02       2.27 f
+  U734/Y (AND2X1)                0.01      0.03      0.05       2.33 f
+  U735/Y (AND2X1)                0.00      0.02      0.04       2.37 f
+  U736/Y (AND2X1)                0.01      0.03      0.06       2.42 f
+  U737/Y (AND2X1)                0.00      0.02      0.04       2.46 f
+  U738/Y (AND2X1)                0.01      0.03      0.06       2.52 f
+  U739/Y (AND2X1)                0.00      0.02      0.04       2.56 f
+  U740/Y (AND2X1)                0.01      0.03      0.06       2.61 f
+  U741/Y (AND2X1)                0.00      0.02      0.04       2.65 f
+  U742/Y (AND2X1)                0.01      0.03      0.06       2.71 f
+  U743/Y (AND2X1)                0.00      0.02      0.04       2.75 f
+  U744/Y (AND2X1)                0.01      0.03      0.06       2.80 f
+  U745/Y (AND2X1)                0.00      0.02      0.04       2.84 f
+  U746/Y (AND2X1)                0.01      0.03      0.06       2.90 f
+  U747/Y (AND2X1)                0.00      0.02      0.04       2.94 f
+  U748/Y (AND2X1)                0.01      0.03      0.06       2.99 f
+  U749/Y (AND2X1)                0.00      0.02      0.04       3.03 f
+  U750/Y (AND2X1)                0.01      0.03      0.06       3.09 f
+  U751/Y (AND2X1)                0.00      0.02      0.04       3.13 f
+  U752/Y (AND2X1)                0.01      0.03      0.06       3.18 f
+  U753/Y (AND2X1)                0.00      0.02      0.04       3.22 f
+  U754/Y (AND2X1)                0.01      0.03      0.06       3.28 f
+  U755/Y (AND2X1)                0.00      0.02      0.04       3.32 f
+  U756/Y (AND2X1)                0.01      0.03      0.06       3.37 f
+  U757/Y (AND2X1)                0.00      0.02      0.04       3.41 f
+  U758/Y (AND2X1)                0.01      0.03      0.06       3.47 f
+  U759/Y (AND2X1)                0.00      0.02      0.04       3.51 f
+  U760/Y (AND2X1)                0.01      0.03      0.06       3.56 f
+  U761/Y (AND2X1)                0.00      0.02      0.04       3.60 f
+  U762/Y (AND2X1)                0.01      0.03      0.06       3.66 f
+  U763/Y (AND2X1)                0.00      0.02      0.04       3.70 f
+  U764/Y (AND2X1)                0.01      0.03      0.06       3.75 f
+  U765/Y (AND2X1)                0.00      0.02      0.04       3.79 f
+  U766/Y (AND2X1)                0.01      0.03      0.06       3.85 f
+  U767/Y (AND2X1)                0.00      0.02      0.04       3.88 f
+  U1633/Y (NAND3X1)              0.00      0.03      0.03       3.92 r
+  U670/Y (BUFX2)                 0.00      0.01      0.03       3.95 r
+  U668/Y (INVX1)                 0.00      0.01      0.02       3.97 f
+  U509/Y (OR2X2)                 0.00      0.00      0.05       4.01 f
+  payoff_sum_reg[61]/D (DFFSR)             0.00      0.00       4.01 f
+  data arrival time                                             4.01
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  payoff_sum_reg[61]/CLK (DFFSR)                     0.00       4.90 r
+  library setup time                                -0.13       4.77
+  data required time                                            4.77
+  ---------------------------------------------------------------------
+  data required time                                            4.77
+  data arrival time                                            -4.01
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.76
+
+
+  Startpoint: payoff_sum_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: payoff_sum_reg[62]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  payoff_sum_reg[0]/CLK (DFFSR)            0.10      0.00       0.00 r
+  payoff_sum_reg[0]/Q (DFFSR)     0.00     0.01      0.12       0.12 f
+  U1060/Y (BUFX2)                0.02      0.02      0.05       0.17 f
+  U1038/Y (AND2X1)               0.00      0.02      0.03       0.20 f
+  U1037/Y (INVX1)                0.01      0.01      0.03       0.23 r
+  U1345/Y (OR2X1)                0.00      0.02      0.05       0.28 r
+  U1346/Y (AOI22X1)              0.00      0.03      0.02       0.30 f
+  U812/Y (BUFX2)                 0.01      0.01      0.04       0.34 f
+  intadd_0/U23/YC (FAX1)         0.01      0.03      0.08       0.42 f
+  intadd_0/U22/YC (FAX1)         0.01      0.03      0.08       0.50 f
+  intadd_0/U21/YC (FAX1)         0.01      0.03      0.08       0.58 f
+  intadd_0/U20/YC (FAX1)         0.01      0.03      0.08       0.67 f
+  intadd_0/U19/YC (FAX1)         0.01      0.03      0.08       0.75 f
+  intadd_0/U18/YC (FAX1)         0.01      0.03      0.08       0.83 f
+  intadd_0/U17/YC (FAX1)         0.01      0.03      0.08       0.91 f
+  intadd_0/U16/YC (FAX1)         0.01      0.03      0.08       0.99 f
+  intadd_0/U15/YC (FAX1)         0.01      0.03      0.08       1.07 f
+  intadd_0/U14/YC (FAX1)         0.01      0.03      0.08       1.15 f
+  intadd_0/U13/YC (FAX1)         0.01      0.03      0.08       1.24 f
+  intadd_0/U12/YC (FAX1)         0.01      0.03      0.08       1.32 f
+  intadd_0/U11/YC (FAX1)         0.01      0.03      0.08       1.40 f
+  intadd_0/U10/YC (FAX1)         0.01      0.03      0.08       1.48 f
+  intadd_0/U9/YC (FAX1)          0.01      0.03      0.08       1.56 f
+  intadd_0/U8/YC (FAX1)          0.01      0.03      0.08       1.64 f
+  intadd_0/U7/YC (FAX1)          0.01      0.03      0.08       1.73 f
+  intadd_0/U6/YC (FAX1)          0.01      0.03      0.08       1.81 f
+  intadd_0/U5/YC (FAX1)          0.01      0.03      0.08       1.89 f
+  intadd_0/U4/YC (FAX1)          0.01      0.03      0.08       1.97 f
+  intadd_0/U3/YC (FAX1)          0.01      0.03      0.08       2.05 f
+  intadd_0/U2/YC (FAX1)          0.01      0.04      0.09       2.14 f
+  U1349/Y (NAND3X1)              0.00      0.03      0.03       2.17 r
+  U1028/Y (BUFX2)                0.01      0.02      0.04       2.22 r
+  U800/Y (OR2X1)                 0.00      0.02      0.04       2.25 r
+  U801/Y (INVX1)                 0.00      0.02      0.02       2.27 f
+  U734/Y (AND2X1)                0.01      0.03      0.05       2.33 f
+  U735/Y (AND2X1)                0.00      0.02      0.04       2.37 f
+  U736/Y (AND2X1)                0.01      0.03      0.06       2.42 f
+  U737/Y (AND2X1)                0.00      0.02      0.04       2.46 f
+  U738/Y (AND2X1)                0.01      0.03      0.06       2.52 f
+  U739/Y (AND2X1)                0.00      0.02      0.04       2.56 f
+  U740/Y (AND2X1)                0.01      0.03      0.06       2.61 f
+  U741/Y (AND2X1)                0.00      0.02      0.04       2.65 f
+  U742/Y (AND2X1)                0.01      0.03      0.06       2.71 f
+  U743/Y (AND2X1)                0.00      0.02      0.04       2.75 f
+  U744/Y (AND2X1)                0.01      0.03      0.06       2.80 f
+  U745/Y (AND2X1)                0.00      0.02      0.04       2.84 f
+  U746/Y (AND2X1)                0.01      0.03      0.06       2.90 f
+  U747/Y (AND2X1)                0.00      0.02      0.04       2.94 f
+  U748/Y (AND2X1)                0.01      0.03      0.06       2.99 f
+  U749/Y (AND2X1)                0.00      0.02      0.04       3.03 f
+  U750/Y (AND2X1)                0.01      0.03      0.06       3.09 f
+  U751/Y (AND2X1)                0.00      0.02      0.04       3.13 f
+  U752/Y (AND2X1)                0.01      0.03      0.06       3.18 f
+  U753/Y (AND2X1)                0.00      0.02      0.04       3.22 f
+  U754/Y (AND2X1)                0.01      0.03      0.06       3.28 f
+  U755/Y (AND2X1)                0.00      0.02      0.04       3.32 f
+  U756/Y (AND2X1)                0.01      0.03      0.06       3.37 f
+  U757/Y (AND2X1)                0.00      0.02      0.04       3.41 f
+  U758/Y (AND2X1)                0.01      0.03      0.06       3.47 f
+  U759/Y (AND2X1)                0.00      0.02      0.04       3.51 f
+  U760/Y (AND2X1)                0.01      0.03      0.06       3.56 f
+  U761/Y (AND2X1)                0.00      0.02      0.04       3.60 f
+  U762/Y (AND2X1)                0.01      0.03      0.06       3.66 f
+  U763/Y (AND2X1)                0.00      0.02      0.04       3.70 f
+  U764/Y (AND2X1)                0.01      0.03      0.06       3.75 f
+  U765/Y (AND2X1)                0.00      0.02      0.04       3.79 f
+  U766/Y (AND2X1)                0.01      0.03      0.06       3.85 f
+  U767/Y (AND2X1)                0.00      0.02      0.04       3.88 f
+  U768/Y (AND2X1)                0.01      0.03      0.06       3.94 f
+  U1635/Y (OAI21X1)              0.01      0.06      0.06       4.00 r
+  U1636/Y (AOI22X1)              0.00      0.03      0.04       4.04 f
+  U1637/Y (INVX1)                0.00      0.00      0.01       4.05 r
+  payoff_sum_reg[62]/D (DFFSR)             0.00      0.00       4.05 r
+  data arrival time                                             4.05
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  payoff_sum_reg[62]/CLK (DFFSR)                     0.00       4.90 r
+  library setup time                                -0.09       4.81
+  data required time                                            4.81
+  ---------------------------------------------------------------------
+  data required time                                            4.81
+  data arrival time                                            -4.05
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.77
+
+
+  Startpoint: payoff_sum_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: payoff_sum_reg[59]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  payoff_sum_reg[0]/CLK (DFFSR)            0.10      0.00       0.00 r
+  payoff_sum_reg[0]/Q (DFFSR)     0.00     0.01      0.12       0.12 f
+  U1060/Y (BUFX2)                0.02      0.02      0.05       0.17 f
+  U1038/Y (AND2X1)               0.00      0.02      0.03       0.20 f
+  U1037/Y (INVX1)                0.01      0.01      0.03       0.23 r
+  U1345/Y (OR2X1)                0.00      0.02      0.05       0.28 r
+  U1346/Y (AOI22X1)              0.00      0.03      0.02       0.30 f
+  U812/Y (BUFX2)                 0.01      0.01      0.04       0.34 f
+  intadd_0/U23/YC (FAX1)         0.01      0.03      0.08       0.42 f
+  intadd_0/U22/YC (FAX1)         0.01      0.03      0.08       0.50 f
+  intadd_0/U21/YC (FAX1)         0.01      0.03      0.08       0.58 f
+  intadd_0/U20/YC (FAX1)         0.01      0.03      0.08       0.67 f
+  intadd_0/U19/YC (FAX1)         0.01      0.03      0.08       0.75 f
+  intadd_0/U18/YC (FAX1)         0.01      0.03      0.08       0.83 f
+  intadd_0/U17/YC (FAX1)         0.01      0.03      0.08       0.91 f
+  intadd_0/U16/YC (FAX1)         0.01      0.03      0.08       0.99 f
+  intadd_0/U15/YC (FAX1)         0.01      0.03      0.08       1.07 f
+  intadd_0/U14/YC (FAX1)         0.01      0.03      0.08       1.15 f
+  intadd_0/U13/YC (FAX1)         0.01      0.03      0.08       1.24 f
+  intadd_0/U12/YC (FAX1)         0.01      0.03      0.08       1.32 f
+  intadd_0/U11/YC (FAX1)         0.01      0.03      0.08       1.40 f
+  intadd_0/U10/YC (FAX1)         0.01      0.03      0.08       1.48 f
+  intadd_0/U9/YC (FAX1)          0.01      0.03      0.08       1.56 f
+  intadd_0/U8/YC (FAX1)          0.01      0.03      0.08       1.64 f
+  intadd_0/U7/YC (FAX1)          0.01      0.03      0.08       1.73 f
+  intadd_0/U6/YC (FAX1)          0.01      0.03      0.08       1.81 f
+  intadd_0/U5/YC (FAX1)          0.01      0.03      0.08       1.89 f
+  intadd_0/U4/YC (FAX1)          0.01      0.03      0.08       1.97 f
+  intadd_0/U3/YC (FAX1)          0.01      0.03      0.08       2.05 f
+  intadd_0/U2/YC (FAX1)          0.01      0.04      0.09       2.14 f
+  U1349/Y (NAND3X1)              0.00      0.03      0.03       2.17 r
+  U1028/Y (BUFX2)                0.01      0.02      0.04       2.22 r
+  U800/Y (OR2X1)                 0.00      0.02      0.04       2.25 r
+  U801/Y (INVX1)                 0.00      0.02      0.02       2.27 f
+  U734/Y (AND2X1)                0.01      0.03      0.05       2.33 f
+  U735/Y (AND2X1)                0.00      0.02      0.04       2.37 f
+  U736/Y (AND2X1)                0.01      0.03      0.06       2.42 f
+  U737/Y (AND2X1)                0.00      0.02      0.04       2.46 f
+  U738/Y (AND2X1)                0.01      0.03      0.06       2.52 f
+  U739/Y (AND2X1)                0.00      0.02      0.04       2.56 f
+  U740/Y (AND2X1)                0.01      0.03      0.06       2.61 f
+  U741/Y (AND2X1)                0.00      0.02      0.04       2.65 f
+  U742/Y (AND2X1)                0.01      0.03      0.06       2.71 f
+  U743/Y (AND2X1)                0.00      0.02      0.04       2.75 f
+  U744/Y (AND2X1)                0.01      0.03      0.06       2.80 f
+  U745/Y (AND2X1)                0.00      0.02      0.04       2.84 f
+  U746/Y (AND2X1)                0.01      0.03      0.06       2.90 f
+  U747/Y (AND2X1)                0.00      0.02      0.04       2.94 f
+  U748/Y (AND2X1)                0.01      0.03      0.06       2.99 f
+  U749/Y (AND2X1)                0.00      0.02      0.04       3.03 f
+  U750/Y (AND2X1)                0.01      0.03      0.06       3.09 f
+  U751/Y (AND2X1)                0.00      0.02      0.04       3.13 f
+  U752/Y (AND2X1)                0.01      0.03      0.06       3.18 f
+  U753/Y (AND2X1)                0.00      0.02      0.04       3.22 f
+  U754/Y (AND2X1)                0.01      0.03      0.06       3.28 f
+  U755/Y (AND2X1)                0.00      0.02      0.04       3.32 f
+  U756/Y (AND2X1)                0.01      0.03      0.06       3.37 f
+  U757/Y (AND2X1)                0.00      0.02      0.04       3.41 f
+  U758/Y (AND2X1)                0.01      0.03      0.06       3.47 f
+  U759/Y (AND2X1)                0.00      0.02      0.04       3.51 f
+  U760/Y (AND2X1)                0.01      0.03      0.06       3.56 f
+  U761/Y (AND2X1)                0.00      0.02      0.04       3.60 f
+  U762/Y (AND2X1)                0.01      0.03      0.06       3.66 f
+  U763/Y (AND2X1)                0.00      0.02      0.04       3.70 f
+  U764/Y (AND2X1)                0.01      0.03      0.06       3.75 f
+  U765/Y (AND2X1)                0.00      0.02      0.04       3.79 f
+  U1627/Y (NAND3X1)              0.00      0.03      0.03       3.82 r
+  U667/Y (BUFX2)                 0.00      0.01      0.03       3.86 r
+  U665/Y (INVX1)                 0.00      0.01      0.02       3.87 f
+  U510/Y (OR2X2)                 0.00      0.00      0.05       3.92 f
+  payoff_sum_reg[59]/D (DFFSR)             0.00      0.00       3.92 f
+  data arrival time                                             3.92
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  payoff_sum_reg[59]/CLK (DFFSR)                     0.00       4.90 r
+  library setup time                                -0.13       4.77
+  data required time                                            4.77
+  ---------------------------------------------------------------------
+  data required time                                            4.77
+  data arrival time                                            -3.92
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.86
+
+
+1
