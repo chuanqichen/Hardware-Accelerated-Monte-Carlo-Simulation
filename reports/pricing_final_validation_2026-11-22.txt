@@ -61,3 +61,14 @@ Not covered
   Synthesis of a 2- or 4-lane top (the synthesis gate still allows one lane).
   Gate-level simulation and post-route timing of these changes.
   Hold and max-capacitance violations reported by synthesis.
+
+Addendum, same day: continuous-valid price_dp test
+  tb_price_dp NO_GAPS=1 on price_dp_stream_k<k>.hex: 8,192 trials with z_valid
+  high every cycle; the test requires 8,192 consecutive p_valid cycles.
+  MC_SIM_RUN_ID=pricing_final_20261122_stream make sim-pricing-final: exit 0,
+  50 of 50 runs (the 46 above plus the stream case at EXP_ADDR_BITS 8/10 x
+  MUL_STAGES 1/2, 0 errors each). Summary:
+  reports/sim/pricing_final_20261122_stream/summary.txt.
+  This replaces the "46 cycles" limit above for price_dp; tb_exp2_unit's
+  longest back-to-back run is still 91 cycles.
+

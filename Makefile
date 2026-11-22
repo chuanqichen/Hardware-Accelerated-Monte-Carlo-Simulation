@@ -4,7 +4,7 @@
 #   make sim    - run tb_gauss_lut under VCS (lab machines)
 #   make gen-price - regenerate exp ROM RTL + price_dp/exp/accumulator TB vectors
 #   make sim-iv    - run tb_accumulator (LANES 1/2/4 x SUM_WIDTH 64/32), tb_exp2_unit, tb_price_dp
-#                    under Icarus (local)
+#                    and tb_price_dp NO_GAPS=1 (8192 back-to-back trials) under Icarus (local)
 #   make sim-price - the same testbenches under VCS (lab machines)
 #   make gen-rs    - regenerate round_sat TB vectors (signed + unsigned configs)
 #   make sim-rs    - run tb_round_sat under VCS for both configs
@@ -37,7 +37,8 @@ RTL     := rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
 TB      := tb/tb_gauss_lut.sv
 VEC     := tb/vectors/gauss_lut_a$(ADDR_BITS)_w$(OUT_WIDTH)_f$(FRAC_BITS).hex
 PRICE_RTL := rtl/mc_pkg.sv rtl/round_sat.sv rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv rtl/accumulator.sv
-PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
+PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/price_dp_stream_k$(EXP_ADDR_BITS).hex \
+             tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
              tb/vectors/accumulator_w64.hex tb/vectors/accumulator_w32.hex \
              $(foreach l,2 4,$(foreach w,64 32,tb/vectors/accumulator_l$(l)_w$(w).hex))
 RNG_VEC := tb/vectors/rng_lane.hex
@@ -93,6 +94,10 @@ sim-iv: gen-price
 	$(IV) build/tb_price_dp -Ptb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -Ptb_price_dp.MUL_STAGES=$(MUL_STAGES) \
 	  -DVEC_FILE='"tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex"' $(PRICE_RTL) tb/tb_price_dp.sv
 	vvp -n build/tb_price_dp | grep -E "^(PASS|FAIL|ERROR| )"
+	$(IV) build/tb_price_dp_stream -Ptb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -Ptb_price_dp.MUL_STAGES=$(MUL_STAGES) \
+	  -Ptb_price_dp.NO_GAPS=1 -DVEC_FILE='"tb/vectors/price_dp_stream_k$(EXP_ADDR_BITS).hex"' \
+	  $(PRICE_RTL) tb/tb_price_dp.sv
+	vvp -n build/tb_price_dp_stream | grep -E "^(PASS|FAIL|ERROR| )"
 
 VCS_PRICE := $(VCS) -sverilog -full64 -timescale=1ns/1ps
 sim-price: gen-price
@@ -109,6 +114,10 @@ sim-price: gen-price
 	$(VCS_PRICE) $(PRICE_RTL) tb/tb_price_dp.sv \
 	  -pvalue+tb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -pvalue+tb_price_dp.MUL_STAGES=$(MUL_STAGES) \
 	  +define+VEC_FILE='"tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex"' -o simv_pdp && ./simv_pdp
+	$(VCS_PRICE) $(PRICE_RTL) tb/tb_price_dp.sv \
+	  -pvalue+tb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -pvalue+tb_price_dp.MUL_STAGES=$(MUL_STAGES) \
+	  -pvalue+tb_price_dp.NO_GAPS=1 \
+	  +define+VEC_FILE='"tb/vectors/price_dp_stream_k$(EXP_ADDR_BITS).hex"' -o simv_pdp_stream && ./simv_pdp_stream
 
 # round_sat: both production configurations (price_dp S2 signed; a UQ case). The
 # module is combinational, so one vector file per parameter set and no latency.

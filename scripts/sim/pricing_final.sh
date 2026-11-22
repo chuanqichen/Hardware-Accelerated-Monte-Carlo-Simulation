@@ -14,7 +14,7 @@
 # <id>_rs (siblings under reports/sim/).
 #
 # Nothing is written to rtl/generated or tb/vectors: the exp ROM and the price_dp /
-# exp2 vectors for k = 8 and 10 are generated into <run dir>/gen_k<k>/, and the k = 10
+# exp2 / stream vectors for k = 8 and 10 are generated into <run dir>/gen_k<k>/, and the k = 10
 # ROM must be byte-identical to the committed rtl/generated/exp2_rom.sv. The
 # exhaustive exp2_k*.hex files (~4 MB each) are deleted after a successful run.
 #
@@ -97,7 +97,8 @@ for k in 8 10; do
   "$python_command" model/price_dp.py --export "$gen" --exp-addr-bits "$k" > "$gen/gen.log"
   "$python_command" model/gen_price_vectors.py --exp-addr-bits "$k" --out "$gen" >> "$gen/gen.log"
   rm -f "$gen"/accumulator_*.hex          # duplicates of tb/vectors; the tracked files are used
-  sha256sum "$gen/exp2_rom.sv" "$gen/price_dp_k$k.hex" "$gen/exp2_k$k.hex" >> "$run_dir/source_sha256.txt"
+  sha256sum "$gen/exp2_rom.sv" "$gen/price_dp_k$k.hex" "$gen/price_dp_stream_k$k.hex" "$gen/exp2_k$k.hex" \
+    >> "$run_dir/source_sha256.txt"
 done
 cmp -s "$run_dir/gen_k10/exp2_rom.sv" rtl/generated/exp2_rom.sv \
   || { echo "Committed rtl/generated/exp2_rom.sv differs from the model's k=10 ROM ($run_dir/gen_k10/exp2_rom.sv)" >&2; exit 1; }
@@ -112,7 +113,7 @@ for k in 8 10; do
     -pvalue+tb_exp2_unit.EXP_ADDR_BITS="$k" "+define+VEC_FILE=\"$gen/exp2_k$k.hex\""
 done
 
-# ---- 3. price_dp: EXP_ADDR_BITS x MUL_STAGES ---------------------------------------------
+# ---- 3. price_dp: EXP_ADDR_BITS x MUL_STAGES, gapped vectors and the NO_GAPS back-to-back stream -----
 for k in 8 10; do
   gen="$run_dir/gen_k$k"
   for m in 1 2; do
@@ -122,6 +123,14 @@ for k in 8 10; do
       rtl/accumulator.sv tb/tb_price_dp.sv \
       -pvalue+tb_price_dp.EXP_ADDR_BITS="$k" -pvalue+tb_price_dp.MUL_STAGES="$m" \
       "+define+VEC_FILE=\"$gen/price_dp_k$k.hex\""
+    # one configuration, 8192 trials with z_valid high on every cycle (initiation interval 1)
+    run_case "price_dp_stream_k${k}_m${m}" \
+      "^PASS: tb_price_dp stream k=$k MUL_STAGES=$m LAT_DP=$((m + 5)), 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles[[:space:]]*\$" \
+      rtl/mc_pkg.sv rtl/round_sat.sv rtl/pipe.sv "$gen/exp2_rom.sv" rtl/exp2_unit.sv rtl/price_dp.sv \
+      rtl/accumulator.sv tb/tb_price_dp.sv \
+      -pvalue+tb_price_dp.EXP_ADDR_BITS="$k" -pvalue+tb_price_dp.MUL_STAGES="$m" \
+      -pvalue+tb_price_dp.NO_GAPS=1 \
+      "+define+VEC_FILE=\"$gen/price_dp_stream_k$k.hex\""
   done
 done
 

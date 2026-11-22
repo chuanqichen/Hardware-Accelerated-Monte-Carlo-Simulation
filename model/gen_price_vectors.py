@@ -5,6 +5,10 @@
                        during a run, so they are not pipelined in hardware):
                          "0 aaaaa bbbb kkkkkk"   new configuration (TB drains first)
                          "1 zzzz pppppp f"       trial: z, expected p, flags {sat_s,sat_x}
+  price_dp_stream_k<K>.hex  one configuration line, then 8192 trials under it (the TB with
+                       NO_GAPS=1 drives them back to back). ATM option (S0=K=100, r=0.05,
+                       sigma=0.2, T=1); z comes from the real Gaussian LUT (ADDR_BITS=10)
+                       at seeded random 32-bit words, so z covers both tails.
   accumulator_w<W>.hex one line per cycle: "c v pppppp f ssss..ss cccccccc g"
                        inputs clear, valid, p, flags {sat_s,sat_x}; then the expected
                        registers after that edge: sum, count, {sat_s,sat_x,overflow}
@@ -27,7 +31,9 @@ from pathlib import Path
 import numpy as np
 
 import price_dp as pd
-from gauss_lut import OPTION_GRID
+from gauss_lut import OPTION_GRID, GaussLut, GaussLutConfig
+
+STREAM_TRIALS = 8192
 
 
 def _h(v, width):
@@ -101,6 +107,27 @@ def write_price(cfg, out: Path, rng, n_random_groups: int, per_group: int) -> Pa
             nsx += int(t["sat_x"].sum())
             nss += int(t["sat_s"].sum())
     print(f"wrote {n} price_dp trials to {path} (sat_x: {nsx}, sat_s: {nss})")
+    return path
+
+
+def write_price_stream(cfg, out: Path, rng, trials: int = STREAM_TRIALS) -> Path:
+    """One configuration, `trials` back-to-back trials with lane-realistic z (see docstring)."""
+    a, b, kk = pd.option_to_regs(100, 100, 0.05, 0.2, 1.0)
+    lut = GaussLut(GaussLutConfig(10, 16, 12))
+    u = rng.integers(0, 1 << 32, size=trials, dtype=np.uint64)   # the lane's 32-bit RNG words
+    z = lut.lookup(u)
+    t = pd.price_dp(a, b, kk, z, cfg, pd.exp_rom(cfg))
+    n_nonzero = int((t["p"] != 0).sum())
+    n_zero = trials - n_nonzero
+    assert n_nonzero >= 1000 and n_zero >= 1000, (n_nonzero, n_zero)
+    assert z.min() < 0 < z.max()
+    path = out / f"price_dp_stream_k{cfg.exp_addr_bits}.hex"
+    with path.open("w") as f:
+        f.write(f"0 {_h(a, 18)} {_h(b, 16)} {_h(kk, 22)}\n")
+        for zi, pi, sx, ss in zip(z, t["p"], t["sat_x"], t["sat_s"]):
+            f.write(f"1 {_h(zi, 16)} {_h(pi, 22)} {int(ss) * 2 + int(sx)}\n")
+    print(f"wrote {trials} stream trials to {path} (zero payoffs: {n_zero}, non-zero: {n_nonzero}, "
+          f"sat_x: {int(t['sat_x'].sum())}, sat_s: {int(t['sat_s'].sum())})")
     return path
 
 
@@ -216,6 +243,7 @@ def main():
     a.out.mkdir(parents=True, exist_ok=True)
     write_exp(cfg, a.out)
     write_price(cfg, a.out, rng, a.groups, a.per_group)
+    write_price_stream(cfg, a.out, np.random.default_rng(a.seed + 2))   # own stream: other files unchanged
     write_acc(a.out, rng, 64, a.acc_cycles)
     write_acc(a.out, rng, 32, 5000)
     rng_l = np.random.default_rng(a.seed + 1)      # separate stream: one-lane files stay unchanged

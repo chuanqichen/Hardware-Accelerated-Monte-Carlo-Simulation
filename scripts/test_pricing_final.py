@@ -68,8 +68,13 @@ case "$tb" in
   tb_price_dp)
     k=$(param tb_price_dp.EXP_ADDR_BITS); m=$(param tb_price_dp.MUL_STAGES); need "$(vec)"
     [[ "$all" == *" rtl/generated/exp2_rom.sv "* ]] && { echo "FAIL: used committed ROM"; exit 0; }
-    echo "INFO: tb_price_dp longest back-to-back run: in_valid=46 cycles, p_valid=46 cycles"
-    line="PASS: tb_price_dp k=$k MUL_STAGES=$m LAT_DP=$((m + 5)), 11449 trials checked, 0 errors" ;;
+    if [[ "$all" == *" -pvalue+tb_price_dp.NO_GAPS=1 "* ]]; then
+      echo "INFO: tb_price_dp longest back-to-back run: in_valid=8192 cycles, p_valid=8192 cycles"
+      line="PASS: tb_price_dp stream k=$k MUL_STAGES=$m LAT_DP=$((m + 5)), 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles"
+    else
+      echo "INFO: tb_price_dp longest back-to-back run: in_valid=46 cycles, p_valid=46 cycles"
+      line="PASS: tb_price_dp k=$k MUL_STAGES=$m LAT_DP=$((m + 5)), 11449 trials checked, 0 errors"
+    fi ;;
   tb_mc_top)
     line="PASS: tb_mc_top G=$(param tb_mc_top.GAUSS_LATENCY) M=$(param tb_mc_top.MUL_STAGES) cases=22 trials=26457, exact traces/results, sustained II=1" ;;
   tb_mc_lane_bubbles)
@@ -100,6 +105,7 @@ case "$1" in
   model/gen_price_vectors.py)
     k=$3; gen=$5; mkdir -p "$gen"
     echo "exp k=$k" > "$gen/exp2_k$k.hex"; echo "price k=$k" > "$gen/price_dp_k$k.hex"
+    echo "stream k=$k" > "$gen/price_dp_stream_k$k.hex"
     for f in accumulator_w64 accumulator_w32 accumulator_l2_w64 accumulator_l2_w32 accumulator_l4_w64 accumulator_l4_w32; do
       echo "acc" > "$gen/$f.hex"
     done ;;
@@ -163,18 +169,21 @@ class TestPricingFinalRunner(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         run_dir = root / "reports/sim/final_test"
         self.assertEqual(result.stdout.strip().splitlines()[-1],
-                         f"Pricing final regression complete: {run_dir.resolve()} (19 runs passed)")
+                         f"Pricing final regression complete: {run_dir.resolve()} (23 runs passed)")
         self.assertEqual(before, snapshot(root / "rtl", root / "tb"))   # nothing written to tracked paths
 
         names = [f"acc_l{l}_w{w}" for l in (1, 2, 4) for w in (64, 32)] + ["exp2_k8", "exp2_k10"] \
-            + [f"price_dp_k{k}_m{m}" for k in (8, 10) for m in (1, 2)]
+            + [f"price_dp_k{k}_m{m}" for k in (8, 10) for m in (1, 2)] \
+            + [f"price_dp_stream_k{k}_m{m}" for k in (8, 10) for m in (1, 2)]
         for name in names:
             self.assertTrue((run_dir / name / "compile.log").is_file(), name)
             self.assertTrue((run_dir / name / "run.log").is_file(), name)
             self.assertEqual([p.name for p in (run_dir / name).iterdir() if p.name.startswith(("csrc", "simv"))], [])
         summary = (run_dir / "summary.txt").read_text()
-        for line in ("tool: Version T-2022.06_Full64 -- fake", "runs passed: 19",
+        for line in ("tool: Version T-2022.06_Full64 -- fake", "runs passed: 23",
                      "price_dp_k10_m2: PASS: tb_price_dp k=10 MUL_STAGES=2 LAT_DP=7, 11449 trials checked, 0 errors",
+                     "price_dp_stream_k8_m2: PASS: tb_price_dp stream k=8 MUL_STAGES=2 LAT_DP=7, 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles",
+                     "price_dp_stream_k10_m1: INFO: tb_price_dp longest back-to-back run: in_valid=8192 cycles, p_valid=8192 cycles",
                      "exp2_k8: PASS: tb_exp2_unit k=8, 262144 checked, 0 errors",
                      "acc_l4_w32: PASS: tb_accumulator LANES=4 SUM_WIDTH=32, 1000 cycles checked, 0 errors",
                      "top: PASS: tb_mc_top G=2 M=2 cases=22 trials=26457,",
@@ -185,7 +194,7 @@ class TestPricingFinalRunner(unittest.TestCase):
             self.assertIn(line, summary)
         for key in ("date:", "hostname:", "git:"):
             self.assertIn(key, summary)
-        self.assertEqual(sum(1 for l in summary.splitlines() if ": PASS: " in l), 19)
+        self.assertEqual(sum(1 for l in summary.splitlines() if ": PASS: " in l), 23)
         sha = (run_dir / "source_sha256.txt").read_text()
         for needle in ("rtl/accumulator.sv", "tb/tb_price_dp.sv", "rtl/generated/exp2_rom.sv",
                        "tb/vectors/accumulator_l4_w32.hex", "gen_k8/price_dp_k8.hex", "gen_k10/exp2_k10.hex"):
@@ -200,9 +209,15 @@ class TestPricingFinalRunner(unittest.TestCase):
             self.assertEqual([p for p in (root / f"reports/sim/final_test_{child}").rglob("simv*")], [])
         calls = (root / "calls.txt").read_text().splitlines()
         vcs_calls = [c for c in calls if not c.startswith("python ")]
-        self.assertEqual(len(vcs_calls), 19)
+        self.assertEqual(len(vcs_calls), 23)
         pd = [c for c in vcs_calls if "tb_price_dp.sv" in c]
-        self.assertEqual(len(pd), 4)
+        self.assertEqual(len(pd), 8)
+        streams = [c for c in pd if "-pvalue+tb_price_dp.NO_GAPS=1" in c]
+        self.assertEqual(len(streams), 4)
+        for c in streams:
+            self.assertIn("price_dp_stream_k", c)
+        for c in set(pd) - set(streams):
+            self.assertNotIn("NO_GAPS", c)
         for c in pd:
             self.assertNotIn(" rtl/generated/exp2_rom.sv", c)
             self.assertIn("/gen_k", c)
@@ -224,7 +239,7 @@ class TestPricingFinalRunner(unittest.TestCase):
             f.write(body)
         _, result = self.run_fixture(root)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("(46 runs passed)", result.stdout)
+        self.assertIn("(50 runs passed)", result.stdout)
         self.assertFalse((root / "reports/sim/final_test/array_inputs").exists())
         # A short array run must fail the whole regression.
         root2 = self.make_root()

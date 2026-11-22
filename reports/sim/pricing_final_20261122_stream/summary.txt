@@ -1,0 +1,66 @@
+run_id: pricing_final_20261122_stream
+date: Sun Nov 22 11:09:44 CST 2026
+hostname: peach.ece.utexas.edu
+tool:          Version T-2022.06_Full64 -- Sun Nov 22 11:07:53 2026
+git: not a git repository
+runs passed: 50
+acc_l1_w64: PASS: tb_accumulator LANES=1 SUM_WIDTH=64, 20000 cycles checked, 0 errors (overflow set on 0 cycles)
+acc_l1_w32: PASS: tb_accumulator LANES=1 SUM_WIDTH=32, 5000 cycles checked, 0 errors (overflow set on 1075 cycles)
+acc_l2_w64: PASS: tb_accumulator LANES=2 SUM_WIDTH=64, 17569 cycles checked, 0 errors (overflow set on 0 cycles)
+acc_l2_w32: PASS: tb_accumulator LANES=2 SUM_WIDTH=32, 5003 cycles checked, 0 errors (overflow set on 2366 cycles)
+acc_l4_w64: PASS: tb_accumulator LANES=4 SUM_WIDTH=64, 14797 cycles checked, 0 errors (overflow set on 0 cycles)
+acc_l4_w32: PASS: tb_accumulator LANES=4 SUM_WIDTH=32, 5004 cycles checked, 0 errors (overflow set on 3530 cycles)
+exp2_k8: PASS: tb_exp2_unit k=8, 262144 checked, 0 errors, sat_s pulses 91323 (expected 91323)
+exp2_k10: PASS: tb_exp2_unit k=10, 262144 checked, 0 errors, sat_s pulses 91323 (expected 91323)
+price_dp_k8_m1: PASS: tb_price_dp k=8 MUL_STAGES=1 LAT_DP=6, 11449 trials checked, 0 errors
+price_dp_stream_k8_m1: PASS: tb_price_dp stream k=8 MUL_STAGES=1 LAT_DP=6, 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles
+price_dp_k8_m2: PASS: tb_price_dp k=8 MUL_STAGES=2 LAT_DP=7, 11449 trials checked, 0 errors
+price_dp_stream_k8_m2: PASS: tb_price_dp stream k=8 MUL_STAGES=2 LAT_DP=7, 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles
+price_dp_k10_m1: PASS: tb_price_dp k=10 MUL_STAGES=1 LAT_DP=6, 11449 trials checked, 0 errors
+price_dp_stream_k10_m1: PASS: tb_price_dp stream k=10 MUL_STAGES=1 LAT_DP=6, 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles
+price_dp_k10_m2: PASS: tb_price_dp k=10 MUL_STAGES=2 LAT_DP=7, 11449 trials checked, 0 errors
+price_dp_stream_k10_m2: PASS: tb_price_dp stream k=10 MUL_STAGES=2 LAT_DP=7, 8192 trials checked, 0 errors, 8192 consecutive p_valid cycles
+top: PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+top: PASS: tb_mc_top G=1 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+top: PASS: tb_mc_top G=2 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+top: PASS: tb_mc_top G=2 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+bubbles: PASS: tb_mc_lane_bubbles 100 exact trials, pause/resume, valid latency=10
+rs: PASS: tb_round_sat IN=26 OUT=16 SHIFT=8 SIGNED=0, 11552 checked, 0 errors (sat on 7933)
+rs: PASS: tb_round_sat IN=34 OUT=18 SHIFT=14 SIGNED=1, 12067 checked, 0 errors (sat on 8381)
+array: PASS: tb_accumulator_tree L=2 cycles=1107, masks bubbles clear overflow
+array: PASS: tb_accumulator_tree L=4 cycles=1108, masks bubbles clear overflow
+array: PASS: tb_mc_array L=1 G=1 M=1 A=10 K=10 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=1 M=1 A=10 K=8 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=1 M=2 A=10 K=10 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=1 M=2 A=10 K=8 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=2 M=1 A=10 K=10 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=2 M=1 A=10 K=8 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=2 M=2 A=10 K=10 cases=26 trials=27492
+array: PASS: tb_mc_array L=1 G=2 M=2 A=10 K=8 cases=26 trials=27492
+array: PASS: tb_mc_array L=2 G=1 M=1 A=10 K=10 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=1 M=1 A=10 K=8 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=1 M=2 A=10 K=10 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=1 M=2 A=10 K=8 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=2 M=1 A=10 K=10 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=2 M=1 A=10 K=8 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=2 M=2 A=10 K=10 cases=27 trials=27495
+array: PASS: tb_mc_array L=2 G=2 M=2 A=10 K=8 cases=27 trials=27495
+array: PASS: tb_mc_array L=4 G=1 M=1 A=10 K=10 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=1 M=1 A=10 K=8 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=1 M=2 A=10 K=10 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=1 M=2 A=10 K=8 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=2 M=1 A=10 K=10 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=2 M=1 A=10 K=8 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=2 M=2 A=10 K=10 cases=28 trials=27502
+array: PASS: tb_mc_array L=4 G=2 M=2 A=10 K=8 cases=28 trials=27502
+array: PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+exp2_k8: INFO: tb_exp2_unit longest back-to-back run: in_valid=91 cycles, out_valid=91 cycles
+exp2_k10: INFO: tb_exp2_unit longest back-to-back run: in_valid=91 cycles, out_valid=91 cycles
+price_dp_k8_m1: INFO: tb_price_dp longest back-to-back run: in_valid=46 cycles, p_valid=46 cycles
+price_dp_stream_k8_m1: INFO: tb_price_dp longest back-to-back run: in_valid=8192 cycles, p_valid=8192 cycles
+price_dp_k8_m2: INFO: tb_price_dp longest back-to-back run: in_valid=46 cycles, p_valid=46 cycles
+price_dp_stream_k8_m2: INFO: tb_price_dp longest back-to-back run: in_valid=8192 cycles, p_valid=8192 cycles
+price_dp_k10_m1: INFO: tb_price_dp longest back-to-back run: in_valid=46 cycles, p_valid=46 cycles
+price_dp_stream_k10_m1: INFO: tb_price_dp longest back-to-back run: in_valid=8192 cycles, p_valid=8192 cycles
+price_dp_k10_m2: INFO: tb_price_dp longest back-to-back run: in_valid=46 cycles, p_valid=46 cycles
+price_dp_stream_k10_m2: INFO: tb_price_dp longest back-to-back run: in_valid=8192 cycles, p_valid=8192 cycles

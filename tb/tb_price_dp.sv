@@ -5,12 +5,18 @@
 // for p, both flags and exact latency (LAT_DP); sat pulses are counted and the
 // totals compared with the vector file.
 //
+// NO_GAPS=1 (with tb/vectors/price_dp_stream_k<K>.hex): z_valid stays high on every
+// cycle while trials remain in a configuration, and the longest monitored run of
+// p_valid must equal the longest single-configuration block of the file (8192), i.e.
+// the pipeline sustains one result per clock (initiation interval 1).
+//
 //   make sim-iv   (Icarus, local)       make sim-price   (VCS, lab)
 `timescale 1ns/1ps
 module tb_price_dp;
   parameter int EXP_ADDR_BITS = 10;
   parameter int MUL_STAGES    = 1;
   parameter int MAX_VEC       = 1 << 15;
+  parameter bit NO_GAPS       = 0;       // 1: no random idle cycles inside a configuration
 `ifdef VEC_FILE
   parameter VEC_FILE = `VEC_FILE;
 `else
@@ -40,6 +46,7 @@ module tb_price_dp;
   int issue_cyc [MAX_VEC];
   int n_line = 0, n_trial = 0, n_chk = 0, n_err = 0, cyc = 0, seed = 382;
   int n_sx = 0, n_ss = 0, n_sx_exp = 0, n_ss_exp = 0;
+  int blk = 0, max_blk = 0;              // trials in the current / longest single-configuration block
 
   always @(posedge clk) cyc <= cyc + 1;
 
@@ -58,7 +65,11 @@ module tb_price_dp;
     if (fd == 0) begin $display("FAIL: cannot open %s", VEC_FILE); $finish; end
     while (!$feof(fd) && n_line < MAX_VEC) begin
       r = $fscanf(fd, "%h %h %h %h\n", tg, f1, f2, f3);
-      if (r == 4) begin v_tag[n_line] = tg; v_f1[n_line] = f1; v_f2[n_line] = f2; v_f3[n_line] = f3; n_line++; end
+      if (r == 4) begin
+        v_tag[n_line] = tg; v_f1[n_line] = f1; v_f2[n_line] = f2; v_f3[n_line] = f3; n_line++;
+        blk = tg ? blk + 1 : 0;
+        if (blk > max_blk) max_blk = blk;
+      end
     end
     $fclose(fd);
     $display("loaded %0d lines from %s", n_line, VEC_FILE);
@@ -72,7 +83,7 @@ module tb_price_dp;
         repeat (LAT_DP + 1) @(negedge clk);      // drain: config is static during a run
         a = v_f1[i][17:0]; b = v_f2[i][15:0]; k = v_f3[i];
       end else begin
-        while (($random(seed) & 7) == 0) begin   // ~1 in 8 cycles idle, with garbage on z
+        while (!NO_GAPS && ($random(seed) & 7) == 0) begin   // ~1 in 8 cycles idle, with garbage on z
           @(negedge clk) z_valid = 0; z = 'x;
         end
         @(negedge clk) z_valid = 1; z = v_f1[i][15:0];
@@ -91,8 +102,17 @@ module tb_price_dp;
     end
     $display("INFO: tb_price_dp longest back-to-back run: in_valid=%0d cycles, p_valid=%0d cycles",
              max_run_in, max_run_out);
-    $display("%s: tb_price_dp k=%0d MUL_STAGES=%0d LAT_DP=%0d, %0d trials checked, %0d errors",
-             n_err ? "FAIL" : "PASS", EXP_ADDR_BITS, MUL_STAGES, LAT_DP, n_chk, n_err);
+    if (NO_GAPS) begin
+      if (max_run_out != max_blk) begin
+        n_err++;
+        $display("FAIL: tb_price_dp stream: longest p_valid run %0d cycles, expected %0d (longest single-configuration block)",
+                 max_run_out, max_blk);
+      end
+      $display("%s: tb_price_dp stream k=%0d MUL_STAGES=%0d LAT_DP=%0d, %0d trials checked, %0d errors, %0d consecutive p_valid cycles",
+               n_err ? "FAIL" : "PASS", EXP_ADDR_BITS, MUL_STAGES, LAT_DP, n_chk, n_err, max_run_out);
+    end else
+      $display("%s: tb_price_dp k=%0d MUL_STAGES=%0d LAT_DP=%0d, %0d trials checked, %0d errors",
+               n_err ? "FAIL" : "PASS", EXP_ADDR_BITS, MUL_STAGES, LAT_DP, n_chk, n_err);
     $display("      saturation events: sat_x %0d (expected %0d), sat_s %0d (expected %0d)",
              n_sx, n_sx_exp, n_ss, n_ss_exp);
     $finish;

@@ -582,7 +582,16 @@ $k$ = 10 and 8) match the Python model on sum, count and status.
 clock period where both `price_dp` and the accumulator met timing (5.00, 4.75, 4.00 ns).
 These are pre-layout block results, conditional on the lane closing timing after layout.
 
-Limits of the evidence: the standalone `price_dp` and `exp2_unit` testbenches insert
-random idle cycles, so their longest back-to-back runs are 46 and 91 cycles. Sustained
-one-result-per-clock operation is checked by the one-lane top testbench and by the
-2,000-cycle full-rate stretch in the multi-lane accumulator vectors.
+**One result per clock.** `tb_price_dp` has a second mode, `NO_GAPS = 1`, run on
+`tb/vectors/price_dp_stream_k<k>.hex`: 8,192 trials of the at-the-money benchmark option
+with Gaussian samples drawn through the real table, driven with `z_valid` high on every
+cycle. Every payoff, flag and latency is checked, and the test fails unless `p_valid` is
+high for 8,192 consecutive cycles. It passes at $k$ = 8 and 10 and `MUL_STAGES` = 1 and 2
+under VCS (run `pricing_final_20261122_stream`, 50 of 50 with the stream cases added).
+A deliberately broken copy of `price_dp` that corrupts a result only after 100
+back-to-back valid cycles passes the older gapped test (its longest run is 46 cycles)
+and fails this one.
+
+Limits of the evidence: `tb_exp2_unit` still inserts random idle cycles (longest
+back-to-back run 91 cycles). The stream test is one option configuration with no
+saturation events; saturation and configuration changes are covered by the gapped test.
