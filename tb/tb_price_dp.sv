@@ -43,6 +43,15 @@ module tb_price_dp;
 
   always @(posedge clk) cyc <= cyc + 1;
 
+  // Passive throughput monitor: longest run of consecutive cycles with z_valid / p_valid high.
+  int run_in = 0, run_out = 0, max_run_in = 0, max_run_out = 0;
+  always @(posedge clk) if (rst_n) begin
+    run_in  = z_valid ? run_in + 1 : 0;
+    run_out = p_valid ? run_out + 1 : 0;
+    if (run_in  > max_run_in)  max_run_in  = run_in;
+    if (run_out > max_run_out) max_run_out = run_out;
+  end
+
   initial begin
     int fd, r, t; logic tg; logic [21:0] f1, f2, f3;
     fd = $fopen(VEC_FILE, "r");
@@ -80,6 +89,8 @@ module tb_price_dp;
     if (n_sx != n_sx_exp || n_ss != n_ss_exp) begin
       n_err++; $display("ERROR: sat counts x=%0d s=%0d, expected x=%0d s=%0d", n_sx, n_ss, n_sx_exp, n_ss_exp);
     end
+    $display("INFO: tb_price_dp longest back-to-back run: in_valid=%0d cycles, p_valid=%0d cycles",
+             max_run_in, max_run_out);
     $display("%s: tb_price_dp k=%0d MUL_STAGES=%0d LAT_DP=%0d, %0d trials checked, %0d errors",
              n_err ? "FAIL" : "PASS", EXP_ADDR_BITS, MUL_STAGES, LAT_DP, n_chk, n_err);
     $display("      saturation events: sat_x %0d (expected %0d), sat_s %0d (expected %0d)",

@@ -400,6 +400,8 @@ python3 model/price_dp.py              # demo trace + k sweep + Black-Scholes ta
 make sim-iv                            # all three testbenches, Icarus, on a laptop
 make sim-iv EXP_ADDR_BITS=8 MUL_STAGES=2
 make sim-price                         # same under VCS (lab machines)
+make sim-pricing-final                 # full VCS regression with archived evidence (lab machines)
+make pricing-study                     # accuracy vs area, configuration and throughput tables
 scripts/syn/run_price_sweep.sh         # Design Compiler sweep (lab machines)
 CLK_PERIOD_NS=4.75 BATCH=p475 scripts/syn/run_price_sweep.sh "1 2" "8 10" "0 1"
 ```
@@ -563,3 +565,24 @@ Section 3.6 expects Design Compiler to turn the stage enables into clock gates. 
 shared synthesis script has no clock-gating option, and adding one would be a second
 change to a shared file, so the on/off comparison was not run.
 
+## 13. Final regression (2026-11-22)
+
+`make sim-pricing-final` (`scripts/sim/pricing_final.sh`) runs every testbench of these
+blocks under VCS at $k$ = 8 and 10 and `MUL_STAGES` = 1 and 2, the accumulator at 1, 2
+and 4 lanes, then the one-lane top, the bubbles test, `round_sat` and, when it is in the
+tree, the multi-lane array replay (`scripts/sim/array_sim.sh`). A run counts only if its
+log has the exact PASS line and no failure line. The 2026-11-22 run passed 46 of 46; the
+summary is `reports/pricing_final_validation_2026-11-22.txt`.
+
+That run is the first end-to-end simulation of two and four real lanes with this
+datapath: 24 array configurations (1/2/4 lanes, both Gaussian and multiplier latencies,
+$k$ = 10 and 8) match the Python model on sum, count and status.
+
+`results/pricing_throughput.csv` lists trials per second for 1, 2 and 4 lanes at each
+clock period where both `price_dp` and the accumulator met timing (5.00, 4.75, 4.00 ns).
+These are pre-layout block results, conditional on the lane closing timing after layout.
+
+Limits of the evidence: the standalone `price_dp` and `exp2_unit` testbenches insert
+random idle cycles, so their longest back-to-back runs are 46 and 91 cycles. Sustained
+one-result-per-clock operation is checked by the one-lane top testbench and by the
+2,000-cycle full-rate stretch in the multi-lane accumulator vectors.

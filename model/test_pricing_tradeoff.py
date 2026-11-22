@@ -84,6 +84,37 @@ class TestPricingTradeoff(unittest.TestCase):
         with (self.out / "pricing_accuracy_vs_area.csv").open(newline="") as f:
             self.assertEqual(len(list(csv.DictReader(f))), 9)
 
+    def test_throughput_rows_and_periods(self):
+        with (self.out / "pricing_throughput.csv").open(newline="") as f:
+            rows = list(csv.DictReader(f))
+        self.assertEqual({(int(r["lanes"]), float(r["clk_period_ns"])) for r in rows},
+                         {(l, p) for l in (1, 2, 4) for p in (5.0, 4.75, 4.0)})    # 4.5 ns: price_dp only
+        self.assertEqual(len(rows), 9)
+        for r in rows:
+            lanes, period = int(r["lanes"]), float(r["clk_period_ns"])
+            self.assertAlmostEqual(float(r["clk_mhz"]), 1000.0 / period, places=5)
+            self.assertAlmostEqual(float(r["trials_per_s"]), lanes * 1e9 / period, delta=1e-3)
+            self.assertEqual(r["both_met"], "true")
+            self.assertEqual(r["basis"], "pre-layout standalone block synthesis; II=1 per lane from RTL simulation")
+            self.assertTrue(r["price_dp_tag"].endswith("_price_dp_k10_m1_r0"))
+            self.assertTrue(r["accumulator_tag"].endswith(f"_accumulator_l{lanes}"))
+        five = {int(r["lanes"]): r for r in rows if float(r["clk_period_ns"]) == 5.0}
+        self.assertEqual(five[1]["trials_per_s"], "200000000")
+        self.assertEqual(five[4]["trials_per_s"], "800000000")
+        self.assertEqual(five[2]["price_dp_tag"], "u1a_price_dp_k10_m1_r0")
+        self.assertEqual(five[2]["accumulator_tag"], "v2_p500_accumulator_l2")
+        self.assertEqual(five[2]["accumulator_wns_ns"], "0.891502")         # source string kept
+
+    def test_throughput_both_met_follows_slack(self):
+        dp, acc = pt.read_csv(PPA), pt.read_csv(ACC_PPA)
+        for r in acc:
+            if r["tag"] == "v2_p400_accumulator_l2":
+                r["wns_ns"] = "-0.01"
+        rows = pt.throughput_rows(dp, acc)
+        met = {(r["lanes"], r["clk_period_ns"]): r["both_met"] for r in rows}
+        self.assertEqual(met[(2, 4.0)], "false")
+        self.assertEqual(sum(v == "true" for v in met.values()), 8)
+
     def test_missing_row_is_an_error(self):
         with PPA.open(newline="") as f:
             rd = csv.DictReader(f)
@@ -110,7 +141,7 @@ class TestPricingTradeoff(unittest.TestCase):
     def test_deterministic_bytes(self):
         out2 = Path(self.tmp.name) / "run2"
         pt.run(PPA, ACC_PPA, out2, quiet=True)
-        for name in ("pricing_accuracy_vs_area.csv", "pricing_ppa_configs.csv"):
+        for name in ("pricing_accuracy_vs_area.csv", "pricing_ppa_configs.csv", "pricing_throughput.csv"):
             self.assertEqual((self.out / name).read_bytes(), (out2 / name).read_bytes())
 
 

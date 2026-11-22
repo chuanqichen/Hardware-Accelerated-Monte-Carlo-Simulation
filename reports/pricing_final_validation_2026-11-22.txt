@@ -1,0 +1,63 @@
+Pricing datapath and accumulator: final regression, 2026-11-22
+Branch: eric/pricing-final-regression. Source = tyler/final-integration (cfd7be7)
++ eric/price-dp-round-sat-timing + eric/multilane-accumulator
++ eric/pricing-ppa-study + this commit.
+
+Laptop (macOS, Python 3.9, Icarus)
+  make test:       109 tests PASS
+  make flow-test:  PASS except test_array_runner.test_complete_matrix_is_accepted,
+                   which fails on macOS with or without these changes
+                   (scripts/sim/array_sim.sh uses mapfile; system bash is 3.2)
+  make sim-iv:     8 testbench runs PASS, 0 errors
+
+VCS T-2022.06 on peach (module syn/2022), run from an rsync copy of the
+working tree (not a git clone); source hashes are in each run's
+source_sha256.txt.
+  MC_SIM_RUN_ID=pricing_final_20261122 make sim-pricing-final: exit 0,
+  46 of 46 runs reached their exact PASS line with no FAIL/ERROR/Fatal line.
+    tb_accumulator  LANES 1/2/4 x SUM_WIDTH 64/32             6 runs, 0 errors
+    tb_exp2_unit    EXP_ADDR_BITS 8, 10 (262,144 inputs each)  2 runs, 0 errors
+    tb_price_dp     EXP_ADDR_BITS 8/10 x MUL_STAGES 1/2,
+                    11,449 trials each                         4 runs, 0 errors
+    tb_mc_top       one lane, 4 latency combinations,
+                    22 cases / 26,457 trials each              4 runs PASS
+    tb_mc_lane_bubbles  100 trials, pause/resume               1 run  PASS
+    tb_round_sat    signed and unsigned configurations         2 runs PASS
+    array_sim.sh    tb_mc_array at 1/2/4 lanes x Gaussian latency 1/2 x
+                    MUL_STAGES 1/2 x EXP_ADDR_BITS 10/8        24 runs PASS
+                    tb_accumulator_tree at 2 and 4 lanes        2 runs PASS
+                    tb_mc_top detailed trace at EXP_ADDR_BITS=8 1 run  PASS
+  The committed rtl/generated/exp2_rom.sv is byte-identical to the ROM the
+  model generates for EXP_ADDR_BITS=10.
+  Evidence: reports/sim/pricing_final_20261122/summary.txt (PASS lines, tool
+  version) and source_sha256.txt; child runs in pricing_final_20261122_top,
+  _bubbles, _rs and _array. Compile and run logs are gitignored (*.log) and
+  stay on the lab machine.
+
+Multi-lane
+  This is the first end-to-end simulation of two and four real lanes with
+  the round_sat version of price_dp and the registered accumulator tree.
+  Sum, count and status match the Python model in all 24 array runs,
+  including N not a multiple of the lane count.
+
+One result per clock (initiation interval 1)
+  tb_mc_top checks sustained II=1 through the whole one-lane pipeline and
+  fails if it is violated. The multi-lane accumulator vectors include a
+  2,000-cycle stretch of back-to-back full beats at 2 and 4 lanes.
+  The standalone tb_price_dp and tb_exp2_unit insert a random idle cycle
+  about one cycle in eight, so their longest back-to-back runs are 46 and
+  91 cycles.
+
+Throughput (results/pricing_throughput.csv)
+  Pre-layout, standalone block synthesis, gscl45nm typical. price_dp
+  (EXP_ADDR_BITS=10, MUL_STAGES=1) and the accumulator at 1, 2 and 4 lanes
+  all meet setup timing at 5.00, 4.75 and 4.00 ns in Design Compiler. At the
+  5 ns target that would be 2.0e8, 4.0e8 and 8.0e8 trials/s for 1, 2 and 4
+  lanes. These are not routed numbers and not a synthesized multi-lane top;
+  the team's PrimeTime run on the one-lane top reports negative setup slack,
+  so 200 MHz is a target, not an achieved frequency.
+
+Not covered
+  Synthesis of a 2- or 4-lane top (the synthesis gate still allows one lane).
+  Gate-level simulation and post-route timing of these changes.
+  Hold and max-capacitance violations reported by synthesis.

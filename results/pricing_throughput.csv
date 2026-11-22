@@ -1,0 +1,10 @@
+lanes,clk_period_ns,clk_mhz,price_dp_wns_ns,accumulator_wns_ns,both_met,trials_per_s,price_dp_tag,accumulator_tag,basis
+1,5.000000,200.000000,0.00360584,0.00319386,true,200000000,u1a_price_dp_k10_m1_r0,v2_p500_accumulator_l1,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+1,4.750000,210.526316,0.00526452,0.0038147,true,210526315.789474,u1_p475_price_dp_k10_m1_r0,v2_p475_accumulator_l1,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+1,4.000000,250.000000,0.000324965,0.0433202,true,250000000,u1_p400_price_dp_k10_m1_r0,v2_p400_accumulator_l1,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+2,5.000000,200.000000,0.00360584,0.891502,true,400000000,u1a_price_dp_k10_m1_r0,v2_p500_accumulator_l2,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+2,4.750000,210.526316,0.00526452,0.641502,true,421052631.578947,u1_p475_price_dp_k10_m1_r0,v2_p475_accumulator_l2,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+2,4.000000,250.000000,0.000324965,0.00485277,true,500000000,u1_p400_price_dp_k10_m1_r0,v2_p400_accumulator_l2,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+4,5.000000,200.000000,0.00360584,0.74313,true,800000000,u1a_price_dp_k10_m1_r0,v2_p500_accumulator_l4,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+4,4.750000,210.526316,0.00526452,0.49313,true,842105263.157895,u1_p475_price_dp_k10_m1_r0,v2_p475_accumulator_l4,pre-layout standalone block synthesis; II=1 per lane from RTL simulation
+4,4.000000,250.000000,0.000324965,0.0509913,true,1000000000,u1_p400_price_dp_k10_m1_r0,v2_p400_accumulator_l4,pre-layout standalone block synthesis; II=1 per lane from RTL simulation

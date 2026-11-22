@@ -8,6 +8,7 @@
 #   make sim-price - the same testbenches under VCS (lab machines)
 #   make gen-rs    - regenerate round_sat TB vectors (signed + unsigned configs)
 #   make sim-rs    - run tb_round_sat under VCS for both configs
+#   make sim-pricing-final - final VCS regression for the pricing blocks + integrated runners (lab machines)
 #   make lint   - Verilator lint of the RTL (if installed)
 #   make figures - regenerate docs/figures/*.png from scripts/make_figures.py
 #   make docs   - build PDFs from docs/*.md with pandoc + xelatex
@@ -43,7 +44,7 @@ RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures pricing-study
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures pricing-study sim-pricing-final
 
 all: test gen
 
@@ -123,6 +124,11 @@ $(RS_VEC_U): model/gen_round_sat_vectors.py model/fxp.py
 
 sim-rs: gen-rs
 	VCS="$(VCS)" RS_VEC_S="$(RS_VEC_S)" RS_VEC_U="$(RS_VEC_U)" bash scripts/sim/round_sat_sim.sh
+
+# Final evidence run: reports/sim/pricing_final_<timestamp>/ (override the id with MC_SIM_RUN_ID).
+# Generates its own per-k ROM/vectors in the run dir; leaves rtl/generated and tb/vectors untouched.
+sim-pricing-final:
+	PYTHON="$(PYTHON)" VCS="$(VCS)" bash scripts/sim/pricing_final.sh
 
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut

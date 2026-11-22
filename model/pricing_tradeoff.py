@@ -11,6 +11,11 @@ synthesis results of price_dp and the accumulator.
       configurations A-E (1/2/4 lanes, Gaussian table 8/10/12 bits), pricing blocks only:
       N x price_dp + accumulator, summed from the standalone syntheses (not a synthesized
       multi-lane top).
+  results/pricing_throughput.csv
+      one row per (lanes 1/2/4, clock period) for every period synthesized for both the
+      price_dp (k=10, MUL_STAGES=1, RETIME=0) and the accumulator of that lane count:
+      both blocks' wns, whether both met timing, and trials per second (lanes / period,
+      one trial per lane per clock). Rows are matched by clk_period_ns, not by tag prefix.
 
 Every number comes from price_dp.py / gauss_lut.py or from the input CSVs; the only
 constants here are the configuration table and the 200 MHz clock.
@@ -36,6 +41,9 @@ SYN_CLK_NS = 5.0
 CLK_HZ = 200e6
 MUL_STAGES = 1
 BASIS = "sum of standalone block syntheses, not a synthesized multi-lane top"
+THROUGHPUT_BASIS = "pre-layout standalone block synthesis; II=1 per lane from RTL simulation"
+THROUGHPUT_LANES = (1, 2, 4)
+THROUGHPUT_EXP_BITS = 10
 
 # (config, lanes, gauss_addr_bits, purpose); all use exp_addr_bits = EXP_BITS_CONFIGS
 CONFIGS = (
@@ -163,6 +171,36 @@ def config_rows(acc: list, dp_ppa: dict, acc_ppa: dict) -> list:
     return rows
 
 
+def _by_period(rows: list, suffix: str, what: str, path) -> dict:
+    """clk_period_ns (rounded to 1 ps) -> the one row whose tag ends with `suffix`."""
+    found = {}
+    for r in rows:
+        if r["tag"].endswith(suffix):
+            found.setdefault(round(float(r["clk_period_ns"]), 3), []).append(r)
+    return {p: _unique(rs, f"{what} at {p} ns", path) for p, rs in found.items()}
+
+
+def throughput_rows(dp_rows: list, acc_rows: list, dp_path="price_dp_ppa.csv",
+                    acc_path="accumulator_ppa.csv") -> list:
+    """Per lane count and clock period synthesized for both blocks: slack and trials/s."""
+    dp = _by_period(dp_rows, f"_price_dp_k{THROUGHPUT_EXP_BITS}_m{MUL_STAGES}_r0",
+                    f"price_dp k={THROUGHPUT_EXP_BITS} m{MUL_STAGES} r0", dp_path)
+    rows = []
+    for lanes in THROUGHPUT_LANES:
+        acc = _by_period(acc_rows, f"_accumulator_l{lanes}", f"accumulator l{lanes}", acc_path)
+        for period in sorted(dp.keys() & acc.keys(), reverse=True):
+            d, a = dp[period], acc[period]
+            rows.append(dict(
+                lanes=lanes, clk_period_ns=period, clk_mhz=1000.0 / period,
+                price_dp_wns_ns=d["wns_ns"], accumulator_wns_ns=a["wns_ns"],
+                both_met="true" if float(d["wns_ns"]) >= 0 and float(a["wns_ns"]) >= 0 else "false",
+                trials_per_s=lanes * 1e9 / period,
+                price_dp_tag=d["tag"], accumulator_tag=a["tag"], basis=THROUGHPUT_BASIS))
+    if not rows:
+        raise PpaError("no clock period is present for both price_dp and the accumulator")
+    return rows
+
+
 # ---- output ----------------------------------------------------------------------
 def fmt(v, col: str = "") -> str:
     """Fixed 6-decimal floats (relative errors in 6-digit scientific); ints and strings as-is."""
@@ -204,8 +242,10 @@ def run(ppa_path: Path, acc_path: Path, out_dir: Path, quiet: bool = False) -> t
     acc_ppa = {lanes: select_accumulator(acc_rows, lanes, acc_path) for _, lanes, _, _ in CONFIGS}
     acc = accuracy_rows(dp_ppa)
     cfgs = config_rows(acc, dp_ppa, acc_ppa)
+    tput = throughput_rows(dp_rows, acc_rows, ppa_path, acc_path)
     write_csv(acc, out_dir / "pricing_accuracy_vs_area.csv")
     write_csv(cfgs, out_dir / "pricing_ppa_configs.csv")
+    write_csv(tput, out_dir / "pricing_throughput.csv")
     if not quiet:
         bias = [f"bias_dp_pct_{s}" for s in OPT_SUFFIXES]
         print_table(acc, ["gauss_addr_bits", "exp_addr_bits", "exp_rom_bits", "exp_max_rel_err"] + bias
@@ -219,6 +259,8 @@ def run(ppa_path: Path, acc_path: Path, out_dir: Path, quiet: bool = False) -> t
                            "pricing_registers_total", "lat_dp_cycles", "lat_acc_cycles",
                            "trials_per_s_at_200mhz", "max_abs_bias_bs_pct"],
                     "pricing configurations (" + BASIS + "; power is " + cfgs[0]["power_activity"] + ")")
+        print_table(tput, ["lanes", "clk_period_ns", "clk_mhz", "price_dp_wns_ns", "accumulator_wns_ns",
+                           "both_met", "trials_per_s"], "pricing throughput (" + THROUGHPUT_BASIS + ")")
     return acc, cfgs
 
 
