@@ -62,7 +62,7 @@ example RTL.
   target on every option on the grid - while its K-S distance (0.014) would be considered
   perfectly acceptable by the GRNG literature's own standard.
 - K-S ranks the generators in the same order as pricing bias here, but the **ratio** is wildly
-  different: K-S says TreeGRNG is 26x worse than LUT a=10; pricing bias says 10-30x at the
+  different: K-S says TreeGRNG-INT8 is 26x worse than LUT a=10; pricing bias says 10-30x at the
   tails and - critically - K-S cannot tell you that a=8 passes and TreeGRNG fails the 1 %
   criterion. A body-dominated statistic is the wrong figure of merit for this application.
 - This is enough to write the abstract. Caveats before any paper: (i) the example design is
