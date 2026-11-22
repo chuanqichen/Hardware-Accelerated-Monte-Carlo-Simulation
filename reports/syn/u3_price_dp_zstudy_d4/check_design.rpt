@@ -1,0 +1,33 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Thu Nov 12 17:17:14 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      1
+    Constant outputs (LINT-52)                                      1
+
+Cells                                                               8
+    Cells do not drive (LINT-1)                                     3
+    Connected to power or ground (LINT-32)                          4
+    Nets connected to multiple pins on same cell (LINT-33)          1
+--------------------------------------------------------------------------------
+
+Warning: In design 'price_dp', cell 'C235' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C450' does not drive any nets. (LINT-1)
+Warning: In design 'exp2_unit_EXP_ADDR_BITS10', cell 'C472' does not drive any nets. (LINT-1)
+Warning: In design 'price_dp_zstudy', a pin on submodule 'u_dp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'z[3]' is connected to logic 0. 
+Warning: In design 'price_dp_zstudy', a pin on submodule 'u_dp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'z[2]' is connected to logic 0. 
+Warning: In design 'price_dp_zstudy', a pin on submodule 'u_dp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'z[1]' is connected to logic 0. 
+Warning: In design 'price_dp_zstudy', a pin on submodule 'u_dp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'z[0]' is connected to logic 0. 
+Warning: In design 'price_dp_zstudy', the same net is connected to more than one pin on submodule 'u_dp'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'z[3]', 'z[2]'', 'z[1]', 'z[0]'.
+Warning: In design 'exp2_rom_ADDR_BITS10_OUT_WIDTH17', output port 'val[16]' is connected directly to 'logic 1'. (LINT-52)
+1

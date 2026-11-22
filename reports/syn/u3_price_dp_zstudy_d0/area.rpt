@@ -1,0 +1,48 @@
+ 
+****************************************
+Report : area
+Design : price_dp_zstudy
+Version: T-2022.03-SP2
+Date   : Thu Nov 12 17:17:09 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                          329
+Number of nets:                          5520
+Number of cells:                         5021
+Number of combinational cells:           4860
+Number of sequential cells:               151
+Number of macros/black boxes:               0
+Number of buf/inv:                       1539
+Number of references:                       2
+
+Combinational area:              12562.691558
+Buf/Inv area:                     2436.605548
+Noncombinational area:            1225.811577
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 13788.503135
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ----------------------------- 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-  Black-
+                                  Total       Total    national    national   boxes   Design
+--------------------------------  ----------  -------  ----------  ---------  ------  ------------------------------------------------
+price_dp_zstudy                   13788.5031    100.0      2.8158     0.0000  0.0000  price_dp_zstudy
+u_dp                              13785.6873    100.0   3898.4751   645.2875  0.0000  price_dp
+u_dp/u_exp                         9022.7616     65.4   2654.8301   549.5503  0.0000  exp2_unit_EXP_ADDR_BITS10
+u_dp/u_exp/u_rom                   5818.3813     42.2   5818.3813     0.0000  0.0000  exp2_rom_ADDR_BITS10_OUT_WIDTH17
+u_dp/u_rs                           185.8428      1.3    185.8428     0.0000  0.0000  round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1
+u_dp/u_sx                            33.3203      0.2      2.3465    30.9738  0.0000  pipe_W1_N3
+--------------------------------  ----------  -------  ----------  ---------  ------  ------------------------------------------------
+Total                                                  12562.6916  1225.8116  0.0000
+
+1

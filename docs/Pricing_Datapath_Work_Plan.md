@@ -387,9 +387,10 @@ well as at the defaults.
 
 - Done 2026-11-12: S2 uses the shared `round_sat`; `LAT_DP` comes from `mc_pkg::lat_dp`.
 - Done 2026-11-12: standalone synthesis sweep (Section 11).
-- Open: registered lane adder tree in the accumulator for 2 and 4 lanes.
-- Open: choose $k$ = 8 or 10 from the area in Section 11 and the bias in Section 5;
-  multiplier area for decision D-4.
+- Done 2026-11-22: the registered accumulator tree (Tyler's RTL) is checked against the
+  model vectors and synthesized (Sections 4.2, 4.5).
+- Done 2026-11-12: $k$ = 8 against 10, multiplier area for D-4, and the pricing rows of
+  configurations A to E (Section 12). Both choices need team sign-off.
 
 ## 10. Commands
 
@@ -478,4 +479,87 @@ searched for.
   (worst -0.04 ns, 41 to 104 paths) and max-capacitance violations, as in the team's
   one-lane result. Hold is left to place and route in the shared flow. The capacitance
   violations were not investigated.
+
+## 12. Tradeoff study (2026-11-12)
+
+`make pricing-study` (`model/pricing_tradeoff.py`) joins the model's exact price bias
+with the synthesis areas and writes `results/pricing_accuracy_vs_area.csv` and
+`results/pricing_ppa_configs.csv`. Every number comes from the model or from a
+synthesis CSV; none is typed in.
+
+### 12.1 exp table size: $k$ = 8 is enough
+
+Worst price bias against Black-Scholes over the five benchmark options, by Gaussian
+table address bits $g$ and exp table address bits $k$, with the `price_dp` area at 5 ns:
+
+| | $k$ = 8 | $k$ = 10 | $k$ = 12 |
+|---|---|---|---|
+| $g$ = 8 | 1.17% | 1.18% | 1.21% |
+| $g$ = 10 | 0.36% | 0.38% | 0.38% |
+| $g$ = 12 | 0.15% | 0.14% | 0.14% |
+| `price_dp` area | 10,035 um^2 | 13,777 um^2 | 23,942 um^2 |
+
+- The exp table does not set the accuracy. Moving from $k$ = 10 to $k$ = 8 changes the
+  worst bias by at most 0.03 percentage points in either direction, while the Gaussian
+  table moves it from 1.2% to 0.14%.
+- $k$ = 8 saves 3,742 um^2 per lane, 27% of `price_dp`.
+- **Recommendation: $k$ = 8.** The team lists $k$ = 8 as a candidate with the default
+  left at 10 "pending Eric's agreement and matching-ROM RTL replay"
+  (`Gaussian_Lookup_Work_Plan.md` Section 6). This study is that agreement from the
+  datapath side. RTL replay with the matching ROM: `tb_exp2_unit` and `tb_price_dp` pass
+  at $k$ = 8 (Section 13), and the multi-lane array replay of `tyler/final-integration`
+  passed its twelve $k$ = 8 configurations on 2026-11-22. The default is not changed
+  here; switching it also means regenerating the committed ROM and top-level vectors.
+- With $g$ = 8 (configuration D) the worst case, OTM K=150 at $\sigma$ = 0.6, is 1.18%,
+  outside the proposed 1% target. That comes from the Gaussian table, not this block.
+
+### 12.2 z width (decision D-4)
+
+`scripts/syn/study/price_dp_zstudy.sv` is a synthesis-only wrapper that ties the low
+`Z_DROP` bits of `z` to zero, so Design Compiler builds the narrower multiplier.
+Reports: `reports/syn/u3_price_dp_zstudy_d0` and `_d4`; table:
+`results/price_dp_zwidth_ppa.csv`.
+
+| `z` | `price_dp` area | Registers | Power (unannotated) |
+|---|---|---|---|
+| 16 bits (Q3.12) | 13,789 um^2 | 151 | 1.65 mW |
+| 12 bits (Q3.8) | 13,066 um^2 | 147 | 1.48 mW |
+
+The narrower `z` saves 722 um^2 here (5%). With the Gaussian table's own saving in
+`results/gauss_lut_ppa.csv` (4,060 against 2,572 um^2 at 10 address bits) the total is
+about 2,210 um^2 per lane, roughly 7% of the one-lane top. The accuracy side of D-4 was
+not re-run here. This is the multiplier-area input the decision was waiting for; the
+decision itself is shared with Chuanqi.
+
+### 12.3 Pricing rows for configurations A to E
+
+Pricing blocks only (`price_dp` per lane plus one accumulator), $k$ = 10, 5 ns. These are
+**sums of standalone block syntheses, not a synthesized multi-lane top**, and power is
+the tool's unannotated estimate. Accumulator numbers are for the registered tree
+(Section 4.5).
+
+| Config | Lanes | $g$ | Pricing area | Registers | Accumulator latency | Trials/s at 200 MHz | Worst bias |
+|---|---|---|---|---|---|---|---|
+| A | 1 | 10 | 16,900 um^2 | 250 | 1 | 2.0e8 | 0.38% |
+| B | 2 | 10 | 31,254 um^2 | 428 | 2 | 4.0e8 | 0.38% |
+| C | 4 | 10 | 60,230 um^2 | 786 | 3 | 8.0e8 | 0.38% |
+| D | 1 | 8 | 16,900 um^2 | 250 | 1 | 2.0e8 | 1.18% |
+| E | 1 | 12 | 16,900 um^2 | 250 | 1 | 2.0e8 | 0.14% |
+
+Pricing area grows 1.85 times for two lanes and 3.56 times for four, slightly under
+linear because the accumulator is shared. D and E differ from A only in the Gaussian
+table, whose area is not in these rows.
+
+**Agreement with the team's tables.** The worst-case bias values here equal those in
+`results/accuracy_vs_area.csv` (1.178 / 0.381 / 0.142 % at $g$ = 8 / 10 / 12) and
+`results/exp_k8_candidate.csv` (0.357 % at $g$ = 10, $k$ = 8). The whole-lane synthesis in
+`results/lane_addr_bits_ppa.csv` shows $k$ = 8 saving 3,670 um^2 of the
+33,016 um^2 lane (11.1%), against the 3,742 um^2 measured on
+`price_dp` alone in Section 12.1.
+
+### 12.4 Clock gating: not measured
+
+Section 3.6 expects Design Compiler to turn the stage enables into clock gates. The
+shared synthesis script has no clock-gating option, and adding one would be a second
+change to a shared file, so the on/off comparison was not run.
 

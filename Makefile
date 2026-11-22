@@ -43,7 +43,7 @@ RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures pricing-study
 
 all: test gen
 
@@ -149,6 +149,10 @@ rng-study:
 
 rng-validate:
 	$(PYTHON) scripts/run_rng_validation.py
+
+# Pricing blocks: accuracy vs area grid + configurations A-E (reads results/*_ppa.csv).
+pricing-study:
+	$(PYTHON) model/pricing_tradeoff.py
 
 # Integrated one-lane target uses the committed baseline ROMs, not gen-price.
 gen-top:

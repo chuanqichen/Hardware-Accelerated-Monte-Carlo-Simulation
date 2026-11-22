@@ -1,0 +1,14 @@
+design       price_dp_zstudy
+tag          u3_price_dp_zstudy_d4
+params       Z_DROP=4
+retime       0
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.00310612
+fmax_mhz     200.124322032
+area_um2     13066.250431
+area_comb_um2 11872.351254
+area_bufinv_um2 2365.741250
+area_seq_um2 1193.899178
+cells        4836
+registers    147

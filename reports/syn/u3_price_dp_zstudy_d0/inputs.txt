@@ -1,0 +1,8 @@
+top=price_dp_zstudy
+corner_label=typical
+clock_period_ns=5.0
+params=Z_DROP=0
+retime=0
+sources=/misc/scratch/eg37885/mc/repo/rtl/mc_pkg.sv /misc/scratch/eg37885/mc/repo/rtl/round_sat.sv /misc/scratch/eg37885/mc/repo/rtl/pipe.sv /misc/scratch/eg37885/mc/repo/rtl/generated/exp2_rom.sv /misc/scratch/eg37885/mc/repo/rtl/exp2_unit.sv /misc/scratch/eg37885/mc/repo/rtl/price_dp.sv /misc/scratch/eg37885/mc/repo/scripts/syn/study/price_dp_zstudy.sv
+library=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+tool=T-2022.03-SP2
