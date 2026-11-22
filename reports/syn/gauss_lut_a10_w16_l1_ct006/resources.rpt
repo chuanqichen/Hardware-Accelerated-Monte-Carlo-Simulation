@@ -1,0 +1,27 @@
+ 
+****************************************
+Report : resources
+Design : gauss_lut
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 17:59:35 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/gauss_lut.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| sub_x_2        | DW01_sub       | width=16   | sub_51_S2 (gauss_lut.sv:51) |
+=============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| sub_x_2            | DW01_sub         | apparch (area)     |                |
+===============================================================================
+
+1

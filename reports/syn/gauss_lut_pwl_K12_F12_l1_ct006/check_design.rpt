@@ -1,0 +1,27 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sat Nov 21 17:59:13 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      5
+    Shorted outputs (LINT-31)                                       2
+    Constant outputs (LINT-52)                                      3
+
+Cells                                                               4
+    Cells do not drive (LINT-1)                                     4
+--------------------------------------------------------------------------------
+
+Warning: In design 'gauss_lut_pwl', cell 'B_36' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_pwl', cell 'B_37' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_pwl', cell 'B_38' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_pwl', cell 'C856' does not drive any nets. (LINT-1)
+Warning: In design 'gauss_lut_pwl_rom_K_BITS4', output port 'alpha[15]' is connected directly to output port 'beta[14]'. (LINT-31)
+Warning: In design 'gauss_lut_pwl_rom_K_BITS4', output port 'alpha[15]' is connected directly to output port 'beta[15]'. (LINT-31)
+Warning: In design 'gauss_lut_pwl_rom_K_BITS4', output port 'alpha[15]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'gauss_lut_pwl_rom_K_BITS4', output port 'beta[15]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'gauss_lut_pwl_rom_K_BITS4', output port 'beta[14]' is connected directly to 'logic 0'. (LINT-52)
+1

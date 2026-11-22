@@ -1,0 +1,65 @@
+ 
+****************************************
+Report : resources
+Design : gauss_lut_seg
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 17:59:10 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/ecelrc/students/cc83382/382M.7/Hardware-Accelerated-Monte-Carlo-Simulation/rtl/research/gauss_lut_seg.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| gte_x_32       | DW_cmp         | width=5    | gte_42 (gauss_lut_seg.sv:42) |
+| sub_x_34       | DW01_sub       | width=7    | sub_47 (gauss_lut_seg.sv:47) |
+| ashr_35        | DW_rightsh     | A_width=31 | srl_48_S2 (gauss_lut_seg.sv:48) |
+            |                | SH_width=32 |                           |
+| ash_36         | DW_leftsh      | A_width=4  | sll_49 (gauss_lut_seg.sv:49) |
+               |                | SH_width=32 |                           |
+| sub_x_38       | DW01_sub       | width=16   | sub_59_S2 (gauss_lut_seg.sv:59) |
+| DP_OP_53J1_122_8102             |            |                            |
+|                | DP_OP_53J1_122_8102 |       |                            |
+=============================================================================
+
+Datapath Report for DP_OP_53J1_122_8102
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_53J1_122_8102  | sub_47_2 (gauss_lut_seg.sv:47)                      |
+|                      | gte_48 (gauss_lut_seg.sv:48)                        |
+|                      | sub_49 (gauss_lut_seg.sv:49)                        |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Unsigned | 5     |                                          |
+| O1    | PO   | Signed   | 8     | I1 - $unsigned(3'b100) (gauss_lut_seg.sv:47) |
+| O2    | PO   | Signed   | 1     | O1 >= $signed(1'b0) (gauss_lut_seg.sv:48) |
+| O3    | PO   | Signed   | 9     | $signed(1'b0) - O1 (gauss_lut_seg.sv:49) |
+==============================================================================
+
+
+Datapath Extraction Report
+
+Information: Operator associated with resources 'sub_47_2 (gauss_lut_seg.sv:47)' in design 'gauss_lut_seg' breaks the datapath extraction because there is leakage due to truncation on the fanout of its driver 'sub_47 (gauss_lut_seg.sv:47)'.  (HDL-120)
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| gte_x_32           | DW_cmp           | apparch (area)     |                |
+| sub_x_34           | DW01_sub         | apparch (area)     |                |
+| ashr_35            | DW_rightsh       | astr (area)        |                |
+| ash_36             | DW_leftsh        | astr (area)        |                |
+| sub_x_38           | DW01_sub         | apparch (area)     |                |
+| DP_OP_53J1_122_8102                   |                    |                |
+|                    | DP_OP_53J1_122_8102 | str (area)      |                |
+===============================================================================
+
+1

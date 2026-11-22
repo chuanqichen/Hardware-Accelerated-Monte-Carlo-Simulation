@@ -1,0 +1,13 @@
+design       clt_grng
+tag          clt12_5ns_ct006
+params       W=12
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       1.54255
+fmax_mhz     289.230502249
+area_um2     1469.847639
+area_comb_um2 1331.873442
+area_bufinv_um2 94.798598
+area_seq_um2 137.974197
+cells        237
+registers    17

@@ -52,7 +52,9 @@ def fom(z, p, name: str = "", area_um2: float | None = None) -> dict:
     z = np.asarray(z, dtype=float); p = np.asarray(p, dtype=float); p = p / p.sum()
     mean = float((z * p).sum()); var = float(((z - mean) ** 2 * p).sum())
     o = np.argsort(z)
-    ks = float(np.max(np.abs(np.cumsum(p[o]) - np.array([N.cdf(v) for v in z[o]]))))
+    cdf_hw = np.cumsum(p[o]); cdf_n = np.array([N.cdf(v) for v in z[o]])
+    # discrete-vs-continuous K-S: supremum over both sides of every jump (right limit and left limit)
+    ks = float(max(np.max(np.abs(cdf_hw - cdf_n)), np.max(np.abs(np.concatenate([[0.0], cdf_hw[:-1]]) - cdf_n))))
     row = dict(generator=name, area_um2=area_um2, n_outputs=int((p > 0).sum()),
                mean=mean, var=var, ks=ks, max_abs_z=float(np.abs(z[p > 0]).max()))
     for t in TAILS:

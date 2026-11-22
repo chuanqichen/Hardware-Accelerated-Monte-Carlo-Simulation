@@ -1,0 +1,13 @@
+design       gauss_lut_pwl
+tag          gauss_lut_pwl_K12_F12_l1_ct006
+params       K=12,F=12,OUT_WIDTH=16,LATENCY=1
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.0767522
+fmax_mhz     203.117949903
+area_um2     4246.226338
+area_comb_um2 4108.252141
+area_bufinv_um2 885.569080
+area_seq_um2 137.974197
+cells        1484
+registers    17

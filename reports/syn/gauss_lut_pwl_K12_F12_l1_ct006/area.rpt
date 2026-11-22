@@ -1,0 +1,44 @@
+ 
+****************************************
+Report : area
+Design : gauss_lut_pwl
+Version: T-2022.03-SP2
+Date   : Sat Nov 21 17:59:20 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                           88
+Number of nets:                          1634
+Number of cells:                         1485
+Number of combinational cells:           1466
+Number of sequential cells:                17
+Number of macros/black boxes:               0
+Number of buf/inv:                        541
+Number of references:                      23
+
+Combinational area:               4108.252141
+Buf/Inv area:                      885.569080
+Noncombinational area:             137.974197
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  4246.226338
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  -------------------------
+gauss_lut_pwl                     4246.2263    100.0  3841.6897   137.9742  0.0000  gauss_lut_pwl
+u_rom                              266.5624      6.3   266.5624     0.0000  0.0000  gauss_lut_pwl_rom_K_BITS4
+--------------------------------  ---------  -------  ---------  ---------  ------  -------------------------
+Total                                                 4108.2521   137.9742  0.0000
+
+1
