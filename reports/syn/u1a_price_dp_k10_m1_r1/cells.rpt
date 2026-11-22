@@ -1,0 +1,48 @@
+ 
+****************************************
+Report : reference
+Design : price_dp
+Version: T-2022.03-SP2
+Date   : Thu Nov 12 16:48:07 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500      33     77.434497  
+AND2X2             gscl45nm       2.815800      17     47.868599  
+AOI21X1            gscl45nm       2.815800      28     78.842399  
+AOI22X1            gscl45nm       3.285100      29     95.267900  
+BUFX2              gscl45nm       2.346500      54    126.710996  
+BUFX4              gscl45nm       2.815800       2      5.631600  
+DFFPOSX1           gscl45nm       7.978100      77    614.313686  n
+DFFSR              gscl45nm      10.324600       3     30.973801  n
+FAX1               gscl45nm       8.916700     141   1257.254751  r
+HAX1               gscl45nm       4.693000      13     61.008998  r
+INVX1              gscl45nm       1.407900     231    325.224894  
+INVX2              gscl45nm       1.877200       4      7.508800  
+INVX8              gscl45nm       3.285100       2      6.570200  
+MUX2X1             gscl45nm       3.754400     296   1111.302404  
+NAND2X1            gscl45nm       1.877200      69    129.526801  
+NAND3X1            gscl45nm       2.346500      11     25.811499  
+NOR2X1             gscl45nm       2.346500      29     68.048498  
+OAI21X1            gscl45nm       2.815800      61    171.763797  
+OR2X1              gscl45nm       2.346500      39     91.513497  
+XNOR2X1            gscl45nm       4.693000      25    117.324996  
+XOR2X1             gscl45nm       4.693000      18     84.473997  
+exp2_unit_EXP_ADDR_BITS10      9000.704530       1   9000.704530  h, n
+pipe_W1_N3                       33.320301       1     33.320301  h, n
+round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1   185.842796       1   185.842796 h
+-----------------------------------------------------------------------------
+Total 24 references                                 13754.244236
+1

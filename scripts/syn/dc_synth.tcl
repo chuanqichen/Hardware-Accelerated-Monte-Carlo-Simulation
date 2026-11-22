@@ -12,6 +12,9 @@
 #   SDC         constraints file                       default constraints/lane_5ns.sdc
 #   REPORT_DIR  where raw reports go                   default reports/syn/$TAG
 #   LIB_DB      standard-cell .db                      default FreePDK45 gscl45nm.db on peach
+#   RETIME      0 (default, or unset) | 1              1 adds -retime to compile_ultra (registers
+#                                                      move, so simulated latency is no longer the
+#                                                      synthesised latency of every path)
 #
 # Usage (peach, login shell with `module load syn/2022`):
 #   DESIGN=gauss_lut RTL_FILES="..." PARAMS="ADDR_BITS=10,..." TAG=gauss_lut_a10_w16_l1 \
@@ -36,6 +39,7 @@ set REPORT_DIR [dict get $cfg report_dir]
 set LIB_DB [dict get $cfg library]
 set CLK_PERIOD [dict get $cfg period]
 set OPCOND [dict get $cfg corner]
+set RETIME [dict get $cfg retime]
 
 if {[catch {
 file mkdir $REPORT_DIR
@@ -53,6 +57,7 @@ puts $fd "top=$DESIGN"
 puts $fd "corner_label=$OPCOND"
 puts $fd "clock_period_ns=$CLK_PERIOD"
 puts $fd "params=$PARAMS"
+puts $fd "retime=$RETIME"
 puts $fd "sources=$RTL_FILES"
 puts $fd "library=$LIB_DB"
 puts $fd "tool=[get_app_var sh_product_version]"
@@ -94,16 +99,19 @@ source $SDC
 
 # ---- compile ------------------------------------------------------------------
 # No hierarchy to keep for a single block; flatten so the ROM logic can be
-# optimised with its consumer. Retiming is left off for now so the latency
+# optimised with its consumer. Retiming is off by default so the latency
 # measured in simulation is the latency synthesised (LATENCY / MUL_STAGES are
-# the knobs, as documented in the work plans).
+# the knobs, as documented in the work plans); RETIME=1 opts in to -retime.
 set_app_var compile_ultra_ungroup_dw true
 # Spec D-2: async reset. DC ignores the DFFSR recovery/removal arcs unless this
 # is set, and then reports the reset de-assertion path as "unconstrained".
 set_app_var enable_recovery_removal_arcs true
 # Hold is left to P&R (ideal clock here); the enable-mux feedback on DFFPOSX1
 # shows -0.03 ns and is listed in violators.rpt for the record.
-if {![compile_ultra -no_autoungroup]} { error "compile_ultra failed" }
+set compile_args [list -no_autoungroup]
+if {$RETIME} { lappend compile_args -retime }
+puts "compile_ultra $compile_args"
+if {![eval compile_ultra $compile_args]} { error "compile_ultra failed" }
 # Second pass to recover area once timing is met.
 optimize_netlist -area
 if {![check_design]} { error "post-compile check_design failed" }
@@ -154,6 +162,7 @@ set f [open $REPORT_DIR/summary.txt w]
 puts $f "design       $DESIGN"
 puts $f "tag          $TAG"
 puts $f "params       $PARAMS"
+puts $f "retime       $RETIME"
 puts $f "library      [file tail $LIB_DB]"
 puts $f "clk_period_ns $clk_period"
 puts $f "wns_ns       $wns"

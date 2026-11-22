@@ -63,7 +63,8 @@ uncertainty and transition, typical gscl45nm at 1.1 V/27 C. CLK_PERIOD_NS can ov
 the period explicitly; keep it fixed across comparisons. OPCOND defaults to typical.
 LIB_DB defaults to the system FreePDK45 gscl45nm.db, identical to the course copy.
 Time is ns and capacitance pF. Recovery/removal arcs are enabled and reset paths
-are reported. Never blanket false-path rst_n. Retiming is not enabled.
+are reported. Never blanket false-path rst_n. Retiming is off unless RETIME=1 (adds
+-retime to compile_ultra).
 
 Every run records input/source/library metadata and mapped netlist/SDC. It refuses
 to overwrite an existing REPORT_DIR or TAG directory. Keep partial evidence on

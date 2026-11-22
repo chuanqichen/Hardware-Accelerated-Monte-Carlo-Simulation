@@ -1,0 +1,421 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 5
+        -transition_time
+        -capacitance
+Design : price_dp
+Version: T-2022.03-SP2
+Date   : Thu Nov 12 16:46:03 2026
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: b[5] (input port clocked by clk)
+  Endpoint: acc_r_reg[0][30]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  input external delay                               1.50       1.50 r
+  b[5] (in)                      0.01      0.03      0.04       1.54 r
+  U574/Y (INVX1)                 0.00      0.02      0.02       1.56 f
+  U575/Y (AOI21X1)               0.00      0.02      0.02       1.58 r
+  U554/Y (BUFX2)                 0.01      0.02      0.04       1.63 r
+  U216/Y (INVX1)                 0.04      0.13      0.10       1.73 f
+  DP_OP_7J1_123_5674/U672/Y (MUX2X1)     0.01     0.09     0.10     1.83 r
+  U743/YS (FAX1)                 0.00      0.03      0.09       1.92 r
+  U207/Y (OR2X1)                 0.01      0.03      0.05       1.97 r
+  U423/Y (AOI21X1)               0.00      0.01      0.03       2.00 f
+  U266/Y (BUFX2)                 0.00      0.01      0.04       2.03 f
+  U420/Y (OAI21X1)               0.01      0.07      0.06       2.09 r
+  U419/Y (AOI21X1)               0.00      0.01      0.04       2.13 f
+  U432/Y (BUFX2)                 0.00      0.01      0.04       2.17 f
+  U751/Y (OAI21X1)               0.00      0.05      0.05       2.21 r
+  U756/Y (AOI21X1)               0.00      0.01      0.02       2.23 f
+  U542/Y (INVX1)                 0.00      0.00      0.00       2.24 r
+  U543/Y (INVX1)                 0.01      0.03      0.02       2.26 f
+  U412/Y (OAI21X1)               0.01      0.07      0.06       2.32 r
+  U411/Y (AOI21X1)               0.00      0.01      0.04       2.36 f
+  U270/Y (BUFX2)                 0.00      0.01      0.04       2.39 f
+  U410/Y (OAI21X1)               0.01      0.07      0.06       2.45 r
+  U764/Y (AOI21X1)               0.00      0.01      0.03       2.48 f
+  U540/Y (INVX1)                 0.00      0.00      0.01       2.48 r
+  U541/Y (INVX1)                 0.00      0.01      0.01       2.50 f
+  U765/Y (OAI21X1)               0.01      0.06      0.06       2.55 r
+  U404/Y (NAND2X1)               0.00      0.02      0.03       2.58 f
+  U261/Y (AND2X2)                0.00      0.00      0.04       2.62 f
+  U262/Y (INVX1)                 0.00      0.00      0.00       2.62 r
+  U239/Y (NAND2X1)               0.00      0.02      0.01       2.63 f
+  U240/Y (AND2X2)                0.00      0.00      0.03       2.67 f
+  U238/Y (AND2X2)                0.00      0.00      0.03       2.70 f
+  U415/Y (OAI21X1)               0.01      0.07      0.06       2.76 r
+  U414/Y (AOI21X1)               0.00      0.01      0.03       2.79 f
+  U264/Y (BUFX2)                 0.00      0.01      0.04       2.82 f
+  U413/Y (OAI21X1)               0.01      0.07      0.06       2.88 r
+  U780/Y (AOI21X1)               0.00      0.01      0.03       2.91 f
+  U267/Y (BUFX2)                 0.00      0.01      0.04       2.94 f
+  U418/Y (OAI21X1)               0.01      0.07      0.06       3.00 r
+  U417/Y (AOI21X1)               0.00      0.01      0.03       3.03 f
+  U265/Y (BUFX2)                 0.00      0.01      0.04       3.07 f
+  U785/Y (OAI21X1)               0.01      0.07      0.06       3.12 r
+  U790/Y (AOI21X1)               0.00      0.01      0.03       3.15 f
+  U791/Y (INVX1)                 0.00      0.00      0.01       3.16 r
+  U792/Y (AOI21X1)               0.00      0.02      0.01       3.17 f
+  U793/Y (INVX1)                 0.01      0.01      0.02       3.19 r
+  U966/YC (FAX1)                 0.01      0.05      0.07       3.26 r
+  U968/YC (FAX1)                 0.00      0.03      0.06       3.33 r
+  U416/Y (AOI21X1)               0.00      0.01      0.03       3.35 f
+  U464/Y (INVX1)                 0.01      0.01      0.02       3.38 r
+  U973/YS (FAX1)                 0.00      0.02      0.07       3.45 r
+  U974/Y (MUX2X1)                0.01      0.04      0.04       3.48 f
+  U393/Y (INVX8)                 0.00      0.01      0.02       3.50 r
+  acc_r_reg[0][30]/D (DFFPOSX1)            0.01      0.00       3.50 r
+  data arrival time                                             3.50
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  acc_r_reg[0][30]/CLK (DFFPOSX1)                    0.00       4.90 r
+  library setup time                                -1.40       3.50
+  data required time                                            3.50
+  ---------------------------------------------------------------------
+  data required time                                            3.50
+  data arrival time                                            -3.50
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.00
+
+
+  Startpoint: b[5] (input port clocked by clk)
+  Endpoint: acc_r_reg[0][33]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  input external delay                               1.50       1.50 r
+  b[5] (in)                      0.01      0.03      0.04       1.54 r
+  U574/Y (INVX1)                 0.00      0.02      0.02       1.56 f
+  U575/Y (AOI21X1)               0.00      0.02      0.02       1.58 r
+  U554/Y (BUFX2)                 0.01      0.02      0.04       1.63 r
+  U216/Y (INVX1)                 0.04      0.13      0.10       1.73 f
+  DP_OP_7J1_123_5674/U672/Y (MUX2X1)     0.01     0.09     0.10     1.83 r
+  U743/YS (FAX1)                 0.00      0.01      0.10       1.92 f
+  U207/Y (OR2X1)                 0.00      0.02      0.05       1.97 f
+  U423/Y (AOI21X1)               0.00      0.02      0.03       2.00 r
+  U266/Y (BUFX2)                 0.00      0.01      0.04       2.04 r
+  U420/Y (OAI21X1)               0.01      0.02      0.03       2.06 f
+  U419/Y (AOI21X1)               0.00      0.02      0.03       2.09 r
+  U432/Y (BUFX2)                 0.00      0.01      0.04       2.13 r
+  U751/Y (OAI21X1)               0.00      0.01      0.02       2.15 f
+  U756/Y (AOI21X1)               0.00      0.02      0.03       2.18 r
+  U542/Y (INVX1)                 0.00      0.01      0.02       2.20 f
+  U543/Y (INVX1)                 0.01      0.01      0.02       2.22 r
+  U412/Y (OAI21X1)               0.01      0.02      0.02       2.24 f
+  U411/Y (AOI21X1)               0.00      0.02      0.03       2.27 r
+  U270/Y (BUFX2)                 0.00      0.01      0.04       2.31 r
+  U410/Y (OAI21X1)               0.01      0.02      0.02       2.34 f
+  U764/Y (AOI21X1)               0.00      0.02      0.04       2.37 r
+  U540/Y (INVX1)                 0.00      0.01      0.02       2.39 f
+  U541/Y (INVX1)                 0.00      0.00      0.00       2.40 r
+  U765/Y (OAI21X1)               0.01      0.01      0.02       2.42 f
+  U404/Y (NAND2X1)               0.00      0.03      0.01       2.43 r
+  U261/Y (AND2X2)                0.00      0.01      0.03       2.46 r
+  U262/Y (INVX1)                 0.00      0.02      0.02       2.48 f
+  U239/Y (NAND2X1)               0.00      0.03      0.03       2.51 r
+  U240/Y (AND2X2)                0.00      0.01      0.03       2.54 r
+  U238/Y (AND2X2)                0.00      0.01      0.03       2.58 r
+  U415/Y (OAI21X1)               0.01      0.02      0.02       2.60 f
+  U414/Y (AOI21X1)               0.00      0.02      0.04       2.64 r
+  U264/Y (BUFX2)                 0.00      0.01      0.04       2.67 r
+  U413/Y (OAI21X1)               0.01      0.02      0.02       2.70 f
+  U780/Y (AOI21X1)               0.00      0.02      0.04       2.73 r
+  U267/Y (BUFX2)                 0.00      0.01      0.04       2.77 r
+  U418/Y (OAI21X1)               0.01      0.02      0.02       2.80 f
+  U417/Y (AOI21X1)               0.00      0.02      0.04       2.83 r
+  U265/Y (BUFX2)                 0.00      0.01      0.04       2.87 r
+  U785/Y (OAI21X1)               0.01      0.02      0.02       2.89 f
+  U790/Y (AOI21X1)               0.00      0.02      0.04       2.93 r
+  U791/Y (INVX1)                 0.00      0.02      0.02       2.95 f
+  U792/Y (AOI21X1)               0.00      0.02      0.04       2.99 r
+  U793/Y (INVX1)                 0.01      0.03      0.03       3.02 f
+  U966/YC (FAX1)                 0.01      0.03      0.08       3.10 f
+  U968/YC (FAX1)                 0.00      0.02      0.08       3.17 f
+  U416/Y (AOI21X1)               0.00      0.02      0.03       3.20 r
+  U464/Y (INVX1)                 0.01      0.03      0.03       3.23 f
+  U973/YC (FAX1)                 0.01      0.03      0.08       3.32 f
+  U344/Y (AND2X1)                0.00      0.01      0.03       3.35 f
+  U258/Y (INVX1)                 0.00      0.00      0.00       3.36 r
+  U795/Y (NAND3X1)               0.00      0.01      0.01       3.36 f
+  U549/Y (INVX1)                 0.01      0.00      0.02       3.38 r
+  U550/Y (INVX1)                 0.00      0.02      0.02       3.40 f
+  U343/Y (AND2X1)                0.00      0.01      0.03       3.43 f
+  U260/Y (INVX1)                 0.00      0.00      0.00       3.43 r
+  U976/Y (NAND3X1)               0.00      0.01      0.01       3.44 f
+  U977/Y (INVX1)                 0.00      0.00      0.00       3.44 r
+  U978/Y (MUX2X1)                0.01      0.04      0.03       3.48 f
+  U392/Y (INVX8)                 0.00      0.01      0.02       3.50 r
+  acc_r_reg[0][33]/D (DFFPOSX1)            0.01      0.00       3.50 r
+  data arrival time                                             3.50
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  acc_r_reg[0][33]/CLK (DFFPOSX1)                    0.00       4.90 r
+  library setup time                                -1.40       3.50
+  data required time                                            3.50
+  ---------------------------------------------------------------------
+  data required time                                            3.50
+  data arrival time                                            -3.50
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.01
+
+
+  Startpoint: b[5] (input port clocked by clk)
+  Endpoint: acc_r_reg[0][29]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  input external delay                               1.50       1.50 r
+  b[5] (in)                      0.01      0.03      0.04       1.54 r
+  U574/Y (INVX1)                 0.00      0.02      0.02       1.56 f
+  U575/Y (AOI21X1)               0.00      0.02      0.02       1.58 r
+  U554/Y (BUFX2)                 0.01      0.02      0.04       1.63 r
+  U216/Y (INVX1)                 0.04      0.13      0.10       1.73 f
+  DP_OP_7J1_123_5674/U672/Y (MUX2X1)     0.01     0.09     0.10     1.83 r
+  U743/YS (FAX1)                 0.00      0.03      0.09       1.92 r
+  U207/Y (OR2X1)                 0.01      0.03      0.05       1.97 r
+  U423/Y (AOI21X1)               0.00      0.01      0.03       2.00 f
+  U266/Y (BUFX2)                 0.00      0.01      0.04       2.03 f
+  U420/Y (OAI21X1)               0.01      0.07      0.06       2.09 r
+  U419/Y (AOI21X1)               0.00      0.01      0.04       2.13 f
+  U432/Y (BUFX2)                 0.00      0.01      0.04       2.17 f
+  U751/Y (OAI21X1)               0.00      0.05      0.05       2.21 r
+  U756/Y (AOI21X1)               0.00      0.01      0.02       2.23 f
+  U542/Y (INVX1)                 0.00      0.00      0.00       2.24 r
+  U543/Y (INVX1)                 0.01      0.03      0.02       2.26 f
+  U412/Y (OAI21X1)               0.01      0.07      0.06       2.32 r
+  U411/Y (AOI21X1)               0.00      0.01      0.04       2.36 f
+  U270/Y (BUFX2)                 0.00      0.01      0.04       2.39 f
+  U410/Y (OAI21X1)               0.01      0.07      0.06       2.45 r
+  U764/Y (AOI21X1)               0.00      0.01      0.03       2.48 f
+  U540/Y (INVX1)                 0.00      0.00      0.01       2.48 r
+  U541/Y (INVX1)                 0.00      0.01      0.01       2.50 f
+  U765/Y (OAI21X1)               0.01      0.06      0.06       2.55 r
+  U404/Y (NAND2X1)               0.00      0.02      0.03       2.58 f
+  U261/Y (AND2X2)                0.00      0.00      0.04       2.62 f
+  U262/Y (INVX1)                 0.00      0.00      0.00       2.62 r
+  U239/Y (NAND2X1)               0.00      0.02      0.01       2.63 f
+  U240/Y (AND2X2)                0.00      0.00      0.03       2.67 f
+  U238/Y (AND2X2)                0.00      0.00      0.03       2.70 f
+  U415/Y (OAI21X1)               0.01      0.07      0.06       2.76 r
+  U414/Y (AOI21X1)               0.00      0.01      0.03       2.79 f
+  U264/Y (BUFX2)                 0.00      0.01      0.04       2.82 f
+  U413/Y (OAI21X1)               0.01      0.07      0.06       2.88 r
+  U780/Y (AOI21X1)               0.00      0.01      0.03       2.91 f
+  U267/Y (BUFX2)                 0.00      0.01      0.04       2.94 f
+  U418/Y (OAI21X1)               0.01      0.07      0.06       3.00 r
+  U417/Y (AOI21X1)               0.00      0.01      0.03       3.03 f
+  U265/Y (BUFX2)                 0.00      0.01      0.04       3.07 f
+  U785/Y (OAI21X1)               0.01      0.07      0.06       3.12 r
+  U790/Y (AOI21X1)               0.00      0.01      0.03       3.15 f
+  U791/Y (INVX1)                 0.00      0.00      0.01       3.16 r
+  U792/Y (AOI21X1)               0.00      0.02      0.01       3.17 f
+  U793/Y (INVX1)                 0.01      0.01      0.02       3.19 r
+  U966/YC (FAX1)                 0.01      0.05      0.07       3.26 r
+  U968/YC (FAX1)                 0.00      0.03      0.06       3.33 r
+  U243/Y (BUFX2)                 0.01      0.01      0.04       3.36 r
+  U971/Y (XNOR2X1)               0.00      0.04      0.04       3.40 r
+  U972/Y (MUX2X1)                0.00      0.02      0.03       3.43 f
+  U168/Y (INVX2)                 0.00      0.00      0.02       3.45 r
+  acc_r_reg[0][29]/D (DFFPOSX1)            0.00      0.00       3.45 r
+  data arrival time                                             3.45
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  acc_r_reg[0][29]/CLK (DFFPOSX1)                    0.00       4.90 r
+  library setup time                                -1.44       3.46
+  data required time                                            3.46
+  ---------------------------------------------------------------------
+  data required time                                            3.46
+  data arrival time                                            -3.45
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.01
+
+
+  Startpoint: b[5] (input port clocked by clk)
+  Endpoint: acc_r_reg[0][32]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  input external delay                               1.50       1.50 r
+  b[5] (in)                      0.01      0.03      0.04       1.54 r
+  U574/Y (INVX1)                 0.00      0.02      0.02       1.56 f
+  U575/Y (AOI21X1)               0.00      0.02      0.02       1.58 r
+  U554/Y (BUFX2)                 0.01      0.02      0.04       1.63 r
+  U216/Y (INVX1)                 0.04      0.13      0.10       1.73 f
+  DP_OP_7J1_123_5674/U672/Y (MUX2X1)     0.01     0.09     0.10     1.83 r
+  U743/YS (FAX1)                 0.00      0.03      0.09       1.92 r
+  U207/Y (OR2X1)                 0.01      0.03      0.05       1.97 r
+  U423/Y (AOI21X1)               0.00      0.01      0.03       2.00 f
+  U266/Y (BUFX2)                 0.00      0.01      0.04       2.03 f
+  U420/Y (OAI21X1)               0.01      0.07      0.06       2.09 r
+  U419/Y (AOI21X1)               0.00      0.01      0.04       2.13 f
+  U432/Y (BUFX2)                 0.00      0.01      0.04       2.17 f
+  U751/Y (OAI21X1)               0.00      0.05      0.05       2.21 r
+  U756/Y (AOI21X1)               0.00      0.01      0.02       2.23 f
+  U542/Y (INVX1)                 0.00      0.00      0.00       2.24 r
+  U543/Y (INVX1)                 0.01      0.03      0.02       2.26 f
+  U412/Y (OAI21X1)               0.01      0.07      0.06       2.32 r
+  U411/Y (AOI21X1)               0.00      0.01      0.04       2.36 f
+  U270/Y (BUFX2)                 0.00      0.01      0.04       2.39 f
+  U410/Y (OAI21X1)               0.01      0.07      0.06       2.45 r
+  U764/Y (AOI21X1)               0.00      0.01      0.03       2.48 f
+  U540/Y (INVX1)                 0.00      0.00      0.01       2.48 r
+  U541/Y (INVX1)                 0.00      0.01      0.01       2.50 f
+  U765/Y (OAI21X1)               0.01      0.06      0.06       2.55 r
+  U404/Y (NAND2X1)               0.00      0.02      0.03       2.58 f
+  U261/Y (AND2X2)                0.00      0.00      0.04       2.62 f
+  U262/Y (INVX1)                 0.00      0.00      0.00       2.62 r
+  U239/Y (NAND2X1)               0.00      0.02      0.01       2.63 f
+  U240/Y (AND2X2)                0.00      0.00      0.03       2.67 f
+  U238/Y (AND2X2)                0.00      0.00      0.03       2.70 f
+  U415/Y (OAI21X1)               0.01      0.07      0.06       2.76 r
+  U414/Y (AOI21X1)               0.00      0.01      0.03       2.79 f
+  U264/Y (BUFX2)                 0.00      0.01      0.04       2.82 f
+  U413/Y (OAI21X1)               0.01      0.07      0.06       2.88 r
+  U780/Y (AOI21X1)               0.00      0.01      0.03       2.91 f
+  U267/Y (BUFX2)                 0.00      0.01      0.04       2.94 f
+  U418/Y (OAI21X1)               0.01      0.07      0.06       3.00 r
+  U417/Y (AOI21X1)               0.00      0.01      0.03       3.03 f
+  U265/Y (BUFX2)                 0.00      0.01      0.04       3.07 f
+  U785/Y (OAI21X1)               0.01      0.07      0.06       3.12 r
+  U790/Y (AOI21X1)               0.00      0.01      0.03       3.15 f
+  U791/Y (INVX1)                 0.00      0.00      0.01       3.16 r
+  U792/Y (AOI21X1)               0.00      0.02      0.01       3.17 f
+  U793/Y (INVX1)                 0.01      0.01      0.02       3.19 r
+  U966/YC (FAX1)                 0.01      0.05      0.07       3.26 r
+  U968/YC (FAX1)                 0.00      0.03      0.06       3.33 r
+  U416/Y (AOI21X1)               0.00      0.01      0.03       3.35 f
+  U464/Y (INVX1)                 0.01      0.01      0.02       3.38 r
+  U973/YC (FAX1)                 0.01      0.05      0.08       3.45 r
+  U344/Y (AND2X1)                0.00      0.03      0.03       3.48 r
+  U258/Y (INVX1)                 0.00      0.01      0.02       3.50 f
+  U795/Y (NAND3X1)               0.00      0.03      0.03       3.53 r
+  U549/Y (INVX1)                 0.01      0.02      0.03       3.56 f
+  U409/Y (XNOR2X1)               0.00      0.02      0.03       3.59 f
+  U407/Y (OAI21X1)               0.00      0.04      0.04       3.63 r
+  acc_r_reg[0][32]/D (DFFPOSX1)            0.04      0.00       3.63 r
+  data arrival time                                             3.63
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  acc_r_reg[0][32]/CLK (DFFPOSX1)                    0.00       4.90 r
+  library setup time                                -1.22       3.68
+  data required time                                            3.68
+  ---------------------------------------------------------------------
+  data required time                                            3.68
+  data arrival time                                            -3.63
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.05
+
+
+  Startpoint: b[5] (input port clocked by clk)
+  Endpoint: acc_r_reg[0][28]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                           Cap     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  clock clk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                        0.00       0.00
+  input external delay                               1.50       1.50 r
+  b[5] (in)                      0.01      0.03      0.04       1.54 r
+  U574/Y (INVX1)                 0.00      0.02      0.02       1.56 f
+  U575/Y (AOI21X1)               0.00      0.02      0.02       1.58 r
+  U554/Y (BUFX2)                 0.01      0.02      0.04       1.63 r
+  U216/Y (INVX1)                 0.04      0.13      0.10       1.73 f
+  DP_OP_7J1_123_5674/U672/Y (MUX2X1)     0.01     0.09     0.10     1.83 r
+  U743/YS (FAX1)                 0.00      0.03      0.09       1.92 r
+  U207/Y (OR2X1)                 0.01      0.03      0.05       1.97 r
+  U423/Y (AOI21X1)               0.00      0.01      0.03       2.00 f
+  U266/Y (BUFX2)                 0.00      0.01      0.04       2.03 f
+  U420/Y (OAI21X1)               0.01      0.07      0.06       2.09 r
+  U419/Y (AOI21X1)               0.00      0.01      0.04       2.13 f
+  U432/Y (BUFX2)                 0.00      0.01      0.04       2.17 f
+  U751/Y (OAI21X1)               0.00      0.05      0.05       2.21 r
+  U756/Y (AOI21X1)               0.00      0.01      0.02       2.23 f
+  U542/Y (INVX1)                 0.00      0.00      0.00       2.24 r
+  U543/Y (INVX1)                 0.01      0.03      0.02       2.26 f
+  U412/Y (OAI21X1)               0.01      0.07      0.06       2.32 r
+  U411/Y (AOI21X1)               0.00      0.01      0.04       2.36 f
+  U270/Y (BUFX2)                 0.00      0.01      0.04       2.39 f
+  U410/Y (OAI21X1)               0.01      0.07      0.06       2.45 r
+  U764/Y (AOI21X1)               0.00      0.01      0.03       2.48 f
+  U540/Y (INVX1)                 0.00      0.00      0.01       2.48 r
+  U541/Y (INVX1)                 0.00      0.01      0.01       2.50 f
+  U765/Y (OAI21X1)               0.01      0.06      0.06       2.55 r
+  U404/Y (NAND2X1)               0.00      0.02      0.03       2.58 f
+  U261/Y (AND2X2)                0.00      0.00      0.04       2.62 f
+  U262/Y (INVX1)                 0.00      0.00      0.00       2.62 r
+  U239/Y (NAND2X1)               0.00      0.02      0.01       2.63 f
+  U240/Y (AND2X2)                0.00      0.00      0.03       2.67 f
+  U238/Y (AND2X2)                0.00      0.00      0.03       2.70 f
+  U415/Y (OAI21X1)               0.01      0.07      0.06       2.76 r
+  U414/Y (AOI21X1)               0.00      0.01      0.03       2.79 f
+  U264/Y (BUFX2)                 0.00      0.01      0.04       2.82 f
+  U413/Y (OAI21X1)               0.01      0.07      0.06       2.88 r
+  U780/Y (AOI21X1)               0.00      0.01      0.03       2.91 f
+  U267/Y (BUFX2)                 0.00      0.01      0.04       2.94 f
+  U418/Y (OAI21X1)               0.01      0.07      0.06       3.00 r
+  U417/Y (AOI21X1)               0.00      0.01      0.03       3.03 f
+  U265/Y (BUFX2)                 0.00      0.01      0.04       3.07 f
+  U785/Y (OAI21X1)               0.01      0.07      0.06       3.12 r
+  U790/Y (AOI21X1)               0.00      0.01      0.03       3.15 f
+  U791/Y (INVX1)                 0.00      0.00      0.01       3.16 r
+  U792/Y (AOI21X1)               0.00      0.02      0.01       3.17 f
+  U793/Y (INVX1)                 0.01      0.01      0.02       3.19 r
+  U966/YC (FAX1)                 0.01      0.05      0.07       3.26 r
+  U968/YS (FAX1)                 0.00      0.02      0.07       3.34 r
+  U969/Y (MUX2X1)                0.00      0.02      0.02       3.36 f
+  U167/Y (INVX2)                 0.00      0.00      0.02       3.38 r
+  acc_r_reg[0][28]/D (DFFPOSX1)            0.00      0.00       3.38 r
+  data arrival time                                             3.38
+
+  clock clk (rise edge)                              5.00       5.00
+  clock network delay (ideal)                        0.00       5.00
+  clock uncertainty                                 -0.10       4.90
+  acc_r_reg[0][28]/CLK (DFFPOSX1)                    0.00       4.90 r
+  library setup time                                -1.44       3.46
+  data required time                                            3.46
+  ---------------------------------------------------------------------
+  data required time                                            3.46
+  data arrival time                                            -3.38
+  ---------------------------------------------------------------------
+  slack (MET)                                                   0.08
+
+
+1

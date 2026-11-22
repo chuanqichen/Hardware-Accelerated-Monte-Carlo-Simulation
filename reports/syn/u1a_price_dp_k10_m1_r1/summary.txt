@@ -1,0 +1,14 @@
+design       price_dp
+tag          u1a_price_dp_k10_m1_r1
+params       EXP_ADDR_BITS=10,MUL_STAGES=1
+retime       1
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.00139141
+fmax_mhz     200.055671892
+area_um2     13754.244236
+area_comb_um2 12528.432659
+area_bufinv_um2 2386.390449
+area_seq_um2 1225.811577
+cells        5008
+registers    151
