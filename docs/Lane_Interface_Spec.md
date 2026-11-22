@@ -141,7 +141,7 @@ Inside `price_dp` (as implemented, `rtl/price_dp.sv` + `rtl/exp2_unit.sv`; refer
 
 | Stage | Operation | Format |
 |---|---|---|
-| S1 | $acc = (A \ll 14) + Bz$, fused multiply-add; `MUL_STAGES` registers for DC retiming | `Q5.26`, 34 b |
+| S1 | $acc = (A \ll 14) + Bz$, fused multiply-add; `MUL_STAGES` registers (default 1). Standalone synthesis closes 5 ns, and 4 ns, without retiming or a second stage (pricing plan Sec. 11) | `Q5.26`, 34 b |
 | S2 | $x = \mathrm{round\_sat}_{18,14}(acc)$ - **one** rounding of the whole sum, then saturate; `sat_x` | `Q5.12` |
 | S3 | $y = x \log_2 e$ (constant multiply); $n = \lfloor y \rfloor$, `addr` = top `EXP_ADDR_BITS` of $y - n$ | |
 | S4 | $2^f$ ROM at cell midpoints | `UQ1.16` |
@@ -166,6 +166,10 @@ test `test_fused_rounding_tie_with_odd_a` define this behaviour.
   same-cycle add.
 - Multi-lane: a registered adder tree sums the `LANES` payoffs first; it adds
   $\texttt{LAT\_TREE} = \lceil \log_2 \texttt{LANES} \rceil$ cycles and is part of `LAT_TOTAL`.
+  `clear` also empties the tree: a beat still in the tree when `clear` arrives, or
+  presented in the same cycle, is dropped. `model/price_dp.py accumulate(tree_lat=...)`
+  is the reference, and `tb_accumulator` checks the tree against it at 2 and 4 lanes
+  (pricing plan Sec. 4.2).
 
 ### 5.6 Controller sequence
 
@@ -187,7 +191,7 @@ issues $\lceil \texttt{N\_TRIALS} / \texttt{LANES} \rceil$ beats and masks the u
 | `rng_lane` | 1 | `LAT_RNG` | state update + output register |
 | `gauss_lut` | 1 or 2 | `lat_gauss(LATENCY)` | ROM + negate in one stage; `LATENCY = 2` splits them. Both pass `tb_gauss_lut` |
 | `price_dp` | 6 (`MUL_STAGES = 1`), 7 (`= 2`) | `lat_dp(MUL_STAGES)` = `MUL_STAGES + 1 + LAT_EXP + 1` | S1 (`MUL_STAGES`), S2 (1), S3-S5 (`LAT_EXP = 3`), S6 (1). Both pass `tb_price_dp` |
-| adder tree | $\lceil \log_2 \texttt{LANES} \rceil$ | `lat_tree(LANES)` | 0 for one lane; draft 2/4-lane implementation uses `accumulator.REGISTER_TREE`, pending VCS replay |
+| adder tree | $\lceil \log_2 \texttt{LANES} \rceil$ | `lat_tree(LANES)` | 0 for one lane; the 2/4-lane implementation uses `accumulator.REGISTER_TREE`. VCS replay of the real array passed on peach, 2026-11-22 (`reports/pricing_final_validation_2026-11-22.txt`) |
 | accumulator | 1 | `LAT_ACC` | result registers |
 | **one-lane total** | **9** (defaults) | `lat_total(1, 1, 1)` | `rng 1 + gauss 1 + dp 6 + acc 1`; `lat_total(2, 1, 4) = 12` |
 
@@ -241,9 +245,9 @@ model, the trace against Eric's stage functions, `lat_total` against `mc_pkg`, a
 | D-1 | Seed delivery for multiple lanes | (a) software writes 128 b per lane via cfg bus; (b) hardware jump from one root | **(a) chosen:** `rng_lane` accepts a 128-bit seed; no jump hardware. PR #8 adds software `jump()` / `lane_seeds()` in `model/price_study.py`; PR #10 adds stream screening. Production integration is still one lane. Real 2/4-lane seed delivery and final team review remain | Shentong, Tyler |
 | D-2 | Reset style | async-assert/sync-deassert vs fully synchronous | **Closed 2026-10-31: async-assert / sync-de-assert**, as implemented in all blocks. Lab 3 guidance says "synchronous only; no async flop in the library", but gscl45nm's `DFFSR` is fully characterised (clear/preset arcs, recovery and removal constraints, LEF and sim model present). Measured cost is nil: a reset flop is `DFFSR` 10.32 um^2 either way vs `DFFPOSX1` 7.98 + `AND2X1` 2.35 = 10.33 for a synchronous reset. Benefits kept: reset without a running clock, no gate in the D path, standard ASIC practice. Obligations we take on: (1) only `valid`/control flops are reset, data flops are not (area); (2) `rtl/rst_sync.sv` in `mc_top` aligns de-assertion; blocks never see the raw pin; (3) `rst_n` is timed as a normal input in `constraints/lane_5ns.sdc` so DC/PT check recovery/removal - never false-path it; (4) P&R must buffer the reset tree (Week 7 risk item) | Chuanqi (decision), Tyler (`mc_top`/P&R) |
 | D-3 | $S_T = e^{A+Bz}$ vs $C\,e^{Bz}$ | see Section 3 | **Closed 2026-10-22: $e^{A+Bz}$.** Range reduction (D-6) makes the table size independent of the input range, so $C e^{Bz}$ would add a multiplier and lose the fused $A$ | Eric, Chuanqi |
-| D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | Open. 16 b implemented. Model says fraction bits do not change price bias (Gaussian plan Sec. 6); decide on `gauss_lut` + `B*z` multiplier area from the Week-3 synthesis sweep (`results/gauss_lut_ppa.csv`) | Chuanqi, Eric |
+| D-4 | `z` width | `Q3.12` (16 b) vs `Q3.8` (12 b) | Open. 16 b implemented. Model says fraction bits do not change price bias (Gaussian plan Sec. 6); decide on `gauss_lut` + `B*z` multiplier area from the Week-3 synthesis sweep (`results/gauss_lut_ppa.csv`). **Multiplier area, 2026-11-12** (`results/price_dp_zwidth_ppa.csv`): a 12-bit `z` saves 722 um^2 in `price_dp` (13,789 -> 13,066). With the `gauss_lut` saving at 10 address bits (4,060 -> 2,572) that is about 2,210 um^2 per lane, roughly 7% of the one-lane top. The area input is now complete; the decision is still open | Chuanqi, Eric |
 | D-5 | `A`/`x` width | 18 b `Q5.12` vs 16 b `Q5.10` | **Closed 2026-11-01: keep 18 b `Q5.12`.** Exact-bias study (`model/d5_x_width_study.py`, Gaussian plan Sec. 6.2): `Q5.12` costs 0.01-0.05 % on the grid; `Q5.10` costs up to 0.37 % because the one-time rounding of `A` is amplified by $\partial P/\partial A \approx S_0 N(d_1)$. If a 16-bit `x` is ever needed for area it must be `Q4.11` (same bias as `Q5.11`; $x$ outside $\pm 16$ is already clamped/underflowed by `exp2_unit`), never `Q5.10` | Chuanqi, Eric |
-| D-6 | `exp` implementation | direct table on `x` vs range reduction + fractional table | **Closed 2026-10-22: range reduction** ($2^{y}$, $y = x\log_2 e$; `EXP_ADDR_BITS` entries of `UQ1.16`, default 10, 8 under consideration). Direct table would need $\approx 65$k entries | Eric |
+| D-6 | `exp` implementation | direct table on `x` vs range reduction + fractional table | **Closed 2026-10-22: range reduction** ($2^{y}$, $y = x\log_2 e$; `EXP_ADDR_BITS` entries of `UQ1.16`, default 10, 8 under consideration). Direct table would need $\approx 65$k entries. **Table size, 2026-11-22:** Eric agrees with $k$ = 8 (pricing plan Sec. 12.1). It saves 3,742 um^2 in `price_dp` (3,670 um^2 on the synthesized lane) and moves the worst price bias by at most 0.03 percentage points; `tb_exp2_unit`, `tb_price_dp` and the array replay pass at $k$ = 8 with the matching ROM. The default stays 10 until the team regenerates the committed ROM and top-level vectors | Eric |
 | D-7 | Top-level bus | cfg write bus (Section 4) vs all-parallel ports | cfg bus; register map constants in `mc_pkg` | Tyler |
 | D-8 | `N_TRIALS` not a multiple of `LANES` | lane mask on last beat vs require multiple | lane mask; `accumulator` already counts `popcount(p_valid)` | Tyler |
 

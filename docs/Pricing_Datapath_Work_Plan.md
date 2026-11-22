@@ -372,16 +372,20 @@ well as at the defaults.
 | `rtl/pipe.sv` | N-cycle delay line |
 | `tb/tb_*.sv` | self-checking testbenches (Icarus and VCS) |
 
-## 8. Proposed updates to `Lane_Interface_Spec.md` (for team sign-off)
+## 8. Updates to `Lane_Interface_Spec.md`
 
-- **D-3 closed:** keep $e^{A+Bz}$, because range reduction makes $C e^{Bz}$ pointless.
-- **D-6:** range reduction, `EXP_ADDR_BITS` parameter (default 10; 8 under consideration).
-- **§5.4 internals:** single rounding of the fused sum, $x = \text{sat}(\text{round}((A \ll 14) + Bz))$.
-- **§5.5:** `acc_overflow` is unreachable with 32-bit counts. Keep it, but note why.
-- **§5.5:** sticky `sat_x` / `sat_s` live in the accumulator next to `acc_overflow`.
-- **§6:** measured `LAT_DP` = `MUL_STAGES` + 5 = 6, `LAT_ACC` = 1.
-- **New finding for D-5:** price bias levels off at about 0.03% from register quantization of
-  $A$/$B$/$K$.
+The updates proposed here in October are all in the spec now: D-3 and D-6 closed,
+the single rounding of the fused sum (Section 5.4), the `acc_overflow` note and the
+sticky flags in the accumulator (Section 5.5), and the measured `LAT_DP` and `LAT_ACC`
+(Section 6).
+
+Added on 2026-11-22 from the work in Sections 4, 11 and 12 of this plan:
+
+- Section 5.4, S1: one multiplier stage without retiming closes the clock.
+- Section 5.5: `clear` empties the accumulator tree; the model and testbench that check it.
+- Section 6: the multi-lane replay result.
+- Section 9, D-4: the `B*z` multiplier area for a 12-bit `z` (decision still open).
+- Section 9, D-6: agreement with $k$ = 8 and what switching the default involves.
 
 ## 9. Next steps
 
@@ -402,6 +406,7 @@ make sim-iv EXP_ADDR_BITS=8 MUL_STAGES=2
 make sim-price                         # same under VCS (lab machines)
 make sim-pricing-final                 # full VCS regression with archived evidence (lab machines)
 make pricing-study                     # accuracy vs area, configuration and throughput tables
+make pricing-figures                   # report figures from those tables (needs matplotlib)
 scripts/syn/run_price_sweep.sh         # Design Compiler sweep (lab machines)
 CLK_PERIOD_NS=4.75 BATCH=p475 scripts/syn/run_price_sweep.sh "1 2" "8 10" "0 1"
 ```
