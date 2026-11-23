@@ -187,7 +187,7 @@ issues $\lceil \texttt{N\_TRIALS} / \texttt{LANES} \rceil$ beats and masks the u
 | `rng_lane` | 1 | `LAT_RNG` | state update + output register |
 | `gauss_lut` | 1 or 2 | `lat_gauss(LATENCY)` | ROM + negate in one stage; `LATENCY = 2` splits them. Both pass `tb_gauss_lut` |
 | `price_dp` | 6 (`MUL_STAGES = 1`), 7 (`= 2`) | `lat_dp(MUL_STAGES)` = `MUL_STAGES + 1 + LAT_EXP + 1` | S1 (`MUL_STAGES`), S2 (1), S3-S5 (`LAT_EXP = 3`), S6 (1). Both pass `tb_price_dp` |
-| adder tree | $\lceil \log_2 \texttt{LANES} \rceil$ | `lat_tree(LANES)` | 0 for one lane; not yet implemented |
+| adder tree | $\lceil \log_2 \texttt{LANES} \rceil$ | `lat_tree(LANES)` | 0 for one lane; draft 2/4-lane implementation uses `accumulator.REGISTER_TREE`, pending VCS replay |
 | accumulator | 1 | `LAT_ACC` | result registers |
 | **one-lane total** | **9** (defaults) | `lat_total(1, 1, 1)` | `rng 1 + gauss 1 + dp 6 + acc 1`; `lat_total(2, 1, 4) = 12` |
 
@@ -196,6 +196,14 @@ The integrated default one-lane design measures
 $\texttt{N\_TRIALS} + \texttt{LAT\_TOTAL} + 2$ busy cycles per run, or `N + 11`
 at defaults. Both RTL and zero-delay mapped replay check this count. Configuration
 and reset-release cycles are excluded; this count does not establish clock closure.
+
+The draft real-array implementation uses the same host register map. Software
+loads lane i with jump^i(root), using the canonical xoshiro 2^64 jump. Hardware
+does not compute the jump. Total N is split in round-robin issue order; only the
+lowest remaining lanes run on the last beat. The registered tree carries payoff,
+valid population count and qualified saturation flags together. Its predicted
+busy count is `ceil(N/LANES) + lat_total(G,M,LANES) + 2` (modulo 2^32). This is a
+verification target, not yet a measured multi-lane result. See Integration_Work_Plan.md.
 
 ## 7. Python reference contract (`model/mc_lane.py`)
 

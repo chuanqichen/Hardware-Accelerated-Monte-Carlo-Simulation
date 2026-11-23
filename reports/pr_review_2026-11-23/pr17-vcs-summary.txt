@@ -1,0 +1,35 @@
+../pr17-top.log:PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+../pr17-top.log:PASS: tb_mc_top G=1 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+../pr17-top.log:PASS: tb_mc_top G=2 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+../pr17-top.log:PASS: tb_mc_top G=2 M=2 cases=22 trials=26457, exact traces/results, sustained II=1
+../pr17-control.log:PASS: mc_top control shell LANES=1, 10 runs (TEST BACKEND ONLY)
+../pr17-control.log:PASS: mc_top control shell LANES=2, 10 runs (TEST BACKEND ONLY)
+../pr17-control.log:PASS: mc_top control shell LANES=4, 10 runs (TEST BACKEND ONLY)
+../pr17-bubbles.log:PASS: tb_mc_lane_bubbles 100 exact trials, pause/resume, valid latency=10
+../pr17-array.log:PASS: tb_mc_array L=1 G=1 M=1 A=10 K=10 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=1 G=1 M=2 A=10 K=10 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=1 G=2 M=1 A=10 K=10 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=1 G=2 M=2 A=10 K=10 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=2 G=1 M=1 A=10 K=10 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=2 G=1 M=2 A=10 K=10 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=2 G=2 M=1 A=10 K=10 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=2 G=2 M=2 A=10 K=10 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=4 G=1 M=1 A=10 K=10 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=4 G=1 M=2 A=10 K=10 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=4 G=2 M=1 A=10 K=10 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=4 G=2 M=2 A=10 K=10 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=1 G=1 M=1 A=10 K=8 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=1 G=1 M=2 A=10 K=8 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=1 G=2 M=1 A=10 K=8 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=1 G=2 M=2 A=10 K=8 cases=26 trials=27492
+../pr17-array.log:PASS: tb_mc_array L=2 G=1 M=1 A=10 K=8 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=2 G=1 M=2 A=10 K=8 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=2 G=2 M=1 A=10 K=8 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=2 G=2 M=2 A=10 K=8 cases=27 trials=27495
+../pr17-array.log:PASS: tb_mc_array L=4 G=1 M=1 A=10 K=8 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=4 G=1 M=2 A=10 K=8 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=4 G=2 M=1 A=10 K=8 cases=28 trials=27502
+../pr17-array.log:PASS: tb_mc_array L=4 G=2 M=2 A=10 K=8 cases=28 trials=27502
+../pr17-array.log:PASS: tb_accumulator_tree L=2 cycles=1107, masks bubbles clear overflow
+../pr17-array.log:PASS: tb_accumulator_tree L=4 cycles=1108, masks bubbles clear overflow
+../pr17-array.log:PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1

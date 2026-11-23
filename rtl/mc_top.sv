@@ -1,4 +1,4 @@
-// Integrated one-lane pricer. Compile mc_pkg first and use the production
+// Integrated pricer. Compile mc_pkg first and use the production
 // mc_lane_array; the separate control-only target selects tb/mocks instead.
 // Configuration concurrency rules remain candidates for team signoff.
 module mc_top #(
