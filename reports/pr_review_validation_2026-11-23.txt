@@ -78,3 +78,24 @@ PR #19: accumulator model, vectors, and standalone synthesis
   Selected raw results and hashes:
     reports/pr_review_2026-11-23/pr19-vcs-summary.txt
     reports/pr_review_2026-11-23/pr19-source-sha256.txt
+
+PR #20: pricing study, continuous-valid regression, and report material
+  Original candidate: 5085141f687379caf0de391a75373fc37e1531ea.
+  Integrated main through PR #19 at 5e235ac316b5650c154238718d962006326b8fab.
+  Resolved the work-plan conflict by retaining the completed pricing study and
+  the corrected timing discussion. Updated the final report's critical-path,
+  retiming, and fixed-netlist margin descriptions and the Bash setup note.
+  Final local validation: all 109 model tests and all 48 flow tests PASS.
+  All three generated pricing CSVs reproduce byte-for-byte.
+
+  Lab SSH remained unavailable on the final retry. Reused the independent
+  review_pr20_20261123 VCS run (50 of 50 PASS) after checking all 32 distinct
+  committed RTL/testbench/vector files in its manifests against this tree.
+  The updated array runner also matches the source hash of the later 35-run
+  PR #17 VCS replay. The waveform dependency fix passed its three benches
+  separately. No fresh VCS execution is claimed for this final merge step.
+  Committed independent VCS summary and primary source manifest:
+    reports/pr_review_2026-11-23/pr20-vcs-summary.txt
+    reports/pr_review_2026-11-23/pr20-source-sha256.txt
+  Full raw logs remain under the lab scratch root and in the local review
+  archive /tmp/mc-course-review.7mPf5k/lab-evidence/.

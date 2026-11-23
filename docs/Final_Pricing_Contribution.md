@@ -78,9 +78,12 @@ constraints. These are pre-layout results for the blocks synthesized on their ow
 `price_dp` is about 42% of the 33,016 um^2 one-lane design.
 
 **Timing.** Both blocks meet setup timing at 5.00, 4.75 and 4.00 ns in synthesis; at
-4.00 ns `price_dp` is 2.8% larger than at 5.00 ns. One multiplier stage is enough: a
-second stage and register retiming each changed area and slack by a few percent at
-most, so neither is used. The critical path is the fused multiply-add. These block
+4.00 ns `price_dp` is 2.8% larger than at 5.00 ns. A second multiplier stage adds
+area and latency; register retiming changes area by at most 1.04% and setup slack
+by at most 0.022 ns. One stage without retiming meets the tested block setup
+constraints, so it remains the default. At 5 ns the critical path is the fused
+multiply-add. Tighter constraints can move it into the exponential or payoff:
+the 4 ns k10/M1 path is `u_exp/n4_reg[0]` to `u_exp/s_t_reg[13]`. These block
 results do not show that the lane runs at 200 MHz: the team's PrimeTime analysis of the
 one-lane design reports negative setup slack, and nothing here is routed.
 
@@ -124,8 +127,9 @@ multiplier, 5% of `price_dp`.
   is not established.
 - Synthesis reports hold and maximum-capacitance violations for these blocks, as it
   does for the one-lane design. Hold is left to place and route.
-- The reported flip-flop setup time is inflated by a known defect in the library's
-  `DFFPOSX1` table, so the timing margins above are pessimistic.
+- Setup slacks retain the library's reported setup times, including the known
+  `DFFPOSX1` table defect on affected paths. Each clock-period point is a separate
+  synthesis mapping; margin for a fixed netlist requires its own timing analysis.
 - Clock gating of the stage enables was not measured.
 - The bias numbers are for five benchmark options, not a guarantee over all inputs.
 

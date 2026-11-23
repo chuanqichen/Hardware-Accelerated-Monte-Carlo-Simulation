@@ -62,7 +62,6 @@ never another member's.
   `export PYTHON=/misc/scratch/eg37885/mc/venv/bin/python` (3.9, numpy 2.0.2,
   matplotlib 3.9.4). Same `module load syn/2022`. `node` is at `/usr/bin/node` on peach.
   Eric's laptop has Icarus (`make sim-iv` works locally) but no Verilator; its system
-  bash is 3.2, so scripts that use `mapfile` only run on the lab machines.
+  bash is 3.2; the shared array runner supports that version.
 - **Tyler:** `mario`, `module load synopsys/2022`, builds under `/home/work/teh969/`
   (see `scripts/README.md`).
-
