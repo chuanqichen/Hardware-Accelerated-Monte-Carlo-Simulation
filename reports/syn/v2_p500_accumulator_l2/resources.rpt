@@ -1,0 +1,33 @@
+ 
+****************************************
+Report : resources
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:03:58 2026
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /misc/scratch/eg37885/mc/repo/rtl/accumulator.sv
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| add_x_3        | DW01_add       | width=23   | add_70 (accumulator.sv:70) |
+| add_x_4        | DW01_add       | width=2    | add_71 (accumulator.sv:71) |
+| add_x_9        | DW01_add       | width=65   | add_104 (accumulator.sv:104) |
+| add_x_10       | DW01_add       | width=32   | add_121 (accumulator.sv:121) |
+=============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| add_x_3            | DW01_add         | apparch (area)     |                |
+| add_x_4            | DW01_add         | apparch (area)     |                |
+| add_x_9            | DW01_add         | apparch (area)     |                |
+| add_x_10           | DW01_add         | apparch (area)     |                |
+===============================================================================
+
+1

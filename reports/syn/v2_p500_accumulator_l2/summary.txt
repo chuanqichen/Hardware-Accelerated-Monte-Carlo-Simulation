@@ -1,0 +1,13 @@
+design       accumulator
+tag          v2_p500_accumulator_l2
+params       LANES=2,REGISTER_TREE=1
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.891502
+fmax_mhz     243.397952244
+area_um2     3700.430491
+area_comb_um2 2399.530863
+area_bufinv_um2 971.450974
+area_seq_um2 1300.899628
+cells        1108
+registers    126

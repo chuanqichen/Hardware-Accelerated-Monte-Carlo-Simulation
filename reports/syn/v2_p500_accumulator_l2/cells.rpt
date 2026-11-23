@@ -1,0 +1,36 @@
+ 
+****************************************
+Report : reference
+Design : accumulator
+Version: T-2022.03-SP2
+Date   : Sun Nov 22 08:03:58 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500     155    363.707488  
+AOI21X1            gscl45nm       2.815800      10     28.158000  
+AOI22X1            gscl45nm       3.285100      64    210.246399  
+BUFX2              gscl45nm       2.346500     237    556.120481  
+DFFSR              gscl45nm      10.324600     126   1300.899628  n
+FAX1               gscl45nm       8.916700      41    365.584715  r
+INVX1              gscl45nm       1.407900     295    415.330493  
+MUX2X1             gscl45nm       3.754400       2      7.508800  
+NAND3X1            gscl45nm       2.346500      37     86.820497  
+NOR3X1             gscl45nm       2.815800       1      2.815800  
+OAI21X1            gscl45nm       2.815800      79    222.448196  
+OR2X1              gscl45nm       2.346500      60    140.789995  
+-----------------------------------------------------------------------------
+Total 12 references                                  3700.430491
+1

@@ -139,34 +139,55 @@ def price_dp(a, b, k, z, cfg: PriceDpConfig = PriceDpConfig(), rom: np.ndarray |
 
 
 # ---- accumulator -----------------------------------------------------------
-def accumulate(p, valid, clear=None, sat_x=None, sat_s=None, sum_width: int = 64):
+def accumulate(p, valid, clear=None, sat_x=None, sat_s=None, sum_width: int = 64,
+               tree_lat: int | None = None):
     """Cycle-by-cycle accumulator. p/valid/sat_* are [cycles, lanes] (or [cycles]).
 
     Returns a list of per-cycle register states *after* that clock edge:
     (payoff_sum, trial_count, acc_overflow, sat_x_sticky, sat_s_sticky).
+
+    The registered reduction tree (rtl/accumulator.sv with REGISTER_TREE = 1, as the
+    lane array selects for LANES > 1) delays the data by
+    `tree_lat` cycles; default is ceil(log2 lanes) for lanes > 1, 0 for one lane
+    (lanes = second dimension of p; = mc_pkg::lat_tree). A beat presented in cycle t
+    reaches the result registers at the edge of cycle t + tree_lat. `clear` zeroes the
+    result and flushes the tree: a beat presented in cycle t is dropped iff clear is
+    high in any cycle t .. t + tree_lat, so after a clear the outputs reflect only
+    beats presented in later cycles.
     """
     p = np.atleast_2d(np.asarray(p, dtype=np.int64).T).T
     valid = np.atleast_2d(np.asarray(valid, dtype=bool).T).T
-    cycles = p.shape[0]
+    cycles, lanes = p.shape
+    if tree_lat is None:
+        tree_lat = (lanes - 1).bit_length() if lanes > 1 else 0
     clear = np.zeros(cycles, bool) if clear is None else np.asarray(clear, bool)
     sat_x = np.zeros_like(valid) if sat_x is None else np.atleast_2d(np.asarray(sat_x, bool).T).T
     sat_s = np.zeros_like(valid) if sat_s is None else np.atleast_2d(np.asarray(sat_s, bool).T).T
     mask = (1 << sum_width) - 1
     s = cnt = 0
     ovf = sx = ss = False
+    pipe = [None] * tree_lat          # beats in flight, newest first
     out = []
     for t in range(cycles):
         if clear[t]:
             s = cnt = 0
             ovf = sx = ss = False
+            pipe = [None] * tree_lat
         else:
             v = valid[t]
-            total = s + int(p[t][v].sum())
-            ovf = ovf or total > mask
-            s = total & mask
-            cnt = (cnt + int(v.sum())) & 0xFFFFFFFF
-            sx = sx or bool(np.any(sat_x[t] & v))
-            ss = ss or bool(np.any(sat_s[t] & v))
+            beat = (int(p[t][v].sum()), int(v.sum()), bool(np.any(sat_x[t] & v)),
+                    bool(np.any(sat_s[t] & v))) if v.any() else None
+            if tree_lat:
+                pipe.insert(0, beat)
+                beat = pipe.pop()
+            if beat is not None:
+                lane_sum, n, bx, bs = beat
+                total = s + lane_sum
+                ovf = ovf or total > mask
+                s = total & mask
+                cnt = (cnt + n) & 0xFFFFFFFF
+                sx = sx or bx
+                ss = ss or bs
         out.append((s, cnt, ovf, sx, ss))
     return out
 

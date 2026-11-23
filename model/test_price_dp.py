@@ -7,6 +7,7 @@ import numpy as np
 import price_dp as pd
 from fxp import round_shift_even
 from gauss_lut import OPTION_GRID, GaussLut, GaussLutConfig, bs_call
+from mc_lane import LaneConfig
 
 CFG = pd.PriceDpConfig()
 
@@ -110,8 +111,8 @@ class TestAccumulator(unittest.TestCase):
         self.assertEqual([o[:2] for o in out], [(5, 1), (5, 1), (14, 2), (0, 0), (13, 1)])
 
     def test_lanes_popcount(self):
-        p = [[1, 2, 3, 4], [10, 20, 30, 40]]
-        v = [[1, 1, 1, 1], [1, 1, 0, 0]]   # last beat masks lanes 2-3
+        p = [[1, 2, 3, 4], [10, 20, 30, 40], [0] * 4, [0] * 4]
+        v = [[1, 1, 1, 1], [1, 1, 0, 0], [0] * 4, [0] * 4]   # last beat masks lanes 2-3; 2 drain cycles
         s, n, *_ = pd.accumulate(p, v)[-1]
         self.assertEqual((s, n), (10 + 30, 6))
 
@@ -126,6 +127,96 @@ class TestAccumulator(unittest.TestCase):
         out = pd.accumulate([0, 0], [0, 1], sat_x=[1, 0], sat_s=[0, 1])
         self.assertEqual(out[0][3:], (False, False))
         self.assertEqual(out[1][3:], (False, True))
+
+
+    # ---- registered adder tree (LANES > 1) ----
+    def test_tree_lat_default_matches_lane_config(self):
+        for lanes in (1, 2, 3, 4, 8):
+            with self.subTest(lanes=lanes):
+                lat = LaneConfig(lanes=lanes).lat_tree
+                # one full beat then idle: the sum lands exactly `lat` cycles later
+                p = np.zeros((lat + 3, lanes), np.int64)
+                p[0] = 7
+                v = np.zeros((lat + 3, lanes), bool)
+                v[0] = True
+                out = pd.accumulate(p, v)
+                first = next(i for i, o in enumerate(out) if o[1])
+                self.assertEqual(first, lat)
+                self.assertEqual(out[first][:2], (7 * lanes, lanes))
+                self.assertEqual(pd.accumulate(p, v, tree_lat=lat), out)
+
+    def test_latency_two_and_four_lanes(self):
+        for lanes, lat in ((2, 1), (4, 2)):
+            p = np.zeros((6, lanes), np.int64)
+            v = np.zeros((6, lanes), bool)
+            p[1], v[1] = 5, True                         # beat presented in cycle 1
+            out = pd.accumulate(p, v)
+            self.assertEqual([o[1] for o in out], [0] * (1 + lat) + [lanes] * (5 - lat))
+            self.assertEqual(out[1 + lat][0], 5 * lanes)
+
+    def test_sustained_one_beat_per_cycle(self):
+        lanes, n = 4, 20
+        p = np.full((n, lanes), pd.ST_FMT.max_raw)
+        out = pd.accumulate(p, np.ones((n, lanes), bool))
+        self.assertEqual([o[1] for o in out], [0, 0] + [4 * k for k in range(1, n - 1)])
+
+    def test_partial_valid_popcount_and_masked_flags(self):
+        # 4 lanes, one beat with lanes 1 and 3 valid; masked lanes carry big p and sat pulses
+        p = [[100, 3, 100, 4], [0] * 4, [0] * 4]
+        v = [[0, 1, 0, 1], [0] * 4, [0] * 4]
+        sx = [[1, 0, 1, 0], [0] * 4, [0] * 4]          # only masked lanes pulse
+        ss = [[0, 0, 0, 1], [0] * 4, [0] * 4]          # valid lane 3 pulses sat_s
+        out = pd.accumulate(p, v, sat_x=sx, sat_s=ss)
+        self.assertEqual(out[1][:2], (0, 0))
+        self.assertEqual(out[2], (7, 2, False, False, True))
+
+    def test_clear_drops_in_flight_beats(self):
+        lanes = 4                                       # TREE_LAT = 2
+        n = 8
+        p = np.ones((n, lanes), np.int64)
+        v = np.ones((n, lanes), bool)
+        for c in range(n):
+            clear = np.zeros(n, bool)
+            clear[c] = True
+            out = pd.accumulate(p, v, clear)
+            # before the clear: every beat that has landed (b + 2 <= t); at and after it, only
+            # beats presented after the clear (beats c-2 .. c are dropped, earlier ones were zeroed)
+            for t in range(n):
+                kept = [b for b in range(n) if b + 2 <= t and (t < c or b > c)]
+                self.assertEqual(out[t][1], 4 * len(kept), (c, t))
+
+    def test_clear_then_data_is_clean(self):
+        lanes = 2                                       # TREE_LAT = 1
+        p = np.array([[9, 9], [9, 9], [1, 2], [0, 0], [0, 0]])
+        v = np.array([[1, 1], [1, 1], [1, 1], [0, 0], [0, 0]], bool)
+        c = [0, 1, 0, 0, 0]                             # clear flushes beats 0 (tree) and 1 (same cycle)
+        out = pd.accumulate(p, v, c)
+        self.assertEqual([o[:2] for o in out], [(0, 0), (0, 0), (0, 0), (3, 2), (3, 2)])
+
+    def test_random_streams_sum_equals_plain_sum(self):
+        rng = np.random.default_rng(7)
+        for lanes in (1, 2, 3, 4, 8):
+            cycles = 300
+            p = rng.integers(0, 1 << 22, (cycles, lanes))
+            v = rng.random((cycles, lanes)) < 0.6
+            sx, ss = rng.random((cycles, lanes)) < 0.02, rng.random((cycles, lanes)) < 0.02
+            pad = np.zeros((4, lanes), bool)
+            out = pd.accumulate(np.vstack([p, np.zeros((4, lanes), np.int64)]), np.vstack([v, pad]),
+                                sat_x=np.vstack([sx, pad]), sat_s=np.vstack([ss, pad]))
+            s, n, ovf, fx, fs = out[-1]
+            self.assertEqual(s, int(p[v].sum()))
+            self.assertEqual(n, int(v.sum()))
+            self.assertFalse(ovf)
+            self.assertEqual((fx, fs), (bool((sx & v).any()), bool((ss & v).any())))
+
+    def test_overflow_four_lanes_w32(self):
+        cycles = 400                                    # 4 * (2^22-1) per beat; wraps near 256 beats
+        p = np.full((cycles, 4), pd.ST_FMT.max_raw)
+        out = pd.accumulate(p, np.ones((cycles, 4), bool), sum_width=32)
+        first = next(i for i, o in enumerate(out) if o[2])
+        self.assertEqual(first, 2 + (1 << 32) // (4 * pd.ST_FMT.max_raw))
+        self.assertTrue(all(o[2] for o in out[first:]))
+        self.assertEqual(out[-1][0], ((cycles - 2) * 4 * pd.ST_FMT.max_raw) % (1 << 32))
 
 
 if __name__ == "__main__":

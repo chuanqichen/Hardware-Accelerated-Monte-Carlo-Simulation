@@ -1,0 +1,16 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Sun Nov 22 08:04:22 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Cells                                                               2
+    Cells do not drive (LINT-1)                                     2
+--------------------------------------------------------------------------------
+
+Warning: In design 'accumulator', cell 'C894' does not drive any nets. (LINT-1)
+Warning: In design 'accumulator', cell 'C916' does not drive any nets. (LINT-1)
+1

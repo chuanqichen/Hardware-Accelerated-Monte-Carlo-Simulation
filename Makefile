@@ -3,8 +3,9 @@
 #   make gen    - regenerate ROM RTL + testbench vectors from the model
 #   make sim    - run tb_gauss_lut under VCS (lab machines)
 #   make gen-price - regenerate exp ROM RTL + price_dp/exp/accumulator TB vectors
-#   make sim-iv    - run tb_accumulator, tb_exp2_unit, tb_price_dp under Icarus (local)
-#   make sim-price - the same three testbenches under VCS (lab machines)
+#   make sim-iv    - run tb_accumulator (LANES 1/2/4 x SUM_WIDTH 64/32), tb_exp2_unit, tb_price_dp
+#                    under Icarus (local)
+#   make sim-price - the same testbenches under VCS (lab machines)
 #   make gen-rs    - regenerate round_sat TB vectors (signed + unsigned configs)
 #   make sim-rs    - run tb_round_sat under VCS for both configs
 #   make lint   - Verilator lint of the RTL (if installed)
@@ -36,7 +37,8 @@ TB      := tb/tb_gauss_lut.sv
 VEC     := tb/vectors/gauss_lut_a$(ADDR_BITS)_w$(OUT_WIDTH)_f$(FRAC_BITS).hex
 PRICE_RTL := rtl/mc_pkg.sv rtl/round_sat.sv rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv rtl/accumulator.sv
 PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
-             tb/vectors/accumulator_w64.hex tb/vectors/accumulator_w32.hex
+             tb/vectors/accumulator_w64.hex tb/vectors/accumulator_w32.hex \
+             $(foreach l,2 4,$(foreach w,64 32,tb/vectors/accumulator_l$(l)_w$(w).hex))
 RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
@@ -78,6 +80,11 @@ sim-iv: gen-price
 	$(IV) build/tb_acc32 -Ptb_accumulator.SUM_WIDTH=32 -DVEC_FILE='"tb/vectors/accumulator_w32.hex"' \
 	  rtl/accumulator.sv tb/tb_accumulator.sv
 	vvp -n build/tb_acc32 | grep -E "^(PASS|FAIL|ERROR)"
+	@for l in 2 4; do for w in 64 32; do \
+	  $(IV) build/tb_acc_l$${l}_w$${w} -Ptb_accumulator.LANES=$$l -Ptb_accumulator.SUM_WIDTH=$$w \
+	    rtl/accumulator.sv tb/tb_accumulator.sv || exit 1; \
+	  vvp -n build/tb_acc_l$${l}_w$${w} | grep -E "^(PASS|FAIL|ERROR)"; \
+	done; done
 	$(IV) build/tb_exp2 -Ptb_exp2_unit.EXP_ADDR_BITS=$(EXP_ADDR_BITS) \
 	  -DVEC_FILE='"tb/vectors/exp2_k$(EXP_ADDR_BITS).hex"' \
 	  rtl/generated/exp2_rom.sv rtl/exp2_unit.sv tb/tb_exp2_unit.sv
@@ -89,6 +96,12 @@ sim-iv: gen-price
 VCS_PRICE := $(VCS) -sverilog -full64 -timescale=1ns/1ps
 sim-price: gen-price
 	$(VCS_PRICE) rtl/accumulator.sv tb/tb_accumulator.sv -o simv_acc && ./simv_acc
+	@for l in 1 2 4; do for w in 64 32; do \
+	  [ $$l = 1 ] && [ $$w = 64 ] && continue; \
+	  $(VCS_PRICE) rtl/accumulator.sv tb/tb_accumulator.sv \
+	    -pvalue+tb_accumulator.LANES=$$l -pvalue+tb_accumulator.SUM_WIDTH=$$w \
+	    -o simv_acc_l$${l}_w$${w} && ./simv_acc_l$${l}_w$${w} || exit 1; \
+	done; done
 	$(VCS_PRICE) rtl/generated/exp2_rom.sv rtl/exp2_unit.sv tb/tb_exp2_unit.sv \
 	  -pvalue+tb_exp2_unit.EXP_ADDR_BITS=$(EXP_ADDR_BITS) \
 	  +define+VEC_FILE='"tb/vectors/exp2_k$(EXP_ADDR_BITS).hex"' -o simv_exp && ./simv_exp

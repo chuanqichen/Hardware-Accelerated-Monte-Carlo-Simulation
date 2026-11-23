@@ -217,13 +217,37 @@ as the spec allows.
   - `sat_*_seen |= any valid lane's pulse`
 - Latency is 1 cycle.
 
-### 4.2 LANES
+### 4.2 LANES: registered reduction tree
 
-The ports are already `LANES` wide: `p[LANES]`, `p_valid[LANES]`. The count adds the
-**number of valid lanes**, not `LANES`. On the final beat the controller masks unused lanes
-so `trial_count == N_TRIALS` exactly. The lane sum is combinational for now. For 4 lanes, a
-registered adder tree goes in front in Week 5 (Tyler) and adds $\lceil\log_2 \text{LANES}\rceil$
-cycles.
+The ports are `LANES` wide: `p[LANES]`, `p_valid[LANES]`. The count adds the **number of
+valid lanes**, not `LANES`. On the final beat the controller masks unused lanes so
+`trial_count == N_TRIALS` exactly.
+
+With `REGISTER_TREE = 0` (the default, and what one lane uses) the lanes are summed
+combinationally in front of the result registers. For two and four lanes the lane array
+sets `REGISTER_TREE = 1`, which puts a **registered pairwise tree** in front instead.
+The tree RTL is Tyler's (final-integration work); this section records how it behaves
+and how it is verified.
+
+```
+lane0 --+
+        +--> [reg] --+
+lane1 --+            +--> [reg] --> + payoff_sum (64-bit result register)
+lane2 --+            |
+        +--> [reg] --+
+lane3 --+
+```
+
+- Each level adds pairs and registers the result, so a cycle never holds more than one
+  small adder, or the 64-bit accumulate. There are $\lceil\log_2 \text{LANES}\rceil$
+  levels: 1 for two lanes, 2 for four (`mc_pkg::lat_tree`). Power-of-two lane counts only.
+- Every tree register carries the partial sum, the number of valid lanes below it and
+  the OR of their `sat_x` / `sat_s` pulses. An invalid lane contributes 0 to all of them.
+- Latency from `p_valid` to the updated outputs is $1 + \lceil\log_2 \text{LANES}\rceil$
+  cycles. Throughput is still one beat (`LANES` trials) per cycle.
+- **`clear` also empties the tree.** A beat still in the tree when `clear` arrives, or
+  presented in the same cycle, is dropped, so trials of one run cannot leak into the next.
+- `model/price_dp.py accumulate()` models this with its `tree_lat` argument.
 
 ### 4.3 Overflow cannot happen
 
@@ -233,8 +257,27 @@ payoffs. A later area optimization would store 54 bits and zero-extend.
 
 ### 4.4 Adder
 
-A plain 64-bit `+`. At 5 ns in 45 nm it closes easily, and DesignWare chooses the
-structure.
+A plain 64-bit `+`, with DesignWare choosing the structure.
+
+### 4.5 Synthesis results (2026-11-22)
+
+Design Compiler T-2022.03-SP2, gscl45nm typical, the shared `constraints/lane_5ns.sdc`,
+pre-layout. `scripts/syn/run_accumulator_sweep.sh` synthesizes the accumulator alone at
+each lane count (`REGISTER_TREE = 1` above one lane). All nine runs are in
+`results/accumulator_ppa.csv`; raw reports for the 5 ns runs and the 4-lane 4.75 ns run
+are in `reports/syn/v2_p500_accumulator_*` and `reports/syn/v2_p475_accumulator_l4`.
+
+| `LANES` | Area at 5 ns | Registers | Power (unannotated) | 4.75 ns | 4.00 ns |
+|---|---|---|---|---|---|
+| 1 | 3,123 um^2 | 99 | 0.62 mW | met | met |
+| 2 | 3,700 um^2 | 126 | 0.81 mW | met | met |
+| 4 | 5,123 um^2 | 182 | 1.19 mW | met | met |
+
+Four lanes cost 1.6 times the area of one, not 4 times, because the 64-bit result
+registers and adder are shared and only the small tree grows. All three sizes have
+separately optimized mappings that meet setup at 4 ns. A timing-margin claim at
+5 ns requires analysis of one fixed netlist under the common constraints. Synthesis
+stops improving a path once its constraint is met and then recovers area.
 
 ## 5. Accuracy results (model, exact, no Monte Carlo noise)
 
@@ -296,13 +339,15 @@ the Python model before the next block is written.
 | Vectors | `model/gen_price_vectors.py` | exhaustive exp; 11,449 price trials (directed + random); accumulator streams |
 | `tb_exp2_unit` | exhaustive | all 262,144 values of $x$, random valid gaps, latency 3 on every output |
 | `tb_price_dp` | directed + random | p, flags and exact latency per trial; sat counts vs Python (547 `sat_x`, 2683 `sat_s`); no flag without valid |
-| `tb_accumulator` | 20k + 5k cycles | sum, count, sticky flags after every edge; 32-bit run exercises overflow |
+| `tb_accumulator` | `LANES` 1/2/4 x `SUM_WIDTH` 64/32 | sum, count, sticky flags after every edge against Python vectors; 32-bit runs exercise overflow; multi-lane vectors include random per-lane valid and clears, runs of N = 101, 1001 and 10003 trials with a masked last beat (`trial_count == N`), and 2,000 back-to-back full beats |
 
 **Testing the testbenches.** Deliberately broken copies of the RTL must fail:
 
 - Half-up rounding instead of half-even fails on 95 trials. The first version of the
   vectors caught it on only 2, which led to the large-$A$ tie cases.
 - An accumulator whose `clear` loses priority fails.
+- Four-lane tree: not gating invalid lanes out of the sum, not emptying the tree on
+  `clear`, and counting `LANES` instead of the valid lanes each fail on thousands of cycles.
 - `>=` instead of `>` in the payoff passes. That is correct: the two are
   equivalent, since $S_T = K$ gives 0 either way.
 
@@ -342,7 +387,8 @@ well as at the defaults.
 
 - Done 2026-11-12: S2 uses the shared `round_sat`; `LAT_DP` comes from `mc_pkg::lat_dp`.
 - Done 2026-11-12: standalone synthesis sweep (Section 11).
-- Open: registered lane adder tree in the accumulator for 2 and 4 lanes.
+- Done 2026-11-22: the registered accumulator tree (Tyler's RTL) is checked against the
+  model vectors and synthesized (Sections 4.2, 4.5).
 - Open: choose $k$ = 8 or 10 from the area in Section 11 and the bias in Section 5;
   multiplier area for decision D-4.
 
