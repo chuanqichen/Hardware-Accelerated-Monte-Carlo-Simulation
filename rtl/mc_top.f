@@ -6,6 +6,7 @@ rtl/generated/gauss_lut_rom.sv
 rtl/gauss_lut.sv
 rtl/generated/exp2_rom.sv
 rtl/exp2_unit.sv
+rtl/round_sat.sv
 rtl/price_dp.sv
 rtl/accumulator.sv
 rtl/mc_controller.sv

@@ -385,12 +385,11 @@ well as at the defaults.
 
 ## 9. Next steps
 
-- Swap the inline S2 rounding for Chuanqi's `round_sat` and export `LAT_DP` through
-  `mc_pkg` once they are merged.
-- Week 2: wire `gauss_lut -> price_dp -> accumulator` and write `model/mc_lane.py`
-  (`run_lane`, `trace_lane`) from these stage functions.
-- Week 3: synthesize `price_dp` with `MUL_STAGES` = 1/2 and $k$ = 8/10/12. Record area,
-  critical path, and what `report_resources` chose; compare clock gating on and off.
+- Done 2026-11-12: S2 uses the shared `round_sat`; `LAT_DP` comes from `mc_pkg::lat_dp`.
+- Done 2026-11-12: standalone synthesis sweep (Section 11).
+- Open: registered lane adder tree in the accumulator for 2 and 4 lanes.
+- Open: choose $k$ = 8 or 10 from the area in Section 11 and the bias in Section 5;
+  multiplier area for decision D-4.
 
 ## 10. Commands
 
@@ -400,4 +399,86 @@ python3 model/price_dp.py              # demo trace + k sweep + Black-Scholes ta
 make sim-iv                            # all three testbenches, Icarus, on a laptop
 make sim-iv EXP_ADDR_BITS=8 MUL_STAGES=2
 make sim-price                         # same under VCS (lab machines)
+scripts/syn/run_price_sweep.sh         # Design Compiler sweep (lab machines)
+CLK_PERIOD_NS=4.75 BATCH=p475 scripts/syn/run_price_sweep.sh "1 2" "8 10" "0 1"
 ```
+
+
+## 11. Synthesis results (2026-11-12)
+
+Design Compiler T-2022.03-SP2, gscl45nm typical 1.1 V / 27 C, the shared
+`constraints/lane_5ns.sdc` (30% I/O budgets, 0.1 ns uncertainty), pre-layout with an ideal
+clock. `price_dp` alone, after the `round_sat` change. All 36 runs are in
+`results/price_dp_ppa.csv`. Raw reports are committed for the seven runs cited here
+(`reports/syn/u1a_price_dp_*`, `u1_p475_*`, `u1_p400_*`); the rest can be reproduced with
+`scripts/syn/run_price_sweep.sh`.
+
+### 11.1 Area at 5 ns
+
+| $k$ | `MUL_STAGES` = 1 | `MUL_STAGES` = 2 | registers (1 / 2) |
+|---|---|---|---|
+| 8 | 10,035 um^2 | 10,543 um^2 | 149 / 184 |
+| 10 | 13,777 um^2 | 14,242 um^2 | 151 / 186 |
+| 12 | 23,942 um^2 | 24,411 um^2 | 153 / 188 |
+
+The exp ROM dominates the differences: $k$ = 8 saves 27% of the block against $k$ = 10,
+and $k$ = 12 costs 74% more. A second multiplier stage adds 35 flip-flops and about 3 to 5%.
+
+### 11.2 Timing margin
+
+Every run meets its setup constraint with slack near zero. That is not a measure of
+margin. Design Compiler stops improving a path once it meets the constraint, and the script then runs
+`optimize_netlist -area`, which spends leftover slack on smaller cells. To compare mappings
+under tighter constraints, the sweep was repeated at shorter clock periods (the I/O budgets
+scale with the period, since they are 30% of it):
+
+| Period | $k$ = 10, `MUL_STAGES` = 1 | $k$ = 8, `MUL_STAGES` = 1 |
+|---|---|---|
+| 5.00 ns | met, 13,777 um^2 | met, 10,035 um^2 |
+| 4.75 ns | met, 13,791 um^2 | met, 10,079 um^2 |
+| 4.50 ns | met, 13,943 um^2 | met, 10,251 um^2 |
+| 4.00 ns | met, 14,160 um^2 | met, 10,492 um^2 |
+
+All 24 shorter-period runs met setup timing, including `MUL_STAGES` = 2 and retiming on.
+At 4 ns, the one-stage mapping costs 2.8% more area for $k$ = 10 and 4.6% more for $k$ = 8
+than its 5 ns counterpart. Each row is a separately optimized netlist. The 0.25 ns
+margin goal still requires timing analysis of one fixed netlist under the common
+constraints. The shortest period that meets setup was not searched for.
+
+### 11.3 Decisions
+
+- **`MUL_STAGES` stays 1.** One stage closes at 4 ns. A second stage costs area and one
+  cycle of latency and buys nothing at the target clock.
+- **Retiming stays off.** `RETIME=1` (new opt-in switch in `scripts/syn/dc_synth.tcl`)
+  changed area by at most 1.04% and setup slack by at most 0.022 ns in the paired runs.
+  With it off, the registers in the netlist are the registers in the RTL, so simulated latency is the synthesized
+  latency. Section 3.2 assumed retiming would be needed; at this clock it is not.
+- **No pipeline change.** The plan allowed for an extra register in `exp2_unit`; it is
+  not needed.
+
+### 11.4 Critical path and what was built
+
+- At 5 ns, the worst path starts at input `b` (or `z`), goes through the fused
+  multiply-add and ends at `acc_r_reg[0]` (stage S1). It is the same endpoint as the
+  one-lane top's critical path (`active_b_reg` to `u_price/acc_r_reg`). At tighter
+  constraints the critical path can move into the exponential or payoff stages.
+  For example, the [4 ns, $k$ = 10, one-stage report](../reports/syn/u1_p400_price_dp_k10_m1_r0/timing.rpt)
+  runs from `u_exp/n4_reg[0]` to `u_exp/s_t_reg[13]`.
+- `resources.rpt` shows one datapath block `DP_OP` holding both `mult_41` and `add_41`,
+  so the multiply and the `+ (A << 14)` were fused as Section 3.2 intended. The multiplier
+  is radix-4 Booth (`benc_radix4_mux`). The payoff compare and subtract use the
+  area-optimized `DW_cmp` and `DW01_sub`.
+- **Flip-flop setup time.** On these paths the library charges 1.2 to 1.44 ns of setup
+  time at `DFFPOSX1` for a rising data edge, against 0.09 to 0.13 ns at other endpoints
+  (for example `DFFSR` in the RNG). The one-lane top report shows the same thing (1.22 ns
+  on `acc_r_reg`). This is the known library artefact described in
+  `Gaussian_Lookup_Work_Plan.md` Section 6: the `DFFPOSX1` setup table in `gscl45nm.lib`
+  has corrupt entries at large clock transitions, which inflate the interpolated value
+  at our 0.1 ns clock transition. The team's PrimeTime check for it is
+  `scripts/sta/clock_transition.sh`. This study retains the library's reported setup
+  times on affected paths; each configuration's slack remains the value in its timing
+  report.
+- Each run is labelled `mapped_with_violations` by the parser because of hold violations
+  (worst -0.04 ns, 41 to 104 paths) and max-capacitance violations, as in the team's
+  one-lane result. Hold is left to place and route in the shared flow. The capacitance
+  violations were not investigated.

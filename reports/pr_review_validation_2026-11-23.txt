@@ -1,0 +1,63 @@
+Course-project PR validation, 2026-11-23
+Reviewer: Chuanqi Chen
+
+Environment
+  Local: macOS, Python 3.9.6, numpy 2.0.2, Bash 3.2.
+  Lab: peach.ece.utexas.edu, VCS T-2022.06_Full64, module syn/2022.
+  Builds and raw logs are isolated under:
+  /home/work/cc83382/course-pr-review-20261123-7mPf5k/
+
+PR #18: shared round_sat and pricing synthesis
+  Reviewed RTL: cf1709b15dda6ca924ae7b417d9c6c7378694c15.
+  The review fixes change the waveform runner and documentation, not RTL.
+  Fix: compile rtl/mc_pkg.sv before price_dp in scripts/sim/dump_waves.sh.
+  The original runner failed in VCS with Error-[SV-LCM-PND].
+
+  Fixed runner, MC_SIM_RUN_ID=fix_pr18_waves_20261123:
+    PASS: 11029 checked, 0 errors
+    PASS rng_lane: 4440 cycles, 1763 valid words
+    PASS: tb_price_dp k=10 MUL_STAGES=1 LAT_DP=6, 11449 trials checked, 0 errors
+    All three nonempty VCDs published successfully.
+    Raw log: pr18-wave-fix.log
+    Compile/run artifacts: pr18/reports/waves/fix_pr18_waves_20261123/
+
+  Local checks after the fix:
+    make test: 85 tests PASS.
+    make flow-test: 28 tests PASS.
+    bash -n scripts/sim/dump_waves.sh and git diff --check: PASS.
+
+  Earlier independent VCS replay of the same RTL: 13 runs PASS.
+    make sim-price at k8/M2 and k10/M1: 3 runs each.
+    make sim-rs: 2 runs.
+    make sim-top: 4 latency configurations.
+    make sim-lane-bubbles: 1 run.
+    Summary: pr18-vcs-summary.txt
+    Initial RTL/TB/source hashes: pr18-initial-source-sha256.txt
+
+  Synthesis evidence audit:
+    Seven archived runs agree with results/price_dp_ppa.csv.
+    Their price_dp RTL hashes agree with the reviewed source.
+    The documentation now scopes the S1 critical path to 5 ns, identifies
+    exponential/payoff critical paths at tighter constraints, reports retiming
+    deltas in appropriate units, and distinguishes separate synthesis mappings
+    from a fixed-netlist timing margin.
+
+PR #17: real lane replication and registered reduction
+  Original candidate: cfd7be72bc5f0398aee49aa4e6824d1dab2083f1.
+  Integrated main through PR #18 at 76b1a5be51a50a0d9ec02ec595a714a0240fd7c3.
+  Fix: replace mapfile with a Bash 3.2 read loop and reuse the baseline source
+  array for the k8 trace compile.
+  Local: make test (89) and make flow-test (31) PASS on macOS Bash 3.2.
+
+  VCS replay: all 35 configurations PASS.
+    fix_pr17_top_20261123: 4 full-top latency combinations.
+    fix_pr17_control_20261123: 1/2/4-lane control mocks, 10 runs each.
+    fix_pr17_bubbles_20261123: 100-trial real-lane bubble test.
+    fix_pr17_array_20261123: 24 real-array configurations, 2 registered-tree
+      tests, and 1 k8 detailed trace; ARRAY_DONE reached.
+  Committed summary and source hashes:
+    reports/pr_review_2026-11-23/pr17-vcs-summary.txt
+    reports/pr_review_2026-11-23/pr17-source-sha256.txt
+  Raw logs/manifests: pr17/reports/sim/fix_pr17_* under the lab scratch root.
+  This establishes functional simulation, not multi-lane synthesis or timing
+  closure. The DC gate remains one lane pending those implementation checks.

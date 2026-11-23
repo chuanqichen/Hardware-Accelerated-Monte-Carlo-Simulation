@@ -63,7 +63,8 @@ uncertainty and transition, typical gscl45nm at 1.1 V/27 C. CLK_PERIOD_NS can ov
 the period explicitly; keep it fixed across comparisons. OPCOND defaults to typical.
 LIB_DB defaults to the system FreePDK45 gscl45nm.db, identical to the course copy.
 Time is ns and capacitance pF. Recovery/removal arcs are enabled and reset paths
-are reported. Never blanket false-path rst_n. Retiming is not enabled.
+are reported. Never blanket false-path rst_n. Retiming is off unless RETIME=1 (adds
+-retime to compile_ultra).
 
 Every run records input/source/library metadata and mapped netlist/SDC. It refuses
 to overwrite an existing REPORT_DIR or TAG directory. Keep partial evidence on
@@ -179,6 +180,9 @@ python -m pip install --target tmp/rtl_parser pyslang==12.2.0
 python scripts/check_array_elaboration.py --parser-dir tmp/rtl_parser --inputs tmp/array_inputs_001
 ```
 
-Static checks are not simulation. Defaults stay a10/k10 and the DC gate stays at
-one lane until VCS replay passes. Preserve the failed and untested timing checks
+The November 23 VCS replay passed all 35 configurations in this recipe; see
+`reports/pr_review_validation_2026-11-23.txt`. The array runner also supports
+macOS Bash 3.2. Static checks remain separate from simulation. Defaults stay
+a10/k10 and the DC gate stays at one lane pending multi-lane mapping and constraint
+checks. Preserve the failed and untested timing checks
 in all comparisons; do not report conditional 200 MHz throughput as achieved.

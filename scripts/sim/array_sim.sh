@@ -10,7 +10,10 @@ vectors=${ARRAY_INPUTS:?Set ARRAY_INPUTS to the prepare_array_sim.py output dire
 run_dir="$PWD/reports/sim/$run_id"
 [[ ! -e "$run_dir" ]] || { echo "Run exists: $run_dir" >&2; exit 2; }
 mkdir -p "$run_dir"
-mapfile -t baseline < <(tr -d '\r' < rtl/mc_top.f)
+baseline=()
+while IFS= read -r source || [[ -n "$source" ]]; do
+  baseline+=("$source")
+done < <(tr -d '\r' < rtl/mc_top.f)
 require_pass() {
   local log=$1 pattern=$2
   if ! grep -Eq "$pattern" "$log" || grep -Eq '^(Error|Fatal|FATAL|FAIL)(:|-|[[:space:]])' "$log"; then
@@ -58,7 +61,7 @@ for lanes in 2 4; do
 done
 # Detailed stage traces for the proposed k8 table, with matching generated ROM.
 dir="$run_dir/k8_traces"; mkdir "$dir"
-mapfile -t sources < <(tr -d '\r' < rtl/mc_top.f)
+sources=("${baseline[@]}")
 for i in "${!sources[@]}"; do
   [[ "${sources[$i]}" != rtl/generated/exp2_rom.sv ]] || sources[$i]="$vectors/k8/exp2_rom.sv"
 done

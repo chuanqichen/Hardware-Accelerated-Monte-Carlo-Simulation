@@ -14,7 +14,7 @@ class TestSynthesisSetup(unittest.TestCase):
         self.library = self.directory / "test library.db"
         self.library.write_bytes(b"configuration test only")
         self.tcl = tkinter.Tcl()
-        for key in ("DESIGN", "RTL_FILES", "LIB_DB", "TAG", "SDC", "REPORT_DIR", "CLK_PERIOD_NS", "PARAMS", "OPCOND"):
+        for key in ("DESIGN", "RTL_FILES", "LIB_DB", "TAG", "SDC", "REPORT_DIR", "CLK_PERIOD_NS", "PARAMS", "OPCOND", "RETIME"):
             self.tcl.eval(f"unset -nocomplain ::env({key})")
         self.tcl.call("source", str(ROOT / "scripts/syn/config.tcl"))
         self.tcl.setvar("env(LIB_DB)", str(self.library))
@@ -85,6 +85,19 @@ class TestSynthesisSetup(unittest.TestCase):
         self.tcl.setvar("env(SDC)", "constraints/missing.sdc")
         with self.assertRaisesRegex(tkinter.TclError, "Missing SDC"):
             self.config()
+
+    def test_retime_off_by_default_and_validated(self):
+        self.assertEqual(int(self.tcl.call("dict", "get", self.config(), "retime")), 0)
+        self.tcl.setvar("env(RETIME)", "")
+        self.assertEqual(int(self.tcl.call("dict", "get", self.config(), "retime")), 0)
+        for value in ("0", "1"):
+            self.tcl.setvar("env(RETIME)", value)
+            with self.subTest(retime=value):
+                self.assertEqual(int(self.tcl.call("dict", "get", self.config(), "retime")), int(value))
+        for value in ("2", "yes", "-1", "1;exit"):
+            self.tcl.setvar("env(RETIME)", value)
+            with self.subTest(retime=value), self.assertRaisesRegex(tkinter.TclError, "RETIME"):
+                self.config()
 
     def test_parameters_checked_and_production_lanes_bounded(self):
         for params in ("A=one", "A=1;exit", "bad"):
