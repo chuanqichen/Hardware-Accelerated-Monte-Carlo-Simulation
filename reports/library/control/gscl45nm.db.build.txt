@@ -1,0 +1,5 @@
+source_sha256=69c0641df1dc737e5c8dbd3950f2daf3b52c6e7767aa081e35e9b0739bf62d6f
+db_sha256=a1b26b7ba308071b7aa93e91c45abe8d25cda1996e4a6fef92fc884f22b23ffb
+tool=T-2022.03-SP5
+library_name=gscl45nm
+command=read_lib; write_lib -format db gscl45nm

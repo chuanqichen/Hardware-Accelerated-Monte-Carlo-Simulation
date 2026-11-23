@@ -13,11 +13,14 @@ class TestSynthesisSetup(unittest.TestCase):
         self.directory = Path(self.temp.name)
         self.library = self.directory / "test library.db"
         self.library.write_bytes(b"configuration test only")
+        self.liberty = self.library.with_suffix(".lib")
+        self.liberty.write_text("configuration test only")
         self.tcl = tkinter.Tcl()
-        for key in ("DESIGN", "RTL_FILES", "LIB_DB", "TAG", "SDC", "REPORT_DIR", "CLK_PERIOD_NS", "PARAMS", "OPCOND", "RETIME"):
+        for key in ("DESIGN", "RTL_FILES", "LIB_DB", "LIB_LIB", "TAG", "SDC", "REPORT_DIR", "CLK_PERIOD_NS", "PARAMS", "OPCOND", "RETIME"):
             self.tcl.eval(f"unset -nocomplain ::env({key})")
         self.tcl.call("source", str(ROOT / "scripts/syn/config.tcl"))
         self.tcl.setvar("env(LIB_DB)", str(self.library))
+        self.tcl.setvar("env(LIB_LIB)", str(self.liberty))
         self.tcl.setvar("env(TAG)", "configuration_test")
 
     def config(self):

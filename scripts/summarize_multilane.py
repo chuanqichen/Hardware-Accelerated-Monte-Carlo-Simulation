@@ -8,8 +8,10 @@ import argparse
 import csv
 import gzip
 import hashlib
+import json
 from pathlib import Path
 import re
+import shlex
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports"
@@ -60,6 +62,34 @@ def number(pattern, text):
     return float(match[1])
 
 
+def innovus_timing(physical, kind):
+    """Read the all-paths column; counts catch violations rounded to 0.000 ns."""
+    name = ("postroute/mc_top.summary" if kind == "setup"
+            else "postroute_hold/mc_top_hold.summary")
+    path = physical / name
+    text = (path.read_text() if path.is_file() else
+            gzip.decompress(path.with_name(path.name + ".gz").read_bytes()).decode("utf-8"))
+    slack = number(r"^\s*\|\s*WNS \(ns\):\s*\|\s*(" + NUMBER + r")\s*\|", text)
+    count = int(number(r"^\s*\|\s*Violating Paths:\s*\|\s*(\d+)\s*\|", text))
+    return slack, count
+
+
+def timing_failures(row):
+    return [kind for kind in ("setup", "hold")
+            if row[f"pt_routed_{kind}_ns"] < 0 or row[f"innovus_{kind}_ns"] < 0
+            or row[f"innovus_{kind}_violating_paths"] > 0]
+
+
+def timing_note(rows):
+    failures = []
+    for kind in ("setup", "hold"):
+        lanes = [str(row["lanes"]) for row in rows if kind in timing_failures(row)]
+        if lanes:
+            failures.append(f"{kind} (lanes {', '.join(lanes)})")
+    return ("Open timing: " + "; ".join(failures) if failures else
+            "Setup/hold pass in both tools; electrical and PVT limits remain")
+
+
 def completed(log, marker):
     text = log.read_text()
     if not re.search(r"^" + re.escape(marker) + r"(?:\s|$)", text, re.MULTILINE):
@@ -72,7 +102,8 @@ def completed(log, marker):
 def collect_run(run):
     lanes = int(run["lanes"])
     syn = REPORTS / "syn" / run["syn_tag"]
-    pre = REPORTS / "sta" / run["syn_tag"]
+    pre_tag = run.get("pt_pre_tag") or run["syn_tag"]
+    pre = REPORTS / "sta" / pre_tag
     physical = REPORTS / "pnr" / run["pnr_tag"]
     post = REPORTS / "sta" / run["pt_routed_tag"]
     mapped_sim = REPORTS / "sim" / run["sim_mapped_tag"]
@@ -83,7 +114,7 @@ def collect_run(run):
                       GAUSS_ADDR_BITS="10", EXP_ADDR_BITS="10") or summary["retime"] != "0":
         raise ValueError(f"Unexpected synthesis configuration: {syn}")
     completed(syn / "dc.log.txt", "SYNTH_DONE " + run["syn_tag"])
-    completed(pre.with_suffix(".log"), "STA_DONE " + run["syn_tag"])
+    completed(pre.with_suffix(".log"), "STA_DONE " + pre_tag)
     completed(physical.with_suffix(".log"), "PNR_DONE " + run["pnr_tag"])
     post_log = completed(post.with_suffix(".log"), "STA_DONE " + run["pt_routed_tag"])
     pre_inputs = read_fields(pre / "inputs.txt")
@@ -94,6 +125,9 @@ def collect_run(run):
             physical_inputs["corner"]} != {"typical"}:
         raise ValueError("Unexpected or unmatched analysis corners")
     pre_sha = digests(pre / "source_sha256.txt")
+    syn_library_sha = digests(syn / "library_sha256.txt")
+    if len(syn_library_sha) != 1 or set(syn_library_sha.values()) != {pre_sha[pre_inputs["library"]]}:
+        raise ValueError("DC and PT libraries differ")
     post_sha = digests(post / "source_sha256.txt")
     physical_sha = digests(physical / "source_sha256.txt")
     output_sha = digests(physical / "output_sha256.txt")
@@ -164,6 +198,8 @@ def collect_run(run):
     driverless = re.findall(r"Driverless nets\s*\|\s*\d+\s*\|\s*\d+\s*\|\s*\d+\s*\|\s*\d+\s*\|\s*(\d+)", annotation)
     if len(driverless) != 2:
         raise ValueError("Missing driverless-net annotation diagnostics")
+    innovus_setup, innovus_setup_count = innovus_timing(physical, "setup")
+    innovus_hold, innovus_hold_count = innovus_timing(physical, "hold")
     row = dict(
         lanes=lanes, syn_tag=run["syn_tag"], pnr_tag=run["pnr_tag"],
         pt_routed_tag=run["pt_routed_tag"], period_ns=period,
@@ -176,6 +212,9 @@ def collect_run(run):
         die_area_um2=number(r"Total area of Chip:\s*(" + NUMBER + ")", impl),
         pt_routed_setup_ns=float(post_slack["setup_slack_ns"]),
         pt_routed_hold_ns=float(post_slack["hold_slack_ns"]),
+        innovus_setup_ns=innovus_setup, innovus_hold_ns=innovus_hold,
+        innovus_setup_violating_paths=innovus_setup_count,
+        innovus_hold_violating_paths=innovus_hold_count,
         geometry_clean=int("No DRC violations were found" in (physical / "geometry.rpt").read_text()),
         connectivity_clean=int("Found no problems or warnings." in (physical / "connectivity.rpt").read_text()),
         corpus_cases=cases, corpus_trials=trials, profile_trials=count,
@@ -194,17 +233,45 @@ def collect_run(run):
         library_lib_sha256=physical_sha[physical_inputs["library"]],
         lef_sha256=physical_sha[physical_inputs["lef"]],
         profile_a_hex=activity["a"], profile_b_hex=activity["b"], profile_k_hex=activity["k"])
+    row["routed_setup_hold_pass_both_tools"] = int(not timing_failures(row))
+    if run.get("pt_pre_tag"):
+        row["pt_pre_tag"] = pre_tag
     return row
 
 
-def markdown(rows):
+def library_label(rows):
+    """Recognize the published pair and reject a mixed original/corrected flow."""
+    package = ROOT / "tech/gscl45nm/setup_fixed_v1/compiled.json"
+    if not package.is_file():
+        return ""
+    compiled = json.loads(package.read_text())
+    labels = set()
+    for row in rows:
+        matches = (row["library_db_sha256"] == compiled["db_sha256"],
+                   row["library_lib_sha256"] == compiled["source_sha256"])
+        if any(matches) and not all(matches):
+            raise ValueError("Mixed original/corrected library pair")
+        labels.add("setup_fixed_v1" if all(matches) else "")
+    if len(labels) != 1:
+        raise ValueError("Mixed library variants across lane counts")
+    return labels.pop()
+
+
+def markdown(rows, manifest="reports/multilane_runs.csv", output="results/multilane_implementation"):
+    label = library_label(rows)
+    command = "python scripts/summarize_multilane.py --plot"
+    if manifest != "reports/multilane_runs.csv" or output != "results/multilane_implementation":
+        command += " --manifest " + shlex.quote(manifest) + " --out " + shlex.quote(output)
+    library = "library" if not label else f"`{label}` project-approximation library"
+    timing = timing_note(rows)
     lines = ["# Multi-lane implementation results", "",
-             "Generated by `python scripts/summarize_multilane.py --plot` from "
-             "`reports/multilane_runs.csv`. Input digests, completion markers, corpora, "
+             f"Generated by `{command}` from "
+             f"`{manifest}`. Input digests, completion markers, corpora, "
              "SDC translations and power units are checked before publication.", "",
              "All points use a10/k10, G=1, M=1, no retiming, the typical OSU/FreePDK45 "
-             f"library and a {rows[0]['period_ns']:g} ns target. These are tool estimates. Hold timing remains "
-             "unclosed; the installation has no characterized QRC/capacitance table.", "",
+             f"{library} and a {rows[0]['period_ns']:g} ns target. These are tool estimates. "
+             f"**{timing}.** Passing these checks alone does not establish signoff; "
+             "the installation has no characterized QRC/capacitance table.", "",
              "## Synthesis and matched pre-layout PrimeTime", "",
              "| Lanes | DC cell area (µm²) | Cells | DC setup (ns) | PT setup (ns) | PT hold (ns) |",
              "|---:|---:|---:|---:|---:|---:|"]
@@ -213,11 +280,15 @@ def markdown(rows):
     lines += ["", "## Routed implementation", "",
               "Physical signal-cell area excludes fillers and uses LEF geometry. DC area "
               "uses Liberty cell areas; their difference is not solely an optimization gain.", "",
-              "| Lanes | Signal-cell area (µm²) | Core area (µm²) | Die area (µm²) | PT setup (ns) | PT hold (ns) | Geometry / connectivity |",
-              "|---:|---:|---:|---:|---:|---:|:---|"]
+              "Innovus reports SI-aware post-route timing. The pass/open column covers "
+              "setup and hold in both tools, including Innovus violation counts when WNS "
+              "rounds to zero; it does not waive electrical violations.", "",
+              "| Lanes | Signal-cell area (µm²) | Core area (µm²) | Die area (µm²) | PT setup (ns) | PT hold (ns) | Innovus setup (ns) | Innovus hold (ns) | Both tools: setup/hold | Geometry / connectivity |",
+              "|---:|---:|---:|---:|---:|---:|---:|---:|:---|:---|"]
     for r in rows:
         checks = "clean" if r["geometry_clean"] and r["connectivity_clean"] else "review violations"
-        lines.append(f"| {r['lanes']} | {r['physical_signal_area_um2']:.3f} | {r['core_area_um2']:.3f} | {r['die_area_um2']:.3f} | {r['pt_routed_setup_ns']:.6f} | {r['pt_routed_hold_ns']:.6f} | {checks} |")
+        timing = "pass" if r["routed_setup_hold_pass_both_tools"] else "open"
+        lines.append(f"| {r['lanes']} | {r['physical_signal_area_um2']:.3f} | {r['core_area_um2']:.3f} | {r['die_area_um2']:.3f} | {r['pt_routed_setup_ns']:.6f} | {r['pt_routed_hold_ns']:.6f} | {r['innovus_setup_ns']:.3f} | {r['innovus_hold_ns']:.3f} | {timing} | {checks} |")
     lines += ["", "## Activity-based power and conditional throughput", "",
               "One normal 1000-trial case per lane count, identical A/B/K and matching "
               "golden corpora. Activity comes from zero-delay routed-netlist simulation. "
@@ -230,8 +301,9 @@ def markdown(rows):
         lines.append(f"| {r['lanes']} | {r['profile_busy_cycles']} | {r['profile_duration_ns']:.1f} | {r['conditional_busy_mtrials_s']:.3f} | {1000*r['estimated_power_w']:.4g} | {r['estimated_energy_pj_per_trial']:.1f} | {r['activity_invariant_annotation_pct']:.2f}% | {r['activity_fully_annotated_cells_pct']:.2f}% |")
     lines += ["", f"Both the mapped and routed replays pass {sum(r['corpus_cases'] for r in rows)} "
               f"cases / {sum(r['corpus_trials'] for r in rows):,} completed trials across the three lane counts.",
-              "", "The full CSV retains file digests and run IDs. See "
-              "[methods and remaining closure work](../docs/Multilane_Implementation.md).", ""]
+              "", "The full CSV retains file digests and run IDs. See " +
+              ("[methods and remaining closure work](../docs/Library_Fix_Baseline.md)." if label else
+               "[methods and remaining closure work](../docs/Multilane_Implementation.md)."), ""]
     return "\n".join(lines)
 
 
@@ -256,7 +328,12 @@ def plot(rows, output):
         ax.set_axisbelow(True)
         ax.grid(axis="y", alpha=0.2)
         ax.set_title(chr(ord("a") + index), loc="left", fontweight="bold")
-    fig.suptitle(f"{rows[0]['period_ns']:g} ns target · 1000-trial activity window\nNative RC estimates; hold timing remains unclosed", fontsize=11)
+    label = library_label(rows)
+    subtitle = "Native RC estimates\n" + timing_note(rows)
+    title = f"{rows[0]['period_ns']:g} ns target · 1000-trial activity window\n"
+    if label:
+        title += label + " project approximation\n"
+    fig.suptitle(title + subtitle, fontsize=11)
     for suffix in (".png", ".svg", ".pdf"):
         fig.savefig(output.with_suffix(suffix), dpi=600, facecolor="white")
     plt.close(fig)
@@ -278,14 +355,21 @@ def main():
                       "profile_a_hex", "profile_b_hex", "profile_k_hex", "rc_method"):
             if len({r[field] for r in rows}) != 1:
                 raise ValueError(f"Unmatched comparison field: {field}")
+        library_label(rows)
     except (ValueError, KeyError, OSError) as error:
         parser.error(str(error))
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    with args.out.with_suffix(".csv").open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+    with args.out.with_suffix(".csv").open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
-    args.out.with_suffix(".md").write_text(markdown(rows))
+    def display_path(path):
+        try:
+            return str(path.resolve().relative_to(ROOT))
+        except ValueError:
+            return str(path)
+    args.out.with_suffix(".md").write_text(markdown(rows, display_path(args.manifest),
+                                                   display_path(args.out)))
     if args.plot:
         plot(rows, args.out)
     print(f"Verified {len(rows)} matched implementations; wrote {args.out}.csv and .md")

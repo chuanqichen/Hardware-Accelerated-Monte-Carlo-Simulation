@@ -9,8 +9,20 @@ proc mc_library {repo_root format} {
         lib { set variable LIB_LIB }
         default { error "Unsupported library format: $format" }
     }
-    set override [mc_env_or $variable ""]
-    if {$override ne ""} { return $override }
+    set db_override [mc_env_or LIB_DB ""]
+    set lib_override [mc_env_or LIB_LIB ""]
+    if {($db_override eq "") != ($lib_override eq "")} {
+        error "Set both LIB_DB and LIB_LIB, or unset both to select the project library"
+    }
+    if {$db_override ne ""} {
+        foreach {kind path} [list db $db_override lib $lib_override] {
+            if {![file isfile $path] || [file size $path] == 0 ||
+                [file extension $path] ne ".$kind"} {
+                error "Missing standard-cell .$kind file: $path"
+            }
+        }
+        return [mc_env_or $variable ""]
+    }
     set directory [file normalize [file join $repo_root tech gscl45nm setup_fixed_v1]]
     set f [open [file join $directory SHA256SUMS] r]
     set sums [read $f]

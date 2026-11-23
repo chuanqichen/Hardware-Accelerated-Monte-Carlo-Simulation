@@ -17,13 +17,19 @@ for lanes in 1 2 4; do
   syn="$reference/reports/syn/${reference_batch}_l${lanes}"
   for variant in installed control fixed; do
     case "$variant" in
-      installed) library="$PWD/tech/gscl45nm/original/gscl45nm.db";;
-      control) library="$control";;
-      fixed) library="$PWD/tech/gscl45nm/setup_fixed_v1/gscl45nm.db";;
+      installed)
+        library="$PWD/tech/gscl45nm/original/gscl45nm.db"
+        liberty="$PWD/tech/gscl45nm/original/gscl45nm.lib";;
+      control)
+        library="$control"
+        liberty="$PWD/tech/gscl45nm/original/gscl45nm.lib";;
+      fixed)
+        library="$PWD/tech/gscl45nm/setup_fixed_v1/gscl45nm.db"
+        liberty="$PWD/tech/gscl45nm/setup_fixed_v1/gscl45nm.lib";;
     esac
     tag="${batch}_l${lanes}_${variant}"
     NETLIST="$syn/mc_top.mapped.v" MAPPED_SDC="$syn/mc_top.mapped.sdc" \
-      LIB_DB="$library" STA_TAG="$tag" bash scripts/sta/prelayout.sh \
+      LIB_DB="$library" LIB_LIB="$liberty" STA_TAG="$tag" bash scripts/sta/prelayout.sh \
       > "reports/library/${tag}.runner.log" 2>&1
     printf '%s,%s,%s\n' "$lanes" "$variant" "$tag" >> "$manifest"
     cat "reports/sta/$tag/summary.txt"

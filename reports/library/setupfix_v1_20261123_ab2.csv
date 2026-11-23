@@ -1,0 +1,10 @@
+lanes,variant,sta_tag
+1,installed,setupfix_v1_20261123_ab2_l1_installed
+1,control,setupfix_v1_20261123_ab2_l1_control
+1,fixed,setupfix_v1_20261123_ab2_l1_fixed
+2,installed,setupfix_v1_20261123_ab2_l2_installed
+2,control,setupfix_v1_20261123_ab2_l2_control
+2,fixed,setupfix_v1_20261123_ab2_l2_fixed
+4,installed,setupfix_v1_20261123_ab2_l4_installed
+4,control,setupfix_v1_20261123_ab2_l4_control
+4,fixed,setupfix_v1_20261123_ab2_l4_fixed

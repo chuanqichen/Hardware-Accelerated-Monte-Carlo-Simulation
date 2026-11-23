@@ -2,11 +2,19 @@
 
 Date: 2026-11-23. Implemented and validated by Chuanqi Chen.
 
+This document preserves PR #21's original-library checkpoint. The subsequent
+[versioned library correction and new baseline](Library_Fix_Baseline.md) are
+recorded separately; new shared-flow runs default to that versioned library.
+
 This checkpoint provides complete 1/2/4-lane synthesis, matched Design Compiler
 and PrimeTime analysis, and routed implementation evidence. All six mapped/routed
 replays pass the corresponding model corpora. All three layouts pass Innovus's
 available geometry and connectivity checks. Independent routed PT has positive
 setup slack and remaining hold violations.
+Innovus still fails four-lane setup. Its SI-aware post-route setup/hold WNS
+is +0.018/-0.011, +0.076/-0.004 and -0.046/-0.049 ns for 1/2/4 lanes.
+The generated results show both timing engines; positive PT setup alone does
+not establish closure.
 
 The canonical numbers are generated from archived reports:
 
@@ -32,8 +40,8 @@ uncertainty/initial transition, reset recovery/removal checks, and electrical
 limits. This measured baseline uses the installed, unmodified libraries and no
 blanket reset false paths. The subsequently documented
 [DFFPOSX1 setup-table investigation](PDK_Setup_Investigation.md) records the
-professor's guidance and a proposed project-local correction; no corrected-library
-results are included in these tables.
+professor's guidance and links to the completed project-local correction study;
+no corrected-library results are included in these tables.
 
 ```mermaid
 flowchart LR
@@ -106,11 +114,15 @@ The VCD has zero-delay activity and does not reproduce physical glitch timing.
 1. **Setup-table interpretation needs a controlled comparison.** The installed
    DFFPOSX1 setup table contains four verified outlying entries. The
    [investigation note](PDK_Setup_Investigation.md) separates the earlier
-   clock-slew experiment from the proposed fixed-SDC library correction. The
-   latter needs its own matched results; positive routed setup slack here remains
-   conditional on the installed library and native RC model.
+   clock-slew experiment from the fixed-SDC library correction. That
+   [comparison is now recorded separately](Library_Fix_Baseline.md); positive
+   PT routed setup slack here remains conditional on the installed library and
+   native RC model. Innovus's four-lane setup miss is 46 ps.
 2. **Hold timing remains unclosed.** Use the independent PT hold paths to guide
-   further buffering/clock-tree work, then rerun both tools. Lowering clock
+   further data-path buffering, then rerun both tools. The worst paths are
+   single-register recirculation loops with identical launch/capture clocks;
+   the 0.10 ns hold uncertainty makes these short paths fail. Moving the
+   register's clock does not change its same-register skew. Lowering clock
    frequency alone does not repair a hold violation. Positive setup slack is
    insufficient to claim a working maximum frequency.
 3. **RC accuracy is limited.** This installation supplies no characterized
@@ -118,7 +130,13 @@ The VCD has zero-delay activity and does not reproduce physical glitch timing.
    uses its native estimates. Obtain a matching RC model and additional valid
    PVT corners before claiming physical performance or power signoff.
 4. **Electrical limits remain violated.** PT reports max-capacitance and
-   max-fanout violations. It also reports `RC-004` warnings for
+   max-fanout violations. The capacitance rows are zero-limit library checks
+   on seven output pins (AOI21X1/Y, AOI22X1/Y, DFFSR/Q, NAND2X1/Y, NAND3X1/Y,
+   NOR2X1/Y, TBUFX1/Y); no positive-limit capacitance check violates. They
+   remain reported and cannot be repaired by buffering to a literal zero
+   limit. Placement's removal of DC buffer trees creates fanout violations;
+   gscl45nm has no library fanout loads for Innovus to enforce the SDC limit.
+   PT also reports `RC-004` warnings for
    several input-driver models, including non-positive drive resistance or
    inconsistent linear-driver data. Review these and the archived electrical,
    disabled-arc and timing-coverage reports with the shared library/constraints
@@ -140,6 +158,8 @@ Use an owned lab checkout under `/home/work`, a login shell, and fresh batch tag
 ```bash
 module load syn/2022 cadence/2022
 export PYTHON=/home/work/cc83382/venv/bin/python  # substitute your own environment
+export LIB_DB="$PWD/tech/gscl45nm/original/gscl45nm.db"
+export LIB_LIB="$PWD/tech/gscl45nm/original/gscl45nm.lib"
 BATCH=study_001 make synth-multilane
 SYN_BATCH=study_001 PNR_BATCH=layout_001 make implement-multilane
 ```
@@ -167,8 +187,9 @@ corresponding run-selection CSV with `--manifest`.
 Large GDS files, Innovus databases, VCDs and compiler work files remain at
 `/home/work/cc83382/course-implementation-20261123` on peach. GDS/output and VCD
 digests are committed. SPEF/DEF are stored as deterministic gzip archives; their
-digests refer to the uncompressed content. No installed cell model, library,
-technology file or licensed executable is included in the repository.
+digests refer to the uncompressed content. This checkpoint did not vendor
+technology assets. PR #22 subsequently versions the Apache-licensed original and
+corrected Liberty/DB pair; licensed EDA executables remain external.
 
 The native layout image can be reproduced on the lab host:
 

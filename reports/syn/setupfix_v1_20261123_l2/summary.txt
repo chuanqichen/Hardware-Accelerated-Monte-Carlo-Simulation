@@ -1,0 +1,14 @@
+design       mc_top
+tag          setupfix_v1_20261123_l2
+params       LANES=2,GAUSS_LATENCY=1,MUL_STAGES=1,GAUSS_ADDR_BITS=10,EXP_ADDR_BITS=10
+retime       0
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.106785
+fmax_mhz     204.364615084
+area_um2     57736.101539
+area_comb_um2 42959.721534
+area_bufinv_um2 8965.507000
+area_seq_um2 14776.380005
+cells        18652
+registers    1503

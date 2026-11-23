@@ -129,7 +129,9 @@ multiplier, 5% of `price_dp`.
   does for the one-lane design. Hold is left to place and route.
 - Setup slacks retain the library's reported setup times, including the identified
   [`DFFPOSX1` table anomaly](PDK_Setup_Investigation.md) on affected paths.
-  The proposed project-local correction requires a separate matched comparison.
+  The [project-local correction study](Library_Fix_Baseline.md) records a separate
+  matched comparison and new complete-top baseline; these standalone pricing
+  results retain the original library.
   Each clock-period point is a separate
   synthesis mapping; margin for a fixed netlist requires its own timing analysis.
 - Clock gating of the stage enables was not measured.

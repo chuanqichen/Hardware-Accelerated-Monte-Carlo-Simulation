@@ -52,10 +52,15 @@ All three layouts complete geometry/connectivity checks; independent routed PT
 still reports hold violations. Native RC and library-model limitations remain.
 k8 is a candidate, not the new default.
 
+The [versioned library correction and new baseline](Library_Fix_Baseline.md)
+follow in PR #22. Shared synthesis, STA and physical flows now default to the
+checked-in corrected Liberty/DB pair; explicit overrides preserve original-library
+controls. The original PR #21 results remain separately labelled.
+
 Reproduction commands are in `scripts/README.md`. Preserve the installed-library
 baseline and its constraints. Professor Orshansky's subsequent guidance permits a
 documented project-local fix; the [setup-table investigation](PDK_Setup_Investigation.md)
-records the proposed separate comparison and its assumptions. Selecting a cleaner
+records the separate comparison and its assumptions. Selecting a cleaner
 assumed clock transition does not validate a library repair. The implementation
 builds real clock buffers and retains the shared constraints. Sections below
 preserve the historical one-lane interim checkpoint.

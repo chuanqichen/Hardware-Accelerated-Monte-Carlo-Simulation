@@ -108,12 +108,14 @@ if {[catch {
   check_timing -verbose > $out/check_timing.rpt
   report_units > $out/units.rpt
   report_clock > $out/clock.rpt
-  report_timing -delay_type max -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/setup.rpt
-  report_timing -delay_type min -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/hold.rpt
+  # With max_paths > 1, PT otherwise defaults to reporting only negative slack.
+  # Include the worst passing paths too; this affects report selection, not SDC.
+  report_timing -delay_type max -max_paths 5 -slack_lesser_than 100 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/setup.rpt
+  report_timing -delay_type min -max_paths 5 -slack_lesser_than 100 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/hold.rpt
   set data_pins [get_pins -of_objects [get_cells -hierarchical * -filter {ref_name == DFFPOSX1}] -filter {lib_pin_name == D}]
   redirect $out/dffposx1_setup.rpt {
     if {[sizeof_collection $data_pins] > 0} {
-      report_timing -delay_type max -to $data_pins -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time
+      report_timing -delay_type max -to $data_pins -max_paths 5 -slack_lesser_than 100 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time
     } else { puts "No DFFPOSX1 data pins" }
   }
   report_constraint -all_violators -nosplit -significant_digits 6 > $out/violators.rpt

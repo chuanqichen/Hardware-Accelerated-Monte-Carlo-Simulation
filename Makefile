@@ -196,6 +196,7 @@ synth-smoke:
 	$(DC_SHELL) -f scripts/syn/dc_synth.tcl
 
 flow-test:
+	$(PYTHON) scripts/check_evidence_artifacts.py
 	$(PYTHON) -m unittest discover -s scripts -p 'test_*.py' -v
 
 .PHONY: library-check library-source

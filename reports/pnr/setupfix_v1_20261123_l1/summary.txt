@@ -1,0 +1,6 @@
+design=mc_top
+tag=setupfix_v1_20261123_l1
+die_box={0.0 0.0 270.94 267.52}
+core_box={20.14 20.14 250.8 247.38}
+placed_instances_including_fillers=31043
+result=implementation_completed_review_timing_drc_connectivity_and_rc_assumptions

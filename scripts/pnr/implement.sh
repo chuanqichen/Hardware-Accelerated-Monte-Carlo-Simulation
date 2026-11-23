@@ -16,4 +16,15 @@ if [[ "$tool_status" -ne 0 ]] || grep -Eq '^(\*\*ERROR|ERROR|Error|Fatal|FATAL|P
   tail -n 40 "$log" >&2
   echo "Innovus did not complete cleanly: $log" >&2; exit 1
 fi
+exports=()
+for suffix in routed.v routed.sdc routed.spef routed.def gds; do
+  path="$PWD/reports/pnr/$tag/mc_top.$suffix"
+  [[ -s "$path" ]] || { echo "Missing implementation export: $path" >&2; exit 1; }
+  exports+=("$path")
+done
+if command -v sha256sum >/dev/null; then
+  sha256sum "${exports[@]}" > "$PWD/reports/pnr/$tag/output_sha256.txt"
+else
+  shasum -a 256 "${exports[@]}" > "$PWD/reports/pnr/$tag/output_sha256.txt"
+fi
 cat "reports/pnr/$tag/summary.txt"

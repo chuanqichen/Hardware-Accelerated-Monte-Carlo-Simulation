@@ -68,6 +68,8 @@ reconstruction rule, license and compiler provenance are under
 [`tech/gscl45nm`](../tech/gscl45nm/README.md). Normal runs need no manual library
 setup or recompilation. `make library-check` verifies the checked-in pair.
 Set `LIB_DB` and `LIB_LIB` explicitly for original-library control runs.
+Both overrides are required together and must name existing files; a half
+override fails before synthesis, STA or implementation starts.
 Time is ns and capacitance pF. Recovery/removal arcs are enabled and reset paths
 are reported. Never blanket false-path rst_n. Retiming is off unless RETIME=1 (adds
 -retime to compile_ultra).

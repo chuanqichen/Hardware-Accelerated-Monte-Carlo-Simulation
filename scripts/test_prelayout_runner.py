@@ -16,6 +16,12 @@ if [[ "$phase" == pnr ]]; then
   echo 'Error Limit = 1000; Warning Limit = 50'
 fi
 mkdir -p "reports/$phase/$tag"
+if [[ "$phase" == pnr ]]; then
+  for suffix in routed.v routed.sdc routed.spef routed.def gds; do
+    if [[ "$FAKE_MODE" == missing_export && "$suffix" == gds ]]; then continue; fi
+    echo fixture > "reports/$phase/$tag/mc_top.$suffix"
+  done
+fi
 if [[ "$FAKE_MODE" != no_summary ]]; then
   echo 'setup_slack_ns=-0.2' > "reports/$phase/$tag/summary.txt"
 fi
@@ -62,7 +68,7 @@ class TestPrelayoutRunner(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
 
     def test_physical_runner_completion_gates(self):
-        for mode in ("pass", "error", "exit_error", "no_marker", "no_summary"):
+        for mode in ("pass", "error", "exit_error", "no_marker", "no_summary", "missing_export"):
             with self.subTest(mode=mode):
                 result = self.run_fixture(mode, phase="pnr")
                 self.assertEqual(result.returncode == 0, mode == "pass", result.stdout + result.stderr)
