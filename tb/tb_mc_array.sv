@@ -4,6 +4,7 @@ module tb_mc_array;
   import mc_pkg::*;
   parameter int LANES = 2, GAUSS_LATENCY = 1, MUL_STAGES = 1;
   parameter int GAUSS_ADDR_BITS = 10, EXP_ADDR_BITS = 10;
+  parameter realtime CLOCK_PERIOD_NS = 10.0;
   logic clk = 0, rst_n = 0, cfg_we = 0, start = 0;
   logic [7:0] cfg_addr = 0, status;
   logic [31:0] cfg_wdata = 0, trial_count, cycle_count;
@@ -15,7 +16,7 @@ module tb_mc_array;
   mc_top #(.LANES(LANES), .GAUSS_LATENCY(GAUSS_LATENCY), .MUL_STAGES(MUL_STAGES),
            .GAUSS_ADDR_BITS(GAUSS_ADDR_BITS), .EXP_ADDR_BITS(EXP_ADDR_BITS)) dut (.*);
 `endif
-  always #5 clk = ~clk;
+  always #(CLOCK_PERIOD_NS/2.0) clk = ~clk;
   initial begin #3000000; $fatal(1, "array timeout"); end
   task automatic tick; @(posedge clk); #2; endtask
   task automatic reset_dut;
@@ -42,8 +43,10 @@ module tb_mc_array;
   endtask
 
   initial begin
-    int fd, r, n_cases, total_trials, waited;
-    string cases_file;
+    int fd, r, n_cases, total_trials, waited, csv;
+    string cases_file, csv_file, vcd_file;
+    bit activity_requested, activity_recording, activity_done;
+    realtime activity_start;
     logic [17:0] a;
     logic [15:0] b;
     logic [21:0] k;
@@ -52,6 +55,13 @@ module tb_mc_array;
     logic [63:0] expected_sum;
     logic [7:0] expected_status;
     n_cases=0; total_trials=0;
+    csv=0;
+    if ($value$plusargs("CYCLE_CSV=%s",csv_file)) begin
+      csv=$fopen(csv_file,"w");
+      if (!csv) $fatal(1,"cannot open cycle CSV");
+      $fdisplay(csv,"case_id,trials,cycles,payoff_sum,status");
+    end
+    activity_requested=$value$plusargs("VCD=%s",vcd_file);
     if (!$value$plusargs("CASES=%s",cases_file)) $fatal(1,"CASES required");
     fd=$fopen(cases_file,"r");
     if (!fd) $fatal(1,"missing array corpus");
@@ -77,6 +87,15 @@ module tb_mc_array;
         pulse_start(); repeat (6) tick(); reset_dut();
         configure(a,b,k,seeds,n);
       end
+      // Capture one normal >=1000-trial case, including start and pipeline drain.
+      // Exclude the directed busy-write case from the power workload.
+      if (activity_requested && !activity_done && n>=1000 && n_cases!=3 &&
+          expected_status==(8'b1 << ST_DONE)) begin
+        activity_start=$realtime;
+        activity_recording=1;
+        $dumpfile(vcd_file);
+        $dumpvars(0,dut);
+      end
       pulse_start();
       // Busy start is ignored; busy writes flag BAD_CFG without changing N/seeds.
       if (n_cases==3) begin
@@ -98,6 +117,14 @@ module tb_mc_array;
                trial_count,payoff_sum,status,n,expected_sum,expected_status);
       if (cycle_count != (n+LANES-1)/LANES + lat_total(GAUSS_LATENCY,MUL_STAGES,LANES)+2)
         $fatal(1,"wrong busy cycles: %0d",cycle_count);
+      if (csv) $fdisplay(csv,"%0d,%0d,%0d,%0d,%0d",n_cases,n,cycle_count,payoff_sum,status);
+      if (activity_recording) begin
+        $dumpoff;
+        $display("ACTIVITY_WINDOW start_ns=%.3f stop_ns=%.3f trials=%0d case_id=%0d clock_period_ns=%.3f a=%h b=%h k=%h",
+                 activity_start,$realtime,n,n_cases,CLOCK_PERIOD_NS,a,b,k);
+        activity_recording=0;
+        activity_done=1;
+      end
       repeat (lat_total(GAUSS_LATENCY,MUL_STAGES,LANES)+2) begin
         tick();
         if (done || busy || trial_count !== n || payoff_sum !== expected_sum || status !== expected_status)
@@ -109,6 +136,8 @@ module tb_mc_array;
     if ((LANES==1 && total_trials!=27492) || (LANES==2 && total_trials!=27495) ||
         (LANES==4 && total_trials!=27502)) $fatal(1,"incomplete array trial corpus");
     $fclose(fd);
+    if (csv) $fclose(csv);
+    if (activity_requested && !activity_done) $fatal(1,"no activity window captured");
     $display("PASS: tb_mc_array L=%0d G=%0d M=%0d A=%0d K=%0d cases=%0d trials=%0d",
              LANES,GAUSS_LATENCY,MUL_STAGES,GAUSS_ADDR_BITS,EXP_ADDR_BITS,n_cases,total_trials);
     $finish;

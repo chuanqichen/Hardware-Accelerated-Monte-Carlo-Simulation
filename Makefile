@@ -231,5 +231,12 @@ docs/%.pdf: docs/%.md docs/figures/lane_block_diagram.png docs/templates/pdf-hea
 	  -V geometry:margin=0.8in -V fontsize=10pt -V colorlinks=true \
 	  --shift-heading-level-by=-1 -H docs/templates/pdf-header.tex --metadata date="$(shell date +%Y-%m-%d)"
 
+.PHONY: synth-multilane implement-multilane
+synth-multilane:
+	bash scripts/syn/run_multilane_sweep.sh
+
+implement-multilane:
+	bash scripts/pnr/run_multilane.sh
+
 clean:
 	rm -rf build simv simv.daidir simv_* simv_rng simv_rng.daidir csrc csrc_rng ucli.key *.log *.vcd *.fsdb obj_dir DVEfiles
