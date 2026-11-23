@@ -33,6 +33,8 @@ proc mc_synth_config {repo_root} {
         [catch {expr {double($period) > 0.0 && double($period) < Inf}} valid] || !$valid} {
         error "CLK_PERIOD_NS must be a finite positive number"
     }
+    set retime [mc_env_or RETIME 0]
+    if {$retime ne "0" && $retime ne "1"} { error "RETIME must be unset, 0 or 1" }
     set tag [mc_env_or TAG "${design}_[clock format [clock seconds] -format %Y%m%d_%H%M%S]"]
     if {![regexp {^[A-Za-z0-9][A-Za-z0-9_.-]*$} $tag]} { error "Invalid TAG" }
     set report_dir [file normalize [file join $repo_root [mc_env_or REPORT_DIR reports/syn/$tag]]]
@@ -49,5 +51,5 @@ proc mc_synth_config {repo_root} {
         }
     }
     return [dict create design $design library $lib sources $absolute_sources period $period \
-        tag $tag report_dir $report_dir sdc $sdc params $params corner [mc_env_or OPCOND typical]]
+        tag $tag report_dir $report_dir sdc $sdc params $params retime $retime corner [mc_env_or OPCOND typical]]
 }

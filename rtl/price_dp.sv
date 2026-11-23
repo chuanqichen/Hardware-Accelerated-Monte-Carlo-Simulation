@@ -6,14 +6,18 @@
 //   S1  acc = (A <<< 14) + B * z      fused multiply-add, Q5.26, MUL_STAGES registers
 //                                     (DC retiming moves them into the multiplier tree)
 //   S2  x   = sat(round_even(acc, 14))  Q5.12, one rounding of the whole sum; sat_x
+//                                     (shared round_sat, registered here)
 //   S3-S5   S_T = e^x                 exp2_unit (range reduction), UQ14.8; sat_s
 //   S6  p   = S_T > K ? S_T - K : 0   UQ14.8, exact
 //
 // A, B, K are configuration: latched by the controller on start and constant for
-// a run, so they are not pipelined. Latency LAT_DP = MUL_STAGES + 5; one result
-// per cycle (II = 1). sat_x / sat_s are single-cycle pulses qualified by p_valid;
+// a run, so they are not pipelined. Latency LAT_DP = mc_pkg::lat_dp(MUL_STAGES)
+// = MUL_STAGES + 5; one result per cycle (II = 1). Compile mc_pkg.sv, round_sat.sv
+// and pipe.sv before this file. sat_x / sat_s are single-cycle pulses qualified by p_valid;
 // the accumulator makes them sticky. Data registers load only on a valid stage.
-module price_dp #(
+module price_dp
+  import mc_pkg::*;
+#(
   parameter int EXP_ADDR_BITS = 10,
   parameter int MUL_STAGES    = 1
 ) (
@@ -29,10 +33,7 @@ module price_dp #(
   output logic               sat_x,
   output logic               sat_s
 );
-  localparam int LAT_EXP = 3;
-  localparam int LAT_DP  = MUL_STAGES + 1 + LAT_EXP + 1;
-  localparam logic signed [19:0] X_MAX = 20'sd131071;    // 2^17 - 1
-  localparam logic signed [19:0] X_MIN = -20'sd131072;   // -2^17
+  localparam int LAT_DP = lat_dp(MUL_STAGES);   // S1..S6; LAT_EXP comes from mc_pkg
 
   // ---- S1: fused multiply-add ---------------------------------------------------
   // A's binary point (12 fraction bits) is moved to the product's (26) by << 14.
@@ -58,20 +59,14 @@ module price_dp #(
   assign v1   = v_mul[MUL_STAGES-1];
 
   // ---- S2: round half to even (drop 14 bits), then saturate to 18 bits -------------
-  // TODO: replace with Chuanqi's shared round_sat module once it is merged.
-  logic signed [19:0] q2, xr;
-  logic        [13:0] rem2;
-  logic               up2;
-  assign q2   = acc1[33:14];                                   // floor(acc / 2^14)
-  assign rem2 = acc1[13:0];
-  assign up2  = (rem2 > 14'h2000) || (rem2 == 14'h2000 && q2[0]);
-  assign xr   = q2 + 20'(up2);
-
-  logic signed [17:0] x2;
-  logic               sx2, v2;
+  // The shared round_sat is combinational; this stage registers its outputs.
+  logic signed [17:0] xr2, x2;
+  logic               sat2, sx2, v2;
+  round_sat #(.IN_WIDTH(ACC_W), .OUT_WIDTH(X_W), .SHIFT(X_SHIFT), .SIGNED(1)) u_rs (
+    .in(acc1), .out(xr2), .sat(sat2));
   always_ff @(posedge clk) if (v1) begin
-    x2  <= (xr > X_MAX) ? X_MAX[17:0] : (xr < X_MIN) ? X_MIN[17:0] : xr[17:0];
-    sx2 <= (xr > X_MAX) || (xr < X_MIN);
+    x2  <= xr2;
+    sx2 <= sat2;
   end
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) v2 <= 1'b0;

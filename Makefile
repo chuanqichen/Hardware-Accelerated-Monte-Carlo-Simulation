@@ -33,7 +33,7 @@ PT_SHELL ?= pt_shell
 RTL     := rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
 TB      := tb/tb_gauss_lut.sv
 VEC     := tb/vectors/gauss_lut_a$(ADDR_BITS)_w$(OUT_WIDTH)_f$(FRAC_BITS).hex
-PRICE_RTL := rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv rtl/accumulator.sv
+PRICE_RTL := rtl/mc_pkg.sv rtl/round_sat.sv rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv rtl/accumulator.sv
 PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
              tb/vectors/accumulator_w64.hex tb/vectors/accumulator_w32.hex
 RNG_VEC := tb/vectors/rng_lane.hex
