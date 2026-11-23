@@ -198,7 +198,7 @@ synth-smoke:
 flow-test:
 	$(PYTHON) -m unittest discover -s scripts -p 'test_*.py' -v
 
-# NETLIST and MAPPED_SDC must name the same synthesis run. No SDF/SPEF yet.
+# NETLIST and MAPPED_SDC must name the same run. Optional SPEF selects routed STA.
 sim-gate:
 	bash scripts/sim/gate_sim.sh
 

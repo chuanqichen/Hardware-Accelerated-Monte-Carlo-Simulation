@@ -32,15 +32,27 @@ make sim      # VCS: run tb_gauss_lut (lab machines)
 make docs     # build PDFs from docs/*.md (pandoc + xelatex)
 ```
 
-## Integrated one-lane validation
+## Multi-lane implementation results
+
+Complete 1/2/4-lane tops have been mapped, placed, clocked and routed, with matched
+DC/PrimeTime reports and model replays of both mapped and routed netlists.
+See the [implementation checkpoint](docs/Multilane_Implementation.md),
+[generated tables](results/multilane_implementation.md), and
+[CSV](results/multilane_implementation.csv).
+The layouts pass the available geometry/connectivity checks. Hold timing remains
+unclosed; power, energy and target-rate throughput carry the documented RC and
+activity assumptions.
+
+## Integrated validation
 
 The top, controller and production lane adapter connect the merged block owners'
 RTL. Run `make gen-top PYTHON=python3` deliberately to regenerate expectations,
 then `make sim-top` and `make sim-lane-bubbles` on VCS. `make control-sim` uses a
 separate artificial backend; only the production target establishes pricing results.
+`make sim-array` runs the real 1/2/4-lane matrix.
 
 Shared synthesis: `DESIGN=mc_top TAG=mc_top_run_001 make synth-smoke` on the lab
 server. The default common target is 5 ns, with explicit reset recovery/removal
-checks. Current results still have hold/electrical violations and negligible setup
-margin. See [integration work plan](docs/Integration_Work_Plan.md) and
+checks. `make synth-multilane` and `make implement-multilane` run the complete
+comparison. See [integration work plan](docs/Integration_Work_Plan.md) and
 [scripts](scripts/README.md) for requirements, evidence, and reproducible commands.

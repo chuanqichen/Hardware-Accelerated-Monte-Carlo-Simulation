@@ -1,0 +1,111 @@
+Command: vcs -full64 -sverilog -timescale=1ns/1ps +notimingcheck +nospecify -debug_access+all \
++define+MAPPED_MC_TOP rtl/mc_pkg.sv /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.v \
+/home/work/cc83382/course-implementation-20261123/reports/pnr/implementation_20261123_l1_try3/mc_top.routed.v \
+tb/tb_mc_array.sv -top tb_mc_array -pvalue+tb_mc_array.LANES=1 -pvalue+tb_mc_array.CLOCK_PERIOD_NS=5.0 \
+-Mdir=/home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/csrc \
+-o /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/simv \
+-l /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/compile.log \
+
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Mon Nov 23 13:00:13 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.v'
+Parsing design file '/home/work/cc83382/course-implementation-20261123/reports/pnr/implementation_20261123_l1_try3/mc_top.routed.v'
+Parsing design file 'tb/tb_mc_array.sv'
+Top Level Modules:
+       tb_mc_array
+assign 1 tb_mc_array.LANES (Command line)
+assign 5.0 tb_mc_array.CLOCK_PERIOD_NS (Command line)
+TimeScale is 1 ns / 1 ps
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/pnr/implementation_20261123_l1_try3/mc_top.routed.v, 38042
+mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10, "rng_lane u_rng( .seed_load (seed_load),  .seed_state (seed_state),  .run (run_mask[0]),  .u ({u, SYNOPSYS_UNCONNECTED_1, SYNOPSYS_UNCONNECTED_2, SYNOPSYS_UNCONNECTED_3, SYNOPSYS_UNCONNECTED_4, SYNOPSYS_UNCONNECTED_5, SYNOPSYS_UNCONNECTED_6, SYNOPSYS_UNCONNECTED_7, SYNOPSYS_UNCONNECTED_8, SYNOPSYS_UNCONNECTED_9, SYNOPSYS_UNCONNECTED_10, SYNOPSYS_UNCONNECTED_11, SYNOPSYS_UNCONNECTED_12, SYNOPSYS_UNCONNECTED_13, SYNOPSYS_UNCONNECTED_14, SYNOPSYS_UNCONNECTED_15, SYNOPSYS_UNCONNECTED_16, SYNOPSYS_UNCONNECTED_17, SYNOPSYS_UNCONNECTED_18, SYNOPSYS_UNCONNECTED_19, SYNOPSYS_UNCONNECTED_20, SYNOPSYS_UNCONNECTED_21, SYNOPSYS_UNCONNECTED_22}),  .u_valid (u_valid),  .core_rst_n (rst_n),  .FE_OFN28_core_rst_n (FE_OFN27_core_rst_n),  .FE_OFN26_core_rst_n (FE_OFN25_cor ... "
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/pnr/implementation_20261123_l1_try3/mc_top.routed.v, 38180
+mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10, "accumulator_1_22_64_32_0 u_accumulator( .clear (FE_OFN226_seed_load),  .p_valid (lane_valid_0_),  .p (p),  .sat_x (lane_sx_0_),  .sat_s (lane_ss_0_),  .payoff_sum (payoff_sum),  .trial_count (trial_count),  .acc_overflow (acc_overflow),  .sat_x_seen (sat_x),  .sat_s_seen (sat_s),  .core_rst_n (FE_OFN4_core_rst_n),  .FE_OFN32_core_rst_n (FE_OFN31_core_rst_n),  .FE_OFN18_core_rst_n (FE_OFN17_core_rst_n),  .FE_OFN15_core_rst_n (FE_OFN14_core_rst_n),  .FE_OFN34_lane_valid_0 (FE_OFN64_lane_valid_0),  .FE_OFN38_n (FE_OFN37_n),  .clk_clone6 (CTS_3),  .clk_clone5 (CTS_4),  .clk_clone4 (clk_clone12),  .clk_clone3 (clk_clone4),  .clk_clone2 (clk_clone2),  .clk_clone1 (clk_clone1),  .clk (clk),  .FE_OFN51_FE_OFN12_core_rst_n (FE_OFN50_FE_OFN12_core_rst_n),  .FE_OF ... "
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+
+38 modules and 2 UDPs read.
+recompiling package mc_pkg
+recompiling module AND2X2
+recompiling module AOI21X1
+recompiling module AOI22X1
+recompiling module BUFX2
+recompiling module BUFX4
+recompiling module CLKBUF1
+recompiling module CLKBUF2
+recompiling module CLKBUF3
+recompiling module DFFPOSX1
+recompiling module DFFSR
+recompiling module FAX1
+recompiling module INVX1
+recompiling module INVX2
+recompiling module INVX4
+recompiling module INVX8
+recompiling module MUX2X1
+recompiling module NAND2X1
+recompiling module NAND3X1
+recompiling module NOR2X1
+recompiling module NOR3X1
+recompiling module OAI21X1
+recompiling module OR2X1
+recompiling module OR2X2
+recompiling module XNOR2X1
+recompiling module XOR2X1
+recompiling module rst_sync_STAGES2
+recompiling module mc_controller_LANES1
+recompiling module rng_lane
+recompiling module round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1
+recompiling module exp2_rom_ADDR_BITS10_OUT_WIDTH17
+recompiling module exp2_unit_EXP_ADDR_BITS10
+recompiling module pipe_W1_N3
+recompiling module price_dp_EXP_ADDR_BITS10_MUL_STAGES1
+recompiling module accumulator_1_22_64_32_0
+recompiling module mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10
+recompiling module mc_top
+recompiling module tb_mc_array
+All of 38 modules done
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/simv \
+]; then chmod a-x /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/simv; \
+fi
+g++  -o /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/simv \
+-rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib \
+-L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./ \
+/usr/lib64/libnuma.so.1   objs/amcQw_d.o   _3607341_archive_1.so objs/udps/exIG1.o \
+objs/udps/U7Vwg.o  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o \
+rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile \
+-luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o \
+-Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o \
+-ldl  -lc -lm -lpthread -ldl 
+/home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l1_routed/simv \
+up to date
+CPU time: 1.132 seconds to compile + .673 seconds to elab + .232 seconds to link

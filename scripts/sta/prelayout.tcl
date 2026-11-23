@@ -100,9 +100,11 @@ if {[catch {
     set parasitics_log_file $out/parasitics.log
     read_parasitics $spef
     set_propagated_clock [all_clocks]
-    report_annotated_parasitics -check -list_not_annotated -max_nets 100000 > $out/parasitic_annotation.rpt
   }
   update_timing
+  if {$spef ne ""} {
+    report_annotated_parasitics -check -list_not_annotated -max_nets 100000 > $out/parasitic_annotation.rpt
+  }
   check_timing -verbose > $out/check_timing.rpt
   report_units > $out/units.rpt
   report_clock > $out/clock.rpt
