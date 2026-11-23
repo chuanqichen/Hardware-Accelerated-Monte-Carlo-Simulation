@@ -9,8 +9,12 @@ module tb_mc_array;
   logic [31:0] cfg_wdata = 0, trial_count, cycle_count;
   logic busy, done;
   logic [63:0] payoff_sum;
+`ifdef MAPPED_MC_TOP
+  mc_top dut (.*);
+`else
   mc_top #(.LANES(LANES), .GAUSS_LATENCY(GAUSS_LATENCY), .MUL_STAGES(MUL_STAGES),
            .GAUSS_ADDR_BITS(GAUSS_ADDR_BITS), .EXP_ADDR_BITS(EXP_ADDR_BITS)) dut (.*);
+`endif
   always #5 clk = ~clk;
   initial begin #3000000; $fatal(1, "array timeout"); end
   task automatic tick; @(posedge clk); #2; endtask

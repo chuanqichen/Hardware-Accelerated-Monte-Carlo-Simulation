@@ -105,11 +105,13 @@ class TestSynthesisSetup(unittest.TestCase):
             with self.subTest(params=params), self.assertRaisesRegex(tkinter.TclError, "PARAMS"):
                 self.config()
         self.tcl.setvar("env(DESIGN)", "mc_top")
-        self.tcl.setvar("env(PARAMS)", "LANES=4")
-        with self.assertRaisesRegex(tkinter.TclError, "LANES=1"):
+        for lanes in (0, 3, 5, 8):
+            self.tcl.setvar("env(PARAMS)", f"LANES={lanes}")
+            with self.subTest(lanes=lanes), self.assertRaisesRegex(tkinter.TclError, "LANES=1, 2 or 4"):
+                self.config()
+        for lanes in (1, 2, 4):
+            self.tcl.setvar("env(PARAMS)", f"LANES={lanes},GAUSS_LATENCY=2,MUL_STAGES=2")
             self.config()
-        self.tcl.setvar("env(PARAMS)", "LANES=1,GAUSS_LATENCY=2,MUL_STAGES=2")
-        self.config()
 
 if __name__ == "__main__":
     unittest.main()
