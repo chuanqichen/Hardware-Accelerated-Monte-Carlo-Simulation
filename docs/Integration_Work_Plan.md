@@ -1,14 +1,13 @@
 # Integration, control, and tool flow
 
 Owner: Tyler Haverlah. Verified interim checkpoint: 2026-11-11.
+Final-integration VCS validation: 2026-11-23, Chuanqi Chen.
 
-## Active final-integration candidate, 2026-11-21
+## Final integration, validated 2026-11-23
 
-Writer: Tyler/Codex, branch `tyler/final-integration` in
-`HardwareAcceleratedMonteCarlo/.worktrees/final-integration`. No other writer is
-assigned to this checkout. The original dirty October checkout is preserved.
-PR #11 and reviewed PRs #12/#13 are merged into main. PRs #15/#16 supplied the
-timing-runner gate and the exact k8 accuracy correction before those reviews.
+PR #17's integration has been checked with the merged PR #18 pricing changes.
+PRs #11–#16 supplied the one-lane baseline, timing-runner gate, and k8 accuracy
+evidence. The original November 21 local checkpoint remains recorded below.
 
 This branch adds real 1/2/4-lane replication and optional registered reduction in
 Eric's accumulator. The standalone accumulator defaults to its prior behavior;
@@ -23,15 +22,22 @@ composes the existing jump helper and unmodified one-lane pricing functions.
 Hardware receives seeds through its existing per-lane configuration registers.
 Shentong retains ownership of RNG optimization; `rng_lane.sv` is unchanged.
 
-Local checks pass: 89 model tests, 27 flow tests, and slang 12.2.0 elaboration of
+The November 21 local checks passed 89 model tests, 27 flow tests, and slang 12.2.0 elaboration of
 24 real-array configurations (L=1/2/4, G=1/2, M=1/2, exp k=10/8), both tree lane
 counts, default trace/bubble benches and all three control-mock lane counts.
 The default vector generator still reproduces the committed corpus after LF
 normalization. Static elaboration does not establish cycle-level correctness.
 Evidence: `reports/final_integration_local_2026-11-21.txt` and its Git-blob SHA-256
-manifest. Runtime checkpoint: `474d0b2`; draft PR #17 carries the candidate.
+manifest. Runtime checkpoint: `474d0b2`.
 
-VCS replay is pending. The new runner covers 26/27/28 cases and
+On November 23, 89 model tests and all 31 flow tests passed after integrating
+PR #18 and replacing the array runner's `mapfile` calls for Bash 3.2 compatibility.
+VCS T-2022.06 on peach passed all 35 replay configurations: four baseline traces,
+three control-mock lane counts, one bubble test, and the 27 array/tree/k8 runs.
+Commands, source hashes, and results are linked from
+`reports/pr_review_validation_2026-11-23.txt`.
+
+The array runner covers 26/27/28 cases and
 27,492/27,495/27,502 trials per 1/2/4-lane configuration, exact sum/count/status,
 tails, seed legality, in-flight reset, restart, busy starts/writes and idle drain.
 The separate tree bench covers every mask, bubbles, flush and 32-bit overflow.
@@ -39,15 +45,13 @@ The k8 detailed-trace replay uses a matching generated ROM and golden vectors.
 Runner fixtures reject empty input, missing PASS and exit-zero failures after
 PASS in every phase. These fixtures test process boundaries, not hardware.
 
-The synthesis gate intentionally still permits only LANES=1 until real multi-lane
-simulation passes. No fresh synthesis, PT, mapped replay or P&R result is claimed.
+The synthesis gate still permits only LANES=1 pending multi-lane mapping and
+constraint checks. No fresh synthesis, PT, mapped replay or P&R result is claimed.
 Shared-clock/library caveats remain; k8 is a candidate, not the new default.
-Full VCS/DC/PT access is currently blocked by the disconnected UT VPN. The Chrome
-plugin/native bridge is installed, but browser extension setup remains incomplete.
 
-Next: a teammate can run the commands in `scripts/README.md` from their own lab
-account and return the compact evidence archive. Review actual VCS results before
-enabling LANES=2/4 in synthesis, then obtain matched DC/PT scaling results. Audit
+Next: use the passing VCS replay to enable bounded LANES=2/4 synthesis checks,
+then obtain matched DC/PT scaling results. Reproduction commands remain in
+`scripts/README.md`. Audit
 Innovus and technology/cell LEFs on the lab host before preparing the physical
 flow. Do not patch the library or select a cleaner clock transition as a substitute
 for closure. Sections below preserve the verified interim checkpoint.

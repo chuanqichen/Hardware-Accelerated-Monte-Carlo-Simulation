@@ -40,7 +40,7 @@ echo "== rng_lane"
 run_and_check rng_lane '^PASS rng_lane: [1-9][0-9]* cycles, [1-9][0-9]* valid words[[:space:]]*$'
 
 echo "== price_dp (MUL_STAGES=1)"
-"${V[@]}" rtl/round_sat.sv rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv \
+"${V[@]}" rtl/mc_pkg.sv rtl/round_sat.sv rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv \
   rtl/accumulator.sv tb/tb_price_dp.sv tb/vcd_dump.sv \
   -pvalue+tb_price_dp.MUL_STAGES=1 +define+VEC_FILE='"tb/vectors/price_dp_k10.hex"' \
   -Mdir="$run_dir/price_csrc" -o "$run_dir/simv_price_dp" -l "$run_dir/price_dp.compile.log" >/dev/null

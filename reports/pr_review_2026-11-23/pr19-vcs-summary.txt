@@ -1,0 +1,6 @@
+acc_l1_w64: PASS: tb_accumulator LANES=1 SUM_WIDTH=64, 20000 cycles checked, 0 errors (overflow set on 0 cycles)
+acc_l1_w32: PASS: tb_accumulator LANES=1 SUM_WIDTH=32, 5000 cycles checked, 0 errors (overflow set on 1075 cycles)
+acc_l2_w64: PASS: tb_accumulator LANES=2 SUM_WIDTH=64, 17569 cycles checked, 0 errors (overflow set on 0 cycles)
+acc_l2_w32: PASS: tb_accumulator LANES=2 SUM_WIDTH=32, 5003 cycles checked, 0 errors (overflow set on 2366 cycles)
+acc_l4_w64: PASS: tb_accumulator LANES=4 SUM_WIDTH=64, 14797 cycles checked, 0 errors (overflow set on 0 cycles)
+acc_l4_w32: PASS: tb_accumulator LANES=4 SUM_WIDTH=32, 5004 cycles checked, 0 errors (overflow set on 3530 cycles)

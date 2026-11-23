@@ -274,10 +274,10 @@ are in `reports/syn/v2_p500_accumulator_*` and `reports/syn/v2_p475_accumulator_
 | 4 | 5,123 um^2 | 182 | 1.19 mW | met | met |
 
 Four lanes cost 1.6 times the area of one, not 4 times, because the 64-bit result
-registers and adder are shared and only the small tree grows. All three sizes meet a
-4 ns clock, so there is at least 1 ns of margin at the 5 ns target. Slack near zero in a
-single run is not a measure of margin: the tool stops once the constraint is met and
-then recovers area.
+registers and adder are shared and only the small tree grows. All three sizes have
+separately optimized mappings that meet setup at 4 ns. A timing-margin claim at
+5 ns requires analysis of one fixed netlist under the common constraints. Synthesis
+stops improving a path once its constraint is met and then recovers area.
 
 ## 5. Accuracy results (model, exact, no Monte Carlo noise)
 
@@ -434,11 +434,11 @@ and $k$ = 12 costs 74% more. A second multiplier stage adds 35 flip-flops and ab
 
 ### 11.2 Timing margin
 
-Every run meets its clock with slack near zero. That is not a measure of margin. Design
-Compiler stops improving a path once it meets the constraint, and the script then runs
-`optimize_netlist -area`, which spends leftover slack on smaller cells. To measure margin
-the same sweep was repeated at shorter clock periods (the I/O budgets scale with the
-period, since they are 30% of it):
+Every run meets its setup constraint with slack near zero. That is not a measure of
+margin. Design Compiler stops improving a path once it meets the constraint, and the script then runs
+`optimize_netlist -area`, which spends leftover slack on smaller cells. To compare mappings
+under tighter constraints, the sweep was repeated at shorter clock periods (the I/O budgets
+scale with the period, since they are 30% of it):
 
 | Period | $k$ = 10, `MUL_STAGES` = 1 | $k$ = 8, `MUL_STAGES` = 1 |
 |---|---|---|
@@ -447,27 +447,31 @@ period, since they are 30% of it):
 | 4.50 ns | met, 13,943 um^2 | met, 10,251 um^2 |
 | 4.00 ns | met, 14,160 um^2 | met, 10,492 um^2 |
 
-All 24 shorter-period runs met timing, including `MUL_STAGES` = 2 and retiming on. So the
-block has at least 1 ns of margin at the 5 ns target for about 3% more area, which covers
-the 0.25 ns margin goal (the 4.75 ns row). The shortest period that still closes was not
-searched for.
+All 24 shorter-period runs met setup timing, including `MUL_STAGES` = 2 and retiming on.
+At 4 ns, the one-stage mapping costs 2.8% more area for $k$ = 10 and 4.6% more for $k$ = 8
+than its 5 ns counterpart. Each row is a separately optimized netlist. The 0.25 ns
+margin goal still requires timing analysis of one fixed netlist under the common
+constraints. The shortest period that meets setup was not searched for.
 
 ### 11.3 Decisions
 
 - **`MUL_STAGES` stays 1.** One stage closes at 4 ns. A second stage costs area and one
   cycle of latency and buys nothing at the target clock.
 - **Retiming stays off.** `RETIME=1` (new opt-in switch in `scripts/syn/dc_synth.tcl`)
-  changed area and slack by less than 1% in every pair of runs. With it off, the registers
-  in the netlist are the registers in the RTL, so simulated latency is the synthesized
+  changed area by at most 1.04% and setup slack by at most 0.022 ns in the paired runs.
+  With it off, the registers in the netlist are the registers in the RTL, so simulated latency is the synthesized
   latency. Section 3.2 assumed retiming would be needed; at this clock it is not.
 - **No pipeline change.** The plan allowed for an extra register in `exp2_unit`; it is
   not needed.
 
 ### 11.4 Critical path and what was built
 
-- The worst path in every run starts at input `b` (or `z`), goes through the fused
+- At 5 ns, the worst path starts at input `b` (or `z`), goes through the fused
   multiply-add and ends at `acc_r_reg[0]` (stage S1). It is the same endpoint as the
-  one-lane top's critical path (`active_b_reg` to `u_price/acc_r_reg`).
+  one-lane top's critical path (`active_b_reg` to `u_price/acc_r_reg`). At tighter
+  constraints the critical path can move into the exponential or payoff stages.
+  For example, the [4 ns, $k$ = 10, one-stage report](../reports/syn/u1_p400_price_dp_k10_m1_r0/timing.rpt)
+  runs from `u_exp/n4_reg[0]` to `u_exp/s_t_reg[13]`.
 - `resources.rpt` shows one datapath block `DP_OP` holding both `mult_41` and `add_41`,
   so the multiply and the `+ (A << 14)` were fused as Section 3.2 intended. The multiplier
   is radix-4 Booth (`benc_radix4_mux`). The payoff compare and subtract use the
@@ -479,9 +483,9 @@ searched for.
   `Gaussian_Lookup_Work_Plan.md` Section 6: the `DFFPOSX1` setup table in `gscl45nm.lib`
   has corrupt entries at large clock transitions, which inflate the interpolated value
   at our 0.1 ns clock transition. The team's PrimeTime check for it is
-  `scripts/sta/clock_transition.sh`. The slack and margin numbers in this section
-  include the inflated setup time, so they are pessimistic by about 1.1 to 1.3 ns on
-  paths that end in a plain flip-flop.
+  `scripts/sta/clock_transition.sh`. This study retains the library's reported setup
+  times on affected paths; each configuration's slack remains the value in its timing
+  report.
 - Each run is labelled `mapped_with_violations` by the parser because of hold violations
   (worst -0.04 ns, 41 to 104 paths) and max-capacitance violations, as in the team's
   one-lane result. Hold is left to place and route in the shared flow. The capacitance
