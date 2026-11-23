@@ -1,0 +1,47 @@
+ 
+****************************************
+Report : area
+Design : price_dp
+Version: T-2022.03-SP2
+Date   : Thu Nov 12 16:48:06 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+Number of ports:                          229
+Number of nets:                          5411
+Number of cells:                         5012
+Number of combinational cells:           4852
+Number of sequential cells:               151
+Number of macros/black boxes:               0
+Number of buf/inv:                       1519
+Number of references:                      24
+
+Combinational area:              12528.432659
+Buf/Inv area:                     2386.390449
+Noncombinational area:            1225.811577
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 13754.244236
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ----------------------------- 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-  Black-
+                                  Total       Total    national    national   boxes   Design
+--------------------------------  ----------  -------  ----------  ---------  ------  ------------------------------------------------
+price_dp                          13754.2442    100.0   3889.0891   645.2875  0.0000  price_dp
+u_exp                              9000.7045     65.4   2646.3827   549.5503  0.0000  exp2_unit_EXP_ADDR_BITS10
+u_exp/u_rom                        5804.7716     42.2   5804.7716     0.0000  0.0000  exp2_rom_ADDR_BITS10_OUT_WIDTH17
+u_rs                                185.8428      1.4    185.8428     0.0000  0.0000  round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1
+u_sx                                 33.3203      0.2      2.3465    30.9738  0.0000  pipe_W1_N3
+--------------------------------  ----------  -------  ----------  ---------  ------  ------------------------------------------------
+Total                                                  12528.4327  1225.8116  0.0000
+
+1
