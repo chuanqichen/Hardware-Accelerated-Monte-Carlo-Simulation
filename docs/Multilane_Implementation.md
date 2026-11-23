@@ -29,7 +29,11 @@ exported SDC, with the same recorded `gscl45nm.db` digest.
 
 The shared constraints retain the 5 ns clock, 30% I/O budgets, 0.1 ns clock
 uncertainty/initial transition, reset recovery/removal checks, and electrical
-limits. No library edits or blanket reset false paths are used.
+limits. This measured baseline uses the installed, unmodified libraries and no
+blanket reset false paths. The subsequently documented
+[DFFPOSX1 setup-table investigation](PDK_Setup_Investigation.md) records the
+professor's guidance and a proposed project-local correction; no corrected-library
+results are included in these tables.
 
 ```mermaid
 flowchart LR
@@ -99,21 +103,27 @@ The VCD has zero-delay activity and does not reproduce physical glitch timing.
 
 ## Remaining closure work
 
-1. **Hold timing remains unclosed.** Use the independent PT hold paths to guide
+1. **Setup-table interpretation needs a controlled comparison.** The installed
+   DFFPOSX1 setup table contains four verified outlying entries. The
+   [investigation note](PDK_Setup_Investigation.md) separates the earlier
+   clock-slew experiment from the proposed fixed-SDC library correction. The
+   latter needs its own matched results; positive routed setup slack here remains
+   conditional on the installed library and native RC model.
+2. **Hold timing remains unclosed.** Use the independent PT hold paths to guide
    further buffering/clock-tree work, then rerun both tools. Lowering clock
    frequency alone does not repair a hold violation. Positive setup slack is
    insufficient to claim a working maximum frequency.
-2. **RC accuracy is limited.** This installation supplies no characterized
+3. **RC accuracy is limited.** This installation supplies no characterized
    QRC technology file or capacitance table. Innovus reports `IMPEXT-6197` and
    uses its native estimates. Obtain a matching RC model and additional valid
    PVT corners before claiming physical performance or power signoff.
-3. **Electrical limits remain violated.** PT reports max-capacitance and
+4. **Electrical limits remain violated.** PT reports max-capacitance and
    max-fanout violations. It also reports `RC-004` warnings for
    several input-driver models, including non-positive drive resistance or
    inconsistent linear-driver data. Review these and the archived electrical,
    disabled-arc and timing-coverage reports with the shared library/constraints
    owner. The flow preserves the warnings and constraints.
-4. **Verification scope is bounded.** Geometry/connectivity checks use the
+5. **Verification scope is bounded.** Geometry/connectivity checks use the
    available LEF rules; no foundry DRC/LVS, extraction signoff, IR/EM or SDF
    timing closure is claimed. The reported power/energy is one representative
    workload at the target frequency, under the stated activity/RC assumptions.

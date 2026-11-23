@@ -297,14 +297,16 @@ What the silicon numbers add to the model's conclusions:
    $|z| \le 3.67 < 4$ at every table size we use, bit 14 of `Q3.12` is always a copy of
    the sign bit; DC merged that flop away. `Q2.12` (15 b) is lossless. The remaining
    D-4 question is the width of Eric's $Bz$ multiplier.
-3. **Every point closes 5 ns**, but with small margin. The critical path is
+3. **Every point nominally meets 5 ns in DC**, but with small margin. The critical path is
    `u[31]` → ROM → two's-complement negate → `z` register, and the reported slack is
-   dominated by a **library artefact**: `DFFPOSX1`'s setup table in `gscl45nm.lib`
-   contains corrupt entries (6.2 ns, 5.1 ns, 3.1 ns at CLK transition 0.3-0.6 ns), so
-   with a 0.1 ns clock transition the interpolated setup is $\approx 1.2$ ns instead of
-   $\approx 0.1$ ns (`DFFSR`, whose table is clean, reports 0.13 ns on the same path).
-   True margin is $\approx 1.2$ ns. Every team using this library will see this; we report
-   the library number and state the artefact.
+   sensitive to a **library-table anomaly**: `DFFPOSX1`'s setup table in
+   `gscl45nm.lib` contains outlying entries at CLK transition 0.3-0.6 ns. The
+   reported setup requirement on affected paths at 0.1 ns clock transition is
+   approximately 1.2 ns. The earlier suggestion of approximately 1.2 ns of true
+   margin was not established by a corrected-library comparison at the original
+   clock slew. We retain the measured library results; see the
+   [setup-table investigation](PDK_Setup_Investigation.md) for exact entries,
+   the diagnostic experiment and the proposed documented approximation.
 4. **`LATENCY = 2` buys little here:** $+4\,\%$ area, $+17\,\%$ power for 0.65 ns of slack the
    LUT does not need. Keep `LATENCY = 1`; revisit only if the lane's critical path lands
    in the LUT after integration (it will not - the multiplier and exp are longer).

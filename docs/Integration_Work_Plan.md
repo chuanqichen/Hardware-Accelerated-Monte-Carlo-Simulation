@@ -52,10 +52,13 @@ All three layouts complete geometry/connectivity checks; independent routed PT
 still reports hold violations. Native RC and library-model limitations remain.
 k8 is a candidate, not the new default.
 
-Reproduction commands are in `scripts/README.md`. Do not patch the library or
-select a cleaner assumed clock transition as a substitute for closure. The
-implementation builds real clock buffers and retains the shared constraints.
-Sections below preserve the historical one-lane interim checkpoint.
+Reproduction commands are in `scripts/README.md`. Preserve the installed-library
+baseline and its constraints. Professor Orshansky's subsequent guidance permits a
+documented project-local fix; the [setup-table investigation](PDK_Setup_Investigation.md)
+records the proposed separate comparison and its assumptions. Selecting a cleaner
+assumed clock transition does not validate a library repair. The implementation
+builds real clock buffers and retains the shared constraints. Sections below
+preserve the historical one-lane interim checkpoint.
 
 ## Scope and source
 
@@ -132,8 +135,11 @@ SDC and the same library digest, reports setup slack -0.200381 ns and hold slack
 -0.041280 ns. Thus the 5 ns target is not independently closed. The worst path is
 active_b_reg_3_ to u_lanes/u_price/acc_r_reg_0__32_. Data arrival agrees with DC at
 the latter's displayed precision, while the endpoint library setup term differs:
-DC prints -1.22 ns and PrimeTime -1.417704 ns. The root cause remains open; do not
-change constraints or waive paths merely to reconcile the result.
+DC prints -1.22 ns and PrimeTime -1.417704 ns. The
+[subsequent investigation](PDK_Setup_Investigation.md) verifies four outlying
+DFFPOSX1 setup entries and distinguishes the earlier clock-slew experiment from
+a proposed library correction. The precise DC/PT lookup/extrapolation discrepancy
+remains open; do not waive paths merely to reconcile the result.
 
 Coverage reports one violated setup check, 135 violated hold checks and 4,538
 untested checks overall. check_timing warns about 755 asynchronous S pins without
