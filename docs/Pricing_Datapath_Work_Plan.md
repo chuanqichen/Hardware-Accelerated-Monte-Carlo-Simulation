@@ -274,10 +274,10 @@ are in `reports/syn/v2_p500_accumulator_*` and `reports/syn/v2_p475_accumulator_
 | 4 | 5,123 um^2 | 182 | 1.19 mW | met | met |
 
 Four lanes cost 1.6 times the area of one, not 4 times, because the 64-bit result
-registers and adder are shared and only the small tree grows. All three sizes meet a
-4 ns clock, so there is at least 1 ns of margin at the 5 ns target. Slack near zero in a
-single run is not a measure of margin: the tool stops once the constraint is met and
-then recovers area.
+registers and adder are shared and only the small tree grows. All three sizes have
+separately optimized mappings that meet setup at 4 ns. A timing-margin claim at
+5 ns requires analysis of one fixed netlist under the common constraints. Synthesis
+stops improving a path once its constraint is met and then recovers area.
 
 ## 5. Accuracy results (model, exact, no Monte Carlo noise)
 
@@ -387,7 +387,8 @@ well as at the defaults.
 
 - Done 2026-11-12: S2 uses the shared `round_sat`; `LAT_DP` comes from `mc_pkg::lat_dp`.
 - Done 2026-11-12: standalone synthesis sweep (Section 11).
-- Open: registered lane adder tree in the accumulator for 2 and 4 lanes.
+- Done 2026-11-22: the registered accumulator tree (Tyler's RTL) is checked against the
+  model vectors and synthesized (Sections 4.2, 4.5).
 - Open: choose $k$ = 8 or 10 from the area in Section 11 and the bias in Section 5;
   multiplier area for decision D-4.
 
