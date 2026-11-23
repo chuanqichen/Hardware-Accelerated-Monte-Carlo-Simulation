@@ -33,6 +33,15 @@ module tb_exp2_unit;
 
   always @(posedge clk) cyc <= cyc + 1;
 
+  // Passive throughput monitor: longest run of consecutive cycles with in_valid / out_valid high.
+  int run_in = 0, run_out = 0, max_run_in = 0, max_run_out = 0;
+  always @(posedge clk) if (rst_n) begin
+    run_in  = in_valid  ? run_in + 1 : 0;
+    run_out = out_valid ? run_out + 1 : 0;
+    if (run_in  > max_run_in)  max_run_in  = run_in;
+    if (run_out > max_run_out) max_run_out = run_out;
+  end
+
   initial begin
     int fd, r; logic [17:0] xx; logic [21:0] ss; logic ff;
     fd = $fopen(VEC_FILE, "r");
@@ -57,6 +66,8 @@ module tb_exp2_unit;
     repeat (LAT_EXP + 2) @(posedge clk);
     if (n_chk != n_vec) begin n_err++; $display("ERROR: %0d outputs for %0d inputs", n_chk, n_vec); end
     if (n_sat != n_sat_exp) begin n_err++; $display("ERROR: sat_s count %0d, expected %0d", n_sat, n_sat_exp); end
+    $display("INFO: tb_exp2_unit longest back-to-back run: in_valid=%0d cycles, out_valid=%0d cycles",
+             max_run_in, max_run_out);
     $display("%s: tb_exp2_unit k=%0d, %0d checked, %0d errors, sat_s pulses %0d (expected %0d)",
              n_err ? "FAIL" : "PASS", EXP_ADDR_BITS, n_chk, n_err, n_sat, n_sat_exp);
     $finish;

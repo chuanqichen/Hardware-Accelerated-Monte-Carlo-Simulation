@@ -4,10 +4,11 @@
 #   make sim    - run tb_gauss_lut under VCS (lab machines)
 #   make gen-price - regenerate exp ROM RTL + price_dp/exp/accumulator TB vectors
 #   make sim-iv    - run tb_accumulator (LANES 1/2/4 x SUM_WIDTH 64/32), tb_exp2_unit, tb_price_dp
-#                    under Icarus (local)
+#                    and tb_price_dp NO_GAPS=1 (8192 back-to-back trials) under Icarus (local)
 #   make sim-price - the same testbenches under VCS (lab machines)
 #   make gen-rs    - regenerate round_sat TB vectors (signed + unsigned configs)
 #   make sim-rs    - run tb_round_sat under VCS for both configs
+#   make sim-pricing-final - final VCS regression for the pricing blocks + integrated runners (lab machines)
 #   make lint   - Verilator lint of the RTL (if installed)
 #   make figures - regenerate docs/figures/*.png from scripts/make_figures.py
 #   make docs   - build PDFs from docs/*.md with pandoc + xelatex
@@ -36,14 +37,15 @@ RTL     := rtl/generated/gauss_lut_rom.sv rtl/gauss_lut.sv
 TB      := tb/tb_gauss_lut.sv
 VEC     := tb/vectors/gauss_lut_a$(ADDR_BITS)_w$(OUT_WIDTH)_f$(FRAC_BITS).hex
 PRICE_RTL := rtl/mc_pkg.sv rtl/round_sat.sv rtl/pipe.sv rtl/generated/exp2_rom.sv rtl/exp2_unit.sv rtl/price_dp.sv rtl/accumulator.sv
-PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
+PRICE_VEC := tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex tb/vectors/price_dp_stream_k$(EXP_ADDR_BITS).hex \
+             tb/vectors/exp2_k$(EXP_ADDR_BITS).hex \
              tb/vectors/accumulator_w64.hex tb/vectors/accumulator_w32.hex \
              $(foreach l,2 4,$(foreach w,64 32,tb/vectors/accumulator_l$(l)_w$(w).hex))
 RNG_VEC := tb/vectors/rng_lane.hex
 DOC_MD  := $(wildcard docs/*.md)
 DOC_PDF := $(DOC_MD:.md=.pdf)
 
-.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures
+.PHONY: all test gen sweep sim lint figures docs clean gen-price sim-iv sim-price gen-rs sim-rs gen-top sim-top gen-array sim-array sim-lane-bubbles control-sim synth-smoke flow-test rng-test rng-gen rng-sim rng-lint rng-study rng-validate sim-gate sta integration-figures pricing-study pricing-figures sim-pricing-final
 
 all: test gen
 
@@ -92,6 +94,10 @@ sim-iv: gen-price
 	$(IV) build/tb_price_dp -Ptb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -Ptb_price_dp.MUL_STAGES=$(MUL_STAGES) \
 	  -DVEC_FILE='"tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex"' $(PRICE_RTL) tb/tb_price_dp.sv
 	vvp -n build/tb_price_dp | grep -E "^(PASS|FAIL|ERROR| )"
+	$(IV) build/tb_price_dp_stream -Ptb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -Ptb_price_dp.MUL_STAGES=$(MUL_STAGES) \
+	  -Ptb_price_dp.NO_GAPS=1 -DVEC_FILE='"tb/vectors/price_dp_stream_k$(EXP_ADDR_BITS).hex"' \
+	  $(PRICE_RTL) tb/tb_price_dp.sv
+	vvp -n build/tb_price_dp_stream | grep -E "^(PASS|FAIL|ERROR| )"
 
 VCS_PRICE := $(VCS) -sverilog -full64 -timescale=1ns/1ps
 sim-price: gen-price
@@ -108,6 +114,10 @@ sim-price: gen-price
 	$(VCS_PRICE) $(PRICE_RTL) tb/tb_price_dp.sv \
 	  -pvalue+tb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -pvalue+tb_price_dp.MUL_STAGES=$(MUL_STAGES) \
 	  +define+VEC_FILE='"tb/vectors/price_dp_k$(EXP_ADDR_BITS).hex"' -o simv_pdp && ./simv_pdp
+	$(VCS_PRICE) $(PRICE_RTL) tb/tb_price_dp.sv \
+	  -pvalue+tb_price_dp.EXP_ADDR_BITS=$(EXP_ADDR_BITS) -pvalue+tb_price_dp.MUL_STAGES=$(MUL_STAGES) \
+	  -pvalue+tb_price_dp.NO_GAPS=1 \
+	  +define+VEC_FILE='"tb/vectors/price_dp_stream_k$(EXP_ADDR_BITS).hex"' -o simv_pdp_stream && ./simv_pdp_stream
 
 # round_sat: both production configurations (price_dp S2 signed; a UQ case). The
 # module is combinational, so one vector file per parameter set and no latency.
@@ -123,6 +133,11 @@ $(RS_VEC_U): model/gen_round_sat_vectors.py model/fxp.py
 
 sim-rs: gen-rs
 	VCS="$(VCS)" RS_VEC_S="$(RS_VEC_S)" RS_VEC_U="$(RS_VEC_U)" bash scripts/sim/round_sat_sim.sh
+
+# Final evidence run: reports/sim/pricing_final_<timestamp>/ (override the id with MC_SIM_RUN_ID).
+# Generates its own per-k ROM/vectors in the run dir; leaves rtl/generated and tb/vectors untouched.
+sim-pricing-final:
+	PYTHON="$(PYTHON)" VCS="$(VCS)" bash scripts/sim/pricing_final.sh
 
 lint:
 	$(VERILATOR) --lint-only -Wall -Irtl -Irtl/generated $(RTL) --top-module gauss_lut
@@ -149,6 +164,14 @@ rng-study:
 
 rng-validate:
 	$(PYTHON) scripts/run_rng_validation.py
+
+# Pricing blocks: accuracy vs area grid + configurations A-E (reads results/*_ppa.csv).
+pricing-study:
+	$(PYTHON) model/pricing_tradeoff.py
+
+# Report figures from the pricing CSVs (needs matplotlib; use the lab venv if the laptop has none).
+pricing-figures:
+	$(PYTHON) scripts/plot_pricing.py
 
 # Integrated one-lane target uses the committed baseline ROMs, not gen-price.
 gen-top:

@@ -372,16 +372,20 @@ well as at the defaults.
 | `rtl/pipe.sv` | N-cycle delay line |
 | `tb/tb_*.sv` | self-checking testbenches (Icarus and VCS) |
 
-## 8. Proposed updates to `Lane_Interface_Spec.md` (for team sign-off)
+## 8. Updates to `Lane_Interface_Spec.md`
 
-- **D-3 closed:** keep $e^{A+Bz}$, because range reduction makes $C e^{Bz}$ pointless.
-- **D-6:** range reduction, `EXP_ADDR_BITS` parameter (default 10; 8 under consideration).
-- **§5.4 internals:** single rounding of the fused sum, $x = \text{sat}(\text{round}((A \ll 14) + Bz))$.
-- **§5.5:** `acc_overflow` is unreachable with 32-bit counts. Keep it, but note why.
-- **§5.5:** sticky `sat_x` / `sat_s` live in the accumulator next to `acc_overflow`.
-- **§6:** measured `LAT_DP` = `MUL_STAGES` + 5 = 6, `LAT_ACC` = 1.
-- **New finding for D-5:** price bias levels off at about 0.03% from register quantization of
-  $A$/$B$/$K$.
+The updates proposed here in October are all in the spec now: D-3 and D-6 closed,
+the single rounding of the fused sum (Section 5.4), the `acc_overflow` note and the
+sticky flags in the accumulator (Section 5.5), and the measured `LAT_DP` and `LAT_ACC`
+(Section 6).
+
+Added on 2026-11-22 from the work in Sections 4, 11 and 12 of this plan:
+
+- Section 5.4, S1: one multiplier stage without retiming closes the clock.
+- Section 5.5: `clear` empties the accumulator tree; the model and testbench that check it.
+- Section 6: the multi-lane replay result.
+- Section 9, D-4: the `B*z` multiplier area for a 12-bit `z` (decision still open).
+- Section 9, D-6: agreement with $k$ = 8 and what switching the default involves.
 
 ## 9. Next steps
 
@@ -389,8 +393,8 @@ well as at the defaults.
 - Done 2026-11-12: standalone synthesis sweep (Section 11).
 - Done 2026-11-22: the registered accumulator tree (Tyler's RTL) is checked against the
   model vectors and synthesized (Sections 4.2, 4.5).
-- Open: choose $k$ = 8 or 10 from the area in Section 11 and the bias in Section 5;
-  multiplier area for decision D-4.
+- Done 2026-11-12: $k$ = 8 against 10, multiplier area for D-4, and the pricing rows of
+  configurations A to E (Section 12). Both choices need team sign-off.
 
 ## 10. Commands
 
@@ -400,6 +404,9 @@ python3 model/price_dp.py              # demo trace + k sweep + Black-Scholes ta
 make sim-iv                            # all three testbenches, Icarus, on a laptop
 make sim-iv EXP_ADDR_BITS=8 MUL_STAGES=2
 make sim-price                         # same under VCS (lab machines)
+make sim-pricing-final                 # full VCS regression with archived evidence (lab machines)
+make pricing-study                     # accuracy vs area, configuration and throughput tables
+make pricing-figures                   # report figures from those tables (needs matplotlib)
 scripts/syn/run_price_sweep.sh         # Design Compiler sweep (lab machines)
 CLK_PERIOD_NS=4.75 BATCH=p475 scripts/syn/run_price_sweep.sh "1 2" "8 10" "0 1"
 ```
@@ -483,3 +490,117 @@ constraints. The shortest period that meets setup was not searched for.
   (worst -0.04 ns, 41 to 104 paths) and max-capacitance violations, as in the team's
   one-lane result. Hold is left to place and route in the shared flow. The capacitance
   violations were not investigated.
+
+## 12. Tradeoff study (2026-11-12)
+
+`make pricing-study` (`model/pricing_tradeoff.py`) joins the model's exact price bias
+with the synthesis areas and writes `results/pricing_accuracy_vs_area.csv` and
+`results/pricing_ppa_configs.csv`. Every number comes from the model or from a
+synthesis CSV; none is typed in.
+
+### 12.1 exp table size: $k$ = 8 is enough
+
+Worst price bias against Black-Scholes over the five benchmark options, by Gaussian
+table address bits $g$ and exp table address bits $k$, with the `price_dp` area at 5 ns:
+
+| | $k$ = 8 | $k$ = 10 | $k$ = 12 |
+|---|---|---|---|
+| $g$ = 8 | 1.17% | 1.18% | 1.21% |
+| $g$ = 10 | 0.36% | 0.38% | 0.38% |
+| $g$ = 12 | 0.15% | 0.14% | 0.14% |
+| `price_dp` area | 10,035 um^2 | 13,777 um^2 | 23,942 um^2 |
+
+- The exp table does not set the accuracy. Moving from $k$ = 10 to $k$ = 8 changes the
+  worst bias by at most 0.03 percentage points in either direction, while the Gaussian
+  table moves it from 1.2% to 0.14%.
+- $k$ = 8 saves 3,742 um^2 per lane, 27% of `price_dp`.
+- **Recommendation: $k$ = 8.** The team lists $k$ = 8 as a candidate with the default
+  left at 10 "pending Eric's agreement and matching-ROM RTL replay"
+  (`Gaussian_Lookup_Work_Plan.md` Section 6). This study is that agreement from the
+  datapath side. RTL replay with the matching ROM: `tb_exp2_unit` and `tb_price_dp` pass
+  at $k$ = 8 (Section 13), and the multi-lane array replay of `tyler/final-integration`
+  passed its twelve $k$ = 8 configurations on 2026-11-22. The default is not changed
+  here; switching it also means regenerating the committed ROM and top-level vectors.
+- With $g$ = 8 (configuration D) the worst case, OTM K=150 at $\sigma$ = 0.6, is 1.18%,
+  outside the proposed 1% target. That comes from the Gaussian table, not this block.
+
+### 12.2 z width (decision D-4)
+
+`scripts/syn/study/price_dp_zstudy.sv` is a synthesis-only wrapper that ties the low
+`Z_DROP` bits of `z` to zero, so Design Compiler builds the narrower multiplier.
+Reports: `reports/syn/u3_price_dp_zstudy_d0` and `_d4`; table:
+`results/price_dp_zwidth_ppa.csv`.
+
+| `z` | `price_dp` area | Registers | Power (unannotated) |
+|---|---|---|---|
+| 16 bits (Q3.12) | 13,789 um^2 | 151 | 1.65 mW |
+| 12 bits (Q3.8) | 13,066 um^2 | 147 | 1.48 mW |
+
+The narrower `z` saves 722 um^2 here (5%). With the Gaussian table's own saving in
+`results/gauss_lut_ppa.csv` (4,060 against 2,572 um^2 at 10 address bits) the total is
+about 2,210 um^2 per lane, roughly 7% of the one-lane top. The accuracy side of D-4 was
+not re-run here. This is the multiplier-area input the decision was waiting for; the
+decision itself is shared with Chuanqi.
+
+### 12.3 Pricing rows for configurations A to E
+
+Pricing blocks only (`price_dp` per lane plus one accumulator), $k$ = 10, 5 ns. These are
+**sums of standalone block syntheses, not a synthesized multi-lane top**, and power is
+the tool's unannotated estimate. Accumulator numbers are for the registered tree
+(Section 4.5).
+
+| Config | Lanes | $g$ | Pricing area | Registers | Accumulator latency | Trials/s at 200 MHz | Worst bias |
+|---|---|---|---|---|---|---|---|
+| A | 1 | 10 | 16,900 um^2 | 250 | 1 | 2.0e8 | 0.38% |
+| B | 2 | 10 | 31,254 um^2 | 428 | 2 | 4.0e8 | 0.38% |
+| C | 4 | 10 | 60,230 um^2 | 786 | 3 | 8.0e8 | 0.38% |
+| D | 1 | 8 | 16,900 um^2 | 250 | 1 | 2.0e8 | 1.18% |
+| E | 1 | 12 | 16,900 um^2 | 250 | 1 | 2.0e8 | 0.14% |
+
+Pricing area grows 1.85 times for two lanes and 3.56 times for four, slightly under
+linear because the accumulator is shared. D and E differ from A only in the Gaussian
+table, whose area is not in these rows.
+
+**Agreement with the team's tables.** The worst-case bias values here equal those in
+`results/accuracy_vs_area.csv` (1.178 / 0.381 / 0.142 % at $g$ = 8 / 10 / 12) and
+`results/exp_k8_candidate.csv` (0.357 % at $g$ = 10, $k$ = 8). The whole-lane synthesis in
+`results/lane_addr_bits_ppa.csv` shows $k$ = 8 saving 3,670 um^2 of the
+33,016 um^2 lane (11.1%), against the 3,742 um^2 measured on
+`price_dp` alone in Section 12.1.
+
+### 12.4 Clock gating: not measured
+
+Section 3.6 expects Design Compiler to turn the stage enables into clock gates. The
+shared synthesis script has no clock-gating option, and adding one would be a second
+change to a shared file, so the on/off comparison was not run.
+
+## 13. Final regression (2026-11-22)
+
+`make sim-pricing-final` (`scripts/sim/pricing_final.sh`) runs every testbench of these
+blocks under VCS at $k$ = 8 and 10 and `MUL_STAGES` = 1 and 2, the accumulator at 1, 2
+and 4 lanes, then the one-lane top, the bubbles test, `round_sat` and, when it is in the
+tree, the multi-lane array replay (`scripts/sim/array_sim.sh`). A run counts only if its
+log has the exact PASS line and no failure line. The 2026-11-22 run passed 46 of 46; the
+summary is `reports/pricing_final_validation_2026-11-22.txt`.
+
+That run is the first end-to-end simulation of two and four real lanes with this
+datapath: 24 array configurations (1/2/4 lanes, both Gaussian and multiplier latencies,
+$k$ = 10 and 8) match the Python model on sum, count and status.
+
+`results/pricing_throughput.csv` lists trials per second for 1, 2 and 4 lanes at each
+clock period where both `price_dp` and the accumulator met timing (5.00, 4.75, 4.00 ns).
+These are pre-layout block results, conditional on the lane closing timing after layout.
+
+**One result per clock.** `tb_price_dp` has a second mode, `NO_GAPS = 1`, run on
+`tb/vectors/price_dp_stream_k<k>.hex`: 8,192 trials of the at-the-money benchmark option
+with Gaussian samples drawn through the real table, driven with `z_valid` high on every
+cycle. Every payoff, flag and latency is checked, and the test fails unless `p_valid` is
+high for 8,192 consecutive cycles. It passes at $k$ = 8 and 10 and `MUL_STAGES` = 1 and 2
+under VCS (run `pricing_final_20261122_stream`, 50 of 50 with the stream cases added).
+A deliberately broken copy of `price_dp` that corrupts a result only after 100
+back-to-back valid cycles passes the older gapped test (its longest run is 46 cycles)
+and fails this one.
+
+Limits of the evidence: `tb_exp2_unit` still inserts random idle cycles (longest
+back-to-back run 91 cycles). The stream test is one option configuration with no
+saturation events; saturation and configuration changes are covered by the gapped test.

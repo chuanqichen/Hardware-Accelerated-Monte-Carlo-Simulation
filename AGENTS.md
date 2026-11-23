@@ -51,3 +51,17 @@ No simulator is installed on the dev laptop (macOS, Python 3.9.6, numpy 2.0.2).
   `/home/work/cc83382` (365 GB local disk, no quota). VCS `simv*.daidir`/`csrc` are
   gitignored but still count against the quota - `rm -rf simv* csrc` when done.
 - Non-interactive ssh: pipe through `grep -v` to drop the UT login banner lines.
+
+### Per-person lab setups
+The notes above are Chuanqi's setup. Use your own account, key and scratch space;
+never another member's.
+
+- **Eric:** `ssh peach` (ssh-config alias for `eg37885@peach.ece.utexas.edu`). There is
+  no `/home/work/eg37885` (it needs a TA request), so the working copy, venv and build
+  output live on the network scratch disk: `/misc/scratch/eg37885/mc/` with
+  `export PYTHON=/misc/scratch/eg37885/mc/venv/bin/python` (3.9, numpy 2.0.2,
+  matplotlib 3.9.4). Same `module load syn/2022`. `node` is at `/usr/bin/node` on peach.
+  Eric's laptop has Icarus (`make sim-iv` works locally) but no Verilator; its system
+  bash is 3.2; the shared array runner supports that version.
+- **Tyler:** `mario`, `module load synopsys/2022`, builds under `/home/work/teh969/`
+  (see `scripts/README.md`).
