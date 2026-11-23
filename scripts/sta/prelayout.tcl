@@ -2,6 +2,7 @@
 # Optional SPEF enables extracted parasitics and propagated clocks.
 set root [file normalize [file join [file dirname [info script]] ../..]]
 if {[catch {
+  source [file join $root scripts syn config.tcl]
   foreach name {NETLIST MAPPED_SDC} {
     if {![info exists ::env($name)] || ![file isfile $::env($name)]} {
       error "$name must name an existing mapped input"
@@ -45,8 +46,7 @@ if {[catch {
     set power_enable_analysis true
     set power_analysis_mode averaged
   }
-  set lib /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
-  if {[info exists ::env(LIB_DB)]} { set lib $::env(LIB_DB) }
+  set lib [mc_library $root db]
   if {![file isfile $lib]} { error "Missing standard-cell .db: $lib" }
   set tag "mc_top_[clock format [clock seconds] -format %Y%m%d_%H%M%S]"
   if {[info exists ::env(STA_TAG)]} { set tag $::env(STA_TAG) }
@@ -55,7 +55,7 @@ if {[catch {
   if {[file exists $out]} { error "Run exists: $out; choose a fresh STA_TAG" }
   file mkdir $out
   set f [open $out/source_sha256.txt w]
-  puts $f [exec sha256sum $netlist $sdc $lib [info script]]
+  puts $f [exec sha256sum $netlist $sdc $lib [info script] [file join $root scripts syn config.tcl]]
   if {$spef ne ""} { puts $f [exec sha256sum $spef] }
   if {$vcd ne ""} { puts $f [exec sha256sum $vcd $window_file] }
   close $f
@@ -108,8 +108,14 @@ if {[catch {
   check_timing -verbose > $out/check_timing.rpt
   report_units > $out/units.rpt
   report_clock > $out/clock.rpt
-  report_timing -delay_type max -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded > $out/setup.rpt
-  report_timing -delay_type min -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded > $out/hold.rpt
+  report_timing -delay_type max -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/setup.rpt
+  report_timing -delay_type min -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/hold.rpt
+  set data_pins [get_pins -of_objects [get_cells -hierarchical * -filter {ref_name == DFFPOSX1}] -filter {lib_pin_name == D}]
+  redirect $out/dffposx1_setup.rpt {
+    if {[sizeof_collection $data_pins] > 0} {
+      report_timing -delay_type max -to $data_pins -max_paths 5 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time
+    } else { puts "No DFFPOSX1 data pins" }
+  }
   report_constraint -all_violators -nosplit -significant_digits 6 > $out/violators.rpt
   report_analysis_coverage > $out/coverage.rpt
   report_disable_timing > $out/disabled_timing.rpt

@@ -62,7 +62,12 @@ production mc_top permits the verified bounded counts LANES=1, 2, or 4.
 The default SDC is constraints/lane_5ns.sdc: 5 ns, 30% I/O budgets, 0.1 ns clock
 uncertainty and transition, typical gscl45nm at 1.1 V/27 C. CLK_PERIOD_NS can override
 the period explicitly; keep it fixed across comparisons. OPCOND defaults to typical.
-LIB_DB defaults to the system FreePDK45 gscl45nm.db, identical to the course copy.
+LIB_DB defaults to the versioned `tech/gscl45nm/setup_fixed_v1/gscl45nm.db`;
+Innovus uses its matching Liberty file. The original and corrected files,
+reconstruction rule, license and compiler provenance are under
+[`tech/gscl45nm`](../tech/gscl45nm/README.md). Normal runs need no manual library
+setup or recompilation. `make library-check` verifies the checked-in pair.
+Set `LIB_DB` and `LIB_LIB` explicitly for original-library control runs.
 Time is ns and capacitance pF. Recovery/removal arcs are enabled and reset paths
 are reported. Never blanket false-path rst_n. Retiming is off unless RETIME=1 (adds
 -retime to compile_ultra).

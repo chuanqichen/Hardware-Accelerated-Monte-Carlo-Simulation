@@ -198,6 +198,13 @@ synth-smoke:
 flow-test:
 	$(PYTHON) -m unittest discover -s scripts -p 'test_*.py' -v
 
+.PHONY: library-check library-source
+library-check:
+	$(PYTHON) scripts/fix_setup_library.py --check
+
+library-source:
+	$(PYTHON) scripts/fix_setup_library.py --write
+
 # NETLIST and MAPPED_SDC must name the same run. Optional SPEF selects routed STA.
 sim-gate:
 	bash scripts/sim/gate_sim.sh

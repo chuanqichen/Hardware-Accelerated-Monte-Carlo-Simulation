@@ -11,7 +11,7 @@ if {[catch {
   set pdk /usr/local/packages/FreePDK45/osu_soc
   set netlist [mc_env_or NETLIST ""]
   set sdc [mc_env_or MAPPED_SDC ""]
-  set lib [mc_env_or LIB_LIB $pdk/lib/files/gscl45nm.lib]
+  set lib [mc_library $root lib]
   set lef [mc_env_or TECH_LEF $pdk/lib/files/gscl45nm.lef]
   set map [mc_env_or GDS_MAP $pdk/lib/files/gds2_encounter.map]
   set gds_dir [mc_env_or CELL_GDS_DIR $pdk/lib/source/gds]

@@ -1,0 +1,100 @@
+{
+  "revision": "setup_fixed_v1",
+  "original_lib_sha256": "69c0641df1dc737e5c8dbd3950f2daf3b52c6e7767aa081e35e9b0739bf62d6f",
+  "original_db_sha256": "4968d1dba7ff9911cc51dfac7d8ea8b94fbab59d2f862f0531d7c774fb0a5791",
+  "fixed_lib_sha256": "77b2060adaad9793b55a75bfc588408a537dbf7d2b0f7b6cb4fff64b2d6b64ff",
+  "method": "Same-row linear interpolation; nearest two clean points extrapolated at boundaries",
+  "formula": "y0 + (x - x0) * (y1 - y0) / (x1 - x0)",
+  "rounding": "12 decimal places in ns, round-half-to-even",
+  "qualification": "Project approximation, not physical recharacterization",
+  "changes": [
+    {
+      "cell": "DFFPOSX1",
+      "pin": "D",
+      "related_pin": "CLK",
+      "timing_type": "setup_rising",
+      "constraint": "rise_constraint",
+      "clock_transition_ns": "0.3",
+      "data_transition_ns": "0.06",
+      "old_ns": "6.2",
+      "new_ns": "0.153125",
+      "operation": "linear_extrapolation",
+      "donors": [
+        {
+          "data_transition_ns": "0.24",
+          "setup_ns": "0.14375"
+        },
+        {
+          "data_transition_ns": "0.48",
+          "setup_ns": "0.13125"
+        }
+      ]
+    },
+    {
+      "cell": "DFFPOSX1",
+      "pin": "D",
+      "related_pin": "CLK",
+      "timing_type": "setup_rising",
+      "constraint": "rise_constraint",
+      "clock_transition_ns": "0.3",
+      "data_transition_ns": "0.9",
+      "old_ns": "5.125",
+      "new_ns": "0.1640625",
+      "operation": "interpolation",
+      "donors": [
+        {
+          "data_transition_ns": "0.48",
+          "setup_ns": "0.13125"
+        },
+        {
+          "data_transition_ns": "1.2",
+          "setup_ns": "0.1875"
+        }
+      ]
+    },
+    {
+      "cell": "DFFPOSX1",
+      "pin": "D",
+      "related_pin": "CLK",
+      "timing_type": "setup_rising",
+      "constraint": "rise_constraint",
+      "clock_transition_ns": "0.6",
+      "data_transition_ns": "0.06",
+      "old_ns": "3.075",
+      "new_ns": "0.1453125",
+      "operation": "linear_extrapolation",
+      "donors": [
+        {
+          "data_transition_ns": "0.24",
+          "setup_ns": "0.20625"
+        },
+        {
+          "data_transition_ns": "0.48",
+          "setup_ns": "0.2875"
+        }
+      ]
+    },
+    {
+      "cell": "DFFPOSX1",
+      "pin": "D",
+      "related_pin": "CLK",
+      "timing_type": "setup_rising",
+      "constraint": "fall_constraint",
+      "clock_transition_ns": "0.3",
+      "data_transition_ns": "0.48",
+      "old_ns": "5.85",
+      "new_ns": "0.310227272727",
+      "operation": "interpolation",
+      "donors": [
+        {
+          "data_transition_ns": "0.24",
+          "setup_ns": "0.2375"
+        },
+        {
+          "data_transition_ns": "0.9",
+          "setup_ns": "0.4375"
+        }
+      ]
+    }
+  ]
+}
