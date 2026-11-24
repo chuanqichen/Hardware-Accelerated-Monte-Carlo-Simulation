@@ -11,7 +11,7 @@
 #   TAG         run name used for the report folder    e.g. gauss_lut_a10_w16_l1
 #   SDC         constraints file                       default constraints/lane_5ns.sdc
 #   REPORT_DIR  where raw reports go                   default reports/syn/$TAG
-#   LIB_DB      standard-cell .db                      default FreePDK45 gscl45nm.db on peach
+#   LIB_DB      standard-cell .db                      default versioned setup_fixed_v1 pair
 #   RETIME      0 (default, or unset) | 1              1 adds -retime to compile_ultra (registers
 #                                                      move, so simulated latency is no longer the
 #                                                      synthesised latency of every path)

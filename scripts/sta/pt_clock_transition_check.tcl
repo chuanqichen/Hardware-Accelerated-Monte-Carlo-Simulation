@@ -2,18 +2,20 @@
 # Run through clock_transition.sh to reject exit-zero PrimeTime command errors.
 proc env_or {n d} { if {[info exists ::env($n)] && $::env($n) ne ""} { return $::env($n) }; return $d }
 if {[catch {
+set root [file normalize [file join [file dirname [info script]] ../..]]
+source [file join $root scripts syn config.tcl]
 set NETLIST [env_or NETLIST reports/syn/mc_top_shared_5ns/mc_top.mapped.v]
 set SDC     [env_or SDC     reports/syn/mc_top_shared_5ns/mc_top.mapped.sdc]
 set TOP     [env_or TOP     mc_top]
 set OUT     [env_or OUT     reports/sta/clkslew_[clock format [clock seconds] -format %Y%m%d_%H%M%S]]
-set LIB     [env_or LIB_DB  /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db]
+set LIB     [mc_library $root db]
 foreach input [list $NETLIST $SDC $LIB] {
   if {![file isfile $input]} { error "Missing input: $input" }
 }
 if {[file exists $OUT]} { error "Run exists: $OUT; choose a fresh OUT" }
 file mkdir $OUT
 set f [open $OUT/source_sha256.txt w]
-puts $f [exec sha256sum $NETLIST $SDC $LIB [info script]]
+puts $f [exec sha256sum $NETLIST $SDC $LIB [info script] [file join $root scripts syn config.tcl]]
 close $f
 set f [open $OUT/inputs.txt w]
 puts $f "tool=[get_app_var sh_product_version]\ntop=$TOP\nnetlist=$NETLIST\nsdc=$SDC\nlibrary=$LIB"
@@ -25,9 +27,8 @@ set_app_var link_path   [list * $LIB]
 set_app_var link_create_black_boxes false
 # (PrimeTime checks recovery/removal by default; the DC variable does not exist here.)
 read_verilog $NETLIST
-current_design $TOP
 if {![link_design $TOP]} { error "PrimeTime link failed" }
-read_sdc $SDC
+if {[read_sdc $SDC] != 1} { error "Failed to read complete SDC" }
 
 foreach slew {0.10 0.06} {
   set_clock_transition $slew [get_clocks clk]

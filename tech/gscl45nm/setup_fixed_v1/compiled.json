@@ -1,0 +1,7 @@
+{
+  "source_sha256": "77b2060adaad9793b55a75bfc588408a537dbf7d2b0f7b6cb4fff64b2d6b64ff",
+  "db_sha256": "dd8d0571337905400b247e75069d77fdab50f1d1520442d91cf8df8e39e1d256",
+  "tool": "T-2022.03-SP5",
+  "library_name": "gscl45nm",
+  "command": "read_lib; write_lib -format db gscl45nm"
+}

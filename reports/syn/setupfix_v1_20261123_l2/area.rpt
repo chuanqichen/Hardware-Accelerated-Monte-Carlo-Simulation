@@ -1,0 +1,63 @@
+ 
+****************************************
+Report : area
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Mon Nov 23 15:13:09 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /home/work/cc83382/course-libraryfix-20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.db)
+
+Number of ports:                         1802
+Number of nets:                         20784
+Number of cells:                        18672
+Number of combinational cells:          17127
+Number of sequential cells:              1503
+Number of macros/black boxes:               0
+Number of buf/inv:                       5588
+Number of references:                      17
+
+Combinational area:              42959.721534
+Buf/Inv area:                     8965.507000
+Noncombinational area:           14776.380005
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 57736.101539
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area            Local cell area
+                                  -------------------  ------------------------------ 
+Hierarchical cell                 Absolute    Percent  Combi-      Noncombi-   Black-
+                                  Total       Total    national    national    boxes   Design
+--------------------------------  ----------  -------  ----------  ----------  ------  ---------------------------------------------------------------------------------
+mc_top                            57736.1015    100.0   4980.6808   6824.5607  0.0000  mc_top
+u_controller                       3061.2439      5.3   2028.7839   1032.4600  0.0000  mc_controller_LANES2
+u_lanes                           42844.2739     74.2     10.3246      0.0000  0.0000  mc_lane_array_LANES2_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10
+u_lanes/g_lane[1].u_gauss          2992.2567      5.2    267.9703    137.9742  0.0000  gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1_0
+u_lanes/g_lane[1].u_gauss/u_rom    2586.3122      4.5   2586.3122      0.0000  0.0000  gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16_0
+u_lanes/g_lane[1].u_price         12804.3811     22.2   3637.5443    645.2875  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_0
+u_lanes/g_lane[1].u_price/u_exp    8304.7327     14.4   2404.6932    549.5503  0.0000  exp2_unit_EXP_ADDR_BITS10_0
+u_lanes/g_lane[1].u_price/u_exp/u_rom  5350.4892     9.3  5350.4892     0.0000 0.0000  exp2_rom_ADDR_BITS10_OUT_WIDTH17_0
+u_lanes/g_lane[1].u_price/u_rs      185.8428      0.3    185.8428      0.0000  0.0000  round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1_0
+u_lanes/g_lane[1].u_price/u_sx       30.9738      0.1      0.0000     30.9738  0.0000  pipe_W1_N3_0
+u_lanes/g_lane[1].u_rng            4016.7387      7.0   2581.6193   1435.1194  0.0000  rng_lane_0
+u_lanes/u_accumulator              3200.6260      5.5   1899.7264   1300.8996  0.0000  accumulator_2_22_64_32_1
+u_lanes/u_gauss                    2992.2567      5.2    267.9703    137.9742  0.0000  gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1_1
+u_lanes/u_gauss/u_rom              2586.3122      4.5   2586.3122      0.0000  0.0000  gauss_lut_rom_ADDR_BITS10_OUT_WIDTH16_1
+u_lanes/u_price                   12815.1750     22.2   3648.3382    645.2875  0.0000  price_dp_EXP_ADDR_BITS10_MUL_STAGES1_1
+u_lanes/u_price/u_exp              8304.7327     14.4   2404.6932    549.5503  0.0000  exp2_unit_EXP_ADDR_BITS10_1
+u_lanes/u_price/u_exp/u_rom        5350.4892      9.3   5350.4892      0.0000  0.0000  exp2_rom_ADDR_BITS10_OUT_WIDTH17_1
+u_lanes/u_price/u_rs                185.8428      0.3    185.8428      0.0000  0.0000  round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1_1
+u_lanes/u_price/u_sx                 30.9738      0.1      0.0000     30.9738  0.0000  pipe_W1_N3_1
+u_lanes/u_rng                      4012.5150      6.9   2577.3956   1435.1194  0.0000  rng_lane_1
+u_reset                              25.3422      0.0      4.6930     20.6492  0.0000  rst_sync_STAGES2
+--------------------------------  ----------  -------  ----------  ----------  ------  ---------------------------------------------------------------------------------
+Total                                                  42959.7215  14776.3800  0.0000
+
+1

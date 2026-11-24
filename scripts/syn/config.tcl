@@ -3,10 +3,57 @@ proc mc_env_or {name default} {
     if {[info exists ::env($name)] && [string trim $::env($name)] ne ""} { return $::env($name) }
     return $default
 }
+proc mc_library {repo_root format} {
+    switch -- $format {
+        db { set variable LIB_DB }
+        lib { set variable LIB_LIB }
+        default { error "Unsupported library format: $format" }
+    }
+    set db_override [mc_env_or LIB_DB ""]
+    set lib_override [mc_env_or LIB_LIB ""]
+    if {($db_override eq "") != ($lib_override eq "")} {
+        error "Set both LIB_DB and LIB_LIB, or unset both to select the project library"
+    }
+    if {$db_override ne ""} {
+        foreach {kind path} [list db $db_override lib $lib_override] {
+            if {![file isfile $path] || [file size $path] == 0 ||
+                [file extension $path] ne ".$kind"} {
+                error "Missing standard-cell .$kind file: $path"
+            }
+        }
+        return [mc_env_or $variable ""]
+    }
+    set directory [file normalize [file join $repo_root tech gscl45nm setup_fixed_v1]]
+    set f [open [file join $directory SHA256SUMS] r]
+    set sums [read $f]
+    close $f
+    set expected [dict create]
+    foreach line [split [string trim $sums] \n] {
+        if {![regexp {^([0-9a-f]{64}) +([a-zA-Z0-9_.]+)$} $line -> digest name]} {
+            error "Malformed project library checksums"
+        }
+        dict set expected $name $digest
+    }
+    if {[dict size $expected] != 2} { error "Expected the project Liberty/DB pair" }
+    set command [auto_execok sha256sum]
+    if {$command eq ""} {
+        set command [auto_execok shasum]
+        if {$command eq ""} { error "Need sha256sum or shasum to verify the project library" }
+        lappend command -a 256
+    }
+    foreach name {gscl45nm.lib gscl45nm.db} {
+        set path [file join $directory $name]
+        if {![file isfile $path] || [file size $path] == 0 ||
+            [lindex [exec {*}$command $path] 0] ne [dict get $expected $name]} {
+            error "Project library checksum mismatch: $path; run make library-check"
+        }
+    }
+    return [file join $directory gscl45nm.$format]
+}
 proc mc_synth_config {repo_root} {
     set design [mc_env_or DESIGN gauss_lut]
     if {![regexp {^[A-Za-z_][A-Za-z0-9_]*$} $design]} { error "Invalid DESIGN" }
-    set lib [mc_env_or LIB_DB /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db]
+    set lib [mc_library $repo_root db]
     if {![file isfile $lib] || [file extension $lib] ne ".db"} { error "Missing standard-cell .db file: $lib" }
     set sources [mc_env_or RTL_FILES ""]
     if {$sources eq ""} {

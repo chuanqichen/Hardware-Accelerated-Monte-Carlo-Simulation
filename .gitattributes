@@ -10,3 +10,8 @@ results/rng_[0-9]*_* -text
 reports/syn/mc_top_interim_20261111/** -text
 reports/sta/mc_top_interim_20261111_clean/** -text
 reports/sim/gate_interim_20261111/** -text
+
+# Preserve all archived measurements and hash-bound library/input bytes.
+reports/** -text
+results/** -text
+tech/gscl45nm/** -text

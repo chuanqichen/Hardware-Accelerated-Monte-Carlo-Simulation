@@ -1,0 +1,79 @@
+Command: vcs -full64 -sverilog -timescale=1ns/1ps +notimingcheck +nospecify +define+MAPPED_MC_TOP \
+rtl/mc_pkg.sv /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.v /home/work/cc83382/course-libraryfix-20261123/reports/syn/setupfix_v1_20261123_l1/mc_top.mapped.v \
+tb/tb_mc_array.sv -top tb_mc_array -pvalue+tb_mc_array.LANES=1 -pvalue+tb_mc_array.CLOCK_PERIOD_NS=5.0 \
+-Mdir=/home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/csrc \
+-o /home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/simv \
+-l /home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/compile.log \
+
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Mon Nov 23 15:11:48 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.v'
+Parsing design file '/home/work/cc83382/course-libraryfix-20261123/reports/syn/setupfix_v1_20261123_l1/mc_top.mapped.v'
+Parsing design file 'tb/tb_mc_array.sv'
+Top Level Modules:
+       tb_mc_array
+assign 1 tb_mc_array.LANES (Command line)
+assign 5.0 tb_mc_array.CLOCK_PERIOD_NS (Command line)
+TimeScale is 1 ns / 1 ps
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+
+23 modules and 2 UDPs read.
+recompiling package mc_pkg
+recompiling module AND2X2
+recompiling module AOI21X1
+recompiling module AOI22X1
+recompiling module BUFX2
+recompiling module DFFPOSX1
+recompiling module DFFSR
+recompiling module FAX1
+recompiling module INVX2
+recompiling module MUX2X1
+recompiling module NAND2X1
+recompiling module NAND3X1
+recompiling module NOR2X1
+recompiling module NOR3X1
+recompiling module OAI21X1
+recompiling module OR2X2
+recompiling module XNOR2X1
+recompiling module pipe_W1_N3
+recompiling module price_dp_EXP_ADDR_BITS10_MUL_STAGES1
+recompiling module accumulator_1_22_64_32_0
+recompiling module mc_lane_array_LANES1_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10
+recompiling module mc_top
+recompiling module tb_mc_array
+All of 23 modules done
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/simv \
+]; then chmod a-x /home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/simv; \
+fi
+g++  -o /home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/simv \
+-rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib \
+-L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./ \
+/usr/lib64/libnuma.so.1   objs/amcQw_d.o   _4066517_archive_1.so objs/udps/exIG1.o \
+objs/udps/U7Vwg.o  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o \
+rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile \
+-luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o \
+-Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o \
+-ldl  -lc -lm -lpthread -ldl 
+/home/work/cc83382/course-libraryfix-20261123/reports/sim/setupfix_v1_20261123_l1_mapped/simv \
+up to date
+CPU time: 1.153 seconds to compile + .557 seconds to elab + .152 seconds to link

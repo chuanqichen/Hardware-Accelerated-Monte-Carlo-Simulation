@@ -1,0 +1,211 @@
+****************************************
+Report : timing
+	-path_type full_clock_expanded
+	-delay_type min
+	-slack_lesser_than 100.000000
+	-max_paths 5
+	-transition_time
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Mon Nov 23 15:44:52 2026
+****************************************
+
+
+  Startpoint: u_lanes/u_gauss/z_reg_9_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_gauss/z_reg_9_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00089/Y (BUFX4)               0.099613   0.080795 & 0.080795 r
+  u_lanes/CTS_ccl_a_buf_00075/Y (BUFX4)       0.102104   0.081535 & 0.162330 r
+  u_lanes/u_gauss/z_reg_9_/CLK (DFFPOSX1)     0.102262   0.002135 & 0.164465 r
+  u_lanes/u_gauss/z_reg_9_/Q (DFFPOSX1)       0.017264   0.102491 & 0.266955 f
+  u_lanes/u_gauss/U34/Y (INVX1)               0.001967   0.019233 & 0.286188 r
+  u_lanes/u_gauss/U83/Y (AOI22X1)             0.013378   0.015484 & 0.301672 f
+  u_lanes/u_gauss/z_reg_9_/D (DFFPOSX1)       0.013378   0.000038 & 0.301710 f
+  data arrival time                                                 0.301710
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00089/Y (BUFX4)               0.099613   0.080795 & 0.080795 r
+  u_lanes/CTS_ccl_a_buf_00075/Y (BUFX4)       0.102109   0.081423 & 0.162217 r
+  u_lanes/u_gauss/z_reg_9_/CLK (DFFPOSX1)     0.102267   0.002135 & 0.164352 r
+  clock reconvergence pessimism                          0.000000   0.164352
+  clock uncertainty                                      0.100000   0.264352
+  library hold time                                      0.065001   0.329353
+  data required time                                                0.329353
+  -----------------------------------------------------------------------------
+  data required time                                                0.329353
+  data arrival time                                                 -0.301710
+  -----------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.027642
+
+
+  Startpoint: u_lanes/u_price/acc_r_reg_0__7_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_price/acc_r_reg_0__7_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00089/Y (BUFX4)               0.099613   0.080795 & 0.080795 r
+  u_lanes/u_price/CTS_ccl_a_buf_00074/Y (BUFX4) 0.092216 0.066056 & 0.146851 r
+  u_lanes/u_price/acc_r_reg_0__7_/CLK (DFFPOSX1) 0.092983 0.007991 & 0.154842 r
+  u_lanes/u_price/acc_r_reg_0__7_/Q (DFFPOSX1) 0.021224  0.105328 & 0.260170 f
+  u_lanes/u_price/U646/Y (INVX1)              0.000000   0.007291 & 0.267461 r
+  u_lanes/u_price/U647/Y (AOI22X1)            0.011616   0.013704 & 0.281165 f
+  u_lanes/u_price/acc_r_reg_0__7_/D (DFFPOSX1) 0.011616  0.000013 & 0.281178 f
+  data arrival time                                                 0.281178
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00089/Y (BUFX4)               0.099613   0.080795 & 0.080795 r
+  u_lanes/u_price/CTS_ccl_a_buf_00074/Y (BUFX4) 0.092228 0.065989 & 0.146784 r
+  u_lanes/u_price/acc_r_reg_0__7_/CLK (DFFPOSX1) 0.092995 0.007991 & 0.154775 r
+  clock reconvergence pessimism                          0.000000   0.154775
+  clock uncertainty                                      0.100000   0.254775
+  library hold time                                      0.052987   0.307762
+  data required time                                                0.307762
+  -----------------------------------------------------------------------------
+  data required time                                                0.307762
+  data arrival time                                                 -0.281178
+  -----------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.026584
+
+
+  Startpoint: u_lanes/u_price/u_exp/n3_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_price/u_exp/n4_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                                  Trans       Incr       Path
+  -------------------------------------------------------------------------------------
+  clock clk (rise edge)                                          0.000000   0.000000
+  clock source latency                                           0.000000   0.000000
+  clk (in)                                            0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00090/Y (BUFX4)                       0.084880   0.131534 & 0.131534 r
+  u_lanes/CTS_ccl_a_buf_00064/Y (BUFX4)               0.058330   0.050191 & 0.181725 r
+  u_lanes/u_price/u_exp/n3_reg_3_/CLK (DFFPOSX1)      0.058343   0.000623 & 0.182348 r
+  u_lanes/u_price/u_exp/n3_reg_3_/Q (DFFPOSX1)        0.018105   0.102479 & 0.284827 f
+  u_lanes/u_price/u_exp/U486/Y (INVX1)                0.005298   0.021569 & 0.306396 r
+  u_lanes/u_price/u_exp/U511/Y (AOI22X1)              0.011155   0.025503 & 0.331899 f
+  u_lanes/u_price/u_exp/n4_reg_3_/D (DFFPOSX1)        0.011155   0.000034 & 0.331932 f
+  data arrival time                                                         0.331932
+
+  clock clk (rise edge)                                          0.000000   0.000000
+  clock source latency                                           0.000000   0.000000
+  clk (in)                                            0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00090/Y (BUFX4)                       0.084880   0.131534 & 0.131534 r
+  u_lanes/u_price/u_exp/CTS_ccl_a_buf_00081/Y (BUFX4) 0.092765   0.071388 & 0.202921 r
+  u_lanes/u_price/u_exp/n4_reg_3_/CLK (DFFPOSX1)      0.092805   0.001101 & 0.204022 r
+  clock reconvergence pessimism                                  0.000000   0.204022
+  clock uncertainty                                              0.100000   0.304022
+  library hold time                                              0.052770   0.356792
+  data required time                                                        0.356792
+  -------------------------------------------------------------------------------------
+  data required time                                                        0.356792
+  data arrival time                                                         -0.331932
+  -------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                          -0.024860
+
+
+  Startpoint: u_lanes/u_price/u_exp/n3_reg_2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_price/u_exp/n4_reg_2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                                  Trans       Incr       Path
+  -------------------------------------------------------------------------------------
+  clock clk (rise edge)                                          0.000000   0.000000
+  clock source latency                                           0.000000   0.000000
+  clk (in)                                            0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00090/Y (BUFX4)                       0.084880   0.131534 & 0.131534 r
+  u_lanes/CTS_ccl_a_buf_00064/Y (BUFX4)               0.058330   0.050191 & 0.181725 r
+  u_lanes/u_price/u_exp/n3_reg_2_/CLK (DFFPOSX1)      0.058343   0.000623 & 0.182348 r
+  u_lanes/u_price/u_exp/n3_reg_2_/Q (DFFPOSX1)        0.018000   0.102400 & 0.284748 f
+  u_lanes/u_price/u_exp/U491/Y (INVX1)                0.005892   0.021917 & 0.306665 r
+  u_lanes/u_price/u_exp/U512/Y (AOI22X1)              0.013040   0.026970 & 0.333635 f
+  u_lanes/u_price/u_exp/n4_reg_2_/D (DFFPOSX1)        0.013041   0.000060 & 0.333695 f
+  data arrival time                                                         0.333695
+
+  clock clk (rise edge)                                          0.000000   0.000000
+  clock source latency                                           0.000000   0.000000
+  clk (in)                                            0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00090/Y (BUFX4)                       0.084880   0.131534 & 0.131534 r
+  u_lanes/u_price/u_exp/CTS_ccl_a_buf_00081/Y (BUFX4) 0.092765   0.071388 & 0.202921 r
+  u_lanes/u_price/u_exp/n4_reg_2_/CLK (DFFPOSX1)      0.092829   0.002096 & 0.205017 r
+  clock reconvergence pessimism                                  0.000000   0.205017
+  clock uncertainty                                              0.100000   0.305017
+  library hold time                                              0.052677   0.357694
+  data required time                                                        0.357694
+  -------------------------------------------------------------------------------------
+  data required time                                                        0.357694
+  data arrival time                                                         -0.333695
+  -------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                          -0.023999
+
+
+  Startpoint: u_lanes/u_price/acc_r_reg_0__9_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_price/acc_r_reg_0__9_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00089/Y (BUFX4)               0.099613   0.080795 & 0.080795 r
+  u_lanes/u_price/CTS_ccl_a_buf_00074/Y (BUFX4) 0.092216 0.066056 & 0.146851 r
+  u_lanes/u_price/acc_r_reg_0__9_/CLK (DFFPOSX1) 0.092996 0.007706 & 0.154557 r
+  u_lanes/u_price/acc_r_reg_0__9_/Q (DFFPOSX1) 0.022315  0.106145 & 0.260702 f
+  u_lanes/u_price/U640/Y (INVX1)              0.000000   0.008396 & 0.269098 r
+  u_lanes/u_price/U641/Y (AOI22X1)            0.013163   0.014831 & 0.283929 f
+  u_lanes/u_price/acc_r_reg_0__9_/D (DFFPOSX1) 0.013163  0.000040 & 0.283969 f
+  data arrival time                                                 0.283969
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00089/Y (BUFX4)               0.099613   0.080795 & 0.080795 r
+  u_lanes/u_price/CTS_ccl_a_buf_00074/Y (BUFX4) 0.092228 0.065989 & 0.146784 r
+  u_lanes/u_price/acc_r_reg_0__9_/CLK (DFFPOSX1) 0.093008 0.007706 & 0.154490 r
+  clock reconvergence pessimism                          0.000000   0.154490
+  clock uncertainty                                      0.100000   0.254490
+  library hold time                                      0.052903   0.307393
+  data required time                                                0.307393
+  -----------------------------------------------------------------------------
+  data required time                                                0.307393
+  data arrival time                                                 -0.283969
+  -----------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.023424
+
+Warning: report_timing has satisfied the max_paths criteria. There are 93 further endpoints which have paths of interest with slack less than 100.000000 that were not considered when generating this report. (UITE-502)
+
+1

@@ -225,6 +225,10 @@ __marimo__/
 simv*
 csrc/
 csrc_rng/
+*.o
+*.a
+*.sdb
+reports/syn/*/work/
 # Long RNG captures are reproducible; keep CSVs, manifests and reports.
 reports/sim/rng_*/stream_*.hex
 *.vcd

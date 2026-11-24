@@ -1,0 +1,7 @@
+tool=T-2022.03-SP5
+netlist=/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l1/mc_top.mapped.v
+sdc=/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l1/mc_top.mapped.sdc
+library=/home/work/cc83382/course-libraryfix-20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.db
+corner=typical
+analysis=prelayout_ideal_clock_no_extracted_parasitics
+spef=

@@ -1,0 +1,301 @@
+
+                             Library Compiler (TM)
+                                 DesignWare (R)
+
+             Version T-2022.03-SP5 for linux64 - Oct 13, 2022 -SLE
+
+                    Copyright (c) 1988 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Initializing...
+# Compile a specified source without overwriting an existing artifact.
+# LIB_SOURCE and LIB_OUTPUT are required; load syn/2022 first.
+if {[catch {
+    foreach name {LIB_SOURCE LIB_OUTPUT} {
+        if {![info exists ::env($name)] || $::env($name) eq ""} { error "Set $name" }
+    }
+    set source [file normalize $::env(LIB_SOURCE)]
+    set output [file normalize $::env(LIB_OUTPUT)]
+    if {![file isfile $source] || [file size $source] == 0} { error "Missing Liberty source" }
+    if {[file exists $output] || [file exists $output.build.txt]} { error "Output exists: $output" }
+    file mkdir [file dirname $output]
+    set source_sha [lindex [exec sha256sum $source] 0]
+    read_lib $source
+    write_lib -format db gscl45nm -output $output
+    if {![file isfile $output] || [file size $output] == 0} { error "No compiled library" }
+    set f [open $output.build.txt w]
+    puts $f "source_sha256=$source_sha"
+    puts $f "db_sha256=[lindex [exec sha256sum $output] 0]"
+    puts $f "tool=[get_app_var sh_product_version]"
+    puts $f "library_name=gscl45nm"
+    puts $f "command=read_lib; write_lib -format db gscl45nm"
+    close $f
+} reason]} {
+    puts stderr "LIBRARY failed: $reason"
+    exit 1
+}
+Reading '/home/work/cc83382/course-libraryfix-20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.lib' ...
+Warning: Line 15, The 'default_fanout_load' attribute is not specified. Using 1.00. (LBDB-172)
+Warning: Line 15, The 'default_inout_pin_cap' attribute is not specified. Using 1.00. (LBDB-172)
+Warning: Line 15, The 'default_input_pin_cap' attribute is not specified. Using 1.00. (LBDB-172)
+Warning: Line 15, The 'default_output_pin_cap' attribute is not specified. Using 0.00. (LBDB-172)
+Warning: Line 15, The 'default_cell_leakage_power' attribute is not specified. Using 0.00. (LBDB-172)
+Warning: Line 15, The 'default_leakage_power_density' attribute is not specified. Using 0.00. (LBDB-172)
+Warning: Line 15, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+	No default can be applied to this attribute. (LBDB-366)
+Warning: Line 123, Cell 'AND2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002291, 0.002291) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 123, Cell 'AND2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.001871, 0.001871) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 129, Cell 'AND2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002343, 0.002343) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 129, Cell 'AND2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.001827, 0.001827) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 135, Cell 'AND2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 135, Cell 'AND2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 297, Cell 'AND2X2', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.001798, 0.001798) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 297, Cell 'AND2X2', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.001763, 0.001763) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 303, Cell 'AND2X2', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.001869, 0.001869) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 303, Cell 'AND2X2', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.001820, 0.001820) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 309, Cell 'AND2X2', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 309, Cell 'AND2X2', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 326, Cell 'AND2X2', pin 'Y', The 'values' attribute has a '-0.063356' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 366, Cell 'AND2X2', pin 'Y', The 'values' attribute has a '-0.040081' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 447, Cell 'AOI21X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002741, 0.002741) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 447, Cell 'AOI21X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002566, 0.002566) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 453, Cell 'AOI21X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002724, 0.002724) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 453, Cell 'AOI21X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002679, 0.002679) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 459, Cell 'AOI21X1', pin 'C', The port 'C' does not have the attribute 'rise_capacitance_range' specified. The value (0.002386, 0.002386) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 459, Cell 'AOI21X1', pin 'C', The port 'C' does not have the attribute 'fall_capacitance_range' specified. The value (0.002312, 0.002312) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 465, Cell 'AOI21X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 465, Cell 'AOI21X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 700, Cell 'AOI22X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002817, 0.002817) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 700, Cell 'AOI22X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002658, 0.002658) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 706, Cell 'AOI22X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002764, 0.002764) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 706, Cell 'AOI22X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002726, 0.002726) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 712, Cell 'AOI22X1', pin 'C', The port 'C' does not have the attribute 'rise_capacitance_range' specified. The value (0.002878, 0.002878) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 712, Cell 'AOI22X1', pin 'C', The port 'C' does not have the attribute 'fall_capacitance_range' specified. The value (0.002670, 0.002670) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 718, Cell 'AOI22X1', pin 'D', The port 'D' does not have the attribute 'rise_capacitance_range' specified. The value (0.002907, 0.002907) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 718, Cell 'AOI22X1', pin 'D', The port 'D' does not have the attribute 'fall_capacitance_range' specified. The value (0.002826, 0.002826) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 724, Cell 'AOI22X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 724, Cell 'AOI22X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1033, Cell 'BUFX2', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.001539, 0.001539) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1033, Cell 'BUFX2', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.001504, 0.001504) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1039, Cell 'BUFX2', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1039, Cell 'BUFX2', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1056, Cell 'BUFX2', pin 'Y', The 'values' attribute has a '-0.064928' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1056, Cell 'BUFX2', pin 'Y', The 'values' attribute has a '-0.001681' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1117, Cell 'BUFX4', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.003979, 0.003979) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1117, Cell 'BUFX4', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.003854, 0.003854) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1123, Cell 'BUFX4', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1123, Cell 'BUFX4', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1140, Cell 'BUFX4', pin 'Y', The 'values' attribute has a '-0.008412' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1140, Cell 'BUFX4', pin 'Y', The 'values' attribute has a '-0.090766' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1140, Cell 'BUFX4', pin 'Y', The 'values' attribute has a '-0.038599' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1140, Cell 'BUFX4', pin 'Y', The 'values' attribute has a '-0.112079' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1140, Cell 'BUFX4', pin 'Y', The 'values' attribute has a '-0.023140' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1201, Cell 'CLKBUF1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005398, 0.005398) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1201, Cell 'CLKBUF1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.005190, 0.005190) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1207, Cell 'CLKBUF1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1207, Cell 'CLKBUF1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1226, Cell 'CLKBUF1', pin 'Y', The 'values' attribute has a '-0.100628' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 1297, Cell 'CLKBUF2', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005460, 0.005460) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1297, Cell 'CLKBUF2', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.005273, 0.005273) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1303, Cell 'CLKBUF2', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1303, Cell 'CLKBUF2', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1393, Cell 'CLKBUF3', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005438, 0.005438) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1393, Cell 'CLKBUF3', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.005294, 0.005294) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1399, Cell 'CLKBUF3', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1399, Cell 'CLKBUF3', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1492, Cell 'DFFNEGX1', pin 'CLK', The port 'CLK' does not have the attribute 'rise_capacitance_range' specified. The value (0.006462, 0.006462) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1492, Cell 'DFFNEGX1', pin 'CLK', The port 'CLK' does not have the attribute 'fall_capacitance_range' specified. The value (0.004778, 0.004778) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1511, Cell 'DFFNEGX1', pin 'D', The port 'D' does not have the attribute 'rise_capacitance_range' specified. The value (0.001801, 0.001801) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1511, Cell 'DFFNEGX1', pin 'D', The port 'D' does not have the attribute 'fall_capacitance_range' specified. The value (0.001283, 0.001283) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1567, Cell 'DFFNEGX1', pin 'Q', The port 'Q' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1567, Cell 'DFFNEGX1', pin 'Q', The port 'Q' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1661, Cell 'DFFPOSX1', pin 'CLK', The port 'CLK' does not have the attribute 'rise_capacitance_range' specified. The value (0.008223, 0.008223) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1661, Cell 'DFFPOSX1', pin 'CLK', The port 'CLK' does not have the attribute 'fall_capacitance_range' specified. The value (0.008136, 0.008136) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1680, Cell 'DFFPOSX1', pin 'D', The port 'D' does not have the attribute 'rise_capacitance_range' specified. The value (0.001816, 0.001816) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1680, Cell 'DFFPOSX1', pin 'D', The port 'D' does not have the attribute 'fall_capacitance_range' specified. The value (0.001290, 0.001290) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1736, Cell 'DFFPOSX1', pin 'Q', The port 'Q' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1736, Cell 'DFFPOSX1', pin 'Q', The port 'Q' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1833, Cell 'DFFSR', pin 'CLK', The port 'CLK' does not have the attribute 'rise_capacitance_range' specified. The value (0.001726, 0.001726) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1833, Cell 'DFFSR', pin 'CLK', The port 'CLK' does not have the attribute 'fall_capacitance_range' specified. The value (0.001485, 0.001485) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1852, Cell 'DFFSR', pin 'D', The port 'D' does not have the attribute 'rise_capacitance_range' specified. The value (0.001996, 0.001996) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1852, Cell 'DFFSR', pin 'D', The port 'D' does not have the attribute 'fall_capacitance_range' specified. The value (0.001533, 0.001533) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1912, Cell 'DFFSR', pin 'Q', The port 'Q' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 1912, Cell 'DFFSR', pin 'Q', The port 'Q' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2109, Cell 'DFFSR', pin 'R', The port 'R' does not have the attribute 'rise_capacitance_range' specified. The value (0.004970, 0.004970) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2109, Cell 'DFFSR', pin 'R', The port 'R' does not have the attribute 'fall_capacitance_range' specified. The value (0.003635, 0.003635) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2159, Cell 'DFFSR', pin 'S', The port 'S' does not have the attribute 'rise_capacitance_range' specified. The value (0.002771, 0.002771) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2159, Cell 'DFFSR', pin 'S', The port 'S' does not have the attribute 'fall_capacitance_range' specified. The value (0.004052, 0.004052) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2226, Cell 'FAX1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.012665, 0.012665) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2226, Cell 'FAX1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.010851, 0.010851) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2232, Cell 'FAX1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.010305, 0.010305) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2232, Cell 'FAX1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.008824, 0.008824) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2238, Cell 'FAX1', pin 'C', The port 'C' does not have the attribute 'rise_capacitance_range' specified. The value (0.008219, 0.008219) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2238, Cell 'FAX1', pin 'C', The port 'C' does not have the attribute 'fall_capacitance_range' specified. The value (0.007065, 0.007065) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2244, Cell 'FAX1', pin 'YC', The port 'YC' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2244, Cell 'FAX1', pin 'YC', The port 'YC' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2471, Cell 'FAX1', pin 'YS', The port 'YS' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2471, Cell 'FAX1', pin 'YS', The port 'YS' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2706, Cell 'HAX1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.004584, 0.004584) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2706, Cell 'HAX1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.003961, 0.003961) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2712, Cell 'HAX1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.003831, 0.003831) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2712, Cell 'HAX1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.003372, 0.003372) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2718, Cell 'HAX1', pin 'YC', The port 'YC' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2718, Cell 'HAX1', pin 'YC', The port 'YC' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2872, Cell 'HAX1', pin 'YS', The port 'YS' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2872, Cell 'HAX1', pin 'YS', The port 'YS' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3035, Cell 'INVX1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.001551, 0.001551) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3035, Cell 'INVX1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.001476, 0.001476) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3041, Cell 'INVX1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3041, Cell 'INVX1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3131, Cell 'INVX2', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002655, 0.002655) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3131, Cell 'INVX2', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002673, 0.002673) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3137, Cell 'INVX2', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3137, Cell 'INVX2', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3172, Cell 'INVX2', pin 'Y', The 'values' attribute has a '-0.002795' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 3215, Cell 'INVX4', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005080, 0.005080) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3215, Cell 'INVX4', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.005092, 0.005092) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3221, Cell 'INVX4', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3221, Cell 'INVX4', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3256, Cell 'INVX4', pin 'Y', The 'values' attribute has a '-0.005901' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 3299, Cell 'INVX8', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.010083, 0.010083) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3299, Cell 'INVX8', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.010104, 0.010104) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3305, Cell 'INVX8', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3305, Cell 'INVX8', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3340, Cell 'INVX8', pin 'Y', The 'values' attribute has a '-0.006650' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 3386, Cell 'LATCH', pin 'CLK', The port 'CLK' does not have the attribute 'rise_capacitance_range' specified. The value (0.003917, 0.003917) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3386, Cell 'LATCH', pin 'CLK', The port 'CLK' does not have the attribute 'fall_capacitance_range' specified. The value (0.003856, 0.003856) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3404, Cell 'LATCH', pin 'D', The port 'D' does not have the attribute 'rise_capacitance_range' specified. The value (0.001432, 0.001432) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3404, Cell 'LATCH', pin 'D', The port 'D' does not have the attribute 'fall_capacitance_range' specified. The value (0.001338, 0.001338) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3450, Cell 'LATCH', pin 'Q', The port 'Q' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3450, Cell 'LATCH', pin 'Q', The port 'Q' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3613, Cell 'MUX2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002798, 0.002798) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3613, Cell 'MUX2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002623, 0.002623) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3619, Cell 'MUX2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002744, 0.002744) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3619, Cell 'MUX2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002569, 0.002569) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3625, Cell 'MUX2X1', pin 'S', The port 'S' does not have the attribute 'rise_capacitance_range' specified. The value (0.004120, 0.004120) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3625, Cell 'MUX2X1', pin 'S', The port 'S' does not have the attribute 'fall_capacitance_range' specified. The value (0.003852, 0.003852) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3631, Cell 'MUX2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3631, Cell 'MUX2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3866, Cell 'NAND2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002111, 0.002111) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3866, Cell 'NAND2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.001884, 0.001884) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3872, Cell 'NAND2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002027, 0.002027) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3872, Cell 'NAND2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.001944, 0.001944) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3878, Cell 'NAND2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 3878, Cell 'NAND2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4040, Cell 'NAND3X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002548, 0.002548) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4040, Cell 'NAND3X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002209, 0.002209) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4046, Cell 'NAND3X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002832, 0.002832) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4046, Cell 'NAND3X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002600, 0.002600) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4052, Cell 'NAND3X1', pin 'C', The port 'C' does not have the attribute 'rise_capacitance_range' specified. The value (0.002961, 0.002961) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4052, Cell 'NAND3X1', pin 'C', The port 'C' does not have the attribute 'fall_capacitance_range' specified. The value (0.002832, 0.002832) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4058, Cell 'NAND3X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4058, Cell 'NAND3X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4293, Cell 'NOR2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002242, 0.002242) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4293, Cell 'NOR2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002209, 0.002209) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4299, Cell 'NOR2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002365, 0.002365) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4299, Cell 'NOR2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002297, 0.002297) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4305, Cell 'NOR2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4305, Cell 'NOR2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4467, Cell 'NOR3X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.003021, 0.003021) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4467, Cell 'NOR3X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.003011, 0.003011) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4473, Cell 'NOR3X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.003063, 0.003063) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4473, Cell 'NOR3X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.003067, 0.003067) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4479, Cell 'NOR3X1', pin 'C', The port 'C' does not have the attribute 'rise_capacitance_range' specified. The value (0.003288, 0.003288) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4479, Cell 'NOR3X1', pin 'C', The port 'C' does not have the attribute 'fall_capacitance_range' specified. The value (0.003226, 0.003226) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4485, Cell 'NOR3X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4485, Cell 'NOR3X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4720, Cell 'OAI21X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002742, 0.002742) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4720, Cell 'OAI21X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002573, 0.002573) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4726, Cell 'OAI21X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002832, 0.002832) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4726, Cell 'OAI21X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002632, 0.002632) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4732, Cell 'OAI21X1', pin 'C', The port 'C' does not have the attribute 'rise_capacitance_range' specified. The value (0.002010, 0.002010) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4732, Cell 'OAI21X1', pin 'C', The port 'C' does not have the attribute 'fall_capacitance_range' specified. The value (0.001924, 0.001924) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4738, Cell 'OAI21X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4738, Cell 'OAI21X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4973, Cell 'OR2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002525, 0.002525) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4973, Cell 'OR2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002313, 0.002313) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4979, Cell 'OR2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002424, 0.002424) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4979, Cell 'OR2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002247, 0.002247) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4985, Cell 'OR2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 4985, Cell 'OR2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5147, Cell 'OR2X2', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002292, 0.002292) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5147, Cell 'OR2X2', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002301, 0.002301) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5153, Cell 'OR2X2', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.002283, 0.002283) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5153, Cell 'OR2X2', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.002342, 0.002342) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5159, Cell 'OR2X2', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5159, Cell 'OR2X2', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5194, Cell 'OR2X2', pin 'Y', The 'values' attribute has a '-0.007498' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 5216, Cell 'OR2X2', pin 'Y', The 'values' attribute has a '-0.010024' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 5297, Cell 'TBUFX1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.002791, 0.002791) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5297, Cell 'TBUFX1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.002609, 0.002609) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5303, Cell 'TBUFX1', pin 'EN', The port 'EN' does not have the attribute 'rise_capacitance_range' specified. The value (0.002326, 0.002326) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5303, Cell 'TBUFX1', pin 'EN', The port 'EN' does not have the attribute 'fall_capacitance_range' specified. The value (0.002089, 0.002089) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5318, Cell 'TBUFX1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.003178, 0.003178) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5318, Cell 'TBUFX1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.003246, 0.003246) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5501, Cell 'TBUFX2', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005363, 0.005363) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5501, Cell 'TBUFX2', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.005450, 0.005450) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5507, Cell 'TBUFX2', pin 'EN', The port 'EN' does not have the attribute 'rise_capacitance_range' specified. The value (0.003739, 0.003739) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5507, Cell 'TBUFX2', pin 'EN', The port 'EN' does not have the attribute 'fall_capacitance_range' specified. The value (0.003694, 0.003694) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5522, Cell 'TBUFX2', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.006094, 0.006094) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5522, Cell 'TBUFX2', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.006278, 0.006278) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5559, Cell 'TBUFX2', pin 'Y', The 'values' attribute has a '-0.015839' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 5559, Cell 'TBUFX2', pin 'Y', The 'values' attribute has a '-0.127297' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 5559, Cell 'TBUFX2', pin 'Y', The 'values' attribute has a '-0.036489' value,
+	which is less than '0.000000' the minimum recommended value of this attribute. (LBDB-272)
+Warning: Line 5681, Cell 'XNOR2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005001, 0.005001) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5681, Cell 'XNOR2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.004616, 0.004616) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5687, Cell 'XNOR2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.005589, 0.005589) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5687, Cell 'XNOR2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.005004, 0.005004) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5693, Cell 'XNOR2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5693, Cell 'XNOR2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5855, Cell 'XOR2X1', pin 'A', The port 'A' does not have the attribute 'rise_capacitance_range' specified. The value (0.005396, 0.005396) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5855, Cell 'XOR2X1', pin 'A', The port 'A' does not have the attribute 'fall_capacitance_range' specified. The value (0.004997, 0.004997) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5861, Cell 'XOR2X1', pin 'B', The port 'B' does not have the attribute 'rise_capacitance_range' specified. The value (0.005666, 0.005666) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5861, Cell 'XOR2X1', pin 'B', The port 'B' does not have the attribute 'fall_capacitance_range' specified. The value (0.005081, 0.005081) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5867, Cell 'XOR2X1', pin 'Y', The port 'Y' does not have the attribute 'rise_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 5867, Cell 'XOR2X1', pin 'Y', The port 'Y' does not have the attribute 'fall_capacitance_range' specified. The value (0.000000, 0.000000) will be assigned to the attribute. (LBDB-1054)
+Warning: Line 2129, Cell 'DFFSR', pin 'R', There is a sequential timing arc with the
+	S non-clock pin for a related_pin attribute. (LBDB-30)
+Warning: Line 2188, Cell 'DFFSR', pin 'S', There is a sequential timing arc with the
+	R non-clock pin for a related_pin attribute. (LBDB-30)
+Technology library 'gscl45nm' read successfully
+Wrote the 'gscl45nm' library to '/home/work/cc83382/course-libraryfix-20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.db' successfully
+puts "LIBRARY_DONE $output"
+LIBRARY_DONE /home/work/cc83382/course-libraryfix-20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.db
+exit 0
+Maximum memory usage for this session: 107.91 MB
+CPU usage for this session:      1 seconds (  0.00 hours)
+Elapsed time for this session:      2 seconds (  0.00 hours)
+Thank you for using Library Compiler.
+
+Thank you...

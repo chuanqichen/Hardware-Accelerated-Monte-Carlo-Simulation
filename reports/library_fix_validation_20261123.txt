@@ -1,0 +1,100 @@
+Versioned DFFPOSX1 correction and new baseline, 2026-11-23
+
+Review correction, 2026-11-24:
+  The original evidence import accidentally included 510 VCS build products
+  (113,538,235 committed bytes), contrary to the storage statement below.
+  The integration cleanup removes simv, simv.daidir and csrc while retaining
+  logs, activity/cycle metadata and digests. It also removes 120 DC work
+  intermediates (472,152 committed bytes) from the three synthesis runs.
+  make flow-test now checks VCS/DC build-product paths even if files were
+  added with git add -f. The versioned Liberty/DB pairs and compiled original
+  control remain intentionally archived.
+  The cleanup replaces the affected 80562b1 commit and rebases the dependent
+  PR #23. Only the rewritten stack is integrated; the original commit must
+  not be an ancestor of main, even though its archived text evidence remains.
+  The routed setup/hold numbers below are PrimeTime results. Innovus reports
+  setup +0.082/+0.030/-0.019 ns and hold +0.001/0.000/-0.022 ns.
+  Derived tables now include both timers and explicit setup/hold status.
+  Raw archived reports and their measured values are unchanged.
+  Paired library overrides now fail early; fixed-netlist controls set both.
+  Git attributes preserve archived/library bytes under CRLF conversion.
+  Cleanup validation: 62 flow tests pass. The source/DB pair passes
+  make library-check. Both baseline tables regenerate with all prior CSV
+  values preserved and the additional Innovus fields. Their CSV output is
+  explicitly UTF-8/LF. A core.autocrlf=true filter check preserves the
+  committed library, checksums, exported SDC and generated Markdown bytes.
+
+Branch: chuanqi/dffposx1-library-baseline; PR #22 stacked on PR #21.
+Library/default-selection implementation: cb197ed; subsequent report and
+collector updates are identified by the per-run source_sha256.txt manifests.
+RTL/model configuration is unchanged from the PR #21 complete-top experiment.
+Owned lab workspace: /home/work/cc83382/course-libraryfix-20261123 on peach.
+
+Versioned technology:
+  Original Liberty and DB copied from the installed FreePDK45 OSU kit.
+  Apache-2.0 license, upstream README and OSU attribution retained.
+  Same-row linear interpolation/extrapolation, rounded to 12 decimal places ns.
+  DFFPOSX1 setup_rising:
+    rise, CLK=0.3 D=0.06: 6.2   -> 0.153125
+    rise, CLK=0.3 D=0.90: 5.125 -> 0.1640625
+    rise, CLK=0.6 D=0.06: 3.075 -> 0.1453125
+    fall, CLK=0.3 D=0.48: 5.85  -> 0.310227272727
+  Exactly four numeric changes plus the modification notice.
+  Other source content remains byte-identical.
+  LC T-2022.03-SP5 compiled unchanged-source control and corrected library.
+  Compiler logs and the control DB are under reports/library/.
+  Source, binary and paired runtime hashes verified with make library-check.
+  Project-local approximation; no physical recharacterization is claimed.
+
+Fixed-netlist experiment:
+  Selection: reports/library/setupfix_v1_20261123_ab2.csv.
+  Nine PT analyses: LANES=1/2/4 x installed/control/fixed.
+  Same original mapped netlist and SDC within each lane count.
+  Same 5 ns period and 0.10 ns max/min rise/fall clock transitions.
+  Unchanged-source control reproduces installed reported setup/hold slacks.
+  Installed setup: -0.016767 / -0.046107 / -0.018574 ns.
+  Fixed setup:     +0.020597 / +0.033530 / +0.100237 ns.
+  Hold: -0.041178 ns in all nine analyses.
+  Final reports retain passing critical paths and DFFPOSX1 path details.
+  Report-selection thresholds do not change the SDC or timing values.
+  results/library_fixed_netlist.csv and .md are generated from these reports.
+
+New architectural baseline:
+  Selection: reports/multilane_setup_fixed_v1_runs.csv.
+  Complete mc_top, LANES=1/2/4, a10/k10, G1/M1, no retiming, 5 ns.
+  DC T-2022.03-SP2; PT T-2022.03-SP5; VCS T-2022.06;
+  Innovus 21.18-s099_1; typical 1.1 V / 27 C; native RC estimates.
+  Fresh synthesis used the automatic project-library defaults.
+  Mapped replays: 26/27/28 cases, 27492/27495/27502 completed trials.
+  Routed replays: the same complete corpora.
+  Each matrix: 81 cases / 82489 completed trials, PASS.
+  All three geometry/connectivity reports are clean under available LEF rules.
+  Routed setup: +0.687440 / +0.538986 / +0.568867 ns.
+  Routed hold:  -0.025964 / -0.027642 / -0.025685 ns.
+  Power: 9.968 / 17.8 / 33.1 mW under zero-delay activity/native RC assumptions.
+  Same normal 1000-trial activity case; invariant annotation is 100%.
+  All internal and boundary pin-to-pin nets have RC-network annotation.
+  Hold, maximum-capacitance/fanout and input-driver RC-004 warnings remain.
+  No rated maximum frequency, additional PVT coverage or physical signoff.
+
+Local validation:
+  make test: 109 model tests, PASS.
+  make flow-test: 59 flow tests, PASS.
+  Final focused library/STA/physical-runner checks: 12 tests, PASS.
+  Coverage includes exactly-four-entry preservation, unknown-source rejection,
+  default selection, explicit overrides, stale pairs, mixed DC/PT and DB/Liberty
+  pairs, clock-slew/period changes, missing physical exports, false completion.
+  Source diff checks pass; verbatim UPSTREAM_README.txt retains upstream
+  trailing whitespace and is excluded from whitespace linting.
+  Source/hash checks bind current runtime inputs to the selected tool reports.
+  Original PR #21 result data remains unchanged.
+  Generated CSVs and Markdown tables reproduce byte-for-byte.
+  Metric plot and native one-lane layout inspected.
+
+Storage and reproduction:
+  Raw reports, selected exports, compiled controls and hashes are committed.
+  DEF/SPEF archives use deterministic gzip; hashes refer to uncompressed data.
+  Large GDS, Innovus databases, VCDs and build intermediates remain on lab disk.
+  The physical runner now writes output_sha256.txt automatically. These completed
+  exports were hashed after implementation with the same five-file command.
+  See docs/Library_Fix_Baseline.md and tech/gscl45nm/README.md.
