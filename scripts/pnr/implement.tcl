@@ -26,6 +26,12 @@ if {[catch {
   }
   set fix_fanout [mc_env_or FIX_FANOUT_LOAD 0]
   if {$fix_fanout ni {0 1}} { error "FIX_FANOUT_LOAD must be 0 or 1" }
+  # gscl45nm defines no fanout_load, so Innovus sees zero fanout load on every
+  # net while DC/PT count one per sink. place_opt_design deletes DC's buffer
+  # trees first; PRESERVE_SYNTH_BUFFERS keeps them by placing without
+  # pre-place buffer removal and then running pre-CTS optimization.
+  set preserve_buffers [mc_env_or PRESERVE_SYNTH_BUFFERS 0]
+  if {$preserve_buffers ni {0 1}} { error "PRESERVE_SYNTH_BUFFERS must be 0 or 1" }
   set inputs [list $netlist $sdc $lib $lef $map]
   if {$qrc ne ""} { lappend inputs $qrc }
   foreach path $inputs {
@@ -51,6 +57,7 @@ if {[catch {
   puts $f "rc_method=[expr {$qrc eq "" ? "native_estimate_no_characterized_cap_table" : "qrc_technology_file"}]"
   puts $f "hold_target_slack_ns=[expr {$hold_target eq "" ? "tool_default" : $hold_target}]"
   puts $f "fix_fanout_load=$fix_fanout"
+  puts $f "placement=[expr {$preserve_buffers ? "place_design_noPrePlaceOpt_optDesign_preCTS" : "place_opt_design"}]"
   close $f
   set mmmc [open $out/views.tcl w]
   puts $mmmc [list create_library_set -name typical_lib -timing [list $lib]]
@@ -93,7 +100,12 @@ if {[catch {
   addStripe -nets {gnd vdd} -layer metal6 -direction vertical \
     -width 2 -spacing 2 -set_to_set_distance 40
   sroute -connect {corePin floatingStripe} -nets {gnd vdd}
-  place_opt_design
+  if {$preserve_buffers} {
+    place_design -noPrePlaceOpt
+    optDesign -preCTS
+  } else {
+    place_opt_design
+  }
   saveDesign $out/placed.enc
   timeDesign -preCTS -outDir $out/prects -prefix mc_top
 
