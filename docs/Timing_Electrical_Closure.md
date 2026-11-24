@@ -67,6 +67,7 @@ report. It keeps every row and reports zero-limit capacitance rows as their own 
 | `PRESERVE_SYNTH_BUFFERS` | 1 | `place_design -noPrePlaceOpt`, `optDesign -preCTS` and `setOptMode -deleteInst false` keep DC's fanout-compliant trees |
 | `CTS_MAX_FANOUT` | 16 | CCOpt `max_fanout`, matching the SDC limit on clock nets |
 | `FIX_FANOUT_LOAD` | 1 | Requests Innovus fanout repair; it has no effect with this library because fanout load is zero |
+| `SETUP_TARGET_SLACK_NS` | unset | Optional `setOptMode -setupTargetSlack`. A 0.05 ns trial did not improve closure; see the setup-target trial |
 
 None of these settings changes a constraint, waives a path or edits a library value.
 PT remains the independent check, and closure here means both tools pass.
@@ -119,6 +120,51 @@ uncertainty also applies to hold and the two timers disagree in this library
 regime. A smaller hold target saves area but leaves less margin for that
 disagreement: with a 0.05 ns target, one-lane PT hold was still -0.003 ns.
 
+## Setup-target trial
+
+Run `tyler_closure3_20261124` repeated the matched policy with
+`SETUP_TARGET_SLACK_NS=0.05`, which sets `setOptMode -setupTargetSlack` for every
+`optDesign` step. Nothing else changed.
+
+| Lanes | Policy | PT setup / hold (ns) | Innovus setup / hold (ns) | Hold cells | Signal-cell area (um2) | Power (mW) |
+|---:|---|---:|---:|---:|---:|---:|
+| 1 | `tyler_closure2` | +0.355 / +0.021 | +0.058 / +0.080 | 499 | 33,571.8 | 10.8 |
+| 1 | + setup target 0.05 | +0.244 / +0.028 | +0.006 / +0.075 | 449 | 33,229.3 | 10.5 |
+| 2 | `tyler_closure2` | +0.283 / +0.018 | +0.002 / +0.033 | 932 | 58,925.3 | 19.2 |
+| 2 | + setup target 0.05 | +0.304 / +0.012 | -0.010 / +0.024 | 1,013 | 59,175.9 | 19.2 |
+| 4 | `tyler_closure2` | +0.260 / +0.033 | -0.006 / +0.006 | 2,865 | 112,537.2 | 36.8 |
+| 4 | + setup target 0.05 | +0.329 / +0.015 | +0.028 / -0.023 | 2,228 | 110,492.5 | 36.1 |
+
+PT again reports no hold, max-fanout, max-transition or reset violations, only
+zero-limit `max_capacitance` rows (4,492 / 8,141 / 15,599). Geometry and
+connectivity are clean, the routed replays pass, and the collector's checks pass
+for the trial matrix on mario (energy 53.1 / 49.2 / 47.6 pJ/trial). The committed
+trial evidence is compact; routed netlists, DEF/SPEF, databases and VCDs stay on
+lab scratch.
+
+The setup target closes the four-lane Innovus setup miss but adds two Innovus
+misses. Two-lane setup is -0.010 ns. Four-lane hold is -0.023 ns on one path,
+`g_lane_3__u_price/u_exp/s_t_reg_4_` to `g_lane_3__u_price/p_reg_4_`. Post-route
+hold fixing took four-lane setup from +0.047 to +0.028 ns and stopped with that
+path unfixed. In the `tyler_closure2` four-lane layout, the same step had taken
+setup from +0.016 to -0.006 ns.
+
+`scripts/pnr/timing_diagnostics.tcl` on both four-lane layouts shows that these
+residuals are smaller than Innovus's own delay-calculation sensitivity:
+
+| Four-lane layout | Innovus setup / hold, SI-aware (ns) | Innovus setup / hold, SI-unaware (ns) |
+|---|---:|---:|
+| `tyler_closure2` | -0.006 / +0.006 | -0.056 / +0.062 |
+| `tyler_closure3` | +0.028 / -0.023 | -0.019 / +0.047 |
+
+On the same layout, switching SI-aware delay calculation off moves Innovus data
+arrival on the named paths by 60 to 120 ps and design WNS by 50 to 70 ps, while the
+capture clock moves by about 12 ps. The residuals move between setup and hold from
+run to run, stay below that sensitivity and are far below the Innovus/PT
+disagreement. Optimizer targets therefore cannot close the four-lane case robustly.
+A hold miss also cannot be traded for clock frequency, so `tyler_closure2` remains
+the matched reference and `SETUP_TARGET_SLACK_NS` stays unset.
+
 ## Remaining limits and decisions
 
 - The zero `max_capacitance` limits remain as reported violations. Treating them as
@@ -130,6 +176,10 @@ disagreement: with a 0.05 ns target, one-lane PT hold was still -0.003 ns.
   needed to quantify true margins.
 - The policy adds area and power. Report PPA for the PR #22 baseline and for the
   closed implementation separately.
+- Neither recorded policy passes both Innovus checks at four lanes, and the residual
+  is below Innovus's delay-calculation sensitivity. Closing it robustly needs more
+  design slack on the lane-3 RNG add/rotate/add path, or a team decision on whether
+  PT alone is the timing reference.
 
 ## Reproduction
 
@@ -159,5 +209,6 @@ python scripts/classify_violations.py reports/sta/<fresh_tag>_l*_routed_final/vi
 
 `scripts/pnr/timing_diagnostics.tcl` re-times a saved routed database with SI-aware
 delay calculation on and off and reports the worst path to named endpoints for
-same-endpoint comparison. The committed example is
-`reports/pnr/tyler_holdfix_20261123_l1/diagnostics_si/`.
+same-endpoint comparison. Committed examples are
+`reports/pnr/tyler_holdfix_20261123_l1/diagnostics_si/` and the `diagnostics_si/`
+directories of `tyler_closure2_20261123_l4` and `tyler_closure3_20261124_l4`.
