@@ -257,11 +257,14 @@ def library_label(rows):
     return labels.pop()
 
 
-def markdown(rows, manifest="reports/multilane_runs.csv", output="results/multilane_implementation"):
+def markdown(rows, manifest="reports/multilane_runs.csv", output="results/multilane_implementation",
+             methods=None):
     label = library_label(rows)
     command = "python scripts/summarize_multilane.py --plot"
     if manifest != "reports/multilane_runs.csv" or output != "results/multilane_implementation":
         command += " --manifest " + shlex.quote(manifest) + " --out " + shlex.quote(output)
+    if methods:
+        command += " --methods " + shlex.quote(methods)
     library = "library" if not label else f"`{label}` project-approximation library"
     timing = timing_note(rows)
     lines = ["# Multi-lane implementation results", "",
@@ -302,7 +305,8 @@ def markdown(rows, manifest="reports/multilane_runs.csv", output="results/multil
     lines += ["", f"Both the mapped and routed replays pass {sum(r['corpus_cases'] for r in rows)} "
               f"cases / {sum(r['corpus_trials'] for r in rows):,} completed trials across the three lane counts.",
               "", "The full CSV retains file digests and run IDs. See " +
-              ("[methods and remaining closure work](../docs/Library_Fix_Baseline.md)." if label else
+              (f"[methods and remaining closure work](../{methods})." if methods else
+               "[methods and remaining closure work](../docs/Library_Fix_Baseline.md)." if label else
                "[methods and remaining closure work](../docs/Multilane_Implementation.md)."), ""]
     return "\n".join(lines)
 
@@ -344,6 +348,7 @@ def main():
     parser.add_argument("--manifest", type=Path, default=REPORTS / "multilane_runs.csv")
     parser.add_argument("--out", type=Path, default=ROOT / "results/multilane_implementation")
     parser.add_argument("--plot", action="store_true")
+    parser.add_argument("--methods", help="repository-relative methods document to link")
     args = parser.parse_args()
     with args.manifest.open() as stream:
         runs = list(csv.DictReader(stream))
@@ -368,8 +373,12 @@ def main():
             return str(path.resolve().relative_to(ROOT))
         except ValueError:
             return str(path)
-    args.out.with_suffix(".md").write_text(markdown(rows, display_path(args.manifest),
-                                                   display_path(args.out)))
+    if args.methods and not (ROOT / args.methods).is_file():
+        parser.error("Missing methods document: " + args.methods)
+    # Fixed encoding and newlines keep the table byte-identical across hosts.
+    with args.out.with_suffix(".md").open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(markdown(rows, display_path(args.manifest).replace("\\", "/"),
+                              display_path(args.out).replace("\\", "/"), args.methods))
     if args.plot:
         plot(rows, args.out)
     print(f"Verified {len(rows)} matched implementations; wrote {args.out}.csv and .md")
