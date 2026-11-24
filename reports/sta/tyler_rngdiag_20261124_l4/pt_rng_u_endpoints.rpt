@@ -1,0 +1,56 @@
+****************************************
+Report : timing
+	-path_type summary
+	-delay_type max
+	-slack_lesser_than 100.000000
+	-max_paths 1000
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 15:47:06 2026
+****************************************
+
+Startpoint                      Endpoint                           Slack
+------------------------------------------------------------------
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_31_/D (DFFSR) 0.259732
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_30_/D (DFFSR) 0.317879
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_30_/D (DFFSR) 0.323205
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_31_/D (DFFSR) 0.338266
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_29_/D (DFFSR) 0.392537
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_29_/D (DFFSR) 0.397231
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_30_/D (DFFSR) 0.404346
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_31_/D (DFFSR) 0.409035
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_31_/D (DFFSR) 0.416951
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_30_/D (DFFSR) 0.459343
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_28_/D (DFFSR) 0.480899
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_29_/D (DFFSR) 0.487158
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_28_/D (DFFSR) 0.488352
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_28_/D (DFFSR) 0.523775
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_29_/D (DFFSR) 0.544645
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_27_/D (DFFSR) 0.561511
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_27_/D (DFFSR) 0.570261
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_27_/D (DFFSR) 0.598073
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_28_/D (DFFSR) 0.619551
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_26_/D (DFFSR) 0.639016
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_26_/D (DFFSR) 0.650258
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_26_/D (DFFSR) 0.673362
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_27_/D (DFFSR) 0.705925
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_25_/D (DFFSR) 0.707389
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_25_/D (DFFSR) 0.719141
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_25_/D (DFFSR) 0.748403
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_24_/D (DFFSR) 0.782800
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_26_/D (DFFSR) 0.785020
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_24_/D (DFFSR) 0.790709
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_24_/D (DFFSR) 0.823610
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_25_/D (DFFSR) 0.858835
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_23_/D (DFFSR) 0.861969
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_23_/D (DFFSR) 0.869417
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_23_/D (DFFSR) 0.895172
+u_lanes/u_rng/s0_reg_1_/CLK (DFFSR) u_lanes/u_rng/u_reg_22_/D (DFFSR) 0.934673
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_24_/D (DFFSR) 0.937716
+u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_3__u_rng/u_reg_22_/D (DFFSR) 0.944329
+u_lanes/g_lane_1__u_rng/s3_reg_0_/CLK (DFFSR) u_lanes/g_lane_1__u_rng/u_reg_22_/D (DFFSR) 0.976246
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_23_/D (DFFSR) 1.015336
+u_lanes/g_lane_2__u_rng/s3_reg_5_/CLK (DFFSR) u_lanes/g_lane_2__u_rng/u_reg_22_/D (DFFSR) 1.023055
+
+1

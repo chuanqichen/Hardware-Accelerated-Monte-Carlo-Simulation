@@ -1,0 +1,326 @@
+****************************************
+Report : timing
+	-path_type full_clock_expanded
+	-delay_type max
+	-input_pins
+	-nets
+	-max_paths 1
+	-transition_time
+	-capacitance
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 15:47:06 2026
+****************************************
+
+
+  Startpoint: u_lanes/g_lane_3__u_rng/s3_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/g_lane_3__u_rng/u_reg_31_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: max
+
+  Point                                                Fanout    Cap      Trans       Incr       Path
+  ------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                           0.000000   0.000000
+  clock source latency                                                            0.000000   0.000000
+  clk (in)                                                             0.000000   0.000000 & 0.000000 r
+  clk (net)                                               4 0.104041 
+  CTS_ccl_a_buf_00243/A (BUFX2)                                        0.063298   0.036094 & 0.036094 r
+  CTS_ccl_a_buf_00243/Y (BUFX2)                                        0.011850   0.036368 & 0.072462 r
+  FE_USKN218_CTS_121 (net)                                1 0.001572 
+  FE_USKC218_CTS_121/A (BUFX2)                                         0.011850   0.000001 & 0.072463 r
+  FE_USKC218_CTS_121/Y (BUFX2)                                         0.007887   0.034030 & 0.106493 r
+  FE_USKN223_CTS_121 (net)                                1 0.003004 
+  FE_USKC223_CTS_121/A (BUFX2)                                         0.007888   0.000072 & 0.106565 r
+  FE_USKC223_CTS_121/Y (BUFX2)                                         0.003928   0.031457 & 0.138021 r
+  FE_USKN220_CTS_121 (net)                                1 0.001575 
+  FE_USKC220_CTS_121/A (BUFX2)                                         0.003928   0.000001 & 0.138023 r
+  FE_USKC220_CTS_121/Y (BUFX2)                                         0.004314   0.031727 & 0.169750 r
+  FE_USKN224_CTS_121 (net)                                1 0.001972 
+  FE_USKC224_CTS_121/A (BUFX2)                                         0.004315   0.000020 & 0.169770 r
+  FE_USKC224_CTS_121/Y (BUFX2)                                         0.108110   0.093313 & 0.263083 r
+  CTS_121 (net)                                           3 0.042920 
+  CTS_ccl_a_buf_00242/A (BUFX4)                                        0.108725   0.004201 & 0.267283 r
+  CTS_ccl_a_buf_00242/Y (BUFX4)                                        0.079150   0.052985 & 0.320268 r
+  CTS_120 (net)                                           4 0.057120 
+  CTS_ccl_a_buf_00240/A (BUFX4)                                        0.079622   0.001421 & 0.321689 r
+  CTS_ccl_a_buf_00240/Y (BUFX4)                                        0.073690   0.052715 & 0.374405 r
+  CTS_106 (net)                                           6 0.053222 
+  CTS_ccl_a_buf_00222/A (BUFX2)                                        0.074638   0.009340 & 0.383745 r
+  CTS_ccl_a_buf_00222/Y (BUFX2)                                        0.116953   0.101800 & 0.485545 r
+  CTS_97 (net)                                            8 0.046285 
+  u_lanes/g_lane_3__u_rng/CTS_ccl_a_buf_00142/A (BUFX2)                0.117316   0.003091 & 0.488637 r
+  u_lanes/g_lane_3__u_rng/CTS_ccl_a_buf_00142/Y (BUFX2)                0.099369   0.095147 & 0.583784 r
+  u_lanes/g_lane_3__u_rng/CTS_1 (net)                    13 0.039202 
+  u_lanes/g_lane_3__u_rng/s3_reg_5_/CLK (DFFSR)                        0.099423   0.002048 & 0.585832 r
+  u_lanes/g_lane_3__u_rng/s3_reg_5_/Q (DFFSR)                          0.018903   0.130620 & 0.716452 f
+  u_lanes/g_lane_3__u_rng/s3[5] (net)                     1 0.004622 
+  u_lanes/g_lane_3__u_rng/U24/A (BUFX4)                                0.018903   0.000075 & 0.716527 f
+  u_lanes/g_lane_3__u_rng/U24/Y (BUFX4)                                0.011338   0.052454 & 0.768981 f
+  u_lanes/g_lane_3__u_rng/n20 (net)                       4 0.024545 
+  u_lanes/g_lane_3__u_rng/intadd_131_U20/A (FAX1)                      0.011396   0.000576 & 0.769557 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U20/YC (FAX1)                     0.031692   0.088277 & 0.857834 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n19 (net)            1 0.008066 
+  u_lanes/g_lane_3__u_rng/intadd_131_U19/C (FAX1)                      0.031693   0.000163 & 0.857997 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U19/YC (FAX1)                     0.031578   0.083911 & 0.941908 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n18 (net)            1 0.008058 
+  u_lanes/g_lane_3__u_rng/intadd_131_U18/C (FAX1)                      0.031580   0.000149 & 0.942057 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U18/YC (FAX1)                     0.032539   0.084602 & 1.026659 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n17 (net)            1 0.008407 
+  u_lanes/g_lane_3__u_rng/intadd_131_U17/C (FAX1)                      0.032541   0.000148 & 1.026807 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U17/YC (FAX1)                     0.032078   0.084418 & 1.111225 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n16 (net)            1 0.008241 
+  u_lanes/g_lane_3__u_rng/intadd_131_U16/C (FAX1)                      0.032080   0.000184 & 1.111409 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U16/YC (FAX1)                     0.029775   0.082627 & 1.194035 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n15 (net)            1 0.007379 
+  u_lanes/g_lane_3__u_rng/intadd_131_U15/C (FAX1)                      0.029775   0.000051 & 1.194086 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U15/YC (FAX1)                     0.037595   0.088015 & 1.282101 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n14 (net)            1 0.010247 
+  u_lanes/g_lane_3__u_rng/intadd_131_U14/C (FAX1)                      0.037598   0.000211 & 1.282311 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U14/YC (FAX1)                     0.029886   0.083642 & 1.365953 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n13 (net)            1 0.007418 
+  u_lanes/g_lane_3__u_rng/intadd_131_U13/C (FAX1)                      0.029887   0.000067 & 1.366020 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U13/YC (FAX1)                     0.030972   0.083144 & 1.449164 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n12 (net)            1 0.007833 
+  u_lanes/g_lane_3__u_rng/intadd_131_U12/C (FAX1)                      0.030973   0.000148 & 1.449313 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U12/YC (FAX1)                     0.030789   0.083177 & 1.532490 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n11 (net)            1 0.007748 
+  u_lanes/g_lane_3__u_rng/intadd_131_U11/C (FAX1)                      0.030790   0.000087 & 1.532577 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U11/YC (FAX1)                     0.031517   0.083703 & 1.616279 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n10 (net)            1 0.008030 
+  u_lanes/g_lane_3__u_rng/intadd_131_U10/C (FAX1)                      0.031518   0.000141 & 1.616420 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U10/YC (FAX1)                     0.032199   0.084334 & 1.700754 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n9 (net)             1 0.008281 
+  u_lanes/g_lane_3__u_rng/intadd_131_U9/C (FAX1)                       0.032200   0.000150 & 1.700904 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U9/YC (FAX1)                      0.033476   0.085374 & 1.786279 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n8 (net)             1 0.008744 
+  u_lanes/g_lane_3__u_rng/intadd_131_U8/C (FAX1)                       0.033479   0.000203 & 1.786482 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U8/YC (FAX1)                      0.032567   0.084923 & 1.871405 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n7 (net)             1 0.008406 
+  u_lanes/g_lane_3__u_rng/intadd_131_U7/C (FAX1)                       0.032569   0.000148 & 1.871553 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U7/YC (FAX1)                      0.031330   0.083855 & 1.955409 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n6 (net)             1 0.007957 
+  u_lanes/g_lane_3__u_rng/intadd_131_U6/C (FAX1)                       0.031332   0.000144 & 1.955552 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U6/YC (FAX1)                      0.031335   0.083654 & 2.039207 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n5 (net)             1 0.007958 
+  u_lanes/g_lane_3__u_rng/intadd_131_U5/C (FAX1)                       0.031336   0.000120 & 2.039327 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U5/YC (FAX1)                      0.030096   0.082721 & 2.122047 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n4 (net)             1 0.007489 
+  u_lanes/g_lane_3__u_rng/intadd_131_U4/C (FAX1)                       0.030096   0.000054 & 2.122102 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U4/YC (FAX1)                      0.033031   0.084698 & 2.206800 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n3 (net)             1 0.008578 
+  u_lanes/g_lane_3__u_rng/intadd_131_U3/C (FAX1)                       0.033033   0.000139 & 2.206940 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U3/YC (FAX1)                      0.029739   0.082757 & 2.289697 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n2 (net)             1 0.007364 
+  u_lanes/g_lane_3__u_rng/intadd_131_U2/C (FAX1)                       0.029739   0.000054 & 2.289751 f
+  u_lanes/g_lane_3__u_rng/intadd_131_U2/YC (FAX1)                      0.026373   0.079725 & 2.369475 f
+  u_lanes/g_lane_3__u_rng/intadd_131_n1 (net)             3 0.006151 
+  u_lanes/g_lane_3__u_rng/U838_dup/A (INVX1)                           0.026373   0.000067 & 2.369542 f
+  u_lanes/g_lane_3__u_rng/U838_dup/Y (INVX1)                           0.000000   0.010350 & 2.379892 r
+  u_lanes/g_lane_3__u_rng/FE_RN_8 (net)                   1 0.003352 
+  u_lanes/g_lane_3__u_rng/U840/C (AOI22X1)                             0.000094   0.000047 & 2.379939 r
+  u_lanes/g_lane_3__u_rng/U840/Y (AOI22X1)                             0.049665   0.025552 & 2.405491 f
+  u_lanes/g_lane_3__u_rng/intadd_133_CI (net)             1 0.008451 
+  u_lanes/g_lane_3__u_rng/intadd_133_U7/C (FAX1)                       0.049666   0.000158 & 2.405648 f
+  u_lanes/g_lane_3__u_rng/intadd_133_U7/YC (FAX1)                      0.031497   0.086932 & 2.492580 f
+  u_lanes/g_lane_3__u_rng/intadd_133_n6 (net)             1 0.008033 
+  u_lanes/g_lane_3__u_rng/intadd_133_U6/C (FAX1)                       0.031498   0.000127 & 2.492707 f
+  u_lanes/g_lane_3__u_rng/intadd_133_U6/YC (FAX1)                      0.033470   0.085276 & 2.577983 f
+  u_lanes/g_lane_3__u_rng/intadd_133_n5 (net)             1 0.008748 
+  u_lanes/g_lane_3__u_rng/intadd_133_U5/C (FAX1)                       0.033471   0.000159 & 2.578142 f
+  u_lanes/g_lane_3__u_rng/intadd_133_U5/YC (FAX1)                      0.032617   0.084977 & 2.663119 f
+  u_lanes/g_lane_3__u_rng/intadd_133_n4 (net)             1 0.008439 
+  u_lanes/g_lane_3__u_rng/intadd_133_U4/C (FAX1)                       0.032619   0.000185 & 2.663304 f
+  u_lanes/g_lane_3__u_rng/intadd_133_U4/YC (FAX1)                      0.032772   0.084932 & 2.748236 f
+  u_lanes/g_lane_3__u_rng/intadd_133_n3 (net)             1 0.008480 
+  u_lanes/g_lane_3__u_rng/intadd_133_U3/C (FAX1)                       0.032773   0.000128 & 2.748363 f
+  u_lanes/g_lane_3__u_rng/intadd_133_U3/YC (FAX1)                      0.034512   0.086261 & 2.834624 f
+  u_lanes/g_lane_3__u_rng/intadd_133_n2 (net)             1 0.009141 
+  u_lanes/g_lane_3__u_rng/intadd_133_U2/C (FAX1)                       0.034516   0.000266 & 2.834890 f
+  u_lanes/g_lane_3__u_rng/intadd_133_U2/YC (FAX1)                      0.038825   0.089765 & 2.924654 f
+  u_lanes/g_lane_3__u_rng/intadd_133_n1 (net)             1 0.010754 
+  u_lanes/g_lane_3__u_rng/U850/S (MUX2X1)                              0.038838   0.000508 & 2.925162 f
+  u_lanes/g_lane_3__u_rng/U850/Y (MUX2X1)                              0.051343   0.051942 & 2.977105 r
+  u_lanes/g_lane_3__u_rng/n801 (net)                      1 0.004528 
+  u_lanes/g_lane_3__u_rng/U851/S (MUX2X1)                              0.051343   0.000049 & 2.977153 r
+  u_lanes/g_lane_3__u_rng/U851/Y (MUX2X1)                              0.030145   0.051670 & 3.028824 f
+  u_lanes/g_lane_3__u_rng/n804 (net)                      2 0.009543 
+  u_lanes/g_lane_3__u_rng/U853/C (AOI22X1)                             0.030154   0.000356 & 3.029180 f
+  u_lanes/g_lane_3__u_rng/U853/Y (AOI22X1)                             0.046109   0.040695 & 3.069876 r
+  u_lanes/g_lane_3__u_rng/n810 (net)                      1 0.002688 
+  u_lanes/g_lane_3__u_rng/U854/A (NAND2X1)                             0.046109   0.000025 & 3.069900 r
+  u_lanes/g_lane_3__u_rng/U854/Y (NAND2X1)                             0.015457   0.021315 & 3.091215 f
+  u_lanes/g_lane_3__u_rng/n807 (net)                      1 0.002924 
+  u_lanes/g_lane_3__u_rng/U855/C (OAI21X1)                             0.015457   0.000049 & 3.091265 f
+  u_lanes/g_lane_3__u_rng/U855/Y (OAI21X1)                             0.046609   0.022645 & 3.113910 r
+  u_lanes/g_lane_3__u_rng/n809 (net)                      1 0.002993 
+  u_lanes/g_lane_3__u_rng/U856/C (OAI21X1)                             0.046610   0.000059 & 3.113969 r
+  u_lanes/g_lane_3__u_rng/U856/Y (OAI21X1)                             0.019316   0.030850 & 3.144819 f
+  u_lanes/g_lane_3__u_rng/n813 (net)                      3 0.007054 
+  u_lanes/g_lane_3__u_rng/U858/A (OR2X2)                               0.019317   0.000098 & 3.144917 f
+  u_lanes/g_lane_3__u_rng/U858/Y (OR2X2)                               0.018757   0.045002 & 3.189919 f
+  u_lanes/g_lane_3__u_rng/n811 (net)                      2 0.007568 
+  u_lanes/g_lane_3__u_rng/U859/D (AOI22X1)                             0.018758   0.000101 & 3.190020 f
+  u_lanes/g_lane_3__u_rng/U859/Y (AOI22X1)                             0.048257   0.032022 & 3.222043 r
+  u_lanes/g_lane_3__u_rng/n816 (net)                      1 0.003207 
+  u_lanes/g_lane_3__u_rng/U156/A (OR2X2)                               0.048257   0.000046 & 3.222088 r
+  u_lanes/g_lane_3__u_rng/U156/Y (OR2X2)                               0.031857   0.048652 & 3.270741 r
+  u_lanes/g_lane_3__u_rng/n815 (net)                      2 0.007159 
+  u_lanes/g_lane_3__u_rng/U860/D (AOI22X1)                             0.031858   0.000090 & 3.270831 r
+  u_lanes/g_lane_3__u_rng/U860/Y (AOI22X1)                             0.037265   0.022620 & 3.293450 f
+  u_lanes/g_lane_3__u_rng/n819 (net)                      1 0.003217 
+  u_lanes/g_lane_3__u_rng/U862/A (OR2X2)                               0.037265   0.000048 & 3.293498 f
+  u_lanes/g_lane_3__u_rng/U862/Y (OR2X2)                               0.017791   0.047308 & 3.340806 f
+  u_lanes/g_lane_3__u_rng/n817 (net)                      2 0.006916 
+  u_lanes/g_lane_3__u_rng/U863_dup/D (AOI22X1)                         0.017792   0.000084 & 3.340890 f
+  u_lanes/g_lane_3__u_rng/U863_dup/Y (AOI22X1)                         0.046822   0.030760 & 3.371650 r
+  u_lanes/g_lane_3__u_rng/FE_RN_1 (net)                   1 0.002853 
+  u_lanes/g_lane_3__u_rng/U146/A (OR2X2)                               0.046822   0.000036 & 3.371686 r
+  u_lanes/g_lane_3__u_rng/U146/Y (OR2X2)                               0.033477   0.049003 & 3.420689 r
+  u_lanes/g_lane_3__u_rng/n821 (net)                      2 0.007491 
+  u_lanes/g_lane_3__u_rng/U864_dup/D (AOI22X1)                         0.033477   0.000088 & 3.420777 r
+  u_lanes/g_lane_3__u_rng/U864_dup/Y (AOI22X1)                         0.035707   0.021921 & 3.442698 f
+  u_lanes/g_lane_3__u_rng/FE_RN_4 (net)                   1 0.002571 
+  u_lanes/g_lane_3__u_rng/U866/A (OR2X2)                               0.035707   0.000020 & 3.442719 f
+  u_lanes/g_lane_3__u_rng/U866/Y (OR2X2)                               0.016705   0.046303 & 3.489022 f
+  u_lanes/g_lane_3__u_rng/n823 (net)                      2 0.006234 
+  u_lanes/g_lane_3__u_rng/U867_dup/D (AOI22X1)                         0.016705   0.000061 & 3.489083 f
+  u_lanes/g_lane_3__u_rng/U867_dup/Y (AOI22X1)                         0.045684   0.029645 & 3.518728 r
+  u_lanes/g_lane_3__u_rng/FE_RN_6 (net)                   1 0.002561 
+  u_lanes/g_lane_3__u_rng/U154/A (OR2X2)                               0.045684   0.000020 & 3.518748 r
+  u_lanes/g_lane_3__u_rng/U154/Y (OR2X2)                               0.030119   0.047915 & 3.566663 r
+  u_lanes/g_lane_3__u_rng/n827 (net)                      2 0.006857 
+  u_lanes/g_lane_3__u_rng/U868/D (AOI22X1)                             0.030120   0.000076 & 3.566738 r
+  u_lanes/g_lane_3__u_rng/U868/Y (AOI22X1)                             0.034650   0.020192 & 3.586930 f
+  u_lanes/g_lane_3__u_rng/n831 (net)                      1 0.002094 
+  u_lanes/g_lane_3__u_rng/FE_OCPC194_n831/A (BUFX2)                    0.034650   0.000015 & 3.586946 f
+  u_lanes/g_lane_3__u_rng/FE_OCPC194_n831/Y (BUFX2)                    0.012602   0.042423 & 3.629368 f
+  u_lanes/g_lane_3__u_rng/FE_OCPN194_n831 (net)           2 0.006608 
+  u_lanes/g_lane_3__u_rng/U871_dup/B (AOI22X1)                         0.012603   0.000066 & 3.629434 f
+  u_lanes/g_lane_3__u_rng/U871_dup/Y (AOI22X1)                         0.046042   0.040808 & 3.670242 r
+  u_lanes/g_lane_3__u_rng/FE_RN_5 (net)                   1 0.002571 
+  u_lanes/g_lane_3__u_rng/U148/A (OR2X2)                               0.046042   0.000019 & 3.670261 r
+  u_lanes/g_lane_3__u_rng/U148/Y (OR2X2)                               0.030594   0.047856 & 3.718117 r
+  u_lanes/g_lane_3__u_rng/n833 (net)                      2 0.006793 
+  u_lanes/g_lane_3__u_rng/U872/D (AOI22X1)                             0.030594   0.000077 & 3.718194 r
+  u_lanes/g_lane_3__u_rng/U872/Y (AOI22X1)                             0.035101   0.020670 & 3.738864 f
+  u_lanes/g_lane_3__u_rng/n837 (net)                      1 0.002298 
+  u_lanes/g_lane_3__u_rng/FE_OCPC187_n837/A (BUFX2)                    0.035101   0.000036 & 3.738901 f
+  u_lanes/g_lane_3__u_rng/FE_OCPC187_n837/Y (BUFX2)                    0.012570   0.042426 & 3.781327 f
+  u_lanes/g_lane_3__u_rng/FE_OCPN187_n837 (net)           2 0.006532 
+  u_lanes/g_lane_3__u_rng/U875/B (AOI22X1)                             0.012572   0.000095 & 3.781422 f
+  u_lanes/g_lane_3__u_rng/U875/Y (AOI22X1)                             0.048541   0.043033 & 3.824455 r
+  u_lanes/g_lane_3__u_rng/n840 (net)                      1 0.003343 
+  u_lanes/g_lane_3__u_rng/U141/A (OR2X2)                               0.048542   0.000054 & 3.824510 r
+  u_lanes/g_lane_3__u_rng/U141/Y (OR2X2)                               0.034224   0.049962 & 3.874471 r
+  u_lanes/g_lane_3__u_rng/n839 (net)                      2 0.008005 
+  u_lanes/g_lane_3__u_rng/U876/D (AOI22X1)                             0.034225   0.000125 & 3.874597 r
+  u_lanes/g_lane_3__u_rng/U876/Y (AOI22X1)                             0.039722   0.025081 & 3.899678 f
+  u_lanes/g_lane_3__u_rng/n843 (net)                      2 0.004260 
+  u_lanes/g_lane_3__u_rng/FE_OCPC188_n843/A (BUFX2)                    0.039722   0.000053 & 3.899731 f
+  u_lanes/g_lane_3__u_rng/FE_OCPC188_n843/Y (BUFX2)                    0.010233   0.040775 & 3.940506 f
+  u_lanes/g_lane_3__u_rng/FE_OCPN188_n843 (net)           1 0.004063 
+  u_lanes/g_lane_3__u_rng/U879_dup/B (AOI22X1)                         0.010235   0.000082 & 3.940588 f
+  u_lanes/g_lane_3__u_rng/U879_dup/Y (AOI22X1)                         0.047002   0.041106 & 3.981694 r
+  u_lanes/g_lane_3__u_rng/FE_RN_3 (net)                   1 0.002907 
+  u_lanes/g_lane_3__u_rng/U144/A (OR2X2)                               0.047003   0.000034 & 3.981728 r
+  u_lanes/g_lane_3__u_rng/U144/Y (OR2X2)                               0.030692   0.047533 & 4.029261 r
+  u_lanes/g_lane_3__u_rng/n845 (net)                      2 0.006507 
+  u_lanes/g_lane_3__u_rng/U880/D (AOI22X1)                             0.030692   0.000048 & 4.029309 r
+  u_lanes/g_lane_3__u_rng/U880/Y (AOI22X1)                             0.042732   0.026364 & 4.055673 f
+  u_lanes/g_lane_3__u_rng/n849 (net)                      2 0.005533 
+  u_lanes/g_lane_3__u_rng/FE_OCPC186_n849_dup/A (BUFX2)                0.042733   0.000118 & 4.055791 f
+  u_lanes/g_lane_3__u_rng/FE_OCPC186_n849_dup/Y (BUFX2)                0.010352   0.040991 & 4.096782 f
+  u_lanes/g_lane_3__u_rng/FE_RN_24 (net)                  1 0.003678 
+  u_lanes/g_lane_3__u_rng/U883/B (AOI22X1)                             0.010353   0.000057 & 4.096839 f
+  u_lanes/g_lane_3__u_rng/U883/Y (AOI22X1)                             0.045421   0.040128 & 4.136968 r
+  u_lanes/g_lane_3__u_rng/n852 (net)                      1 0.002559 
+  u_lanes/g_lane_3__u_rng/U150/A (OR2X2)                               0.045421   0.000026 & 4.136994 r
+  u_lanes/g_lane_3__u_rng/U150/Y (OR2X2)                               0.021105   0.042345 & 4.179339 r
+  u_lanes/g_lane_3__u_rng/n851 (net)                      1 0.003217 
+  u_lanes/g_lane_3__u_rng/U884/D (AOI22X1)                             0.021105   0.000026 & 4.179365 r
+  u_lanes/g_lane_3__u_rng/U884/Y (AOI22X1)                             0.051877   0.030564 & 4.209929 f
+  u_lanes/g_lane_3__u_rng/intadd_132_CI (net)             1 0.009395 
+  u_lanes/g_lane_3__u_rng/intadd_132_U10/C (FAX1)                      0.051881   0.000307 & 4.210236 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U10/YC (FAX1)                     0.033223   0.088578 & 4.298813 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n9 (net)             1 0.008668 
+  u_lanes/g_lane_3__u_rng/intadd_132_U9/C (FAX1)                       0.033226   0.000206 & 4.299019 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U9/YC (FAX1)                      0.034564   0.086381 & 4.385400 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n8 (net)             1 0.009156 
+  u_lanes/g_lane_3__u_rng/intadd_132_U8/C (FAX1)                       0.034567   0.000227 & 4.385628 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U8/YC (FAX1)                      0.032621   0.085167 & 4.470795 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n7 (net)             1 0.008440 
+  u_lanes/g_lane_3__u_rng/intadd_132_U7/C (FAX1)                       0.032623   0.000180 & 4.470976 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U7/YC (FAX1)                      0.029543   0.082543 & 4.553519 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n6 (net)             1 0.007293 
+  u_lanes/g_lane_3__u_rng/intadd_132_U6/C (FAX1)                       0.029543   0.000052 & 4.553572 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U6/YC (FAX1)                      0.034933   0.086030 & 4.639601 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n5 (net)             1 0.009297 
+  u_lanes/g_lane_3__u_rng/intadd_132_U5/C (FAX1)                       0.034937   0.000257 & 4.639858 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U5/YC (FAX1)                      0.033473   0.085877 & 4.725735 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n4 (net)             1 0.008762 
+  u_lanes/g_lane_3__u_rng/intadd_132_U4/C (FAX1)                       0.033476   0.000207 & 4.725942 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U4/YC (FAX1)                      0.031228   0.083931 & 4.809873 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n3 (net)             1 0.007904 
+  u_lanes/g_lane_3__u_rng/intadd_132_U3/C (FAX1)                       0.031228   0.000052 & 4.809926 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U3/YC (FAX1)                      0.031175   0.083519 & 4.893445 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n2 (net)             1 0.007903 
+  u_lanes/g_lane_3__u_rng/intadd_132_U2/C (FAX1)                       0.031176   0.000139 & 4.893584 f
+  u_lanes/g_lane_3__u_rng/intadd_132_U2/YC (FAX1)                      0.026790   0.080266 & 4.973850 f
+  u_lanes/g_lane_3__u_rng/intadd_132_n1 (net)             2 0.006296 
+  u_lanes/g_lane_3__u_rng/U890/A (OAI21X1)                             0.026790   0.000065 & 4.973915 f
+  u_lanes/g_lane_3__u_rng/U890/Y (OAI21X1)                             0.044790   0.048339 & 5.022254 r
+  u_lanes/g_lane_3__u_rng/n860 (net)                      1 0.003044 
+  u_lanes/g_lane_3__u_rng/U891/C (OAI21X1)                             0.044790   0.000062 & 5.022315 r
+  u_lanes/g_lane_3__u_rng/U891/Y (OAI21X1)                             0.016435   0.022798 & 5.045113 f
+  u_lanes/g_lane_3__u_rng/n1015 (net)                     1 0.002142 
+  u_lanes/g_lane_3__u_rng/u_reg_31_/D (DFFSR)                          0.016435   0.000035 & 5.045148 f
+  data arrival time                                                                          5.045148
+
+  clock clk (rise edge)                                                           5.000000   5.000000
+  clock source latency                                                            0.000000   5.000000
+  clk (in)                                                             0.000000   0.000000 & 5.000000 r
+  clk (net)                                               4 0.104041 
+  CTS_ccl_a_buf_00243/A (BUFX2)                                        0.063298   0.036094 & 5.036094 r
+  CTS_ccl_a_buf_00243/Y (BUFX2)                                        0.011850   0.036368 & 5.072462 r
+  FE_USKN218_CTS_121 (net)                                1 0.001572 
+  FE_USKC218_CTS_121/A (BUFX2)                                         0.011850   0.000001 & 5.072464 r
+  FE_USKC218_CTS_121/Y (BUFX2)                                         0.007887   0.034030 & 5.106493 r
+  FE_USKN223_CTS_121 (net)                                1 0.003004 
+  FE_USKC223_CTS_121/A (BUFX2)                                         0.007888   0.000072 & 5.106565 r
+  FE_USKC223_CTS_121/Y (BUFX2)                                         0.003928   0.031457 & 5.138021 r
+  FE_USKN220_CTS_121 (net)                                1 0.001575 
+  FE_USKC220_CTS_121/A (BUFX2)                                         0.003928   0.000001 & 5.138023 r
+  FE_USKC220_CTS_121/Y (BUFX2)                                         0.004314   0.031727 & 5.169750 r
+  FE_USKN224_CTS_121 (net)                                1 0.001972 
+  FE_USKC224_CTS_121/A (BUFX2)                                         0.004315   0.000020 & 5.169770 r
+  FE_USKC224_CTS_121/Y (BUFX2)                                         0.108110   0.093313 & 5.263083 r
+  CTS_121 (net)                                           3 0.042920 
+  CTS_ccl_a_buf_00242/A (BUFX4)                                        0.108725   0.004201 & 5.267283 r
+  CTS_ccl_a_buf_00242/Y (BUFX4)                                        0.079150   0.052985 & 5.320268 r
+  CTS_120 (net)                                           4 0.057120 
+  CTS_ccl_a_buf_00240/A (BUFX4)                                        0.079622   0.001421 & 5.321690 r
+  CTS_ccl_a_buf_00240/Y (BUFX4)                                        0.073690   0.052715 & 5.374405 r
+  CTS_106 (net)                                           6 0.053222 
+  CTS_ccl_a_buf_00221/A (BUFX4)                                        0.074726   0.007703 & 5.382108 r
+  CTS_ccl_a_buf_00221/Y (BUFX4)                                        0.066237   0.052558 & 5.434666 r
+  CTS_93 (net)                                           11 0.049205 
+  CTS_ccl_a_buf_00019/A (BUFX2)                                        0.066395   0.002283 & 5.436949 r
+  CTS_ccl_a_buf_00019/Y (BUFX2)                                        0.103922   0.096356 & 5.533305 r
+  CTS_89 (net)                                           15 0.041500 
+  u_lanes/g_lane_3__u_rng/u_reg_31_/CLK (DFFSR)                        0.104237   0.001478 & 5.534783 r
+  clock reconvergence pessimism                                                   0.000000   5.534783
+  clock uncertainty                                                               -0.100000  5.434783
+  library setup time                                                              -0.129903  5.304880
+  data required time                                                                         5.304880
+  ------------------------------------------------------------------------------------------------------
+  data required time                                                                         5.304880
+  data arrival time                                                                          -5.045148
+  ------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                0.259732
+
+
+1

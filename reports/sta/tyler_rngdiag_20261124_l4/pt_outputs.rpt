@@ -1,0 +1,20 @@
+****************************************
+Report : timing
+	-path_type summary
+	-delay_type max
+	-slack_lesser_than 100.000000
+	-max_paths 3
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 15:47:06 2026
+****************************************
+
+Startpoint                      Endpoint                           Slack
+------------------------------------------------------------------
+u_controller/state_reg_0_/CLK (DFFSR) busy (out)                1.826324
+u_controller/done_reg/CLK (DFFSR) status[0] (out)               2.406190
+u_lanes/u_accumulator/payoff_sum_reg_25_/CLK (DFFSR) payoff_sum[25] (out) 2.553155
+Warning: report_timing has satisfied the max_paths criteria. There are 132 further endpoints which have paths of interest with slack less than 100.000000 that were not considered when generating this report. (UITE-502)
+
+1
