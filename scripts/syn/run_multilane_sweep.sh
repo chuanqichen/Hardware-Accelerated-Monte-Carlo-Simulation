@@ -8,9 +8,13 @@ batch=${BATCH:-multilane_$(date +%Y%m%d_%H%M%S)}
 python_command=${PYTHON:-python3}
 dc_command=${DC_SHELL:-dc_shell}
 command -v "$dc_command" >/dev/null || { echo "Design Compiler missing" >&2; exit 2; }
+lanes_list=${LANES_LIST:-"1 2 4"}
+for lanes in $lanes_list; do
+  case "$lanes" in 1|2|4) ;; *) echo "LANES_LIST supports 1, 2, 4" >&2; exit 2;; esac
+done
 inputs="$PWD/tmp/${batch}_inputs"
 [[ ! -e "$inputs" ]] || { echo "Input directory exists: $inputs" >&2; exit 2; }
-for lanes in 1 2 4; do
+for lanes in $lanes_list; do
   tag="${batch}_l${lanes}"
   for path in "reports/syn/$tag" "reports/syn/$tag.log" "reports/sta/$tag" "reports/sta/$tag.log" "reports/sim/${tag}_mapped"; do
     [[ ! -e "$path" ]] || { echo "Run exists: $path" >&2; exit 2; }
@@ -19,7 +23,7 @@ done
 mkdir -p reports/syn
 "$python_command" scripts/prepare_array_sim.py --out "$inputs"
 sources=$(tr -d '\r' < rtl/mc_top.f | tr '\n' ' ')
-for lanes in 1 2 4; do
+for lanes in $lanes_list; do
   tag="${batch}_l${lanes}"
   DESIGN=mc_top PARAMS="LANES=$lanes,GAUSS_LATENCY=1,MUL_STAGES=1,GAUSS_ADDR_BITS=10,EXP_ADDR_BITS=10" \
     CLK_PERIOD_NS=5.0 RETIME=0 OPCOND=typical RTL_FILES="$sources" \

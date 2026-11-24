@@ -16,6 +16,16 @@ if {[catch {
   set map [mc_env_or GDS_MAP $pdk/lib/files/gds2_encounter.map]
   set gds_dir [mc_env_or CELL_GDS_DIR $pdk/lib/source/gds]
   set qrc [mc_env_or QRC_TECH ""]
+  # Optional closure policy. The SDC is unchanged; these settings only tell
+  # Innovus to repair the SDC max-fanout limit and to fix hold with extra margin
+  # for the independent PrimeTime check. Defaults reproduce the baseline flow.
+  set hold_target [mc_env_or HOLD_TARGET_SLACK_NS ""]
+  if {$hold_target ne "" && (![string is double -strict $hold_target] ||
+      $hold_target < 0 || $hold_target > 0.5)} {
+    error "HOLD_TARGET_SLACK_NS must be a number of ns from 0 to 0.5"
+  }
+  set fix_fanout [mc_env_or FIX_FANOUT_LOAD 0]
+  if {$fix_fanout ni {0 1}} { error "FIX_FANOUT_LOAD must be 0 or 1" }
   set inputs [list $netlist $sdc $lib $lef $map]
   if {$qrc ne ""} { lappend inputs $qrc }
   foreach path $inputs {
@@ -39,6 +49,8 @@ if {[catch {
   puts $f "timing_mode=nominal_early_late_same_typical_library_no_derates"
   puts $f "qrc_technology=$qrc"
   puts $f "rc_method=[expr {$qrc eq "" ? "native_estimate_no_characterized_cap_table" : "qrc_technology_file"}]"
+  puts $f "hold_target_slack_ns=[expr {$hold_target eq "" ? "tool_default" : $hold_target}]"
+  puts $f "fix_fanout_load=$fix_fanout"
   close $f
   set mmmc [open $out/views.tcl w]
   puts $mmmc [list create_library_set -name typical_lib -timing [list $lib]]
@@ -64,6 +76,8 @@ if {[catch {
   # Post-route SI optimization requires the early/late analysis engine.
   # Both sides use the same typical library; no PVT/OCV coverage is claimed.
   setAnalysisMode -analysisType onChipVariation -cppr none
+  if {$fix_fanout} { setOptMode -fixFanoutLoad true }
+  if {$hold_target ne ""} { setOptMode -holdTargetSlack $hold_target }
   floorPlan -site CoreSite -r 1.0 0.60 20 20 20 20
   globalNetConnect vdd -type pgpin -pin vdd -all
   globalNetConnect gnd -type pgpin -pin gnd -all
