@@ -67,7 +67,7 @@ report. It keeps every row and reports zero-limit capacitance rows as their own 
 | `PRESERVE_SYNTH_BUFFERS` | 1 | `place_design -noPrePlaceOpt`, `optDesign -preCTS` and `setOptMode -deleteInst false` keep DC's fanout-compliant trees |
 | `CTS_MAX_FANOUT` | 16 | CCOpt `max_fanout`, matching the SDC limit on clock nets |
 | `FIX_FANOUT_LOAD` | 1 | Requests Innovus fanout repair; it has no effect with this library because fanout load is zero |
-| `SETUP_TARGET_SLACK_NS` | unset | Optional `setOptMode -setupTargetSlack`. A 0.05 ns trial did not improve closure; see the setup-target trial |
+| `SETUP_TARGET_SLACK_NS` | unset | Opt-in `setOptMode -setupTargetSlack`. The 0.05 ns trial was unsuccessful; see the setup-target trial |
 
 None of these settings changes a constraint, waives a path or edits a library value.
 PT remains the independent check, and closure here means both tools pass.
@@ -107,7 +107,8 @@ routed replays pass 81 cases / 82,489 trials. Both tools pass for one and two la
 For four lanes, Innovus reports one setup path at -0.006 ns
 (`g_lane_3__u_rng/s0_reg_5_` to `u_reg_31_`, next path +0.051 ns), where PT reports
 +0.260 ns. This is the RNG add/rotate/add path that the setup-table investigation
-already identified as an optimization candidate.
+already identified as an optimization candidate. The setup-target trial below did
+not close it.
 
 ## Cost and interpretation
 
@@ -120,7 +121,11 @@ uncertainty also applies to hold and the two timers disagree in this library
 regime. A smaller hold target saves area but leaves less margin for that
 disagreement: with a 0.05 ns target, one-lane PT hold was still -0.003 ns.
 
-## Setup-target trial
+## Setup-target trial (unsuccessful)
+
+**Result: unsuccessful.** Two-lane setup and four-lane hold fail Innovus despite
+passing PrimeTime. `tyler_closure2` remains the matched reference, and
+`SETUP_TARGET_SLACK_NS` stays opt-in and unset.
 
 Run `tyler_closure3_20261124` repeated the matched policy with
 `SETUP_TARGET_SLACK_NS=0.05`, which sets `setOptMode -setupTargetSlack` for every
