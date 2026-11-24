@@ -1,0 +1,685 @@
+****************************************
+Report : timing
+	-path_type full_clock_expanded
+	-delay_type max
+	-slack_lesser_than 100.000000
+	-max_paths 5
+	-transition_time
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Mon Nov 23 23:12:56 2026
+****************************************
+
+
+  Startpoint: u_lanes/u_rng/s3_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_rng/u_reg_29_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: CTS_ccl_a_buf_00073/Y
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 0.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 0.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 0.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 0.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 0.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 0.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 0.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 0.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 0.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 0.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066920   0.072816 & 0.427151 r
+  CTS_ccl_a_buf_00071/Y (BUFX4)               0.089545   0.066939 & 0.494090 r
+  u_lanes/u_rng/CTS_ccl_a_buf_00058/Y (BUFX4) 0.069753   0.060915 & 0.555005 r
+  u_lanes/u_rng/s3_reg_5_/CLK (DFFSR)         0.069982   0.002892 & 0.557897 r
+  u_lanes/u_rng/s3_reg_5_/Q (DFFSR)           0.018647   0.127592 & 0.685488 f
+  u_lanes/u_rng/U142/Y (BUFX4)                0.012795   0.053364 & 0.738853 f
+  u_lanes/u_rng/intadd_0_U20/YC (FAX1)        0.030922   0.088695 & 0.827548 f
+  u_lanes/u_rng/intadd_0_U19/YC (FAX1)        0.030414   0.083057 & 0.910605 f
+  u_lanes/u_rng/intadd_0_U18/YC (FAX1)        0.037641   0.088349 & 0.998954 f
+  u_lanes/u_rng/intadd_0_U17/YC (FAX1)        0.031263   0.085065 & 1.084019 f
+  u_lanes/u_rng/intadd_0_U16/YC (FAX1)        0.032873   0.084895 & 1.168914 f
+  u_lanes/u_rng/intadd_0_U15/YC (FAX1)        0.037025   0.088308 & 1.257222 f
+  u_lanes/u_rng/intadd_0_U14/YC (FAX1)        0.029968   0.084002 & 1.341224 f
+  u_lanes/u_rng/intadd_0_U13/YC (FAX1)        0.032750   0.084523 & 1.425747 f
+  u_lanes/u_rng/intadd_0_U12/YC (FAX1)        0.033864   0.085993 & 1.511740 f
+  u_lanes/u_rng/intadd_0_U11/YC (FAX1)        0.031181   0.084212 & 1.595952 f
+  u_lanes/u_rng/intadd_0_U10/YC (FAX1)        0.031187   0.083663 & 1.679615 f
+  u_lanes/u_rng/intadd_0_U9/YC (FAX1)         0.031414   0.083808 & 1.763423 f
+  u_lanes/u_rng/intadd_0_U8/YC (FAX1)         0.031175   0.083688 & 1.847111 f
+  u_lanes/u_rng/intadd_0_U7/YC (FAX1)         0.031058   0.083581 & 1.930692 f
+  u_lanes/u_rng/intadd_0_U6/YC (FAX1)         0.035194   0.086608 & 2.017300 f
+  u_lanes/u_rng/intadd_0_U5/YC (FAX1)         0.032905   0.085662 & 2.102962 f
+  u_lanes/u_rng/intadd_0_U4/YC (FAX1)         0.031197   0.083951 & 2.186913 f
+  u_lanes/u_rng/intadd_0_U3/YC (FAX1)         0.032175   0.084364 & 2.271277 f
+  u_lanes/u_rng/intadd_0_U2/YC (FAX1)         0.019421   0.075099 & 2.346376 f
+  u_lanes/u_rng/U927_dup/Y (INVX1)            0.000000   0.011527 & 2.357902 r
+  u_lanes/u_rng/U929/Y (AOI22X1)              0.035101   0.015000 & 2.372902 f
+  u_lanes/u_rng/U17/Y (BUFX2)                 0.014237   0.043798 & 2.416701 f
+  u_lanes/u_rng/intadd_2_U7/YC (FAX1)         0.031055   0.080660 & 2.497360 f
+  u_lanes/u_rng/intadd_2_U6/YC (FAX1)         0.033716   0.085504 & 2.582865 f
+  u_lanes/u_rng/intadd_2_U5/YC (FAX1)         0.030233   0.083500 & 2.666365 f
+  u_lanes/u_rng/intadd_2_U4/YC (FAX1)         0.029751   0.082355 & 2.748720 f
+  u_lanes/u_rng/intadd_2_U3/YC (FAX1)         0.033333   0.084921 & 2.833642 f
+  u_lanes/u_rng/intadd_2_U2/YC (FAX1)         0.034043   0.086232 & 2.919873 f
+  u_lanes/u_rng/U939/Y (MUX2X1)               0.059544   0.057367 & 2.977240 r
+  u_lanes/u_rng/U940/Y (MUX2X1)               0.097259   0.086294 & 3.063534 r
+  u_lanes/u_rng/FE_OCPC46_n893/Y (BUFX2)      0.030599   0.049310 & 3.112844 r
+  u_lanes/u_rng/U942/Y (AOI22X1)              0.037494   0.022182 & 3.135026 f
+  u_lanes/u_rng/FE_OCPC51_n899/Y (BUFX2)      0.012632   0.042645 & 3.177670 f
+  u_lanes/u_rng/U945/Y (OAI21X1)              0.050420   0.048147 & 3.225817 r
+  u_lanes/u_rng/U947_dup/Y (AOI22X1)          0.037092   0.038695 & 3.264512 f
+  u_lanes/u_rng/U948/Y (OR2X1)                0.013669   0.044732 & 3.309244 f
+  u_lanes/u_rng/U949/Y (AOI22X1)              0.071358   0.045680 & 3.354924 r
+  u_lanes/u_rng/U11_dup/Y (OAI21X1)           0.009096   0.029511 & 3.384435 f
+  u_lanes/u_rng/U204/Y (NAND2X1)              0.048308   0.035232 & 3.419667 r
+  u_lanes/u_rng/U201/Y (INVX1)                0.009670   0.026699 & 3.446365 f
+  u_lanes/u_rng/U90/Y (OR2X1)                 0.014547   0.043028 & 3.489394 f
+  u_lanes/u_rng/U951/Y (AOI22X1)              0.067530   0.042582 & 3.531975 r
+  u_lanes/u_rng/U14/Y (OR2X2)                 0.036478   0.056514 & 3.588489 r
+  u_lanes/u_rng/U953/Y (AOI22X1)              0.038340   0.024414 & 3.612903 f
+  u_lanes/u_rng/U281_dup/Y (OR2X2)            0.018238   0.047563 & 3.660466 f
+  u_lanes/u_rng/U954/Y (AOI22X1)              0.050680   0.033409 & 3.693876 r
+  u_lanes/u_rng/U12/Y (OR2X2)                 0.023280   0.048358 & 3.742234 r
+  u_lanes/u_rng/U956/Y (AOI22X1)              0.041542   0.023164 & 3.765398 f
+  u_lanes/u_rng/U278/Y (OR2X2)                0.016819   0.047809 & 3.813206 f
+  u_lanes/u_rng/U957_dup/Y (AOI22X1)          0.049241   0.031890 & 3.845097 r
+  u_lanes/u_rng/FE_OCPC36_n925/Y (BUFX2)      0.028312   0.047510 & 3.892606 r
+  u_lanes/u_rng/U959_dup1/Y (AOI22X1)         0.037795   0.033513 & 3.926119 f
+  u_lanes/u_rng/U272/Y (OR2X2)                0.019334   0.047696 & 3.973815 f
+  u_lanes/u_rng/U960_dup/Y (AOI22X1)          0.050361   0.033498 & 4.007313 r
+  u_lanes/u_rng/U13/Y (OR2X2)                 0.024501   0.049159 & 4.056472 r
+  u_lanes/u_rng/U962_dup/Y (AOI22X1)          0.036300   0.019608 & 4.076080 f
+  u_lanes/u_rng/U275/Y (OR2X2)                0.017672   0.046378 & 4.122458 f
+  u_lanes/u_rng/U963_dup/Y (AOI22X1)          0.051559   0.033574 & 4.156032 r
+  u_lanes/u_rng/U16/Y (OR2X2)                 0.026945   0.049217 & 4.205249 r
+  u_lanes/u_rng/U965/Y (AOI22X1)              0.037790   0.021361 & 4.226610 f
+  u_lanes/u_rng/U266/Y (OR2X2)                0.013503   0.043691 & 4.270301 f
+  u_lanes/u_rng/U966/Y (AOI22X1)              0.052158   0.032712 & 4.303013 r
+  u_lanes/u_rng/U18/Y (BUFX2)                 0.027113   0.046790 & 4.349803 r
+  u_lanes/u_rng/intadd_1_U10/YC (FAX1)        0.053939   0.076786 & 4.426589 r
+  u_lanes/u_rng/intadd_1_U9/YC (FAX1)         0.049175   0.075853 & 4.502442 r
+  u_lanes/u_rng/intadd_1_U8/YC (FAX1)         0.059726   0.082323 & 4.584765 r
+  u_lanes/u_rng/intadd_1_U7/YC (FAX1)         0.058313   0.082566 & 4.667331 r
+  u_lanes/u_rng/intadd_1_U6/YC (FAX1)         0.053228   0.078973 & 4.746304 r
+  u_lanes/u_rng/intadd_1_U5/YC (FAX1)         0.049649   0.076070 & 4.822373 r
+  u_lanes/u_rng/intadd_1_U4/YC (FAX1)         0.051854   0.077151 & 4.899524 r
+  u_lanes/u_rng/intadd_1_U3/YS (FAX1)         0.013335   0.085364 & 4.984889 f
+  u_lanes/u_rng/U976/Y (OAI21X1)              0.037431   0.041140 & 5.026029 r
+  u_lanes/u_rng/u_reg_29_/D (DFFSR)           0.037431   0.000030 & 5.026058 r
+  data arrival time                                                 5.026058
+
+  clock clk (rise edge)                                  5.000000   5.000000
+  clock source latency                                   0.000000   5.000000
+  clk (in)                                    0.000000   0.000000 & 5.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 5.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 5.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 5.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 5.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 5.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 5.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 5.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 5.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 5.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 5.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066645   0.073448 & 5.427783 r
+  CTS_ccl_a_buf_00067/Y (BUFX4)               0.094772   0.070255 & 5.498038 r
+  CTS_ccl_a_buf_00032/Y (BUFX4)               0.090027   0.074186 & 5.572224 r
+  u_lanes/u_rng/u_reg_29_/CLK (DFFSR)         0.090120   0.001011 & 5.573235 r
+  clock reconvergence pessimism                          0.000000   5.573235
+  clock uncertainty                                      -0.100000  5.473235
+  library setup time                                     -0.092092  5.381143
+  data required time                                                5.381143
+  -----------------------------------------------------------------------------
+  data required time                                                5.381143
+  data arrival time                                                 -5.026058
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.355084
+
+
+  Startpoint: u_lanes/u_rng/s3_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_rng/u_reg_30_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: CTS_ccl_a_buf_00073/Y
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 0.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 0.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 0.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 0.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 0.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 0.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 0.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 0.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 0.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 0.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066920   0.072816 & 0.427151 r
+  CTS_ccl_a_buf_00071/Y (BUFX4)               0.089545   0.066939 & 0.494090 r
+  u_lanes/u_rng/CTS_ccl_a_buf_00058/Y (BUFX4) 0.069753   0.060915 & 0.555005 r
+  u_lanes/u_rng/s3_reg_5_/CLK (DFFSR)         0.069982   0.002892 & 0.557897 r
+  u_lanes/u_rng/s3_reg_5_/Q (DFFSR)           0.018647   0.127592 & 0.685488 f
+  u_lanes/u_rng/U142/Y (BUFX4)                0.012795   0.053364 & 0.738853 f
+  u_lanes/u_rng/intadd_0_U20/YC (FAX1)        0.030922   0.088695 & 0.827548 f
+  u_lanes/u_rng/intadd_0_U19/YC (FAX1)        0.030414   0.083057 & 0.910605 f
+  u_lanes/u_rng/intadd_0_U18/YC (FAX1)        0.037641   0.088349 & 0.998954 f
+  u_lanes/u_rng/intadd_0_U17/YC (FAX1)        0.031263   0.085065 & 1.084019 f
+  u_lanes/u_rng/intadd_0_U16/YC (FAX1)        0.032873   0.084895 & 1.168914 f
+  u_lanes/u_rng/intadd_0_U15/YC (FAX1)        0.037025   0.088308 & 1.257222 f
+  u_lanes/u_rng/intadd_0_U14/YC (FAX1)        0.029968   0.084002 & 1.341224 f
+  u_lanes/u_rng/intadd_0_U13/YC (FAX1)        0.032750   0.084523 & 1.425747 f
+  u_lanes/u_rng/intadd_0_U12/YC (FAX1)        0.033864   0.085993 & 1.511740 f
+  u_lanes/u_rng/intadd_0_U11/YC (FAX1)        0.031181   0.084212 & 1.595952 f
+  u_lanes/u_rng/intadd_0_U10/YC (FAX1)        0.031187   0.083663 & 1.679615 f
+  u_lanes/u_rng/intadd_0_U9/YC (FAX1)         0.031414   0.083808 & 1.763423 f
+  u_lanes/u_rng/intadd_0_U8/YC (FAX1)         0.031175   0.083688 & 1.847111 f
+  u_lanes/u_rng/intadd_0_U7/YC (FAX1)         0.031058   0.083581 & 1.930692 f
+  u_lanes/u_rng/intadd_0_U6/YC (FAX1)         0.035194   0.086608 & 2.017300 f
+  u_lanes/u_rng/intadd_0_U5/YC (FAX1)         0.032905   0.085662 & 2.102962 f
+  u_lanes/u_rng/intadd_0_U4/YC (FAX1)         0.031197   0.083951 & 2.186913 f
+  u_lanes/u_rng/intadd_0_U3/YC (FAX1)         0.032175   0.084364 & 2.271277 f
+  u_lanes/u_rng/intadd_0_U2/YC (FAX1)         0.019421   0.075099 & 2.346376 f
+  u_lanes/u_rng/U927_dup/Y (INVX1)            0.000000   0.011527 & 2.357902 r
+  u_lanes/u_rng/U929/Y (AOI22X1)              0.035101   0.015000 & 2.372902 f
+  u_lanes/u_rng/U17/Y (BUFX2)                 0.014237   0.043798 & 2.416701 f
+  u_lanes/u_rng/intadd_2_U7/YC (FAX1)         0.031055   0.080660 & 2.497360 f
+  u_lanes/u_rng/intadd_2_U6/YC (FAX1)         0.033716   0.085504 & 2.582865 f
+  u_lanes/u_rng/intadd_2_U5/YC (FAX1)         0.030233   0.083500 & 2.666365 f
+  u_lanes/u_rng/intadd_2_U4/YC (FAX1)         0.029751   0.082355 & 2.748720 f
+  u_lanes/u_rng/intadd_2_U3/YC (FAX1)         0.033333   0.084921 & 2.833642 f
+  u_lanes/u_rng/intadd_2_U2/YC (FAX1)         0.034043   0.086231 & 2.919873 f
+  u_lanes/u_rng/U939/Y (MUX2X1)               0.059544   0.057367 & 2.977240 r
+  u_lanes/u_rng/U940/Y (MUX2X1)               0.097259   0.086294 & 3.063534 r
+  u_lanes/u_rng/FE_OCPC46_n893/Y (BUFX2)      0.030599   0.049310 & 3.112844 r
+  u_lanes/u_rng/U942/Y (AOI22X1)              0.037494   0.022181 & 3.135025 f
+  u_lanes/u_rng/FE_OCPC51_n899/Y (BUFX2)      0.012632   0.042645 & 3.177670 f
+  u_lanes/u_rng/U945/Y (OAI21X1)              0.050420   0.048147 & 3.225817 r
+  u_lanes/u_rng/U947_dup/Y (AOI22X1)          0.037092   0.038695 & 3.264512 f
+  u_lanes/u_rng/U948/Y (OR2X1)                0.013669   0.044732 & 3.309243 f
+  u_lanes/u_rng/U949/Y (AOI22X1)              0.071358   0.045680 & 3.354923 r
+  u_lanes/u_rng/U11_dup/Y (OAI21X1)           0.009096   0.029511 & 3.384435 f
+  u_lanes/u_rng/U204/Y (NAND2X1)              0.048308   0.035232 & 3.419667 r
+  u_lanes/u_rng/U201/Y (INVX1)                0.009670   0.026698 & 3.446365 f
+  u_lanes/u_rng/U90/Y (OR2X1)                 0.014547   0.043028 & 3.489393 f
+  u_lanes/u_rng/U951/Y (AOI22X1)              0.067530   0.042582 & 3.531975 r
+  u_lanes/u_rng/U14/Y (OR2X2)                 0.036478   0.056514 & 3.588489 r
+  u_lanes/u_rng/U953/Y (AOI22X1)              0.038340   0.024415 & 3.612903 f
+  u_lanes/u_rng/U281_dup/Y (OR2X2)            0.018238   0.047563 & 3.660466 f
+  u_lanes/u_rng/U954/Y (AOI22X1)              0.050680   0.033409 & 3.693875 r
+  u_lanes/u_rng/U12/Y (OR2X2)                 0.023280   0.048358 & 3.742233 r
+  u_lanes/u_rng/U956/Y (AOI22X1)              0.041542   0.023164 & 3.765397 f
+  u_lanes/u_rng/U278/Y (OR2X2)                0.016819   0.047809 & 3.813206 f
+  u_lanes/u_rng/U957_dup/Y (AOI22X1)          0.049241   0.031890 & 3.845096 r
+  u_lanes/u_rng/FE_OCPC36_n925/Y (BUFX2)      0.028312   0.047510 & 3.892606 r
+  u_lanes/u_rng/U959_dup1/Y (AOI22X1)         0.037795   0.033513 & 3.926119 f
+  u_lanes/u_rng/U272/Y (OR2X2)                0.019334   0.047696 & 3.973815 f
+  u_lanes/u_rng/U960_dup/Y (AOI22X1)          0.050361   0.033498 & 4.007313 r
+  u_lanes/u_rng/U13/Y (OR2X2)                 0.024501   0.049159 & 4.056472 r
+  u_lanes/u_rng/U962_dup/Y (AOI22X1)          0.036300   0.019608 & 4.076080 f
+  u_lanes/u_rng/U275/Y (OR2X2)                0.017672   0.046378 & 4.122458 f
+  u_lanes/u_rng/U963_dup/Y (AOI22X1)          0.051559   0.033574 & 4.156032 r
+  u_lanes/u_rng/U16/Y (OR2X2)                 0.026945   0.049217 & 4.205249 r
+  u_lanes/u_rng/U965/Y (AOI22X1)              0.037790   0.021361 & 4.226610 f
+  u_lanes/u_rng/U266/Y (OR2X2)                0.013503   0.043691 & 4.270301 f
+  u_lanes/u_rng/U966/Y (AOI22X1)              0.052158   0.032712 & 4.303013 r
+  u_lanes/u_rng/U18/Y (BUFX2)                 0.027113   0.046790 & 4.349803 r
+  u_lanes/u_rng/intadd_1_U10/YC (FAX1)        0.053939   0.076786 & 4.426589 r
+  u_lanes/u_rng/intadd_1_U9/YC (FAX1)         0.049175   0.075853 & 4.502442 r
+  u_lanes/u_rng/intadd_1_U8/YC (FAX1)         0.059726   0.082322 & 4.584764 r
+  u_lanes/u_rng/intadd_1_U7/YC (FAX1)         0.058313   0.082566 & 4.667330 r
+  u_lanes/u_rng/intadd_1_U6/YC (FAX1)         0.053228   0.078973 & 4.746303 r
+  u_lanes/u_rng/intadd_1_U5/YC (FAX1)         0.049649   0.076070 & 4.822373 r
+  u_lanes/u_rng/intadd_1_U4/YC (FAX1)         0.051854   0.077151 & 4.899524 r
+  u_lanes/u_rng/intadd_1_U3/YC (FAX1)         0.051020   0.076815 & 4.976338 r
+  u_lanes/u_rng/intadd_1_U2/YS (FAX1)         0.011497   0.084229 & 5.060568 f
+  u_lanes/u_rng/U974/Y (OAI21X1)              0.041288   0.043309 & 5.103877 r
+  u_lanes/u_rng/u_reg_30_/D (DFFSR)           0.041288   0.000077 & 5.103954 r
+  data arrival time                                                 5.103954
+
+  clock clk (rise edge)                                  5.000000   5.000000
+  clock source latency                                   0.000000   5.000000
+  clk (in)                                    0.000000   0.000000 & 5.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 5.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 5.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 5.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 5.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 5.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 5.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 5.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 5.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 5.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 5.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066645   0.073448 & 5.427783 r
+  CTS_ccl_a_buf_00067/Y (BUFX4)               0.094772   0.070255 & 5.498038 r
+  CTS_ccl_a_buf_00032/Y (BUFX4)               0.090027   0.074186 & 5.572224 r
+  u_lanes/u_rng/FE_USKC60_CTS_16/Y (BUFX2)    0.016677   0.039904 & 5.612128 r
+  u_lanes/u_rng/FE_USKC67_CTS_16/Y (BUFX2)    0.007200   0.033586 & 5.645713 r
+  u_lanes/u_rng/u_reg_30_/CLK (DFFSR)         0.007200   0.000044 & 5.645758 r
+  clock reconvergence pessimism                          0.000000   5.645758
+  clock uncertainty                                      -0.100000  5.545758
+  library setup time                                     -0.084958  5.460800
+  data required time                                                5.460800
+  -----------------------------------------------------------------------------
+  data required time                                                5.460800
+  data arrival time                                                 -5.103954
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.356846
+
+
+  Startpoint: u_lanes/u_rng/s3_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_rng/u_reg_31_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: CTS_ccl_a_buf_00073/Y
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 0.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 0.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 0.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 0.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 0.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 0.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 0.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 0.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 0.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 0.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066920   0.072816 & 0.427151 r
+  CTS_ccl_a_buf_00071/Y (BUFX4)               0.089545   0.066939 & 0.494090 r
+  u_lanes/u_rng/CTS_ccl_a_buf_00058/Y (BUFX4) 0.069753   0.060915 & 0.555005 r
+  u_lanes/u_rng/s3_reg_5_/CLK (DFFSR)         0.069982   0.002892 & 0.557897 r
+  u_lanes/u_rng/s3_reg_5_/Q (DFFSR)           0.018647   0.127592 & 0.685488 f
+  u_lanes/u_rng/U142/Y (BUFX4)                0.012795   0.053364 & 0.738853 f
+  u_lanes/u_rng/intadd_0_U20/YC (FAX1)        0.030922   0.088695 & 0.827548 f
+  u_lanes/u_rng/intadd_0_U19/YC (FAX1)        0.030414   0.083057 & 0.910605 f
+  u_lanes/u_rng/intadd_0_U18/YC (FAX1)        0.037641   0.088349 & 0.998954 f
+  u_lanes/u_rng/intadd_0_U17/YC (FAX1)        0.031263   0.085065 & 1.084019 f
+  u_lanes/u_rng/intadd_0_U16/YC (FAX1)        0.032873   0.084895 & 1.168914 f
+  u_lanes/u_rng/intadd_0_U15/YC (FAX1)        0.037025   0.088308 & 1.257222 f
+  u_lanes/u_rng/intadd_0_U14/YC (FAX1)        0.029968   0.084002 & 1.341224 f
+  u_lanes/u_rng/intadd_0_U13/YC (FAX1)        0.032750   0.084523 & 1.425747 f
+  u_lanes/u_rng/intadd_0_U12/YC (FAX1)        0.033864   0.085993 & 1.511740 f
+  u_lanes/u_rng/intadd_0_U11/YC (FAX1)        0.031181   0.084212 & 1.595952 f
+  u_lanes/u_rng/intadd_0_U10/YC (FAX1)        0.031187   0.083663 & 1.679615 f
+  u_lanes/u_rng/intadd_0_U9/YC (FAX1)         0.031414   0.083808 & 1.763423 f
+  u_lanes/u_rng/intadd_0_U8/YC (FAX1)         0.031175   0.083688 & 1.847111 f
+  u_lanes/u_rng/intadd_0_U7/YC (FAX1)         0.031058   0.083581 & 1.930692 f
+  u_lanes/u_rng/intadd_0_U6/YC (FAX1)         0.035194   0.086608 & 2.017300 f
+  u_lanes/u_rng/intadd_0_U5/YC (FAX1)         0.032905   0.085662 & 2.102962 f
+  u_lanes/u_rng/intadd_0_U4/YC (FAX1)         0.031197   0.083951 & 2.186913 f
+  u_lanes/u_rng/intadd_0_U3/YC (FAX1)         0.032175   0.084364 & 2.271277 f
+  u_lanes/u_rng/intadd_0_U2/YC (FAX1)         0.019421   0.075099 & 2.346376 f
+  u_lanes/u_rng/U927_dup/Y (INVX1)            0.000000   0.011527 & 2.357902 r
+  u_lanes/u_rng/U929/Y (AOI22X1)              0.035101   0.015000 & 2.372902 f
+  u_lanes/u_rng/U17/Y (BUFX2)                 0.014237   0.043798 & 2.416701 f
+  u_lanes/u_rng/intadd_2_U7/YC (FAX1)         0.031055   0.080660 & 2.497360 f
+  u_lanes/u_rng/intadd_2_U6/YC (FAX1)         0.033716   0.085504 & 2.582865 f
+  u_lanes/u_rng/intadd_2_U5/YS (FAX1)         0.049935   0.091822 & 2.674687 r
+  u_lanes/u_rng/U931/Y (INVX2)                0.026109   0.029246 & 2.703933 f
+  u_lanes/u_rng/U933/Y (AOI22X1)              0.096591   0.067595 & 2.771528 r
+  u_lanes/u_rng/U934_dup2/Y (AOI22X1)         0.045483   0.057775 & 2.829303 f
+  u_lanes/u_rng/U936/Y (OR2X2)                0.036323   0.059183 & 2.888486 f
+  u_lanes/u_rng/U937_dup2/Y (AOI22X1)         0.086749   0.065084 & 2.953570 r
+  u_lanes/u_rng/U938_dup/Y (AOI22X1)          0.042794   0.054104 & 3.007674 f
+  u_lanes/u_rng/FE_OCPC40_n894/Y (BUFX2)      0.014152   0.044229 & 3.051902 f
+  u_lanes/u_rng/U942_dup/Y (AOI22X1)          0.057900   0.050733 & 3.102635 r
+  u_lanes/u_rng/U943_dup/Y (NAND2X1)          0.011096   0.022990 & 3.125625 f
+  u_lanes/u_rng/U944/Y (OAI21X1)              0.046270   0.021452 & 3.147077 r
+  u_lanes/u_rng/U945_dup/Y (OAI21X1)          0.009455   0.024139 & 3.171216 f
+  u_lanes/u_rng/U205/Y (OR2X2)                0.018085   0.042435 & 3.213651 f
+  u_lanes/u_rng/U947_dup/Y (AOI22X1)          0.048053   0.031897 & 3.245547 r
+  u_lanes/u_rng/U948/Y (OR2X1)                0.025975   0.043316 & 3.288864 r
+  u_lanes/u_rng/U949/Y (AOI22X1)              0.048813   0.029588 & 3.318451 f
+  u_lanes/u_rng/U11_dup/Y (OAI21X1)           0.041279   0.050316 & 3.368767 r
+  u_lanes/u_rng/U204/Y (NAND2X1)              0.026237   0.024257 & 3.393024 f
+  u_lanes/u_rng/U201/Y (INVX1)                0.000000   0.008125 & 3.401149 r
+  u_lanes/u_rng/U90/Y (OR2X1)                 0.030317   0.043315 & 3.444465 r
+  u_lanes/u_rng/U951/Y (AOI22X1)              0.047026   0.029403 & 3.473868 f
+  u_lanes/u_rng/FE_OCPC39_n913_dup/Y (BUFX2)  0.014444   0.044610 & 3.518477 f
+  u_lanes/u_rng/U953/Y (AOI22X1)              0.048621   0.043928 & 3.562405 r
+  u_lanes/u_rng/U281_dup/Y (OR2X2)            0.031010   0.048647 & 3.611052 r
+  u_lanes/u_rng/U954/Y (AOI22X1)              0.038489   0.023378 & 3.634430 f
+  u_lanes/u_rng/U12/Y (OR2X2)                 0.016151   0.047226 & 3.681656 f
+  u_lanes/u_rng/U956/Y (AOI22X1)              0.055281   0.035810 & 3.717466 r
+  u_lanes/u_rng/U278/Y (OR2X2)                0.028521   0.048956 & 3.766423 r
+  u_lanes/u_rng/U957_dup/Y (AOI22X1)          0.037521   0.021933 & 3.788356 f
+  u_lanes/u_rng/FE_OCPC36_n925/Y (BUFX2)      0.017032   0.046172 & 3.834527 f
+  u_lanes/u_rng/U959_dup1/Y (AOI22X1)         0.047926   0.044051 & 3.878578 r
+  u_lanes/u_rng/U272/Y (OR2X2)                0.033106   0.048889 & 3.927467 r
+  u_lanes/u_rng/U960_dup/Y (AOI22X1)          0.038278   0.023803 & 3.951270 f
+  u_lanes/u_rng/U13/Y (OR2X2)                 0.017014   0.047781 & 3.999051 f
+  u_lanes/u_rng/U962_dup/Y (AOI22X1)          0.045987   0.029792 & 4.028842 r
+  u_lanes/u_rng/U275/Y (OR2X2)                0.030241   0.047202 & 4.076045 r
+  u_lanes/u_rng/U963/Y (AOI22X1)              0.038389   0.023064 & 4.099109 f
+  u_lanes/u_rng/FE_OCPC38_n937_dup/Y (BUFX2)  0.009168   0.039889 & 4.138998 f
+  u_lanes/u_rng/U965/Y (AOI22X1)              0.047898   0.041689 & 4.180687 r
+  u_lanes/u_rng/U266/Y (OR2X2)                0.023274   0.043207 & 4.223894 r
+  u_lanes/u_rng/U966/Y (AOI22X1)              0.038920   0.021598 & 4.245492 f
+  u_lanes/u_rng/U18/Y (BUFX2)                 0.015005   0.044725 & 4.290216 f
+  u_lanes/u_rng/intadd_1_U10/YC (FAX1)        0.033060   0.082339 & 4.372556 f
+  u_lanes/u_rng/intadd_1_U9/YC (FAX1)         0.030260   0.083381 & 4.455937 f
+  u_lanes/u_rng/intadd_1_U8/YC (FAX1)         0.036446   0.087363 & 4.543300 f
+  u_lanes/u_rng/intadd_1_U7/YC (FAX1)         0.035640   0.088092 & 4.631392 f
+  u_lanes/u_rng/intadd_1_U6/YC (FAX1)         0.032660   0.085649 & 4.717042 f
+  u_lanes/u_rng/intadd_1_U5/YC (FAX1)         0.030556   0.083484 & 4.800526 f
+  u_lanes/u_rng/intadd_1_U4/YC (FAX1)         0.031854   0.084006 & 4.884532 f
+  u_lanes/u_rng/intadd_1_U3/YC (FAX1)         0.031360   0.083896 & 4.968428 f
+  u_lanes/u_rng/intadd_1_U2/YC (FAX1)         0.024418   0.078676 & 5.047104 f
+  u_lanes/u_rng/U970/Y (AOI21X1)              0.028653   0.034862 & 5.081965 r
+  u_lanes/u_rng/U971/Y (OAI21X1)              0.006896   0.020021 & 5.101986 f
+  u_lanes/u_rng/U972/Y (OAI21X1)              0.033688   0.020038 & 5.122025 r
+  u_lanes/u_rng/u_reg_31_/D (DFFSR)           0.033688   0.000067 & 5.122092 r
+  data arrival time                                                 5.122092
+
+  clock clk (rise edge)                                  5.000000   5.000000
+  clock source latency                                   0.000000   5.000000
+  clk (in)                                    0.000000   0.000000 & 5.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 5.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 5.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 5.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 5.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 5.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 5.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 5.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 5.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 5.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 5.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066645   0.073448 & 5.427783 r
+  CTS_ccl_a_buf_00067/Y (BUFX4)               0.094772   0.070255 & 5.498038 r
+  CTS_ccl_a_buf_00032/Y (BUFX4)               0.090027   0.074186 & 5.572224 r
+  u_lanes/u_rng/FE_USKC55_CTS_16/Y (BUFX2)    0.015688   0.039224 & 5.611448 r
+  u_lanes/u_rng/FE_USKC64_CTS_16/Y (BUFX2)    0.005044   0.032150 & 5.643598 r
+  u_lanes/u_rng/FE_USKC65_CTS_16/Y (BUFX2)    0.006649   0.033246 & 5.676844 r
+  u_lanes/u_rng/u_reg_31_/CLK (DFFSR)         0.006650   0.000054 & 5.676898 r
+  clock reconvergence pessimism                          0.000000   5.676898
+  clock uncertainty                                      -0.100000  5.576898
+  library setup time                                     -0.082443  5.494454
+  data required time                                                5.494454
+  -----------------------------------------------------------------------------
+  data required time                                                5.494454
+  data arrival time                                                 -5.122092
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.372363
+
+
+  Startpoint: u_lanes/u_rng/s3_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_rng/u_reg_28_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: CTS_ccl_a_buf_00073/Y
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 0.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 0.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 0.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 0.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 0.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 0.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 0.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 0.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 0.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 0.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066920   0.072816 & 0.427151 r
+  CTS_ccl_a_buf_00071/Y (BUFX4)               0.089545   0.066939 & 0.494090 r
+  u_lanes/u_rng/CTS_ccl_a_buf_00058/Y (BUFX4) 0.069753   0.060915 & 0.555005 r
+  u_lanes/u_rng/s3_reg_5_/CLK (DFFSR)         0.069982   0.002892 & 0.557897 r
+  u_lanes/u_rng/s3_reg_5_/Q (DFFSR)           0.018647   0.127592 & 0.685488 f
+  u_lanes/u_rng/U142/Y (BUFX4)                0.012795   0.053364 & 0.738853 f
+  u_lanes/u_rng/intadd_0_U20/YC (FAX1)        0.030922   0.088695 & 0.827548 f
+  u_lanes/u_rng/intadd_0_U19/YC (FAX1)        0.030414   0.083057 & 0.910605 f
+  u_lanes/u_rng/intadd_0_U18/YC (FAX1)        0.037641   0.088350 & 0.998955 f
+  u_lanes/u_rng/intadd_0_U17/YC (FAX1)        0.031263   0.085064 & 1.084019 f
+  u_lanes/u_rng/intadd_0_U16/YC (FAX1)        0.032873   0.084895 & 1.168914 f
+  u_lanes/u_rng/intadd_0_U15/YC (FAX1)        0.037025   0.088308 & 1.257222 f
+  u_lanes/u_rng/intadd_0_U14/YC (FAX1)        0.029968   0.084002 & 1.341224 f
+  u_lanes/u_rng/intadd_0_U13/YC (FAX1)        0.032750   0.084523 & 1.425747 f
+  u_lanes/u_rng/intadd_0_U12/YC (FAX1)        0.033864   0.085993 & 1.511740 f
+  u_lanes/u_rng/intadd_0_U11/YC (FAX1)        0.031181   0.084212 & 1.595952 f
+  u_lanes/u_rng/intadd_0_U10/YC (FAX1)        0.031187   0.083663 & 1.679615 f
+  u_lanes/u_rng/intadd_0_U9/YC (FAX1)         0.031414   0.083808 & 1.763423 f
+  u_lanes/u_rng/intadd_0_U8/YC (FAX1)         0.031175   0.083688 & 1.847111 f
+  u_lanes/u_rng/intadd_0_U7/YC (FAX1)         0.031058   0.083581 & 1.930692 f
+  u_lanes/u_rng/intadd_0_U6/YC (FAX1)         0.035194   0.086608 & 2.017300 f
+  u_lanes/u_rng/intadd_0_U5/YC (FAX1)         0.032905   0.085662 & 2.102962 f
+  u_lanes/u_rng/intadd_0_U4/YC (FAX1)         0.031197   0.083951 & 2.186913 f
+  u_lanes/u_rng/intadd_0_U3/YC (FAX1)         0.032175   0.084364 & 2.271277 f
+  u_lanes/u_rng/intadd_0_U2/YC (FAX1)         0.019421   0.075099 & 2.346376 f
+  u_lanes/u_rng/U927_dup/Y (INVX1)            0.000000   0.011527 & 2.357902 r
+  u_lanes/u_rng/U929/Y (AOI22X1)              0.035101   0.015000 & 2.372902 f
+  u_lanes/u_rng/U17/Y (BUFX2)                 0.014237   0.043798 & 2.416701 f
+  u_lanes/u_rng/intadd_2_U7/YC (FAX1)         0.031055   0.080660 & 2.497360 f
+  u_lanes/u_rng/intadd_2_U6/YC (FAX1)         0.033716   0.085504 & 2.582865 f
+  u_lanes/u_rng/intadd_2_U5/YC (FAX1)         0.030233   0.083500 & 2.666365 f
+  u_lanes/u_rng/intadd_2_U4/YC (FAX1)         0.029751   0.082355 & 2.748720 f
+  u_lanes/u_rng/intadd_2_U3/YC (FAX1)         0.033333   0.084921 & 2.833642 f
+  u_lanes/u_rng/intadd_2_U2/YC (FAX1)         0.034043   0.086232 & 2.919873 f
+  u_lanes/u_rng/U939/Y (MUX2X1)               0.059544   0.057367 & 2.977240 r
+  u_lanes/u_rng/U940/Y (MUX2X1)               0.097259   0.086294 & 3.063534 r
+  u_lanes/u_rng/FE_OCPC46_n893/Y (BUFX2)      0.030599   0.049310 & 3.112844 r
+  u_lanes/u_rng/U942/Y (AOI22X1)              0.037494   0.022182 & 3.135026 f
+  u_lanes/u_rng/FE_OCPC51_n899/Y (BUFX2)      0.012632   0.042645 & 3.177670 f
+  u_lanes/u_rng/U945/Y (OAI21X1)              0.050420   0.048147 & 3.225817 r
+  u_lanes/u_rng/U947_dup/Y (AOI22X1)          0.037092   0.038694 & 3.264512 f
+  u_lanes/u_rng/U948/Y (OR2X1)                0.013669   0.044732 & 3.309243 f
+  u_lanes/u_rng/U949/Y (AOI22X1)              0.071358   0.045680 & 3.354924 r
+  u_lanes/u_rng/U11_dup/Y (OAI21X1)           0.009096   0.029511 & 3.384435 f
+  u_lanes/u_rng/U204/Y (NAND2X1)              0.048308   0.035232 & 3.419667 r
+  u_lanes/u_rng/U201/Y (INVX1)                0.009670   0.026698 & 3.446365 f
+  u_lanes/u_rng/U90/Y (OR2X1)                 0.014547   0.043028 & 3.489393 f
+  u_lanes/u_rng/U951/Y (AOI22X1)              0.067530   0.042582 & 3.531975 r
+  u_lanes/u_rng/U14/Y (OR2X2)                 0.036478   0.056514 & 3.588489 r
+  u_lanes/u_rng/U953/Y (AOI22X1)              0.038340   0.024414 & 3.612903 f
+  u_lanes/u_rng/U281_dup/Y (OR2X2)            0.018238   0.047563 & 3.660466 f
+  u_lanes/u_rng/U954/Y (AOI22X1)              0.050680   0.033409 & 3.693876 r
+  u_lanes/u_rng/U12/Y (OR2X2)                 0.023280   0.048358 & 3.742234 r
+  u_lanes/u_rng/U956/Y (AOI22X1)              0.041542   0.023164 & 3.765398 f
+  u_lanes/u_rng/U278/Y (OR2X2)                0.016819   0.047809 & 3.813206 f
+  u_lanes/u_rng/U957_dup/Y (AOI22X1)          0.049241   0.031890 & 3.845097 r
+  u_lanes/u_rng/FE_OCPC36_n925/Y (BUFX2)      0.028312   0.047510 & 3.892606 r
+  u_lanes/u_rng/U959_dup1/Y (AOI22X1)         0.037795   0.033513 & 3.926119 f
+  u_lanes/u_rng/U272/Y (OR2X2)                0.019334   0.047696 & 3.973815 f
+  u_lanes/u_rng/U960_dup/Y (AOI22X1)          0.050361   0.033498 & 4.007313 r
+  u_lanes/u_rng/U13/Y (OR2X2)                 0.024501   0.049159 & 4.056472 r
+  u_lanes/u_rng/U962_dup/Y (AOI22X1)          0.036300   0.019608 & 4.076080 f
+  u_lanes/u_rng/U275/Y (OR2X2)                0.017672   0.046378 & 4.122458 f
+  u_lanes/u_rng/U963_dup/Y (AOI22X1)          0.051559   0.033574 & 4.156032 r
+  u_lanes/u_rng/U16/Y (OR2X2)                 0.026945   0.049217 & 4.205249 r
+  u_lanes/u_rng/U965/Y (AOI22X1)              0.037790   0.021361 & 4.226610 f
+  u_lanes/u_rng/U266/Y (OR2X2)                0.013503   0.043691 & 4.270301 f
+  u_lanes/u_rng/U966/Y (AOI22X1)              0.052158   0.032712 & 4.303013 r
+  u_lanes/u_rng/U18/Y (BUFX2)                 0.027113   0.046790 & 4.349803 r
+  u_lanes/u_rng/intadd_1_U10/YC (FAX1)        0.053939   0.076787 & 4.426589 r
+  u_lanes/u_rng/intadd_1_U9/YC (FAX1)         0.049175   0.075853 & 4.502442 r
+  u_lanes/u_rng/intadd_1_U8/YC (FAX1)         0.059726   0.082323 & 4.584765 r
+  u_lanes/u_rng/intadd_1_U7/YC (FAX1)         0.058313   0.082566 & 4.667331 r
+  u_lanes/u_rng/intadd_1_U6/YC (FAX1)         0.053228   0.078972 & 4.746303 r
+  u_lanes/u_rng/intadd_1_U5/YC (FAX1)         0.049649   0.076070 & 4.822373 r
+  u_lanes/u_rng/intadd_1_U4/YS (FAX1)         0.011874   0.084131 & 4.906504 f
+  u_lanes/u_rng/U978/Y (OAI21X1)              0.038279   0.041373 & 4.947876 r
+  u_lanes/u_rng/u_reg_28_/D (DFFSR)           0.038279   0.000029 & 4.947906 r
+  data arrival time                                                 4.947906
+
+  clock clk (rise edge)                                  5.000000   5.000000
+  clock source latency                                   0.000000   5.000000
+  clk (in)                                    0.000000   0.000000 & 5.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 5.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 5.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 5.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 5.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 5.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 5.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 5.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 5.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 5.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 5.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066645   0.073448 & 5.427783 r
+  CTS_ccl_a_buf_00067/Y (BUFX4)               0.094772   0.070255 & 5.498038 r
+  u_lanes/CTS_ccl_a_buf_00052/Y (BUFX4)       0.081116   0.069510 & 5.567548 r
+  u_lanes/u_rng/u_reg_28_/CLK (DFFSR)         0.081192   0.000773 & 5.568321 r
+  clock reconvergence pessimism                          0.000000   5.568321
+  clock uncertainty                                      -0.100000  5.468321
+  library setup time                                     -0.091327  5.376994
+  data required time                                                5.376994
+  -----------------------------------------------------------------------------
+  data required time                                                5.376994
+  data arrival time                                                 -4.947906
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.429089
+
+
+  Startpoint: u_lanes/u_rng/s3_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_rng/u_reg_27_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: CTS_ccl_a_buf_00073/Y
+  Path Group: clk
+  Path Type: max
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 0.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 0.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 0.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 0.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 0.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 0.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 0.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 0.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 0.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 0.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066920   0.072816 & 0.427151 r
+  CTS_ccl_a_buf_00071/Y (BUFX4)               0.089545   0.066939 & 0.494090 r
+  u_lanes/u_rng/CTS_ccl_a_buf_00058/Y (BUFX4) 0.069753   0.060915 & 0.555005 r
+  u_lanes/u_rng/s3_reg_5_/CLK (DFFSR)         0.069982   0.002892 & 0.557897 r
+  u_lanes/u_rng/s3_reg_5_/Q (DFFSR)           0.018647   0.127592 & 0.685488 f
+  u_lanes/u_rng/U142/Y (BUFX4)                0.012795   0.053364 & 0.738853 f
+  u_lanes/u_rng/intadd_0_U20/YC (FAX1)        0.030922   0.088695 & 0.827548 f
+  u_lanes/u_rng/intadd_0_U19/YC (FAX1)        0.030414   0.083057 & 0.910605 f
+  u_lanes/u_rng/intadd_0_U18/YC (FAX1)        0.037641   0.088349 & 0.998954 f
+  u_lanes/u_rng/intadd_0_U17/YC (FAX1)        0.031263   0.085064 & 1.084019 f
+  u_lanes/u_rng/intadd_0_U16/YC (FAX1)        0.032873   0.084895 & 1.168914 f
+  u_lanes/u_rng/intadd_0_U15/YC (FAX1)        0.037025   0.088308 & 1.257222 f
+  u_lanes/u_rng/intadd_0_U14/YC (FAX1)        0.029968   0.084002 & 1.341224 f
+  u_lanes/u_rng/intadd_0_U13/YC (FAX1)        0.032750   0.084523 & 1.425747 f
+  u_lanes/u_rng/intadd_0_U12/YC (FAX1)        0.033864   0.085993 & 1.511740 f
+  u_lanes/u_rng/intadd_0_U11/YC (FAX1)        0.031181   0.084212 & 1.595952 f
+  u_lanes/u_rng/intadd_0_U10/YC (FAX1)        0.031187   0.083663 & 1.679615 f
+  u_lanes/u_rng/intadd_0_U9/YC (FAX1)         0.031414   0.083808 & 1.763422 f
+  u_lanes/u_rng/intadd_0_U8/YC (FAX1)         0.031175   0.083688 & 1.847111 f
+  u_lanes/u_rng/intadd_0_U7/YC (FAX1)         0.031058   0.083581 & 1.930692 f
+  u_lanes/u_rng/intadd_0_U6/YC (FAX1)         0.035194   0.086608 & 2.017299 f
+  u_lanes/u_rng/intadd_0_U5/YC (FAX1)         0.032905   0.085662 & 2.102961 f
+  u_lanes/u_rng/intadd_0_U4/YC (FAX1)         0.031197   0.083951 & 2.186912 f
+  u_lanes/u_rng/intadd_0_U3/YC (FAX1)         0.032175   0.084364 & 2.271276 f
+  u_lanes/u_rng/intadd_0_U2/YC (FAX1)         0.019421   0.075099 & 2.346375 f
+  u_lanes/u_rng/U927_dup/Y (INVX1)            0.000000   0.011527 & 2.357902 r
+  u_lanes/u_rng/U929/Y (AOI22X1)              0.035101   0.015000 & 2.372902 f
+  u_lanes/u_rng/U17/Y (BUFX2)                 0.014237   0.043798 & 2.416700 f
+  u_lanes/u_rng/intadd_2_U7/YC (FAX1)         0.031055   0.080660 & 2.497360 f
+  u_lanes/u_rng/intadd_2_U6/YC (FAX1)         0.033716   0.085504 & 2.582865 f
+  u_lanes/u_rng/intadd_2_U5/YC (FAX1)         0.030233   0.083500 & 2.666365 f
+  u_lanes/u_rng/intadd_2_U4/YC (FAX1)         0.029751   0.082355 & 2.748720 f
+  u_lanes/u_rng/intadd_2_U3/YC (FAX1)         0.033333   0.084921 & 2.833641 f
+  u_lanes/u_rng/intadd_2_U2/YC (FAX1)         0.034043   0.086231 & 2.919873 f
+  u_lanes/u_rng/U939/Y (MUX2X1)               0.059544   0.057367 & 2.977240 r
+  u_lanes/u_rng/U940/Y (MUX2X1)               0.097259   0.086294 & 3.063534 r
+  u_lanes/u_rng/FE_OCPC46_n893/Y (BUFX2)      0.030599   0.049310 & 3.112844 r
+  u_lanes/u_rng/U942/Y (AOI22X1)              0.037494   0.022182 & 3.135025 f
+  u_lanes/u_rng/FE_OCPC51_n899/Y (BUFX2)      0.012632   0.042645 & 3.177670 f
+  u_lanes/u_rng/U945/Y (OAI21X1)              0.050420   0.048147 & 3.225817 r
+  u_lanes/u_rng/U947_dup/Y (AOI22X1)          0.037092   0.038694 & 3.264511 f
+  u_lanes/u_rng/U948/Y (OR2X1)                0.013669   0.044732 & 3.309243 f
+  u_lanes/u_rng/U949/Y (AOI22X1)              0.071358   0.045680 & 3.354923 r
+  u_lanes/u_rng/U11_dup/Y (OAI21X1)           0.009096   0.029511 & 3.384434 f
+  u_lanes/u_rng/U204/Y (NAND2X1)              0.048308   0.035232 & 3.419666 r
+  u_lanes/u_rng/U201/Y (INVX1)                0.009670   0.026698 & 3.446365 f
+  u_lanes/u_rng/U90/Y (OR2X1)                 0.014547   0.043028 & 3.489393 f
+  u_lanes/u_rng/U951/Y (AOI22X1)              0.067530   0.042582 & 3.531975 r
+  u_lanes/u_rng/U14/Y (OR2X2)                 0.036478   0.056514 & 3.588489 r
+  u_lanes/u_rng/U953/Y (AOI22X1)              0.038340   0.024414 & 3.612903 f
+  u_lanes/u_rng/U281_dup/Y (OR2X2)            0.018238   0.047563 & 3.660466 f
+  u_lanes/u_rng/U954/Y (AOI22X1)              0.050680   0.033409 & 3.693875 r
+  u_lanes/u_rng/U12/Y (OR2X2)                 0.023280   0.048358 & 3.742233 r
+  u_lanes/u_rng/U956/Y (AOI22X1)              0.041542   0.023164 & 3.765397 f
+  u_lanes/u_rng/U278/Y (OR2X2)                0.016819   0.047809 & 3.813206 f
+  u_lanes/u_rng/U957_dup/Y (AOI22X1)          0.049241   0.031890 & 3.845096 r
+  u_lanes/u_rng/FE_OCPC36_n925/Y (BUFX2)      0.028312   0.047510 & 3.892606 r
+  u_lanes/u_rng/U959_dup1/Y (AOI22X1)         0.037795   0.033513 & 3.926119 f
+  u_lanes/u_rng/U272/Y (OR2X2)                0.019334   0.047696 & 3.973814 f
+  u_lanes/u_rng/U960_dup/Y (AOI22X1)          0.050361   0.033498 & 4.007312 r
+  u_lanes/u_rng/U13/Y (OR2X2)                 0.024501   0.049159 & 4.056472 r
+  u_lanes/u_rng/U962_dup/Y (AOI22X1)          0.036300   0.019608 & 4.076079 f
+  u_lanes/u_rng/U275/Y (OR2X2)                0.017672   0.046378 & 4.122458 f
+  u_lanes/u_rng/U963_dup/Y (AOI22X1)          0.051559   0.033574 & 4.156031 r
+  u_lanes/u_rng/U16/Y (OR2X2)                 0.026945   0.049217 & 4.205249 r
+  u_lanes/u_rng/U965/Y (AOI22X1)              0.037790   0.021361 & 4.226610 f
+  u_lanes/u_rng/U266/Y (OR2X2)                0.013503   0.043691 & 4.270301 f
+  u_lanes/u_rng/U966/Y (AOI22X1)              0.052158   0.032712 & 4.303013 r
+  u_lanes/u_rng/U18/Y (BUFX2)                 0.027113   0.046790 & 4.349803 r
+  u_lanes/u_rng/intadd_1_U10/YC (FAX1)        0.053939   0.076786 & 4.426589 r
+  u_lanes/u_rng/intadd_1_U9/YC (FAX1)         0.049175   0.075853 & 4.502442 r
+  u_lanes/u_rng/intadd_1_U8/YC (FAX1)         0.059726   0.082323 & 4.584764 r
+  u_lanes/u_rng/intadd_1_U7/YC (FAX1)         0.058313   0.082566 & 4.667330 r
+  u_lanes/u_rng/intadd_1_U6/YC (FAX1)         0.053228   0.078972 & 4.746303 r
+  u_lanes/u_rng/intadd_1_U5/YS (FAX1)         0.012247   0.084939 & 4.831242 f
+  u_lanes/u_rng/U980/Y (OAI21X1)              0.038336   0.041503 & 4.872745 r
+  u_lanes/u_rng/u_reg_27_/D (DFFSR)           0.038336   0.000032 & 4.872777 r
+  data arrival time                                                 4.872777
+
+  clock clk (rise edge)                                  5.000000   5.000000
+  clock source latency                                   0.000000   5.000000
+  clk (in)                                    0.000000   0.000000 & 5.000000 r
+  CTS_ccl_a_buf_00074/Y (BUFX2)               0.008306   0.048442 & 5.048442 r
+  FE_USKC58_CTS_50/Y (BUFX2)                  0.004945   0.032153 & 5.080595 r
+  FE_USKC62_CTS_50/Y (BUFX2)                  0.005032   0.032217 & 5.112812 r
+  FE_USKC54_CTS_50/Y (BUFX2)                  0.004952   0.032182 & 5.144994 r
+  FE_USKC57_CTS_50/Y (BUFX2)                  0.003501   0.031226 & 5.176220 r
+  FE_USKC61_CTS_50/Y (BUFX2)                  0.003293   0.031064 & 5.207284 r
+  FE_USKC56_CTS_50/Y (BUFX2)                  0.003866   0.031439 & 5.238723 r
+  FE_USKC59_CTS_50/Y (BUFX2)                  0.003352   0.031116 & 5.269839 r
+  FE_USKC63_CTS_50/Y (BUFX2)                  0.012512   0.037075 & 5.306914 r
+  CTS_cpc_drv_buf_00081/Y (BUFX4)             0.065506   0.047421 & 5.354335 r
+  CTS_ccl_a_buf_00073/Y (BUFX4)               0.066645   0.073448 & 5.427783 r
+  CTS_ccl_a_buf_00067/Y (BUFX4)               0.094772   0.070255 & 5.498038 r
+  u_lanes/CTS_ccl_a_buf_00052/Y (BUFX4)       0.081116   0.069510 & 5.567548 r
+  u_lanes/u_rng/u_reg_27_/CLK (DFFSR)         0.081195   0.000810 & 5.568358 r
+  clock reconvergence pessimism                          0.000000   5.568358
+  clock uncertainty                                      -0.100000  5.468358
+  library setup time                                     -0.091337  5.377021
+  data required time                                                5.377021
+  -----------------------------------------------------------------------------
+  data required time                                                5.377021
+  data arrival time                                                 -4.872777
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.504244
+
+Warning: report_timing has satisfied the max_paths criteria. There are 1797 further endpoints which have paths of interest with slack less than 100.000000 that were not considered when generating this report. (UITE-502)
+
+1

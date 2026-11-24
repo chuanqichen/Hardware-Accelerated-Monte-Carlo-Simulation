@@ -1,0 +1,12 @@
+Command: /home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/simv +CASES=/home/work/teh969/mc_closure_20261123/tmp/setupfix_v1_20261123_inputs/mc_array_l2_k10.hex +CYCLE_CSV=/home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/cycles.csv +VCD=/home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/activity.vcd -l /home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 23 23:21 2026
+ACTIVITY_WINDOW start_ns=1270.000 stop_ns=3834.500 trials=1000 case_id=2 clock_period_ns=5.000 a=04a2a b=0ccd k=006400
+PASS: tb_mc_array L=2 G=1 M=1 A=10 K=10 cases=27 trials=27495
+$finish called from file "tb/tb_mc_array.sv", line 143.
+$finish at simulation time             75649500
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 75649500 ps
+CPU Time:      6.590 seconds;       Data structure size:   1.6Mb
+Mon Nov 23 23:21:51 2026

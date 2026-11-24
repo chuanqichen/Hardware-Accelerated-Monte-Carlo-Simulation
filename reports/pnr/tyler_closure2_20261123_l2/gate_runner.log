@@ -1,0 +1,250 @@
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Mon Nov 23 23:21:37 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.v'
+Parsing design file '/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v'
+Parsing design file 'tb/tb_mc_array.sv'
+Top Level Modules:
+       tb_mc_array
+assign 2 tb_mc_array.LANES (Command line)
+assign 5.0 tb_mc_array.CLOCK_PERIOD_NS (Command line)
+TimeScale is 1 ns / 1 ps
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2281
+mc_controller_LANES2, "HAX1 U332( .A (n80),  .B (n377),  .YS (n722));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2288
+mc_controller_LANES2, "HAX1 U334( .A (n21),  .B (n716),  .YS (n381));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2295
+mc_controller_LANES2, "HAX1 U336( .A (n118),  .B (n718),  .YS (n380));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2320
+mc_controller_LANES2, "HAX1 U344( .A (n22),  .B (n701),  .YS (n390));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2327
+mc_controller_LANES2, "HAX1 U346( .A (n695),  .B (n16),  .YS (n389));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2350
+mc_controller_LANES2, "HAX1 U354( .A (n23),  .B (n688),  .YS (n401));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2357
+mc_controller_LANES2, "HAX1 U356( .A (n5),  .B (n684),  .YS (n400));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2382
+mc_controller_LANES2, "HAX1 U363( .A (n25),  .B (n706),  .YS (n410));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2389
+mc_controller_LANES2, "HAX1 U365( .A (n704),  .B (n20),  .YS (n409));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2431
+mc_controller_LANES2, "HAX1 U377( .A (n27),  .B (n659),  .YS (n424));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2437
+mc_controller_LANES2, "HAX1 U379( .A (n663),  .B (n18),  .YS (n423));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2465
+mc_controller_LANES2, "HAX1 U387( .A (n26),  .B (n676),  .YS (n433));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2472
+mc_controller_LANES2, "HAX1 U389( .A (n680),  .B (n2),  .YS (n432));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2497
+mc_controller_LANES2, "HAX1 U396( .A (n24),  .B (n674),  .YS (n442));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2504
+mc_controller_LANES2, "HAX1 U398( .A (n670),  .B (n17),  .YS (n441));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2532
+mc_controller_LANES2, "HAX1 U406( .A (n117),  .B (n657),  .YS (n452));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 2539
+mc_controller_LANES2, "HAX1 U408( .A (n653),  .B (n19),  .YS (n451));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 3706
+mc_controller_LANES2, "FAX1 U268( .A (n216),  .B (n215),  .C (n13),  .YS (n225));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l2/mc_top.routed.v, 3720
+mc_controller_LANES2, "FAX1 U275( .A (n202),  .B (n201),  .C (n8),  .YS (n207));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+
+46 modules and 2 UDPs read.
+recompiling package mc_pkg
+recompiling module AND2X2
+recompiling module AOI21X1
+recompiling module AOI22X1
+recompiling module BUFX2
+recompiling module BUFX4
+recompiling module CLKBUF1
+recompiling module CLKBUF2
+recompiling module CLKBUF3
+recompiling module DFFPOSX1
+recompiling module DFFSR
+recompiling module FAX1
+recompiling module HAX1
+recompiling module INVX1
+recompiling module INVX2
+recompiling module INVX4
+recompiling module INVX8
+recompiling module MUX2X1
+recompiling module NAND2X1
+recompiling module NAND3X1
+recompiling module NOR2X1
+recompiling module NOR3X1
+recompiling module OAI21X1
+recompiling module OR2X1
+recompiling module OR2X2
+recompiling module XNOR2X1
+recompiling module XOR2X1
+recompiling module rst_sync_STAGES2
+recompiling module mc_controller_LANES2
+recompiling module rng_lane_1
+recompiling module round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1_1
+recompiling module exp2_rom_ADDR_BITS10_OUT_WIDTH17_1
+recompiling module exp2_unit_EXP_ADDR_BITS10_1
+recompiling module pipe_W1_N3_1
+recompiling module price_dp_EXP_ADDR_BITS10_MUL_STAGES1_1
+recompiling module exp2_rom_ADDR_BITS10_OUT_WIDTH17_0
+recompiling module exp2_unit_EXP_ADDR_BITS10_0
+recompiling module round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1_0
+recompiling module pipe_W1_N3_0
+recompiling module price_dp_EXP_ADDR_BITS10_MUL_STAGES1_0
+recompiling module accumulator_2_22_64_32_1
+recompiling module gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1_0
+recompiling module rng_lane_0
+recompiling module mc_lane_array_LANES2_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10
+recompiling module mc_top
+recompiling module tb_mc_array
+All of 46 modules done
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/simv ]; then chmod a-x /home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/simv; fi
+g++  -o /home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib -L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _1961842_archive_1.so objs/udps/exIG1.o objs/udps/U7Vwg.o  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+/home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l2_routed/simv up to date
+/usr/local/packages/synopsys_2022/vcs/T-2022.06/bin/vcs: line 34205: 1962801 Segmentation fault      (core dumped) ${TOOL_HOME}/bin/cfs_ident_exec -f ${XML_INPUT_EXE} -o "${fsearchDir}/idents_tapi.xml" -o_SrcFile "${dirSrcFiles}/src_files_c" ${all_dyn_libs} > tapi_xml_writer.log
+CPU time: 2.149 seconds to compile + 1.192 seconds to elab + .252 seconds to link
+Notice: timing checks disabled with +notimingcheck at compile-time
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 23 23:21 2026
+ACTIVITY_WINDOW start_ns=1270.000 stop_ns=3834.500 trials=1000 case_id=2 clock_period_ns=5.000 a=04a2a b=0ccd k=006400
+PASS: tb_mc_array L=2 G=1 M=1 A=10 K=10 cases=27 trials=27495
+$finish called from file "tb/tb_mc_array.sv", line 143.
+$finish at simulation time             75649500
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 75649500 ps
+CPU Time:      6.590 seconds;       Data structure size:   1.6Mb
+Mon Nov 23 23:21:51 2026
+GATE_ARRAY_DONE tyler_closure2_20261123_l2_routed (zero-delay functional cells)

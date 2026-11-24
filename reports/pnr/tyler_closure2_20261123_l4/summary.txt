@@ -1,0 +1,6 @@
+design=mc_top
+tag=tyler_closure2_20261123_l4
+die_box={0.0 0.0 453.72 450.3}
+core_box={20.14 20.14 433.58 430.16}
+placed_instances_including_fillers=88508
+result=implementation_completed_review_timing_drc_connectivity_and_rc_assumptions

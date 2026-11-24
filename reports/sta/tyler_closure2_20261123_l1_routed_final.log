@@ -1,0 +1,250 @@
+
+                                 PrimeTime (R)
+
+               Version T-2022.03-SP5 for linux64 - Oct 05, 2022 
+
+                    Copyright (c) 1988 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+# Independent PrimeTime check of a netlist and its exported SDC.
+# Optional SPEF enables extracted parasitics and propagated clocks.
+set root [file normalize [file join [file dirname [info script]] ../..]]
+/home/work/teh969/mc_closure_20261123
+if {[catch {
+  source [file join $root scripts syn config.tcl]
+  foreach name {NETLIST MAPPED_SDC} {
+    if {![info exists ::env($name)] || ![file isfile $::env($name)]} {
+      error "$name must name an existing mapped input"
+    }
+  }
+  set netlist [file normalize $::env(NETLIST)]
+  set sdc [file normalize $::env(MAPPED_SDC)]
+  set spef ""
+  if {[info exists ::env(SPEF)]} {
+    if {![file isfile $::env(SPEF)] || [file size $::env(SPEF)] == 0} {
+      error "SPEF must name an existing nonempty parasitic file"
+    }
+    set spef [file normalize $::env(SPEF)]
+  }
+  set analysis prelayout_ideal_clock_no_extracted_parasitics
+  if {$spef ne ""} { set analysis routed_parasitics_propagated_clocks_review_rc_assumptions }
+  set vcd ""
+  if {[info exists ::env(VCD)]} {
+    foreach name {VCD POWER_WINDOW} {
+      if {![info exists ::env($name)] || ![file isfile $::env($name)] || [file size $::env($name)] == 0} {
+        error "$name must name an existing nonempty activity input"
+      }
+    }
+    set vcd [file normalize $::env(VCD)]
+    set window_file [file normalize $::env(POWER_WINDOW)]
+    set f [open $window_file r]
+    set window [dict create]
+    foreach line [split [string trim [read $f]] \n] {
+      if {![regexp {^([a-z_]+)=(\S+)$} $line -> key value]} { error "Malformed activity metadata" }
+      dict set window $key $value
+    }
+    close $f
+    set start_ns [dict get $window start_ns]
+    set stop_ns [dict get $window stop_ns]
+    set trials [dict get $window trials]
+    if {![string is double -strict $start_ns] || ![string is double -strict $stop_ns] ||
+        ![string is integer -strict $trials] || $trials <= 0 ||
+        !($start_ns >= 0 && $stop_ns > $start_ns && $stop_ns < Inf)} {
+      error "Invalid activity interval or trial count"
+    }
+    set power_enable_analysis true
+    set power_analysis_mode averaged
+  }
+  set lib [mc_library $root db]
+  if {![file isfile $lib]} { error "Missing standard-cell .db: $lib" }
+  set tag "mc_top_[clock format [clock seconds] -format %Y%m%d_%H%M%S]"
+  if {[info exists ::env(STA_TAG)]} { set tag $::env(STA_TAG) }
+  if {![regexp {^[A-Za-z0-9][A-Za-z0-9_.-]*$} $tag]} { error "Invalid STA_TAG" }
+  set out [file join $root reports sta $tag]
+  if {[file exists $out]} { error "Run exists: $out; choose a fresh STA_TAG" }
+  file mkdir $out
+  set f [open $out/source_sha256.txt w]
+  puts $f [exec sha256sum $netlist $sdc $lib [info script] [file join $root scripts syn config.tcl]]
+  if {$spef ne ""} { puts $f [exec sha256sum $spef] }
+  if {$vcd ne ""} { puts $f [exec sha256sum $vcd $window_file] }
+  close $f
+  set f [open $out/inputs.txt w]
+  puts $f "tool=[get_app_var sh_product_version]"
+  puts $f "netlist=$netlist\nsdc=$sdc\nlibrary=$lib\ncorner=typical"
+  puts $f "analysis=$analysis\nspef=$spef"
+  if {$vcd ne ""} { puts $f "vcd=$vcd\nactivity_window=$window\nactivity=zero_delay_gate_simulation" }
+  close $f
+  set_app_var link_path [list * $lib]
+  set_app_var link_create_black_boxes false
+  # PrimeTime checks the characterized recovery/removal arcs by default; audit
+  # the actual tested/untested counts below instead of creating an unknown var.
+  read_verilog $netlist
+  if {![link_design mc_top]} { error "PrimeTime link failed" }
+  set_operating_conditions typical
+  # Innovus emits a DC-style design-selection header. PrimeTime selects the
+  # design through link_design and rejects an argument to current_design.
+  # Its current_design collection also replaces Cadence's get_designs lookup.
+  # Preserve every timing constraint and retain both raw and consumed SDCs.
+  set f [open $sdc r]
+  set sdc_text [read $f]
+  close $f
+  set f [open $out/constraints.pt.sdc w]
+  foreach line [split $sdc_text \n] {
+    if {[regexp {^\s*current_design\s+(\S+)\s*$} $line -> selected_design]} {
+      if {$selected_design ne "mc_top"} { error "SDC selects unexpected design: $selected_design" }
+      puts $f "# mc_top already selected by link_design"
+    } else {
+      puts $f [string map [list {[get_designs {mc_top}]} {[current_design]}] $line]
+    }
+  }
+  close $f
+  set f [open $out/source_sha256.txt a]
+  puts $f [exec sha256sum $out/constraints.pt.sdc]
+  close $f
+  if {[read_sdc $out/constraints.pt.sdc] != 1} { error "Failed to read complete SDC" }
+  if {$vcd ne "" && abs([get_attribute [get_clocks clk] period] - [dict get $window clock_period_ns]) > 1e-6} {
+    error "Activity clock period differs from the timing constraint"
+  }
+  if {$spef ne ""} {
+    set parasitics_log_file $out/parasitics.log
+    read_parasitics $spef
+    set_propagated_clock [all_clocks]
+  }
+  update_timing
+  if {$spef ne ""} {
+    report_annotated_parasitics -check -list_not_annotated -max_nets 100000 > $out/parasitic_annotation.rpt
+  }
+  check_timing -verbose > $out/check_timing.rpt
+  report_units > $out/units.rpt
+  report_clock > $out/clock.rpt
+  # With max_paths > 1, PT otherwise defaults to reporting only negative slack.
+  # Include the worst passing paths too; this affects report selection, not SDC.
+  report_timing -delay_type max -max_paths 5 -slack_lesser_than 100 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/setup.rpt
+  report_timing -delay_type min -max_paths 5 -slack_lesser_than 100 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time > $out/hold.rpt
+  set data_pins [get_pins -of_objects [get_cells -hierarchical * -filter {ref_name == DFFPOSX1}] -filter {lib_pin_name == D}]
+  redirect $out/dffposx1_setup.rpt {
+    if {[sizeof_collection $data_pins] > 0} {
+      report_timing -delay_type max -to $data_pins -max_paths 5 -slack_lesser_than 100 -nosplit -significant_digits 6 -path_type full_clock_expanded -transition_time
+    } else { puts "No DFFPOSX1 data pins" }
+  }
+  report_constraint -all_violators -nosplit -significant_digits 6 > $out/violators.rpt
+  report_analysis_coverage > $out/coverage.rpt
+  report_disable_timing > $out/disabled_timing.rpt
+  set pins [get_pins -of_objects [all_registers] -filter "lib_pin_name == R || lib_pin_name == S"]
+  redirect $out/reset_timing.rpt {
+    if {[sizeof_collection $pins] > 0} {
+      report_timing -delay_type max -to $pins -max_paths 2 -nosplit -significant_digits 6
+      report_timing -delay_type min -to $pins -max_paths 2 -nosplit -significant_digits 6
+    } else { puts "No asynchronous reset pins" }
+  }
+  set setup [get_timing_paths -delay_type max -max_paths 1]
+  set hold [get_timing_paths -delay_type min -max_paths 1]
+  if {[sizeof_collection $setup] != 1 || [sizeof_collection $hold] != 1} {
+    error "Missing setup or hold timing paths"
+  }
+  set f [open $out/summary.txt w]
+  puts $f "design=mc_top\nsetup_slack_ns=[get_attribute $setup slack]"
+  puts $f "hold_slack_ns=[get_attribute $hold slack]"
+  puts $f "result=analysis_completed_review_violations_and_coverage"
+  close $f
+  if {$vcd ne ""} {
+    read_vcd -strip_path tb_mc_array/dut -zero_delay -time [list $start_ns $stop_ns] $vcd
+    update_power
+    report_power -verbose > $out/power.rpt
+    report_switching_activity > $out/activity.rpt
+  }
+} reason]} {
+  puts stderr "STA failed: $reason"
+  exit 1
+}
+Information: Checked out license 'PrimePower' (PT-019)
+Loading verilog file '/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure2_20261123_l1/mc_top.routed.v'
+Loading db file '/home/work/teh969/mc_closure_20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.db'
+Linking design mc_top...
+Information: Removing 12 unneeded designs..... (LNK-034)
+Information: 8 (25.81%) library cells are unused in library gscl45nm..... (LNK-045)
+Information: total 8 library cells are unused (LNK-046)
+Design 'mc_top' was successfully linked.
+Information: There are 11587 leaf cells, ports, hiers and 12805 nets in the design (LNK-047)
+
+Reading SDC version 2.1...
+1
+Information: Log for 'read_parasitics command' will be generated in '/home/work/teh969/mc_closure_20261123/reports/sta/tyler_closure2_20261123_l1_routed_final/parasitics.log'. (PARA-107)
+Information: Building multi voltage information for entire design. (MV-022)
+Warning: Some timing arcs have been disabled for breaking timing loops or because of constant propagation. Use the 'report_disable_timing' command to get the list of these disabled timing arcs. (PTE-003)
+Warning: Failed to compute C-effective for the timing arc (gscl45nm/BUFX4) CTS_cpc_drv_buf_00081/A-->Y (max-falling positive_unate) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0.0125173/0.00398066, out_cap = 0.0160121  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc (gscl45nm/BUFX4) CTS_cpc_drv_buf_00081/A-->Y (min-falling positive_unate) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0.0125173/0.00398066, out_cap = 0.0160121  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_addr[5] (max-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.0061669  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_addr[5] (min-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.0061669  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_wdata[15] (max-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.0063433  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_wdata[15] (min-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.0063433  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_wdata[12] (max-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.00708804  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_wdata[14] (max-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.00345115  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_wdata[12] (min-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.00708804  (lib units)] (RC-004)
+Warning: Failed to compute C-effective for the timing arc through port cfg_wdata[14] (min-rising) because the library data indicates a non-positive drive resistance. [r/f inp_slew = 0/0, out_cap = 0.00345115  (lib units)] (RC-004)
+Information: Reading file activity.vcd to annotate toggle rates on the design...
+Information: Reading vcd file '/home/work/teh969/mc_closure_20261123/reports/sim/tyler_closure2_20261123_l1_routed/activity.vcd'
+
+======================================================================
+Summary:
+Total number of nets = 11738
+Number of annotated nets = 11738 (100.00%)
+Total number of leaf cells = 11392
+Number of fully annotated leaf cells = 10637 (93.37%)
+======================================================================
+
+Information: Total number of synthesis invariant points = 957 , annotated synthesis invariant points = 957, annotation_ratio = 100.00%
+Information: Running averaged power analysis... (PWR-601)
+Information: Running power calculation with 4 threads. (PWR-602)
+puts "STA_DONE $tag ($analysis; inspect hold, electrical and coverage reports)"
+STA_DONE tyler_closure2_20261123_l1_routed_final (routed_parasitics_propagated_clocks_review_rc_assumptions; inspect hold, electrical and coverage reports)
+exit 0
+Information: Defining new variable 'f'. (CMD-041)
+Information: Defining new variable 'reason'. (CMD-041)
+Information: Defining new variable 'window_file'. (CMD-041)
+Information: Defining new variable 'analysis'. (CMD-041)
+Information: Defining new variable '->'. (CMD-041)
+Information: Defining new variable 'selected_design'. (CMD-041)
+Information: Defining new variable 'pins'. (CMD-041)
+Information: Defining new variable 'data_pins'. (CMD-041)
+Information: Defining new variable 'key'. (CMD-041)
+Information: Defining new variable 'lib'. (CMD-041)
+Information: Defining new variable 'sdc_text'. (CMD-041)
+Information: Defining new variable 'out'. (CMD-041)
+Information: Defining new variable 'sdc'. (CMD-041)
+Information: Defining new variable 'netlist'. (CMD-041)
+Information: Defining new variable 'tag'. (CMD-041)
+Information: Defining new variable 'window'. (CMD-041)
+Information: Defining new variable 'line'. (CMD-041)
+Information: Defining new variable 'vcd'. (CMD-041)
+Information: Defining new variable 'value'. (CMD-041)
+Information: Defining new variable 'root'. (CMD-041)
+Information: Defining new variable 'name'. (CMD-041)
+Information: Defining new variable 'setup'. (CMD-041)
+Information: Defining new variable 'trials'. (CMD-041)
+Information: Defining new variable 'auto_execs'. (CMD-041)
+Information: Defining new variable 'start_ns'. (CMD-041)
+Information: Defining new variable 'spef'. (CMD-041)
+Information: Defining new variable 'hold'. (CMD-041)
+Information: Defining new variable 'stop_ns'. (CMD-041)
+
+Timing updates: 1 (0 implicit, 1 explicit) (0 incremental, 1 full, 0 logical)
+Noise updates: 0 (0 implicit, 0 explicit) (0 incremental, 0 full)
+Maximum memory usage for this session: 2765.11 MB
+CPU usage for this session: 10 seconds 
+Elapsed time for this session: 7 seconds
+Diagnostics summary: 16 warnings, 37 informationals
+
+Thank you for using pt_shell!
