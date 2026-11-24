@@ -73,6 +73,27 @@ class TestPrelayoutRunner(unittest.TestCase):
                 result = self.run_fixture(mode, phase="pnr")
                 self.assertEqual(result.returncode == 0, mode == "pass", result.stdout + result.stderr)
 
+    def test_synthesis_sweep_rejects_unsupported_lane_lists_before_any_output(self):
+        with tempfile.TemporaryDirectory(prefix="sweep gate ") as directory:
+            root = Path(directory)
+            relative = "scripts/syn/run_multilane_sweep.sh"
+            (root / "scripts/syn").mkdir(parents=True)
+            shutil.copyfile(ROOT / relative, root / relative)
+            (root / "fake_bin").mkdir()
+            compiler = root / "fake_bin/dc_shell"
+            with compiler.open("w", newline="\n") as file:
+                file.write("#!/bin/bash\nexit 0\n")
+            compiler.chmod(0o755)
+            for lanes in ("3", "1 8", "1,2"):
+                with self.subTest(lanes=lanes):
+                    env = dict(os.environ, LANES_LIST=lanes, BATCH="lane_gate")
+                    result = subprocess.run([BASH, "-c", f'export PATH="$PWD/fake_bin:$PATH"; bash {relative}'],
+                                            cwd=root, env=env, capture_output=True, text=True, timeout=20)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertIn("LANES_LIST supports 1, 2, 4", result.stderr)
+                    self.assertFalse((root / "tmp").exists())
+                    self.assertFalse((root / "reports").exists())
+
     @unittest.skipUnless(shutil.which("tclsh"), "Tcl shell required")
     def test_invalid_spef_is_rejected_before_analysis(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -41,8 +41,8 @@ checks both hashes. A changed Liberty file with a stale DB fails before use.
 Explicit `LIB_DB` and `LIB_LIB` overrides remain available. The result collector
 also rejects DC/PT library mismatches and mixed original/corrected DB–Liberty
 pairs, preventing an accidental mixed baseline.
-Overrides must supply both existing files; a half override fails before a tool
-run. The installed/recompiled/fixed comparison supplies each DB with its
+Overrides must supply both existing files; a half override fails at Tcl flow
+startup, before analysis. The installed/recompiled/fixed comparison supplies each DB with its
 corresponding Liberty, including the unchanged original source for the control.
 
 Selection is limited to the four previously identified multi-nanosecond

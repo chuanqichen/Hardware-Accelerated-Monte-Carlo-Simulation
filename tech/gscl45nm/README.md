@@ -5,8 +5,9 @@ and `setup_fixed_v1/gscl45nm.lib`. Both files are committed, so teammates receiv
 the correction by checking out this branch. No library compilation is needed
 for normal use. The selector verifies both file hashes before loading either.
 Explicit `LIB_DB` / `LIB_LIB` overrides remain available for controlled studies.
-Set both to an existing DB/Liberty pair; a half override fails before any tool
-run, so synthesis/STA cannot silently select a different library from Innovus.
+Set both to an existing DB/Liberty pair; a half override fails at Tcl flow
+startup, before analysis, so synthesis/STA cannot silently select a different
+library from Innovus.
 Git attributes preserve the library and archived evidence bytes even when the
 host enables automatic CRLF conversion.
 

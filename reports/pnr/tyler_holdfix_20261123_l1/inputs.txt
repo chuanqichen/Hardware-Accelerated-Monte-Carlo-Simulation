@@ -1,0 +1,15 @@
+netlist=/home/work/teh969/mc_closure_20261123/reports/syn/setupfix_v1_20261123_l1/mc_top.mapped.v
+sdc=/home/work/teh969/mc_closure_20261123/reports/syn/setupfix_v1_20261123_l1/mc_top.mapped.sdc
+library=/home/work/teh969/mc_closure_20261123/tech/gscl45nm/setup_fixed_v1/gscl45nm.lib
+lef=/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.lef
+corner=typical
+initial_utilization=0.60
+core_margin_um=20
+cts_target_transition_ns=0.10
+cts_target_skew_ns=0.10
+update_io_latency=false
+timing_mode=nominal_early_late_same_typical_library_no_derates
+qrc_technology=
+rc_method=native_estimate_no_characterized_cap_table
+hold_target_slack_ns=0.05
+fix_fanout_load=1

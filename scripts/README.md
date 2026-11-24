@@ -112,7 +112,7 @@ same netlist/SDC and replays the model corpus with functional cell models.
 `implement-multilane` adds floorplanning, power wiring, placement, CTS, detailed
 routing, geometry/connectivity checks, and V/SDC/DEF/SPEF/GDS/checkpoint exports.
 It then repeats the functional replay and captures one 1000-trial VCD window for
-PrimeTime power. `LANES_LIST` can select a subset of 1/2/4 for a fresh physical run.
+PrimeTime power. `LANES_LIST` selects a subset of 1/2/4 for either fresh run.
 
 The native extraction model has no characterized cap table in this installation.
 `QRC_TECH` accepts a matching technology file when available; `LIB_LIB`, `TECH_LEF`,

@@ -16,6 +16,35 @@ if {[catch {
   set map [mc_env_or GDS_MAP $pdk/lib/files/gds2_encounter.map]
   set gds_dir [mc_env_or CELL_GDS_DIR $pdk/lib/source/gds]
   set qrc [mc_env_or QRC_TECH ""]
+  # Optional closure policy. The SDC is unchanged; these settings only tell
+  # Innovus to repair the SDC max-fanout limit and to fix hold and setup with
+  # extra margin for the independent PrimeTime check. Defaults reproduce the
+  # baseline flow.
+  set hold_target [mc_env_or HOLD_TARGET_SLACK_NS ""]
+  if {$hold_target ne "" && (![string is double -strict $hold_target] ||
+      $hold_target < 0 || $hold_target > 0.5)} {
+    error "HOLD_TARGET_SLACK_NS must be a number of ns from 0 to 0.5"
+  }
+  set setup_target [mc_env_or SETUP_TARGET_SLACK_NS ""]
+  if {$setup_target ne "" && (![string is double -strict $setup_target] ||
+      $setup_target < 0 || $setup_target > 0.5)} {
+    error "SETUP_TARGET_SLACK_NS must be a number of ns from 0 to 0.5"
+  }
+  set fix_fanout [mc_env_or FIX_FANOUT_LOAD 0]
+  if {$fix_fanout ni {0 1}} { error "FIX_FANOUT_LOAD must be 0 or 1" }
+  # gscl45nm defines no fanout_load, so Innovus sees zero fanout load on every
+  # net while DC/PT count one per sink. place_opt_design deletes DC's buffer
+  # trees first; PRESERVE_SYNTH_BUFFERS keeps them by placing without
+  # pre-place buffer removal, running pre-CTS optimization and not letting
+  # later optimization delete instances.
+  set preserve_buffers [mc_env_or PRESERVE_SYNTH_BUFFERS 0]
+  if {$preserve_buffers ni {0 1}} { error "PRESERVE_SYNTH_BUFFERS must be 0 or 1" }
+  # CCOpt otherwise allows up to 100 sinks per clock-tree driver.
+  set cts_max_fanout [mc_env_or CTS_MAX_FANOUT ""]
+  if {$cts_max_fanout ne "" && (![string is integer -strict $cts_max_fanout] ||
+      $cts_max_fanout < 2 || $cts_max_fanout > 1000)} {
+    error "CTS_MAX_FANOUT must be an integer from 2 to 1000"
+  }
   set inputs [list $netlist $sdc $lib $lef $map]
   if {$qrc ne ""} { lappend inputs $qrc }
   foreach path $inputs {
@@ -39,6 +68,11 @@ if {[catch {
   puts $f "timing_mode=nominal_early_late_same_typical_library_no_derates"
   puts $f "qrc_technology=$qrc"
   puts $f "rc_method=[expr {$qrc eq "" ? "native_estimate_no_characterized_cap_table" : "qrc_technology_file"}]"
+  puts $f "hold_target_slack_ns=[expr {$hold_target eq "" ? "tool_default" : $hold_target}]"
+  puts $f "setup_target_slack_ns=[expr {$setup_target eq "" ? "tool_default" : $setup_target}]"
+  puts $f "fix_fanout_load=$fix_fanout"
+  puts $f "placement=[expr {$preserve_buffers ? "place_design_noPrePlaceOpt_optDesign_preCTS_no_instance_deletion" : "place_opt_design"}]"
+  puts $f "cts_max_fanout=[expr {$cts_max_fanout eq "" ? "tool_default" : $cts_max_fanout}]"
   close $f
   set mmmc [open $out/views.tcl w]
   puts $mmmc [list create_library_set -name typical_lib -timing [list $lib]]
@@ -64,6 +98,10 @@ if {[catch {
   # Post-route SI optimization requires the early/late analysis engine.
   # Both sides use the same typical library; no PVT/OCV coverage is claimed.
   setAnalysisMode -analysisType onChipVariation -cppr none
+  if {$fix_fanout} { setOptMode -fixFanoutLoad true }
+  if {$hold_target ne ""} { setOptMode -holdTargetSlack $hold_target }
+  if {$setup_target ne ""} { setOptMode -setupTargetSlack $setup_target }
+  if {$preserve_buffers} { setOptMode -deleteInst false }
   floorPlan -site CoreSite -r 1.0 0.60 20 20 20 20
   globalNetConnect vdd -type pgpin -pin vdd -all
   globalNetConnect gnd -type pgpin -pin gnd -all
@@ -79,7 +117,12 @@ if {[catch {
   addStripe -nets {gnd vdd} -layer metal6 -direction vertical \
     -width 2 -spacing 2 -set_to_set_distance 40
   sroute -connect {corePin floatingStripe} -nets {gnd vdd}
-  place_opt_design
+  if {$preserve_buffers} {
+    place_design -noPrePlaceOpt
+    optDesign -preCTS
+  } else {
+    place_opt_design
+  }
   saveDesign $out/placed.enc
   timeDesign -preCTS -outDir $out/prects -prefix mc_top
 
@@ -90,6 +133,7 @@ if {[catch {
   set_ccopt_property target_max_trans 0.10
   set_ccopt_property target_skew 0.10
   set_ccopt_property update_io_latency false
+  if {$cts_max_fanout ne ""} { set_ccopt_property max_fanout $cts_max_fanout }
   create_ccopt_clock_tree_spec -file $out/clock_tree.tcl
   ccopt_design -cts
   set_propagated_clock [all_clocks]

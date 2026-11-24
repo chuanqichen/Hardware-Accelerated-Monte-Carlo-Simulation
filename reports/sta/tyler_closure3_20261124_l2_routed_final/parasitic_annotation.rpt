@@ -1,0 +1,123 @@
+1.  u_lanes/g_lane_1__u_gauss/u[11] (driver: pin u_lanes/g_lane_1__u_gauss/u[11])
+2.  u_lanes/g_lane_1__u_gauss/u[6] (driver: pin u_lanes/g_lane_1__u_gauss/u[6])
+3.  u_lanes/g_lane_1__u_gauss/u[1] (driver: pin u_lanes/g_lane_1__u_gauss/u[1])
+4.  u_lanes/g_lane_1__u_gauss/u[17] (driver: pin u_lanes/g_lane_1__u_gauss/u[17])
+5.  u_lanes/g_lane_1__u_gauss/u[12] (driver: pin u_lanes/g_lane_1__u_gauss/u[12])
+6.  u_lanes/g_lane_1__u_gauss/u[7] (driver: pin u_lanes/g_lane_1__u_gauss/u[7])
+7.  u_lanes/g_lane_1__u_gauss/u[2] (driver: pin u_lanes/g_lane_1__u_gauss/u[2])
+8.  u_lanes/g_lane_1__u_gauss/u[18] (driver: pin u_lanes/g_lane_1__u_gauss/u[18])
+9.  u_lanes/g_lane_1__u_gauss/u[13] (driver: pin u_lanes/g_lane_1__u_gauss/u[13])
+10.  u_lanes/g_lane_1__u_gauss/u[8] (driver: pin u_lanes/g_lane_1__u_gauss/u[8])
+11.  u_lanes/g_lane_1__u_gauss/u[3] (driver: pin u_lanes/g_lane_1__u_gauss/u[3])
+12.  u_lanes/g_lane_1__u_gauss/u[19] (driver: pin u_lanes/g_lane_1__u_gauss/u[19])
+13.  u_lanes/g_lane_1__u_gauss/u[14] (driver: pin u_lanes/g_lane_1__u_gauss/u[14])
+14.  u_lanes/g_lane_1__u_gauss/u[9] (driver: pin u_lanes/g_lane_1__u_gauss/u[9])
+15.  u_lanes/g_lane_1__u_gauss/u[4] (driver: pin u_lanes/g_lane_1__u_gauss/u[4])
+16.  u_lanes/g_lane_1__u_gauss/u[20] (driver: pin u_lanes/g_lane_1__u_gauss/u[20])
+17.  u_lanes/g_lane_1__u_gauss/u[15] (driver: pin u_lanes/g_lane_1__u_gauss/u[15])
+18.  u_lanes/g_lane_1__u_gauss/u[10] (driver: pin u_lanes/g_lane_1__u_gauss/u[10])
+19.  u_lanes/g_lane_1__u_gauss/u[5] (driver: pin u_lanes/g_lane_1__u_gauss/u[5])
+20.  u_lanes/g_lane_1__u_gauss/u[21] (driver: pin u_lanes/g_lane_1__u_gauss/u[21])
+21.  u_lanes/g_lane_1__u_gauss/u[0] (driver: pin u_lanes/g_lane_1__u_gauss/u[0])
+22.  u_lanes/g_lane_1__u_gauss/u[16] (driver: pin u_lanes/g_lane_1__u_gauss/u[16])
+23.  u_lanes/u_gauss/u[11] (driver: pin u_lanes/u_gauss/u[11])
+24.  u_lanes/u_gauss/u[6] (driver: pin u_lanes/u_gauss/u[6])
+25.  u_lanes/u_gauss/u[1] (driver: pin u_lanes/u_gauss/u[1])
+26.  u_lanes/u_gauss/u[17] (driver: pin u_lanes/u_gauss/u[17])
+27.  u_lanes/u_gauss/u[12] (driver: pin u_lanes/u_gauss/u[12])
+28.  u_lanes/u_gauss/u[7] (driver: pin u_lanes/u_gauss/u[7])
+29.  u_lanes/u_gauss/u[2] (driver: pin u_lanes/u_gauss/u[2])
+30.  u_lanes/u_gauss/u[18] (driver: pin u_lanes/u_gauss/u[18])
+31.  u_lanes/u_gauss/u[13] (driver: pin u_lanes/u_gauss/u[13])
+32.  u_lanes/u_gauss/u[8] (driver: pin u_lanes/u_gauss/u[8])
+33.  u_lanes/u_gauss/u[3] (driver: pin u_lanes/u_gauss/u[3])
+34.  u_lanes/u_gauss/u[19] (driver: pin u_lanes/u_gauss/u[19])
+35.  u_lanes/u_gauss/u[14] (driver: pin u_lanes/u_gauss/u[14])
+36.  u_lanes/u_gauss/u[9] (driver: pin u_lanes/u_gauss/u[9])
+37.  u_lanes/u_gauss/u[4] (driver: pin u_lanes/u_gauss/u[4])
+38.  u_lanes/u_gauss/u[20] (driver: pin u_lanes/u_gauss/u[20])
+39.  u_lanes/u_gauss/u[15] (driver: pin u_lanes/u_gauss/u[15])
+40.  u_lanes/u_gauss/u[10] (driver: pin u_lanes/u_gauss/u[10])
+41.  u_lanes/u_gauss/u[5] (driver: pin u_lanes/u_gauss/u[5])
+42.  u_lanes/u_gauss/u[21] (driver: pin u_lanes/u_gauss/u[21])
+43.  u_lanes/u_gauss/u[0] (driver: pin u_lanes/u_gauss/u[0])
+44.  u_lanes/u_gauss/u[16] (driver: pin u_lanes/u_gauss/u[16])
+45.  seed_load (driver: <none>)
+46.  u_lanes/SYNOPSYS_UNCONNECTED_10 (driver: <none>)
+47.  u_lanes/SYNOPSYS_UNCONNECTED_11 (driver: <none>)
+48.  u_lanes/SYNOPSYS_UNCONNECTED_12 (driver: <none>)
+49.  u_lanes/SYNOPSYS_UNCONNECTED_13 (driver: <none>)
+50.  u_lanes/SYNOPSYS_UNCONNECTED_14 (driver: <none>)
+51.  u_lanes/SYNOPSYS_UNCONNECTED_15 (driver: <none>)
+52.  u_lanes/SYNOPSYS_UNCONNECTED_16 (driver: <none>)
+53.  u_lanes/SYNOPSYS_UNCONNECTED_17 (driver: <none>)
+54.  u_lanes/SYNOPSYS_UNCONNECTED_18 (driver: <none>)
+55.  u_lanes/SYNOPSYS_UNCONNECTED_19 (driver: <none>)
+56.  u_lanes/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+57.  u_lanes/SYNOPSYS_UNCONNECTED_2 (driver: <none>)
+58.  u_lanes/SYNOPSYS_UNCONNECTED_3 (driver: <none>)
+59.  u_lanes/SYNOPSYS_UNCONNECTED_4 (driver: <none>)
+60.  u_lanes/SYNOPSYS_UNCONNECTED_5 (driver: <none>)
+61.  u_lanes/SYNOPSYS_UNCONNECTED_20 (driver: <none>)
+62.  u_lanes/SYNOPSYS_UNCONNECTED_6 (driver: <none>)
+63.  u_lanes/SYNOPSYS_UNCONNECTED_21 (driver: <none>)
+64.  u_lanes/SYNOPSYS_UNCONNECTED_7 (driver: <none>)
+65.  u_lanes/SYNOPSYS_UNCONNECTED_22 (driver: <none>)
+66.  u_lanes/SYNOPSYS_UNCONNECTED_8 (driver: <none>)
+67.  u_lanes/SYNOPSYS_UNCONNECTED_23 (driver: <none>)
+68.  u_lanes/SYNOPSYS_UNCONNECTED_9 (driver: <none>)
+69.  u_lanes/SYNOPSYS_UNCONNECTED_24 (driver: <none>)
+70.  u_lanes/SYNOPSYS_UNCONNECTED_25 (driver: <none>)
+71.  u_lanes/SYNOPSYS_UNCONNECTED_26 (driver: <none>)
+72.  u_lanes/SYNOPSYS_UNCONNECTED_27 (driver: <none>)
+73.  u_lanes/SYNOPSYS_UNCONNECTED_28 (driver: <none>)
+74.  u_lanes/SYNOPSYS_UNCONNECTED_29 (driver: <none>)
+75.  u_lanes/SYNOPSYS_UNCONNECTED_30 (driver: <none>)
+76.  u_lanes/SYNOPSYS_UNCONNECTED_31 (driver: <none>)
+77.  u_lanes/SYNOPSYS_UNCONNECTED_32 (driver: <none>)
+78.  u_lanes/SYNOPSYS_UNCONNECTED_33 (driver: <none>)
+79.  u_lanes/SYNOPSYS_UNCONNECTED_34 (driver: <none>)
+80.  u_lanes/SYNOPSYS_UNCONNECTED_35 (driver: <none>)
+81.  u_lanes/SYNOPSYS_UNCONNECTED_36 (driver: <none>)
+82.  u_lanes/SYNOPSYS_UNCONNECTED_37 (driver: <none>)
+83.  u_lanes/SYNOPSYS_UNCONNECTED_38 (driver: <none>)
+84.  u_lanes/SYNOPSYS_UNCONNECTED_39 (driver: <none>)
+85.  u_lanes/SYNOPSYS_UNCONNECTED_40 (driver: <none>)
+86.  u_lanes/SYNOPSYS_UNCONNECTED_41 (driver: <none>)
+87.  u_lanes/SYNOPSYS_UNCONNECTED_42 (driver: <none>)
+88.  u_lanes/SYNOPSYS_UNCONNECTED_43 (driver: <none>)
+89.  u_lanes/SYNOPSYS_UNCONNECTED_44 (driver: <none>)
+90.  u_lanes/g_lane_1__u_price/u_exp/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+91.  u_lanes/u_price/u_exp/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+92.  u_lanes/g_lane_1__u_gauss/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+93.  u_lanes/g_lane_1__u_gauss/SYNOPSYS_UNCONNECTED_2 (driver: <none>)
+94.  u_lanes/u_gauss/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+95.  u_lanes/u_gauss/SYNOPSYS_UNCONNECTED_2 (driver: <none>)
+****************************************
+Report : annotated_parasitics
+	-check
+	-internal_nets
+	-boundary_nets
+	-list_not_annotated
+	-max_nets 100000
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 04:29:36 2026
+****************************************
+
+                    |         |         |         |   RC    |   Not   |
+Net Type            |  Total  | Lumped  |  RC pi  | network |Annotated|
+--------------------+---------+---------+---------+---------+---------+
+Internal nets       |         |         |         |         |         |
+  - Pin to pin nets |   20487 |       0 |       0 |   20487 |       0 |
+  - Driverless nets |      95 |       0 |       0 |       0 |      95 |
+  - Loadless nets   |       0 |       0 |       0 |       0 |       0 |
+--------------------+---------+---------+---------+---------+---------+
+Boundary/port nets  |         |         |         |         |         |
+  - Pin to pin nets |     179 |       0 |       0 |     179 |       0 |
+  - Driverless nets |       0 |       0 |       0 |       0 |       0 |
+  - Loadless nets   |       0 |       0 |       0 |       0 |       0 |
+--------------------+---------+---------+---------+---------+---------+
+                    |   20761 |       0 |       0 |   20666 |      95 |
+
+1

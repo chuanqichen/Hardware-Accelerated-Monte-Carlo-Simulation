@@ -1,0 +1,172 @@
+****************************************
+Report : timing
+	-path_type full_clock_expanded
+	-delay_type min
+	-slack_lesser_than 100.000000
+	-max_paths 5
+	-transition_time
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Mon Nov 23 23:36:52 2026
+****************************************
+
+
+  Startpoint: u_lanes/u_price/sx2_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_price/u_sx/g_regs_r_reg_0__0_
+               (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                Trans       Incr       Path
+  -----------------------------------------------------------------------------------
+  clock clk (rise edge)                             0.100000   0.000000   0.000000
+  clock network delay (ideal)                                  0.000000   0.000000
+  u_lanes/u_price/sx2_reg/CLK (DFFPOSX1)            0.100000   0.000000   0.000000 r
+  u_lanes/u_price/sx2_reg/Q (DFFPOSX1)              0.020636   0.104980   0.104980 f
+  u_lanes/u_price/u_sx/g_regs_r_reg_0__0_/D (DFFSR) 0.020636   0.000000   0.104980 f
+  data arrival time                                                       0.104980
+
+  clock clk (rise edge)                             0.100000   0.000000   0.000000
+  clock network delay (ideal)                                  0.000000   0.000000
+  clock reconvergence pessimism                                0.000000   0.000000
+  clock uncertainty                                            0.100000   0.100000
+  u_lanes/u_price/u_sx/g_regs_r_reg_0__0_/CLK (DFFSR)                     0.100000 r
+  library hold time                                            0.046158   0.146158
+  data required time                                                      0.146158
+  -----------------------------------------------------------------------------------
+  data required time                                                      0.146158
+  data arrival time                                                       -0.104980
+  -----------------------------------------------------------------------------------
+  slack (VIOLATED)                                                        -0.041178
+
+
+  Startpoint: u_lanes/g_lane_1__u_price/sx2_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/g_lane_1__u_price/u_sx/g_regs_r_reg_0__0_
+               (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                          Trans       Incr       Path
+  ---------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                       0.100000   0.000000   0.000000
+  clock network delay (ideal)                                            0.000000   0.000000
+  u_lanes/g_lane_1__u_price/sx2_reg/CLK (DFFPOSX1)            0.100000   0.000000   0.000000 r
+  u_lanes/g_lane_1__u_price/sx2_reg/Q (DFFPOSX1)              0.020636   0.104980   0.104980 f
+  u_lanes/g_lane_1__u_price/u_sx/g_regs_r_reg_0__0_/D (DFFSR) 0.020636   0.000000   0.104980 f
+  data arrival time                                                                 0.104980
+
+  clock clk (rise edge)                                       0.100000   0.000000   0.000000
+  clock network delay (ideal)                                            0.000000   0.000000
+  clock reconvergence pessimism                                          0.000000   0.000000
+  clock uncertainty                                                      0.100000   0.100000
+  u_lanes/g_lane_1__u_price/u_sx/g_regs_r_reg_0__0_/CLK (DFFSR)                     0.100000 r
+  library hold time                                                      0.046158   0.146158
+  data required time                                                                0.146158
+  ---------------------------------------------------------------------------------------------
+  data required time                                                                0.146158
+  data arrival time                                                                 -0.104980
+  ---------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                  -0.041178
+
+
+  Startpoint: u_lanes/u_price/u_exp/sat_s_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_price/u_exp/sat_s_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                       0.100000   0.000000   0.000000
+  clock network delay (ideal)                            0.000000   0.000000
+  u_lanes/u_price/u_exp/sat_s_reg/CLK (DFFPOSX1) 0.100000 0.000000  0.000000 r
+  u_lanes/u_price/u_exp/sat_s_reg/Q (DFFPOSX1) 0.020636  0.104980   0.104980 f
+  u_lanes/u_price/u_exp/U514/Y (INVX1)        0.000000   0.006645   0.111625 r
+  u_lanes/u_price/u_exp/U522/Y (OAI21X1)      0.000000   0.011719   0.123344 f
+  u_lanes/u_price/u_exp/sat_s_reg/D (DFFPOSX1) 0.000000  0.000000   0.123344 f
+  data arrival time                                                 0.123344
+
+  clock clk (rise edge)                       0.100000   0.000000   0.000000
+  clock network delay (ideal)                            0.000000   0.000000
+  clock reconvergence pessimism                          0.000000   0.000000
+  clock uncertainty                                      0.100000   0.100000
+  u_lanes/u_price/u_exp/sat_s_reg/CLK (DFFPOSX1)                    0.100000 r
+  library hold time                                      0.062500   0.162500
+  data required time                                                0.162500
+  -----------------------------------------------------------------------------
+  data required time                                                0.162500
+  data arrival time                                                 -0.123344
+  -----------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.039156
+
+
+  Startpoint: u_lanes/g_lane_1__u_price/u_exp/sat_s_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/g_lane_1__u_price/u_exp/sat_s_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                       Trans       Incr       Path
+  ------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                    0.100000   0.000000   0.000000
+  clock network delay (ideal)                                         0.000000   0.000000
+  u_lanes/g_lane_1__u_price/u_exp/sat_s_reg/CLK (DFFPOSX1) 0.100000   0.000000   0.000000 r
+  u_lanes/g_lane_1__u_price/u_exp/sat_s_reg/Q (DFFPOSX1)   0.020636   0.104980   0.104980 f
+  u_lanes/g_lane_1__u_price/u_exp/U514/Y (INVX1)           0.000000   0.006645   0.111625 r
+  u_lanes/g_lane_1__u_price/u_exp/U522/Y (OAI21X1)         0.000000   0.011719   0.123344 f
+  u_lanes/g_lane_1__u_price/u_exp/sat_s_reg/D (DFFPOSX1)   0.000000   0.000000   0.123344 f
+  data arrival time                                                              0.123344
+
+  clock clk (rise edge)                                    0.100000   0.000000   0.000000
+  clock network delay (ideal)                                         0.000000   0.000000
+  clock reconvergence pessimism                                       0.000000   0.000000
+  clock uncertainty                                                   0.100000   0.100000
+  u_lanes/g_lane_1__u_price/u_exp/sat_s_reg/CLK (DFFPOSX1)                       0.100000 r
+  library hold time                                                   0.062500   0.162500
+  data required time                                                             0.162500
+  ------------------------------------------------------------------------------------------
+  data required time                                                             0.162500
+  data arrival time                                                              -0.123344
+  ------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                               -0.039156
+
+
+  Startpoint: u_lanes/u_gauss/z_reg_14_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: u_lanes/u_gauss/z_reg_14_
+               (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                       0.100000   0.000000   0.000000
+  clock network delay (ideal)                            0.000000   0.000000
+  u_lanes/u_gauss/z_reg_14_/CLK (DFFPOSX1)    0.100000   0.000000   0.000000 r
+  u_lanes/u_gauss/z_reg_14_/Q (DFFPOSX1)      0.016985   0.102246   0.102246 f
+  u_lanes/u_gauss/U37/Y (INVX1)               0.000000   0.010376   0.112623 r
+  u_lanes/u_gauss/U62/Y (OAI21X1)             0.000000   0.011719   0.124342 f
+  u_lanes/u_gauss/z_reg_14_/D (DFFPOSX1)      0.000000   0.000000   0.124342 f
+  data arrival time                                                 0.124342
+
+  clock clk (rise edge)                       0.100000   0.000000   0.000000
+  clock network delay (ideal)                            0.000000   0.000000
+  clock reconvergence pessimism                          0.000000   0.000000
+  clock uncertainty                                      0.100000   0.100000
+  u_lanes/u_gauss/z_reg_14_/CLK (DFFPOSX1)                          0.100000 r
+  library hold time                                      0.062500   0.162500
+  data required time                                                0.162500
+  -----------------------------------------------------------------------------
+  data required time                                                0.162500
+  data arrival time                                                 -0.124342
+  -----------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.038158
+
+Warning: report_timing has satisfied the max_paths criteria. There are 245 further endpoints which have paths of interest with slack less than 100.000000 that were not considered when generating this report. (UITE-502)
+
+1

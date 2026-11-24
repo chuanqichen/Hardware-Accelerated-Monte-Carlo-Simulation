@@ -1,0 +1,93 @@
+****************************************
+Report : timing
+	-path_type full
+	-delay_type max
+	-slack_lesser_than 0.000000
+	-max_paths 2
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Mon Nov 23 23:36:52 2026
+****************************************
+
+Warning: There are 1187 invalid end points for constrained paths. (UITE-416)
+No paths with slack less than 0.000000.
+
+****************************************
+Report : timing
+	-path_type full
+	-delay_type min
+	-slack_lesser_than 0.000000
+	-max_paths 2
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Mon Nov 23 23:36:52 2026
+****************************************
+
+Warning: There are 1187 invalid end points for constrained paths. (UITE-416)
+
+  Startpoint: u_reset/chain_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: cfg_k_reg_1_
+               (removal check against rising-edge clock clk)
+  Path Group: **async_default**
+  Path Type: min
+
+  Point                                            Incr       Path
+  -----------------------------------------------------------------------
+  clock clk (rise edge)                        0.000000   0.000000
+  clock network delay (ideal)                  0.000000   0.000000
+  u_reset/chain_reg_1_/CLK (DFFSR)             0.000000   0.000000 r
+  u_reset/chain_reg_1_/Q (DFFSR)               0.126256   0.126256 r
+  u_reset/U6/Y (BUFX2)                         0.131147   0.257403 r
+  cfg_k_reg_1_/R (DFFSR)                       0.000000   0.257403 r
+  data arrival time                                       0.257403
+
+  clock clk (rise edge)                        0.000000   0.000000
+  clock network delay (ideal)                  0.000000   0.000000
+  clock reconvergence pessimism                0.000000   0.000000
+  clock uncertainty                            0.100000   0.100000
+  cfg_k_reg_1_/CLK (DFFSR)                                0.100000 r
+  library removal time                         0.173776   0.273776
+  data required time                                      0.273776
+  -----------------------------------------------------------------------
+  data required time                                      0.273776
+  data arrival time                                       -0.257403
+  -----------------------------------------------------------------------
+  slack (VIOLATED)                                        -0.016374
+
+
+  Startpoint: u_reset/chain_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: cfg_k_reg_2_
+               (removal check against rising-edge clock clk)
+  Path Group: **async_default**
+  Path Type: min
+
+  Point                                            Incr       Path
+  -----------------------------------------------------------------------
+  clock clk (rise edge)                        0.000000   0.000000
+  clock network delay (ideal)                  0.000000   0.000000
+  u_reset/chain_reg_1_/CLK (DFFSR)             0.000000   0.000000 r
+  u_reset/chain_reg_1_/Q (DFFSR)               0.126256   0.126256 r
+  u_reset/U6/Y (BUFX2)                         0.131147   0.257403 r
+  cfg_k_reg_2_/R (DFFSR)                       0.000000   0.257403 r
+  data arrival time                                       0.257403
+
+  clock clk (rise edge)                        0.000000   0.000000
+  clock network delay (ideal)                  0.000000   0.000000
+  clock reconvergence pessimism                0.000000   0.000000
+  clock uncertainty                            0.100000   0.100000
+  cfg_k_reg_2_/CLK (DFFSR)                                0.100000 r
+  library removal time                         0.173776   0.273776
+  data required time                                      0.273776
+  -----------------------------------------------------------------------
+  data required time                                      0.273776
+  data arrival time                                       -0.257403
+  -----------------------------------------------------------------------
+  slack (VIOLATED)                                        -0.016374
+
+Warning: report_timing has satisfied the max_paths criteria. There are 10 further endpoints which have paths of interest with slack less than 0.000000 that were not considered when generating this report. (UITE-502)
+
+1
