@@ -29,9 +29,16 @@ if {[catch {
   # gscl45nm defines no fanout_load, so Innovus sees zero fanout load on every
   # net while DC/PT count one per sink. place_opt_design deletes DC's buffer
   # trees first; PRESERVE_SYNTH_BUFFERS keeps them by placing without
-  # pre-place buffer removal and then running pre-CTS optimization.
+  # pre-place buffer removal, running pre-CTS optimization and not letting
+  # later optimization delete instances.
   set preserve_buffers [mc_env_or PRESERVE_SYNTH_BUFFERS 0]
   if {$preserve_buffers ni {0 1}} { error "PRESERVE_SYNTH_BUFFERS must be 0 or 1" }
+  # CCOpt otherwise allows up to 100 sinks per clock-tree driver.
+  set cts_max_fanout [mc_env_or CTS_MAX_FANOUT ""]
+  if {$cts_max_fanout ne "" && (![string is integer -strict $cts_max_fanout] ||
+      $cts_max_fanout < 2 || $cts_max_fanout > 1000)} {
+    error "CTS_MAX_FANOUT must be an integer from 2 to 1000"
+  }
   set inputs [list $netlist $sdc $lib $lef $map]
   if {$qrc ne ""} { lappend inputs $qrc }
   foreach path $inputs {
@@ -57,7 +64,8 @@ if {[catch {
   puts $f "rc_method=[expr {$qrc eq "" ? "native_estimate_no_characterized_cap_table" : "qrc_technology_file"}]"
   puts $f "hold_target_slack_ns=[expr {$hold_target eq "" ? "tool_default" : $hold_target}]"
   puts $f "fix_fanout_load=$fix_fanout"
-  puts $f "placement=[expr {$preserve_buffers ? "place_design_noPrePlaceOpt_optDesign_preCTS" : "place_opt_design"}]"
+  puts $f "placement=[expr {$preserve_buffers ? "place_design_noPrePlaceOpt_optDesign_preCTS_no_instance_deletion" : "place_opt_design"}]"
+  puts $f "cts_max_fanout=[expr {$cts_max_fanout eq "" ? "tool_default" : $cts_max_fanout}]"
   close $f
   set mmmc [open $out/views.tcl w]
   puts $mmmc [list create_library_set -name typical_lib -timing [list $lib]]
@@ -85,6 +93,7 @@ if {[catch {
   setAnalysisMode -analysisType onChipVariation -cppr none
   if {$fix_fanout} { setOptMode -fixFanoutLoad true }
   if {$hold_target ne ""} { setOptMode -holdTargetSlack $hold_target }
+  if {$preserve_buffers} { setOptMode -deleteInst false }
   floorPlan -site CoreSite -r 1.0 0.60 20 20 20 20
   globalNetConnect vdd -type pgpin -pin vdd -all
   globalNetConnect gnd -type pgpin -pin gnd -all
@@ -116,6 +125,7 @@ if {[catch {
   set_ccopt_property target_max_trans 0.10
   set_ccopt_property target_skew 0.10
   set_ccopt_property update_io_latency false
+  if {$cts_max_fanout ne ""} { set_ccopt_property max_fanout $cts_max_fanout }
   create_ccopt_clock_tree_spec -file $out/clock_tree.tcl
   ccopt_design -cts
   set_propagated_clock [all_clocks]
