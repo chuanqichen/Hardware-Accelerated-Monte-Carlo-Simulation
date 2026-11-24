@@ -30,8 +30,9 @@ SHA-256 for all three lane counts.
    zero target.
 2. **Innovus and PT disagree on every cell delay.** Innovus reports about 10% more
    delay per stage than PT. On the common worst one-lane setup path the difference
-   is about 0.6 ns. SI explains only about 40 ps of it: Innovus arrival is 4.886 ns
-   with SI-aware delay calculation and 4.847 ns without it. gscl45nm delay tables
+   is about 0.6 ns. SI explains only about 40 ps of it. On the `tyler_holdfix`
+   one-lane database, the worst Innovus arrival at `u_lanes/u_rng/u_reg_31_/D` is
+   4.886 ns with SI-aware delay calculation and 4.847 ns without it. gscl45nm delay tables
    start at 0.1 pF load and 0.06 ns input slew. On the PR #22 one-lane layout, the
    4,607 nets that PT lists under max capacitance have 10th to 90th percentile
    loads of 2.3 to 13.1 fF, and the median critical-path slew is 0.033 ns. Cell
@@ -157,4 +158,6 @@ python scripts/classify_violations.py reports/sta/<fresh_tag>_l*_routed_final/vi
 ```
 
 `scripts/pnr/timing_diagnostics.tcl` re-times a saved routed database with SI-aware
-delay calculation on and off and reports named endpoints for same-path comparison.
+delay calculation on and off and reports the worst path to named endpoints for
+same-endpoint comparison. The committed example is
+`reports/pnr/tyler_holdfix_20261123_l1/diagnostics_si/`.
