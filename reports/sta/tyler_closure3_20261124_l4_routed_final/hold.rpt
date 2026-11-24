@@ -1,0 +1,286 @@
+****************************************
+Report : timing
+	-path_type full_clock_expanded
+	-delay_type min
+	-slack_lesser_than 100.000000
+	-max_paths 5
+	-transition_time
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 04:16:28 2026
+****************************************
+
+
+  Startpoint: cfg_seeds_reg_1__21_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: active_seeds_reg_1__21_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00231/Y (BUFX4)               0.081292   0.066195 & 0.340664 r
+  CTS_ccl_a_buf_00218/Y (BUFX4)               0.099751   0.067345 & 0.408010 r
+  CTS_ccl_a_buf_00041/Y (BUFX4)               0.060421   0.049328 & 0.457338 r
+  cfg_seeds_reg_1__21_/CLK (DFFSR)            0.060499   0.001669 & 0.459006 r
+  cfg_seeds_reg_1__21_/Q (DFFSR)              0.011005   0.121062 & 0.580069 f
+  U2931/Y (BUFX2)                             0.003953   0.034554 & 0.614623 f
+  U4208/Y (INVX1)                             0.034323   0.036327 & 0.650950 r
+  U5967/Y (AOI22X1)                           0.013481   0.033687 & 0.684637 f
+  active_seeds_reg_1__21_/D (DFFSR)           0.013481   0.000044 & 0.684680 f
+  data arrival time                                                 0.684680
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00231/Y (BUFX4)               0.081373   0.065930 & 0.340399 r
+  CTS_ccl_a_buf_00221/Y (BUFX4)               0.098902   0.073929 & 0.414328 r
+  CTS_ccl_a_buf_00059/Y (BUFX2)               0.105931   0.102911 & 0.517239 r
+  active_seeds_reg_1__21_/CLK (DFFSR)         0.106122   0.000575 & 0.517814 r
+  clock reconvergence pessimism                          0.000000   0.517814
+  clock uncertainty                                      0.100000   0.617814
+  library hold time                                      0.052026   0.669840
+  data required time                                                0.669840
+  -----------------------------------------------------------------------------
+  data required time                                                0.669840
+  data arrival time                                                 -0.684680
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.014840
+
+
+  Startpoint: cfg_seeds_reg_0__60_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: active_seeds_reg_0__60_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00231/Y (BUFX4)               0.081292   0.066195 & 0.340664 r
+  CTS_ccl_a_buf_00213/Y (BUFX4)               0.094327   0.066800 & 0.407464 r
+  CTS_ccl_a_buf_00071/Y (BUFX4)               0.059074   0.055299 & 0.462763 r
+  cfg_seeds_reg_0__60_/CLK (DFFSR)            0.059137   0.000516 & 0.463279 r
+  cfg_seeds_reg_0__60_/Q (DFFSR)              0.022682   0.129506 & 0.592784 f
+  FE_PHC785_cfg_seeds_60/Y (BUFX2)            0.004116   0.035312 & 0.628097 f
+  U4665/Y (INVX1)                             0.018599   0.026394 & 0.654490 r
+  U5733/Y (AOI22X1)                           0.014138   0.029468 & 0.683958 f
+  active_seeds_reg_0__60_/D (DFFSR)           0.014139   0.000032 & 0.683990 f
+  data arrival time                                                 0.683990
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00232/Y (BUFX4)               0.076453   0.065822 & 0.340291 r
+  CTS_ccl_a_buf_00228/Y (BUFX4)               0.089383   0.067852 & 0.408143 r
+  CTS_ccl_a_buf_00077/Y (BUFX2)               0.106169   0.103071 & 0.511213 r
+  active_seeds_reg_0__60_/CLK (DFFSR)         0.106311   0.002919 & 0.514132 r
+  clock reconvergence pessimism                          0.000000   0.514132
+  clock uncertainty                                      0.100000   0.614132
+  library hold time                                      0.052195   0.666327
+  data required time                                                0.666327
+  -----------------------------------------------------------------------------
+  data required time                                                0.666327
+  data arrival time                                                 -0.683990
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.017664
+
+
+  Startpoint: cfg_seeds_reg_1__113_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: active_seeds_reg_1__113_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00233/Y (BUFX4)               0.094719   0.068027 & 0.342495 r
+  CTS_ccl_a_buf_00212/Y (BUFX4)               0.080201   0.061047 & 0.403542 r
+  CTS_ccl_a_buf_00026/Y (BUFX4)               0.059118   0.050729 & 0.454271 r
+  cfg_seeds_reg_1__113_/CLK (DFFSR)           0.059177   0.001373 & 0.455645 r
+  cfg_seeds_reg_1__113_/Q (DFFSR)             0.012087   0.121729 & 0.577374 f
+  U3638/Y (BUFX2)                             0.007224   0.037058 & 0.614433 f
+  U4994/Y (INVX1)                             0.033325   0.036575 & 0.651007 r
+  U6192/Y (AOI22X1)                           0.017924   0.037219 & 0.688226 f
+  active_seeds_reg_1__113_/D (DFFSR)          0.017925   0.000124 & 0.688351 f
+  data arrival time                                                 0.688351
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00233/Y (BUFX4)               0.094721   0.068016 & 0.342484 r
+  CTS_ccl_a_buf_00222/Y (BUFX4)               0.097820   0.069298 & 0.411783 r
+  CTS_ccl_a_buf_00049/Y (BUFX2)               0.108291   0.101850 & 0.513632 r
+  active_seeds_reg_1__113_/CLK (DFFSR)        0.108383   0.001471 & 0.515103 r
+  clock reconvergence pessimism                          0.000000   0.515103
+  clock uncertainty                                      0.100000   0.615103
+  library hold time                                      0.054146   0.669250
+  data required time                                                0.669250
+  -----------------------------------------------------------------------------
+  data required time                                                0.669250
+  data arrival time                                                 -0.688351
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.019101
+
+
+  Startpoint: cfg_seeds_reg_3__102_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: active_seeds_reg_3__102_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00233/Y (BUFX4)               0.094719   0.068027 & 0.342495 r
+  CTS_ccl_a_buf_00212/Y (BUFX4)               0.080201   0.061047 & 0.403542 r
+  CTS_ccl_a_buf_00047/Y (BUFX4)               0.057159   0.047895 & 0.451438 r
+  cfg_seeds_reg_3__102_/CLK (DFFSR)           0.057232   0.001959 & 0.453396 r
+  cfg_seeds_reg_3__102_/Q (DFFSR)             0.014786   0.123528 & 0.576924 f
+  U3085/Y (BUFX2)                             0.001960   0.033301 & 0.610225 f
+  U4217/Y (INVX1)                             0.022181   0.028080 & 0.638305 r
+  U6492/Y (AOI22X1)                           0.015346   0.032448 & 0.670753 f
+  active_seeds_reg_3__102_/D (DFFSR)          0.015347   0.000075 & 0.670828 f
+  data arrival time                                                 0.670828
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00233/Y (BUFX4)               0.094721   0.068016 & 0.342484 r
+  CTS_ccl_a_buf_00212/Y (BUFX4)               0.080201   0.061047 & 0.403531 r
+  CTS_ccl_a_buf_00013/Y (BUFX2)               0.100880   0.098873 & 0.502404 r
+  active_seeds_reg_3__102_/CLK (DFFSR)        0.100943   0.000800 & 0.503205 r
+  clock reconvergence pessimism                          0.000000   0.503205
+  clock uncertainty                                      0.100000   0.603205
+  library hold time                                      0.047215   0.650420
+  data required time                                                0.650420
+  -----------------------------------------------------------------------------
+  data required time                                                0.650420
+  data arrival time                                                 -0.670828
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.020408
+
+
+  Startpoint: cfg_seeds_reg_0__8_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: active_seeds_reg_0__8_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: clk
+  Path Group: clk
+  Path Type: min
+
+  Point                                          Trans       Incr       Path
+  -----------------------------------------------------------------------------
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00232/Y (BUFX4)               0.076349   0.066114 & 0.340583 r
+  CTS_ccl_a_buf_00228/Y (BUFX4)               0.089382   0.067860 & 0.408443 r
+  CTS_ccl_a_buf_00069/Y (BUFX4)               0.058539   0.052183 & 0.460626 r
+  cfg_seeds_reg_0__8_/CLK (DFFSR)             0.058608   0.001662 & 0.462287 r
+  cfg_seeds_reg_0__8_/Q (DFFSR)               0.011782   0.121451 & 0.583738 f
+  U2909/Y (BUFX2)                             0.001676   0.032901 & 0.616639 f
+  U3868/Y (INVX1)                             0.034153   0.035590 & 0.652229 r
+  U5475/Y (AOI22X1)                           0.014891   0.035654 & 0.687883 f
+  active_seeds_reg_0__8_/D (DFFSR)            0.014892   0.000080 & 0.687963 f
+  data arrival time                                                 0.687963
+
+  clock clk (rise edge)                                  0.000000   0.000000
+  clock source latency                                   0.000000   0.000000
+  clk (in)                                    0.000000   0.000000 & 0.000000 r
+  CTS_ccl_a_buf_00236/Y (BUFX2)               0.010400   0.066325 & 0.066325 r
+  FE_USKC224_CTS_118/Y (BUFX2)                0.005379   0.032396 & 0.098721 r
+  FE_USKC218_CTS_118/Y (BUFX2)                0.003569   0.031268 & 0.129989 r
+  FE_USKC223_CTS_118/Y (BUFX2)                0.007963   0.034106 & 0.164096 r
+  FE_USKC220_CTS_118/Y (BUFX2)                0.027139   0.046669 & 0.210764 r
+  CTS_ccl_a_buf_00235/Y (BUFX4)               0.089425   0.063704 & 0.274469 r
+  CTS_ccl_a_buf_00232/Y (BUFX4)               0.076453   0.065822 & 0.340291 r
+  CTS_ccl_a_buf_00228/Y (BUFX4)               0.089383   0.067852 & 0.408143 r
+  CTS_ccl_a_buf_00077/Y (BUFX2)               0.106169   0.103071 & 0.511213 r
+  active_seeds_reg_0__8_/CLK (DFFSR)          0.106440   0.002778 & 0.513992 r
+  clock reconvergence pessimism                          0.000000   0.513992
+  clock uncertainty                                      0.100000   0.613992
+  library hold time                                      0.052308   0.666300
+  data required time                                                0.666300
+  -----------------------------------------------------------------------------
+  data required time                                                0.666300
+  data arrival time                                                 -0.687963
+  -----------------------------------------------------------------------------
+  slack (MET)                                                       0.021663
+
+Warning: report_timing has satisfied the max_paths criteria. There are 4867 further endpoints which have paths of interest with slack less than 100.000000 that were not considered when generating this report. (UITE-502)
+
+1

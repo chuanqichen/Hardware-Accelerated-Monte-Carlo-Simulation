@@ -1,0 +1,5 @@
+pnr_db=/home/work/teh969/mc_closure_20261123/reports/pnr/tyler_closure3_20261124_l4/mc_top.enc.dat
+extraction=postRoute_effort_low
+analysis=onChipVariation_cppr_none
+variants=SIAware_true,SIAware_false
+design_saved=false

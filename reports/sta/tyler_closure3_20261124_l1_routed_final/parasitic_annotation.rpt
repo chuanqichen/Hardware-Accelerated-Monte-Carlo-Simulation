@@ -1,0 +1,76 @@
+1.  u_lanes/u_gauss/u[11] (driver: pin u_lanes/u_gauss/u[11])
+2.  u_lanes/u_gauss/u[6] (driver: pin u_lanes/u_gauss/u[6])
+3.  u_lanes/u_gauss/u[1] (driver: pin u_lanes/u_gauss/u[1])
+4.  u_lanes/u_gauss/u[17] (driver: pin u_lanes/u_gauss/u[17])
+5.  u_lanes/u_gauss/u[12] (driver: pin u_lanes/u_gauss/u[12])
+6.  u_lanes/u_gauss/u[7] (driver: pin u_lanes/u_gauss/u[7])
+7.  u_lanes/u_gauss/u[2] (driver: pin u_lanes/u_gauss/u[2])
+8.  u_lanes/u_gauss/u[18] (driver: pin u_lanes/u_gauss/u[18])
+9.  u_lanes/u_gauss/u[13] (driver: pin u_lanes/u_gauss/u[13])
+10.  u_lanes/u_gauss/u[8] (driver: pin u_lanes/u_gauss/u[8])
+11.  u_lanes/u_gauss/u[3] (driver: pin u_lanes/u_gauss/u[3])
+12.  u_lanes/u_gauss/u[19] (driver: pin u_lanes/u_gauss/u[19])
+13.  u_lanes/u_gauss/u[14] (driver: pin u_lanes/u_gauss/u[14])
+14.  u_lanes/u_gauss/u[9] (driver: pin u_lanes/u_gauss/u[9])
+15.  u_lanes/u_gauss/u[4] (driver: pin u_lanes/u_gauss/u[4])
+16.  u_lanes/u_gauss/u[20] (driver: pin u_lanes/u_gauss/u[20])
+17.  u_lanes/u_gauss/u[15] (driver: pin u_lanes/u_gauss/u[15])
+18.  u_lanes/u_gauss/u[10] (driver: pin u_lanes/u_gauss/u[10])
+19.  u_lanes/u_gauss/u[5] (driver: pin u_lanes/u_gauss/u[5])
+20.  u_lanes/u_gauss/u[21] (driver: pin u_lanes/u_gauss/u[21])
+21.  u_lanes/u_gauss/u[0] (driver: pin u_lanes/u_gauss/u[0])
+22.  u_lanes/u_gauss/u[16] (driver: pin u_lanes/u_gauss/u[16])
+23.  seed_load (driver: <none>)
+24.  u_lanes/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+25.  u_lanes/SYNOPSYS_UNCONNECTED_2 (driver: <none>)
+26.  u_lanes/SYNOPSYS_UNCONNECTED_3 (driver: <none>)
+27.  u_lanes/SYNOPSYS_UNCONNECTED_4 (driver: <none>)
+28.  u_lanes/SYNOPSYS_UNCONNECTED_5 (driver: <none>)
+29.  u_lanes/SYNOPSYS_UNCONNECTED_6 (driver: <none>)
+30.  u_lanes/SYNOPSYS_UNCONNECTED_7 (driver: <none>)
+31.  u_lanes/SYNOPSYS_UNCONNECTED_8 (driver: <none>)
+32.  u_lanes/SYNOPSYS_UNCONNECTED_9 (driver: <none>)
+33.  u_lanes/SYNOPSYS_UNCONNECTED_10 (driver: <none>)
+34.  u_lanes/SYNOPSYS_UNCONNECTED_11 (driver: <none>)
+35.  u_lanes/SYNOPSYS_UNCONNECTED_12 (driver: <none>)
+36.  u_lanes/SYNOPSYS_UNCONNECTED_13 (driver: <none>)
+37.  u_lanes/SYNOPSYS_UNCONNECTED_14 (driver: <none>)
+38.  u_lanes/SYNOPSYS_UNCONNECTED_15 (driver: <none>)
+39.  u_lanes/SYNOPSYS_UNCONNECTED_16 (driver: <none>)
+40.  u_lanes/SYNOPSYS_UNCONNECTED_17 (driver: <none>)
+41.  u_lanes/SYNOPSYS_UNCONNECTED_18 (driver: <none>)
+42.  u_lanes/SYNOPSYS_UNCONNECTED_19 (driver: <none>)
+43.  u_lanes/SYNOPSYS_UNCONNECTED_20 (driver: <none>)
+44.  u_lanes/SYNOPSYS_UNCONNECTED_21 (driver: <none>)
+45.  u_lanes/SYNOPSYS_UNCONNECTED_22 (driver: <none>)
+46.  u_lanes/u_price/u_exp/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+47.  u_lanes/u_gauss/SYNOPSYS_UNCONNECTED_1 (driver: <none>)
+48.  u_lanes/u_gauss/SYNOPSYS_UNCONNECTED_2 (driver: <none>)
+****************************************
+Report : annotated_parasitics
+	-check
+	-internal_nets
+	-boundary_nets
+	-list_not_annotated
+	-max_nets 100000
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 04:02:35 2026
+****************************************
+
+                    |         |         |         |   RC    |   Not   |
+Net Type            |  Total  | Lumped  |  RC pi  | network |Annotated|
+--------------------+---------+---------+---------+---------+---------+
+Internal nets       |         |         |         |         |         |
+  - Pin to pin nets |   11465 |       0 |       0 |   11465 |       0 |
+  - Driverless nets |      48 |       0 |       0 |       0 |      48 |
+  - Loadless nets   |       0 |       0 |       0 |       0 |       0 |
+--------------------+---------+---------+---------+---------+---------+
+Boundary/port nets  |         |         |         |         |         |
+  - Pin to pin nets |     179 |       0 |       0 |     179 |       0 |
+  - Driverless nets |       0 |       0 |       0 |       0 |       0 |
+  - Loadless nets   |       0 |       0 |       0 |       0 |       0 |
+--------------------+---------+---------+---------+---------+---------+
+                    |   11692 |       0 |       0 |   11644 |      48 |
+
+1
