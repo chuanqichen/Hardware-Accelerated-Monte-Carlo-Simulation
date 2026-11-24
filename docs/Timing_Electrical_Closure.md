@@ -12,6 +12,11 @@ clock transition, reset recovery/removal checks, `max_transition 0.30` and
 Innovus implementation recipe changes, through opt-in environment variables whose
 defaults reproduce the PR #22 flow.
 
+The run provenance above names the original experimental snapshot. Integration
+rebases this work onto #22's cleaned history, retaining the hashed inputs and
+raw reports. Generated results now include both timing engines and the
+implementation policy, and reject comparisons that mix those policy settings.
+
 ## Baseline reproduction
 
 The unchanged PR #22 flow on mario reproduces the archived one-lane result exactly:
@@ -28,18 +33,24 @@ SHA-256 for all three lane counts.
    uncertainty, which applies to hold as well as setup, plus about 0.06 ns library
    hold time. CTS skew is not the driver for these paths. Innovus fixed hold to a
    zero target.
-2. **Innovus and PT disagree on every cell delay.** Innovus reports about 10% more
-   delay per stage than PT. On the common worst one-lane setup path the difference
-   is about 0.6 ns. SI explains only about 40 ps of it. On the `tyler_holdfix`
-   one-lane database, the worst Innovus arrival at `u_lanes/u_rng/u_reg_31_/D` is
-   4.886 ns with SI-aware delay calculation and 4.847 ns without it. gscl45nm delay tables
-   start at 0.1 pF load and 0.06 ns input slew. On the PR #22 one-lane layout, the
+2. **Innovus and PT timing disagree.** On the audited baseline one-lane RNG
+   setup path, Innovus reports about 10% more delay per logic stage and about
+   0.6 ns more arrival time than PT. On the `tyler_holdfix` one-lane database,
+   the worst Innovus arrival at `u_lanes/u_rng/u_reg_31_/D` is 4.886 ns with
+   SI-aware delay calculation and 4.847 ns without it. The launch register
+   changes from `s0_reg_0_` to `s3_reg_0_`, so the 39 ps difference measures
+   worst-to-endpoint sensitivity rather than one fixed path's SI contribution.
+   A substantial inter-tool difference remains with SI disabled.
+   gscl45nm delay tables start at 0.1 pF load and 0.06 ns input slew.
+   On the PR #22 one-lane layout, the
    4,607 nets that PT lists under max capacitance have 10th to 90th percentile
    loads of 2.3 to 13.1 fF, and the median critical-path slew is 0.033 ns. Cell
-   delays are therefore extrapolated far below the characterized range, and the two
-   tools extrapolate differently without warning. PT is therefore optimistic for setup and pessimistic for hold
-   relative to Innovus, by tens of ps on short paths. A small margin in either tool
-   alone is not evidence of closure.
+   delays for these low-load/low-slew arcs are evaluated below the lookup grid.
+   Different delay calculations in this regime are a plausible contributor,
+   but an identical-slew/load cell comparison is needed to isolate the cause.
+   In these runs PT's faster delays give more setup margin and less hold margin
+   relative to Innovus, by tens of ps on short paths. A small margin in either
+   tool alone is not evidence of closure.
 3. **Max fanout.** gscl45nm defines no `fanout_load` or `default_fanout_load`.
    Innovus sums library fanout loads and sees zero, so it cannot see the SDC limit;
    DC and PT count one per sink. `place_opt_design` starts with `deleteBufferTree`,
@@ -71,6 +82,13 @@ report. It keeps every row and reports zero-limit capacitance rows as their own 
 
 None of these settings changes a constraint, waives a path or edits a library value.
 PT remains the independent check, and closure here means both tools pass.
+The collector normalizes numeric settings and compares all five recorded
+controls across the lane counts. Older records without these fields use the
+original defaults: tool-default hold/setup targets and CTS fanout,
+`place_opt_design`, and disabled fanout repair. The CSV and generated tables
+retain those labels instead of assuming that an unspecified target equals an
+explicit number. Placement distinguishes the earlier buffer-preservation trial
+from the reference policy that also disables later instance deletion.
 
 ## One-lane sequence
 
@@ -90,9 +108,10 @@ recovery/removal has no negative slack, and every routed replay passes.
 The [generated tables](../results/multilane_closure_v1.md) and
 [CSV](../results/multilane_closure_v1.csv) come from `scripts/summarize_multilane.py`
 with the [run manifest](../reports/multilane_closure_v1_runs.csv). The collector
-verifies digests, corpora, SDC translations, power units, RC annotation and the
-library pair. Pre-layout PT and the mapped replays were rerun on mario for this
-matrix and reproduce PR #22's pre-layout slacks.
+verifies digests, corpora, SDC translations, power units, RC annotation, the
+library pair and a common implementation policy. Pre-layout PT and the mapped
+replays were rerun on mario for this matrix and reproduce PR #22's pre-layout
+slacks.
 
 | Lanes | PT setup / hold (ns) | Innovus setup / hold (ns) | Hold rows | Fanout rows | Max-cap rows (all zero limit) | Signal-cell area (um2) | Power (mW) | Energy (pJ/trial) |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -162,13 +181,20 @@ residuals are smaller than Innovus's own delay-calculation sensitivity:
 | `tyler_closure2` | -0.006 / +0.006 | -0.056 / +0.062 |
 | `tyler_closure3` | +0.028 / -0.023 | -0.019 / +0.047 |
 
-On the same layout, switching SI-aware delay calculation off moves Innovus data
-arrival on the named paths by 60 to 120 ps and design WNS by 50 to 70 ps, while the
-capture clock moves by 7 to 13 ps. The residuals move between setup and hold from
-run to run, stay below that sensitivity and are far below the Innovus/PT
-disagreement. Optimizer targets therefore cannot close the four-lane case robustly.
-A hold miss also cannot be traded for clock frequency, so `tyler_closure2` remains
-the matched reference and `SETUP_TARGET_SLACK_NS` stays unset.
+On the same layout, switching SI-aware delay calculation off changes worst
+arrival at the named endpoints by 60 to 120 ps and design WNS by 50 to 70 ps,
+while the capture clock moves by 7 to 13 ps. The worst launch path can change:
+in `tyler_closure3` four-lane hold, SI on selects
+`u_exp/s_t_reg_4_/Q -> p_reg_4_/D` (arrival 0.667 ns), while SI off selects
+`p_reg_4_/Q -> p_reg_4_/D` (arrival 0.785 ns). This is an endpoint/design
+sensitivity comparison. A delay attribution to one fixed path must also match
+its startpoint, transitions and traversed arcs.
+
+The two target policies tested here did not close every check at four lanes.
+The residuals are small relative to the observed timing-model sensitivity;
+these trials do not rule out another optimization policy or targeted physical
+ECOs. A hold miss cannot be repaired by lowering clock frequency, so
+`tyler_closure2` remains the reference and `SETUP_TARGET_SLACK_NS` stays unset.
 
 ## Remaining limits and decisions
 
@@ -179,12 +205,13 @@ the matched reference and `SETUP_TARGET_SLACK_NS` stays unset.
   RC estimates, one typical corner and zero-delay activity. They do not establish
   signoff or a rated maximum frequency. A characterized library and RC model would be
   needed to quantify true margins.
-- The policy adds area and power. Report PPA for the PR #22 baseline and for the
-  closed implementation separately.
+- The policy adds area and power. Report PPA for the PR #22 baseline and for this
+  partial hold/fanout-closure implementation separately.
 - Neither recorded policy passes both Innovus checks at four lanes, and the residual
-  is below Innovus's delay-calculation sensitivity. Closing it robustly needs more
-  design slack on the lane-3 RNG add/rotate/add path, or a team decision on whether
-  PT alone is the timing reference.
+  is below Innovus's delay-calculation sensitivity. Keep both tools visible and
+  seek more setup margin on the lane-3 RNG add/rotate/add path. Targeted sizing
+  or routing changes are reasonable next experiments before changing RNG
+  pipeline latency; any change requires renewed setup/hold checks in both tools.
 
 ## Reproduction
 

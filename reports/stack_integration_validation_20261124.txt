@@ -1,0 +1,70 @@
+PR #21 -> #22 -> #23 integration validation, 2026-11-24
+
+Integration inputs:
+  #21: 2aee2292ea298f2c5bd8b03e6172ad3c2ecae0f3.
+  #22 cleaned head: 523b77900626c3b25a40ce4c0cd834d79d005613.
+  #23 original reviewed head: d7bf3495fba06589bb9af644efcb04f919c2a7e4.
+  #23's 13 commits rebased onto the cleaned #22 head without conflicts.
+  Review changes and regenerated tables accompany this record.
+
+Archive cleanup:
+  The replaced #22 commit 80562b1 introduced 510 VCS build products
+  (113,538,235 committed bytes) and 120 DC work files (472,152 bytes).
+  Both classes are removed from the rewritten stack, including its history.
+  Original/modified Liberty and DB files, the compiled control, mapped/routed
+  netlists, raw reports, logs, cycles/activity metadata and digests are retained.
+  check_evidence_artifacts.py checks the Git index, including force-added files.
+  The original 80562b1 is not an ancestor of the integration branch.
+  Git attributes preserve archived results and library bytes under CRLF
+  conversion; filters tested on Liberty, checksums, exported SDC and Markdown.
+
+Review fixes:
+  Shared Tcl rejects partial LIB_DB/LIB_LIB overrides at startup and validates
+  both files. The controlled comparison explicitly supplies the original
+  Liberty with both installed and recompiled-original DBs.
+  Windows path assertions compare native Path objects.
+  Documentation identifies the four pre-selected setup outliers, retains the
+  smaller non-monotonic entries, and lists the 12 two-lane pre-layout reset
+  removal failures (-0.016374 ns). Routed reset checks have no violations.
+  Generated CSV/Markdown and plot captions report Innovus alongside PT and
+  label open setup/hold checks; counts also catch WNS rounded to zero.
+  All five implementation controls are retained and compared across lanes,
+  with documented defaults for historical records.
+  SI diagnostics describe worst-to-endpoint sensitivity. Startpoints and
+  transitions can change; a fixed-path or fixed-slew/load cell attribution
+  requires a separate controlled comparison. Two unsuccessful target policies
+  do not rule out another policy or targeted physical ECO.
+
+Local validation:
+  make test: 109 tests, PASS.
+  make flow-test: 67 tests, PASS.
+  make library-check: source, four edits, compiled DB and hashes, PASS.
+  Negative checks reject mismatched hold/setup targets, placement policy,
+  CTS fanout and fanout-repair settings in an otherwise valid reference matrix.
+  Equivalent decimal slack spellings match after normalization.
+  Build-product selection and rounded-zero timing checks pass.
+  Three canonical CSV/Markdown pairs reproduce byte-for-byte:
+    results/multilane_implementation
+    results/multilane_setup_fixed_v1
+    results/multilane_closure_v1
+  All pre-existing CSV field values are preserved; new columns add policy,
+  Innovus timing/violation counts and combined setup/hold status.
+  The corrected-library and closure plots were inspected after regeneration.
+  The collectors verify netlist/SDC/SPEF hashes, library pairing, unchanged
+  constraint translation, complete pin-to-pin RC annotation, activity windows
+  and the complete mapped/routed corpora (81 cases / 82,489 trials per matrix).
+  This is validation of archived EDA evidence, not a fresh licensed EDA run.
+  RTL, model, SDC and library values are unchanged by the review cleanup.
+
+Reference result: tyler_closure2_20261123, common 5 ns target.
+  Policy: hold target 0.08 ns, preserve DC buffers/no instance deletion,
+  CTS max fanout 16, fix fanout load enabled, setup target unspecified.
+  Lanes  PT setup/hold ns       Innovus setup/hold ns    Power mW
+      1  +0.355084/+0.020957    +0.058/+0.080             10.8
+      2  +0.282991/+0.018329    +0.002/+0.033             19.2
+      4  +0.259732/+0.032751    -0.006/+0.006             36.8
+  Hold and max-fanout checks pass. Four-lane Innovus setup remains open.
+  PT retains 4,491 / 8,139 / 15,596 zero-limit max-capacitance rows.
+  The 0.05 ns setup-target trial remains unsuccessful and is not the baseline.
+  Single typical corner, native RC and zero-delay activity remain limitations;
+  no rated maximum frequency, characterized-model or physical-signoff claim.

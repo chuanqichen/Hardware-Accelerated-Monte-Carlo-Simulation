@@ -11,11 +11,39 @@ from unittest.mock import patch
 
 from fix_setup_library import ROOT, TECH, FIXED, NOTICE, NUMBER, repair, check_source
 from summarize_multilane import library_label, collect_run, digests, markdown, timing_failures
+from summarize_multilane import read_fields, validate_comparison
 from summarize_library_comparison import validate_sdc
 from check_evidence_artifacts import build_products
 
 
 class TestSetupLibrary(unittest.TestCase):
+    def test_collector_rejects_mixed_implementation_policies(self):
+        with (ROOT / "reports/multilane_closure_v1_runs.csv").open() as stream:
+            runs = list(csv.DictReader(stream))
+        rows = [collect_run(run) for run in runs]
+        validate_comparison(rows)
+        changes = dict(hold_target_slack_ns="0.01", setup_target_slack_ns="0.05",
+                       placement="place_opt_design", cts_max_fanout="100", fix_fanout_load="0")
+        for field, value in changes.items():
+            def changed_policy(path, *args, **kwargs):
+                fields = read_fields(path, *args, **kwargs)
+                if path.name == "inputs.txt" and path.parent.name == runs[0]["pnr_tag"]:
+                    fields[field] = value
+                return fields
+            with self.subTest(field=field), patch("summarize_multilane.read_fields",
+                                                  side_effect=changed_policy):
+                changed = collect_run(runs[0])
+                with self.assertRaisesRegex(ValueError, "Unmatched comparison field: " + field):
+                    validate_comparison([changed, *rows[1:]])
+
+        def equivalent_numeric_policy(path, *args, **kwargs):
+            fields = read_fields(path, *args, **kwargs)
+            if path.name == "inputs.txt" and path.parent.name == runs[0]["pnr_tag"]:
+                fields["hold_target_slack_ns"] = "0.080"
+            return fields
+        with patch("summarize_multilane.read_fields", side_effect=equivalent_numeric_policy):
+            validate_comparison([collect_run(runs[0]), *rows[1:]])
+
     def test_generated_results_expose_the_innovus_setup_failure(self):
         with (ROOT / "reports/multilane_setup_fixed_v1_runs.csv").open() as stream:
             run = list(csv.DictReader(stream))[-1]
