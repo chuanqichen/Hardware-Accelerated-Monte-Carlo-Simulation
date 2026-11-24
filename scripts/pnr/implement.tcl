@@ -17,12 +17,18 @@ if {[catch {
   set gds_dir [mc_env_or CELL_GDS_DIR $pdk/lib/source/gds]
   set qrc [mc_env_or QRC_TECH ""]
   # Optional closure policy. The SDC is unchanged; these settings only tell
-  # Innovus to repair the SDC max-fanout limit and to fix hold with extra margin
-  # for the independent PrimeTime check. Defaults reproduce the baseline flow.
+  # Innovus to repair the SDC max-fanout limit and to fix hold and setup with
+  # extra margin for the independent PrimeTime check. Defaults reproduce the
+  # baseline flow.
   set hold_target [mc_env_or HOLD_TARGET_SLACK_NS ""]
   if {$hold_target ne "" && (![string is double -strict $hold_target] ||
       $hold_target < 0 || $hold_target > 0.5)} {
     error "HOLD_TARGET_SLACK_NS must be a number of ns from 0 to 0.5"
+  }
+  set setup_target [mc_env_or SETUP_TARGET_SLACK_NS ""]
+  if {$setup_target ne "" && (![string is double -strict $setup_target] ||
+      $setup_target < 0 || $setup_target > 0.5)} {
+    error "SETUP_TARGET_SLACK_NS must be a number of ns from 0 to 0.5"
   }
   set fix_fanout [mc_env_or FIX_FANOUT_LOAD 0]
   if {$fix_fanout ni {0 1}} { error "FIX_FANOUT_LOAD must be 0 or 1" }
@@ -63,6 +69,7 @@ if {[catch {
   puts $f "qrc_technology=$qrc"
   puts $f "rc_method=[expr {$qrc eq "" ? "native_estimate_no_characterized_cap_table" : "qrc_technology_file"}]"
   puts $f "hold_target_slack_ns=[expr {$hold_target eq "" ? "tool_default" : $hold_target}]"
+  puts $f "setup_target_slack_ns=[expr {$setup_target eq "" ? "tool_default" : $setup_target}]"
   puts $f "fix_fanout_load=$fix_fanout"
   puts $f "placement=[expr {$preserve_buffers ? "place_design_noPrePlaceOpt_optDesign_preCTS_no_instance_deletion" : "place_opt_design"}]"
   puts $f "cts_max_fanout=[expr {$cts_max_fanout eq "" ? "tool_default" : $cts_max_fanout}]"
@@ -93,6 +100,7 @@ if {[catch {
   setAnalysisMode -analysisType onChipVariation -cppr none
   if {$fix_fanout} { setOptMode -fixFanoutLoad true }
   if {$hold_target ne ""} { setOptMode -holdTargetSlack $hold_target }
+  if {$setup_target ne ""} { setOptMode -setupTargetSlack $setup_target }
   if {$preserve_buffers} { setOptMode -deleteInst false }
   floorPlan -site CoreSite -r 1.0 0.60 20 20 20 20
   globalNetConnect vdd -type pgpin -pin vdd -all
