@@ -164,7 +164,7 @@ residuals are smaller than Innovus's own delay-calculation sensitivity:
 
 On the same layout, switching SI-aware delay calculation off moves Innovus data
 arrival on the named paths by 60 to 120 ps and design WNS by 50 to 70 ps, while the
-capture clock moves by about 12 ps. The residuals move between setup and hold from
+capture clock moves by 7 to 13 ps. The residuals move between setup and hold from
 run to run, stay below that sensitivity and are far below the Innovus/PT
 disagreement. Optimizer targets therefore cannot close the four-lane case robustly.
 A hold miss also cannot be traded for clock frequency, so `tyler_closure2` remains
