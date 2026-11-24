@@ -1,0 +1,84 @@
+Multi-lane synthesis and physical implementation validation, 2026-11-23
+
+Base RTL: merged main 4161ec7.
+Synthesis enablement: 5749f3c.
+Physical-flow implementation: 3e58235, followed by the archived PT annotation
+reporting-order correction. Per-run source_sha256.txt files identify exact inputs.
+Run selection: reports/multilane_runs.csv.
+Lab scratch: /home/work/cc83382/course-implementation-20261123 on peach,
+using cc83382's own account and key.
+
+Tools:
+  VCS T-2022.06
+  Design Compiler T-2022.03-SP2
+  PrimeTime T-2022.03-SP5, PrimePower enabled for activity analysis
+  Innovus 21.18-s099_1
+  OSU/FreePDK45 gscl45nm, typical, 1.1 V / 27 C
+
+Configuration:
+  Complete mc_top at LANES=1,2,4; a10/k10; G=1; M=1; retiming off.
+  Common 5 ns target and exported synthesis SDC; original I/O/clock uncertainty
+  and electrical constraints retained.
+  Native RC estimates, no characterized capacitance table/QRC file.
+  Single typical library for nominal early/late analysis; no PVT/OCV signoff.
+
+Functional results:
+  Mapped L1: PASS, 26 cases / 27492 completed trials.
+  Mapped L2: PASS, 27 cases / 27495 completed trials.
+  Mapped L4: PASS, 28 cases / 27502 completed trials.
+  Routed L1: PASS, 26 cases / 27492 completed trials.
+  Routed L2: PASS, 27 cases / 27495 completed trials.
+  Routed L4: PASS, 28 cases / 27502 completed trials.
+  Each matrix totals 81 cases / 82489 completed trials.
+  Functional cell models, no SDF and no timing checks.
+  Negative mapped L4 replay: flip first expected payoff bit.
+    VCS rejected case 0: actual 0000000000001ac0, expected 0000000000001ac1.
+    Runner returned failure; evidence in reports/sim/implementation_20261123_negative.
+
+Physical results:
+  All three final Tcl runs produced routed V, SDC, DEF, SPEF, merged-cell GDS
+  and Innovus checkpoints.
+  All three report no geometry violations and no connectivity problems/warnings
+  under the available LEF rules.
+  Routed netlist + exported SDC + SPEF replayed independently in PT.
+  All reported internal and boundary pin-to-pin nets have RC networks:
+    L1: 10229; L2: 18598; L4: 34890.
+  Unannotated driverless nets remain separately reported: 51 / 99 / 200.
+  Actual setup/hold, area, power and energy are regenerated in
+  results/multilane_implementation.csv and .md.
+  Hold, max-capacitance and max-fanout violations remain.
+  RC-004 input-driver library/model warnings remain.
+  No rated maximum frequency or physical signoff is claimed.
+
+Activity:
+  One normal 1000-trial case for each lane count, same A/B/K.
+  Case ID, clock period, capture interval, cycle counts and VCD digest retained.
+  PT verifies clock-period agreement and reads only the captured interval.
+  Invariant activity points: 100% annotated for all three.
+  Fully annotated leaf cells: 92.43% / 93.35% / 93.95%.
+  Zero-delay activity and native RC limit power/energy accuracy.
+
+Local validation:
+  make test: 109 tests, PASS (final run).
+  make flow-test: 52 tests, PASS (final run).
+  Includes bounded synthesis configuration, process completion/error gates,
+  missing SPEF, compressed-input digest mismatch and SDC translation checks.
+  Source/docs git diff --check: PASS.
+  Bash syntax checks for synthesis, physical, gate replay and PT runners: PASS.
+
+Evidence consistency:
+  Current RTL matches all three recorded synthesis source manifests.
+  Current physical Tcl/config matches all three physical source manifests.
+  Current final PT Tcl matches all three selected PT source manifests.
+  Current routed bench/package/runner matches all three routed replay manifests.
+  Collector verifies netlist, SDC, SPEF, DEF and activity digests across phases,
+  common libraries/corner/LEF, exact corpora, SDC translations and RC annotation.
+  Both result CSVs and generated Markdown tables reproduce byte-for-byte.
+  Native one-lane layout and color/grayscale metric plots inspected.
+
+Storage:
+  Raw reports and selected generated design exports are committed.
+  DEF/SPEF gzip archives hash to the original uncompressed exports.
+  Large GDS, Innovus databases and VCDs remain on the lab disk; their hashes and
+  paths are recorded. No installed standard-cell/library/technology file or
+  licensed executable was copied into the repository.

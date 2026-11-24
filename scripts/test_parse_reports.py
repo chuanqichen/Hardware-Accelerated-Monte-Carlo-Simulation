@@ -4,6 +4,38 @@ import unittest
 
 from parse_smoke_reports import read_smoke
 from parse_reports import parse_qor
+from summarize_multilane import normalize_sdc, verified_digest
+
+
+class TestImplementationInputs(unittest.TestCase):
+    def test_changed_input_is_rejected_including_compressed_archives(self):
+        import gzip
+        import hashlib
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "design.spef"
+            data = b"known extracted network\n"
+            expected = hashlib.sha256(data).hexdigest()
+            path.write_bytes(data)
+            self.assertEqual(verified_digest(path, expected), expected)
+            path.unlink()
+            with gzip.open(str(path) + ".gz", "wb") as stream:
+                stream.write(data)
+            self.assertEqual(verified_digest(path, expected), expected)
+            with gzip.open(str(path) + ".gz", "wb") as stream:
+                stream.write(b"different network\n")
+            with self.assertRaisesRegex(ValueError, "digest mismatch"):
+                verified_digest(path, expected)
+
+    def test_sdc_translation_preserves_timing_and_electrical_constraints(self):
+        text = ("current_design mc_top\ncreate_clock -period 5 clk\n"
+                "set_max_fanout 16 [get_designs {mc_top}]\n"
+                "set_clock_uncertainty 0.1 [get_clocks clk]\n")
+        self.assertEqual(normalize_sdc(text),
+                         "# mc_top already selected by link_design\ncreate_clock -period 5 clk\n"
+                         "set_max_fanout 16 [current_design]\n"
+                         "set_clock_uncertainty 0.1 [get_clocks clk]\n\n")
+        with self.assertRaisesRegex(ValueError, "unexpected design"):
+            normalize_sdc("current_design other_top\n")
 
 
 class TestSmokeReportParsing(unittest.TestCase):

@@ -1,0 +1,29 @@
+Read-only DFFPOSX1 setup-table audit
+inspected_utc=2026-11-23T20:28:03.476300+00:00
+69c0641df1dc737e5c8dbd3950f2daf3b52c6e7767aa081e35e9b0739bf62d6f /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.lib
+4968d1dba7ff9911cc51dfac7d8ea8b94fbab59d2f862f0531d7c774fb0a5791 /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db
+time_unit : "1ns";
+lu_table_template(setup_template_3x6) {
+    variable_1 : related_pin_transition;
+    variable_2 : constrained_pin_transition;
+    index_1 ("1000.0, 1001.0, 1002.0");
+    index_2 ("1000.0, 1001.0, 1002.0, 1003.0, 1004.0, 1005.0");
+  }
+cell=DFFPOSX1 pin=D related_pin=CLK timing_type=setup_rising
+rise_constraint(setup_template_3x6) {
+        index_1 ("0.06, 0.3, 0.6");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.09375, 0.13125, 0.11875, 0.14375, 0.08125, 0.05", \
+          "6.2, 0.14375, 0.13125, 5.125, 0.1875, 0.0625", \
+          "3.075, 0.20625, 0.2875, 0.59375, 0.15625, 0.21875");
+      }
+fall_constraint(setup_template_3x6) {
+        index_1 ("0.06, 0.3, 0.6");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.09375, 0.13125, 0.49375, 0.2375, 0.26875, 0.33125", \
+          "0.2, 0.2375, 5.85, 0.4375, 0.375, 0.4375", \
+          "0.2625, 0.3, 0.2875, 0.40625, 0.4375, 0.5");
+      }
+AUDIT_DONE: inspection only; no library or constraint changes

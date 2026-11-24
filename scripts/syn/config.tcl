@@ -47,7 +47,9 @@ proc mc_synth_config {repo_root} {
             if {![regexp {^([A-Za-z_][A-Za-z0-9_]*)=([0-9]+)$} $param -> name value]} {
                 error "PARAMS must be comma-separated NAME=integer assignments"
             }
-            if {$design eq "mc_top" && $name eq "LANES" && $value != 1} { error "mc_top currently supports LANES=1 only" }
+            if {$design eq "mc_top" && $name eq "LANES" && $value ni {1 2 4}} {
+                error "mc_top supports LANES=1, 2 or 4"
+            }
         }
     }
     return [dict create design $design library $lib sources $absolute_sources period $period \

@@ -20,7 +20,8 @@ Constraints (`.sdc`) live in `constraints/`.
 
 PR #4 supplies shared constants/rounding and the golden model; PR #5 supplies the
 shared synthesis flow, reset synchronizer and Gaussian study. Both are merged.
-The integrated top is one lane only. Control-only 2/4-lane tests use a mock.
+The original integration checkpoint below uses one lane. The production top now
+supports real 1/2/4-lane configurations; `make sim-array` exercises those arrays.
 
 ```bash
 python -m unittest discover -s model
@@ -56,7 +57,7 @@ It replaces the unpublished MC_* synthesis variables. DESIGN=mc_top reads the
 production source list from rtl/mc_top.f; standalone gauss_lut and mc_controller
 also have default source lists. Other designs require explicit RTL_FILES. Mock
 and testbench sources are rejected. PARAMS is a comma-separated NAME=integer list;
-production mc_top currently permits only LANES=1.
+production mc_top permits the verified bounded counts LANES=1, 2, or 4.
 
 The default SDC is constraints/lane_5ns.sdc: 5 ns, 30% I/O budgets, 0.1 ns clock
 uncertainty and transition, typical gscl45nm at 1.1 V/27 C. CLK_PERIOD_NS can override
@@ -80,6 +81,39 @@ retained only for the older report format. Current comparisons use the shared fl
 
 Details and current limits: docs/Integration_Work_Plan.md. Raw simulator logs are
 local/gitignored; committed validation summaries and manifests preserve the evidence.
+
+## Multi-lane synthesis, implementation and power
+
+The complete flow and its measured limitations are documented in
+[Multilane_Implementation.md](../docs/Multilane_Implementation.md).
+The default comparison is a10/k10, G=1, M=1, no retiming, at the shared 5 ns target.
+Use fresh batch names; runners retain partial evidence and reject overwrites.
+
+```bash
+# On peach, in an owned checkout under /home/work (login shell):
+module load syn/2022 cadence/2022
+export PYTHON=/home/work/cc83382/venv/bin/python  # use your own account's environment
+BATCH=study_001 make synth-multilane
+SYN_BATCH=study_001 PNR_BATCH=layout_001 make implement-multilane
+
+# Locally, reproduce the committed result tables/plots without EDA tools:
+python scripts/summarize_multilane.py --plot
+```
+
+`synth-multilane` maps the complete top at each lane count, runs PrimeTime on the
+same netlist/SDC and replays the model corpus with functional cell models.
+`implement-multilane` adds floorplanning, power wiring, placement, CTS, detailed
+routing, geometry/connectivity checks, and V/SDC/DEF/SPEF/GDS/checkpoint exports.
+It then repeats the functional replay and captures one 1000-trial VCD window for
+PrimeTime power. `LANES_LIST` can select a subset of 1/2/4 for a fresh physical run.
+
+The native extraction model has no characterized cap table in this installation.
+`QRC_TECH` accepts a matching technology file when available; `LIB_LIB`, `TECH_LEF`,
+`GDS_MAP` and `CELL_GDS_DIR` select the corresponding physical assets.
+The timing runner accepts optional `SPEF`, `VCD` and `POWER_WINDOW` inputs. It
+preserves the raw SDC and audits two design-selector syntax translations for PT;
+all timing/electrical constraints are retained. Timing/DRC closure is reported
+separately from successful tool execution.
 
 ## Accuracy plot and waveform evidence
 

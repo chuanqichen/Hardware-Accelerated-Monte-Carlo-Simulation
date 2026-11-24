@@ -1,0 +1,14 @@
+design       mc_top
+tag          implementation_20261123_l4
+params       LANES=4,GAUSS_LATENCY=1,MUL_STAGES=1,GAUSS_ADDR_BITS=10,EXP_ADDR_BITS=10
+retime       0
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.0030756
+fmax_mhz     200.123099721
+area_um2     106929.535231
+area_comb_um2 80690.971892
+area_bufinv_um2 15607.979063
+area_seq_um2 26238.563339
+cells        34816
+registers    2685

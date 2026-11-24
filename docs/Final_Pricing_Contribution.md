@@ -127,8 +127,10 @@ multiplier, 5% of `price_dp`.
   is not established.
 - Synthesis reports hold and maximum-capacitance violations for these blocks, as it
   does for the one-lane design. Hold is left to place and route.
-- Setup slacks retain the library's reported setup times, including the known
-  `DFFPOSX1` table defect on affected paths. Each clock-period point is a separate
+- Setup slacks retain the library's reported setup times, including the identified
+  [`DFFPOSX1` table anomaly](PDK_Setup_Investigation.md) on affected paths.
+  The proposed project-local correction requires a separate matched comparison.
+  Each clock-period point is a separate
   synthesis mapping; margin for a fixed netlist requires its own timing analysis.
 - Clock gating of the stage enables was not measured.
 - The bias numbers are for five benchmark options, not a guarantee over all inputs.

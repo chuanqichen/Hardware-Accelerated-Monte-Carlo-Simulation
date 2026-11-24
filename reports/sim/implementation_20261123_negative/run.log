@@ -1,0 +1,10 @@
+Command: /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_negative/simv +CASES=/home/work/cc83382/course-implementation-20261123/tmp/implementation_20261123_inputs/corrupted_l4.hex -l /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_negative/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 23 12:40 2026
+Fatal: "tb/tb_mc_array.sv", 97: tb_mc_array.unnamed$$_0: at time 1387000 ps
+case 0 got 1/0000000000001ac0/01 expected 1/0000000000001ac1/01
+$finish called from file "tb/tb_mc_array.sv", line 97.
+$finish at simulation time              1387000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1387000 ps

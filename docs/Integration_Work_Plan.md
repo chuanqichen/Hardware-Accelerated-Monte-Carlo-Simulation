@@ -45,16 +45,20 @@ The k8 detailed-trace replay uses a matching generated ROM and golden vectors.
 Runner fixtures reject empty input, missing PASS and exit-zero failures after
 PASS in every phase. These fixtures test process boundaries, not hardware.
 
-The synthesis gate still permits only LANES=1 pending multi-lane mapping and
-constraint checks. No fresh synthesis, PT, mapped replay or P&R result is claimed.
-Shared-clock/library caveats remain; k8 is a candidate, not the new default.
+The subsequent [multi-lane implementation checkpoint](Multilane_Implementation.md)
+enables bounded LANES=1/2/4 synthesis and records complete-top DC/PT results,
+mapped and routed replays, layout evidence, and activity-based power estimates.
+All three layouts complete geometry/connectivity checks; independent routed PT
+still reports hold violations. Native RC and library-model limitations remain.
+k8 is a candidate, not the new default.
 
-Next: use the passing VCS replay to enable bounded LANES=2/4 synthesis checks,
-then obtain matched DC/PT scaling results. Reproduction commands remain in
-`scripts/README.md`. Audit
-Innovus and technology/cell LEFs on the lab host before preparing the physical
-flow. Do not patch the library or select a cleaner clock transition as a substitute
-for closure. Sections below preserve the verified interim checkpoint.
+Reproduction commands are in `scripts/README.md`. Preserve the installed-library
+baseline and its constraints. Professor Orshansky's subsequent guidance permits a
+documented project-local fix; the [setup-table investigation](PDK_Setup_Investigation.md)
+records the proposed separate comparison and its assumptions. Selecting a cleaner
+assumed clock transition does not validate a library repair. The implementation
+builds real clock buffers and retains the shared constraints. Sections below
+preserve the historical one-lane interim checkpoint.
 
 ## Scope and source
 
@@ -131,8 +135,11 @@ SDC and the same library digest, reports setup slack -0.200381 ns and hold slack
 -0.041280 ns. Thus the 5 ns target is not independently closed. The worst path is
 active_b_reg_3_ to u_lanes/u_price/acc_r_reg_0__32_. Data arrival agrees with DC at
 the latter's displayed precision, while the endpoint library setup term differs:
-DC prints -1.22 ns and PrimeTime -1.417704 ns. The root cause remains open; do not
-change constraints or waive paths merely to reconcile the result.
+DC prints -1.22 ns and PrimeTime -1.417704 ns. The
+[subsequent investigation](PDK_Setup_Investigation.md) verifies four outlying
+DFFPOSX1 setup entries and distinguishes the earlier clock-slew experiment from
+a proposed library correction. The precise DC/PT lookup/extrapolation discrepancy
+remains open; do not waive paths merely to reconcile the result.
 
 Coverage reports one violated setup check, 135 violated hold checks and 4,538
 untested checks overall. check_timing warns about 755 asynchronous S pins without

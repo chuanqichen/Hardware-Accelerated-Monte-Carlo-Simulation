@@ -479,11 +479,11 @@ constraints. The shortest period that meets setup was not searched for.
 - **Flip-flop setup time.** On these paths the library charges 1.2 to 1.44 ns of setup
   time at `DFFPOSX1` for a rising data edge, against 0.09 to 0.13 ns at other endpoints
   (for example `DFFSR` in the RNG). The one-lane top report shows the same thing (1.22 ns
-  on `acc_r_reg`). This is the known library artefact described in
-  `Gaussian_Lookup_Work_Plan.md` Section 6: the `DFFPOSX1` setup table in `gscl45nm.lib`
-  has corrupt entries at large clock transitions, which inflate the interpolated value
-  at our 0.1 ns clock transition. The team's PrimeTime check for it is
-  `scripts/sta/clock_transition.sh`. This study retains the library's reported setup
+  on `acc_r_reg`). The [setup-table investigation](PDK_Setup_Investigation.md)
+  records four outlying `DFFPOSX1` entries and the proposed project-local
+  approximation. The team's clock-transition check is a sensitivity experiment;
+  it does not establish corrected-library margins under the original constraints.
+  This study retains the library's reported setup
   times on affected paths; each configuration's slack remains the value in its timing
   report.
 - Each run is labelled `mapped_with_violations` by the parser because of hold violations

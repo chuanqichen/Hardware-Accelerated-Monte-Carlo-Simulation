@@ -1,0 +1,50 @@
+****************************************
+Report : Averaged Power
+	-verbose
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Mon Nov 23 13:34:24 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+<no wire load model is set>
+
+Power-specific unit information :
+    Voltage Units = 1 V
+    Capacitance Units = 1 pf
+    Time Units = 1 ns
+    Dynamic Power Units = 1 W
+    Leakage Power Units = 1 W
+
+
+
+  Attributes
+  ----------
+      i  -  Including register clock pin internal power
+      u  -  User defined power group
+
+                        Internal  Switching  Leakage    Total
+Power Group             Power     Power      Power      Power   (     %)  Attrs
+--------------------------------------------------------------------------------
+clock_network           4.633e-03 9.117e-04 2.646e-06 5.548e-03 (55.68%)  i
+register                6.121e-04 3.241e-04 9.069e-05 1.027e-03 (10.31%)  
+combinational           1.541e-03 1.772e-03 7.573e-05 3.389e-03 (34.01%)  
+sequential                 0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+memory                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+io_pad                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+black_box                  0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+
+  Net Switching Power  = 3.008e-03   (30.19%)
+  Cell Internal Power  = 6.786e-03   (68.11%)
+  Cell Leakage Power   = 1.691e-04   ( 1.70%)
+                         ---------
+Total Power            = 9.963e-03  (100.00%)
+
+1

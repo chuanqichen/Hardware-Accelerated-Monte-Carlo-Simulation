@@ -1,0 +1,223 @@
+                         Chronologic VCS (TM)
+         Version T-2022.06_Full64 -- Mon Nov 23 12:31:19 2026
+
+                    Copyright (c) 1991 - 2022 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'rtl/mc_pkg.sv'
+Parsing design file '/usr/local/packages/FreePDK45/osu_soc/lib/files/gscl45nm.v'
+Parsing design file '/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v'
+Parsing design file 'tb/tb_mc_array.sv'
+Top Level Modules:
+       tb_mc_array
+assign 2 tb_mc_array.LANES (Command line)
+TimeScale is 1 ns / 1 ps
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 591
+mc_controller_LANES2, "HAX1 U317( .A (n77),  .B (n373),  .YS (n717));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 593
+mc_controller_LANES2, "HAX1 U319( .A (n22),  .B (n711),  .YS (n377));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 595
+mc_controller_LANES2, "HAX1 U321( .A (n117),  .B (n713),  .YS (n376));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 603
+mc_controller_LANES2, "HAX1 U329( .A (n23),  .B (n696),  .YS (n386));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 605
+mc_controller_LANES2, "HAX1 U331( .A (n690),  .B (n16),  .YS (n385));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 613
+mc_controller_LANES2, "HAX1 U339( .A (n24),  .B (n683),  .YS (n396));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 615
+mc_controller_LANES2, "HAX1 U341( .A (n5),  .B (n679),  .YS (n395));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 622
+mc_controller_LANES2, "HAX1 U348( .A (n25),  .B (n701),  .YS (n405));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 624
+mc_controller_LANES2, "HAX1 U350( .A (n699),  .B (n21),  .YS (n404));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 635
+mc_controller_LANES2, "HAX1 U361( .A (n27),  .B (n654),  .YS (n419));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 637
+mc_controller_LANES2, "HAX1 U363( .A (n658),  .B (n19),  .YS (n418));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 645
+mc_controller_LANES2, "HAX1 U371( .A (n26),  .B (n671),  .YS (n428));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 647
+mc_controller_LANES2, "HAX1 U373( .A (n675),  .B (n17),  .YS (n427));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 654
+mc_controller_LANES2, "HAX1 U380( .A (n2),  .B (n669),  .YS (n437));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 656
+mc_controller_LANES2, "HAX1 U382( .A (n665),  .B (n18),  .YS (n436));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 664
+mc_controller_LANES2, "HAX1 U390( .A (n116),  .B (n652),  .YS (n447));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 666
+mc_controller_LANES2, "HAX1 U392( .A (n648),  .B (n20),  .YS (n446));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+/home/work/cc83382/course-implementation-20261123/reports/syn/implementation_20261123_l2/mc_top.mapped.v, 1028
+mc_controller_LANES2, "FAX1 U229( .A (n194),  .B (n193),  .C (n8),  .YS (n207));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+
+30 modules and 2 UDPs read.
+recompiling package mc_pkg
+recompiling module AND2X2
+recompiling module AOI21X1
+recompiling module AOI22X1
+recompiling module BUFX2
+recompiling module DFFPOSX1
+recompiling module DFFSR
+recompiling module FAX1
+recompiling module HAX1
+recompiling module INVX2
+recompiling module INVX4
+recompiling module MUX2X1
+recompiling module NAND2X1
+recompiling module NAND3X1
+recompiling module NOR2X1
+recompiling module NOR3X1
+recompiling module OAI21X1
+recompiling module OR2X2
+recompiling module XNOR2X1
+recompiling module rst_sync_STAGES2
+recompiling module mc_controller_LANES2
+recompiling module gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1_1
+recompiling module round_sat_IN_WIDTH34_OUT_WIDTH18_SHIFT14_SIGNED1_1
+recompiling module pipe_W1_N3_1
+recompiling module price_dp_EXP_ADDR_BITS10_MUL_STAGES1_1
+recompiling module price_dp_EXP_ADDR_BITS10_MUL_STAGES1_0
+recompiling module accumulator_2_22_64_32_1
+recompiling module gauss_lut_ADDR_BITS10_OUT_WIDTH16_FRAC_BITS12_LATENCY1_0
+recompiling module rng_lane_0
+recompiling module tb_mc_array
+All of 30 modules done
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l2_mapped/simv ]; then chmod a-x /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l2_mapped/simv; fi
+g++  -o /home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l2_mapped/simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir -Wl,-rpath=/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib -L/usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _3515125_archive_1.so objs/udps/exIG1.o objs/udps/U7Vwg.o  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o           -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /usr/local/packages/synopsys_2022/vcs/T-2022.06/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+/home/work/cc83382/course-implementation-20261123/reports/sim/implementation_20261123_l2_mapped/simv up to date
+CPU time: 1.652 seconds to compile + .672 seconds to elab + .164 seconds to link
+Notice: timing checks disabled with +notimingcheck at compile-time
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 23 12:31 2026
+PASS: tb_mc_array L=2 G=1 M=1 A=10 K=10 cases=27 trials=27495
+$finish called from file "tb/tb_mc_array.sv", line 114.
+$finish at simulation time            151297000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 151297000 ps
+CPU Time:      3.500 seconds;       Data structure size:   1.1Mb
+Mon Nov 23 12:31:26 2026
+GATE_ARRAY_DONE implementation_20261123_l2_mapped (zero-delay functional cells)
