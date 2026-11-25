@@ -84,7 +84,7 @@ On the slide:
   PrimeTime +280 ps on the same pins
 - A setup-target trial was unsuccessful: two-lane setup -10 ps, four-lane hold -23 ps
 - 4,491 / 8,139 / 15,596 rows on seven pins whose library capacitance limit is zero;
-  we are asking the course staff how to treat them
+  still reported as unresolved, and any change to the limits needs course-staff approval
 - Estimated RC, one corner and zero-delay activity. No DRC/LVS, IR/EM or SDF signoff,
   and no rated frequency.
 - Next: a look-ahead register proposed to the RNG owner, not yet implemented

@@ -154,8 +154,8 @@ of 0.05 ns. Nothing else changed.
   NAND3X1/Y, NOR2X1/Y and TBUFX1/Y. Every max-capacitance row in both
   implementations is on these pins, so buffering cannot remove them. No pin with a
   positive limit violates. Changing the limits would be another library
-  approximation, so the rows stay reported as they are until the course staff
-  advise.
+  approximation that needs course-staff approval, so the rows stay reported as
+  unresolved violations.
 - **RC and PPA are estimates.** They rest on native RC without a characterized
   capacitance table, one typical corner and zero-delay activity for one workload.
   The library tables are evaluated below their first index on the critical path.
