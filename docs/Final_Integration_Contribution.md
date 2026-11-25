@@ -3,7 +3,7 @@
 Tyler Haverlah, 2026-11-24. Text for the team's final report, in the same form as
 `Final_Pricing_Contribution.md`. Source: merged `main` `5cda1dd`. Every number comes
 from a committed file under `results/` or `reports/`; the last section lists them for
-the editor. Items from draft PR #24, which is not merged, are marked as such.
+the editor. Evidence from PR #24 is linked to its reviewed commit `0fa27ec`.
 
 ## What I contributed
 
@@ -35,7 +35,7 @@ the editor. Items from draft PR #24, which is not merged, are marked as such.
   hold -0.025964 ns, 9.968 mW, and a routed replay of 26 cases and 27,492 trials.
 - **Replays.** Both matched 1/2/4-lane implementations below pass mapped and
   routed replays of 81 cases and 82,489 trials.
-- **Final checks (draft PR #24).** 109 model tests and 67 flow tests pass on the
+- **Final checks (PR #24).** 109 model tests and 67 flow tests pass on the
   lab host with no skips. The three canonical result tables regenerate byte for
   byte, and the replay inputs reproduce exactly.
 
@@ -46,7 +46,7 @@ the editor. Items from draft PR #24, which is not merged, are marked as such.
   and 4 lanes, without changing a constraint, RTL file or library value.
 - A violation classifier, an SI-sensitivity diagnostic and an unsuccessful
   setup-target trial.
-- In draft PR #24: a same-path PT/Innovus comparison, an RNG path note for the RNG
+- In PR #24: a same-path PT/Innovus comparison, an RNG path note for the RNG
   owner and a manifest of the trial's lab-only files.
 
 ## Results
@@ -74,7 +74,7 @@ Both comparisons use these area definitions:
 
 Chuanqi's matched implementation (`setupfix_v1_20261123`) with the default Innovus flow:
 
-| Lanes | PT setup / hold (ns) | Innovus setup / hold (ns) | Both tools pass | PT hold rows | PT max-fanout rows | Zero-limit max-cap rows |
+| Lanes | PT setup / hold (ns) | Innovus setup / hold (ns) | Both tools pass setup/hold | PT hold rows | PT max-fanout rows | Zero-limit max-cap rows |
 |---:|---:|---:|:---:|---:|---:|---:|
 | 1 | +0.687 / -0.026 | +0.082 / +0.001 | No | 33 | 160 | 4,607 |
 | 2 | +0.539 / -0.028 | +0.030 / 0.000 | No | 98 | 255 | 8,350 |
@@ -90,7 +90,7 @@ does four things:
 - limits clock-tree fanout to 16
 - requests fanout repair
 
-| Lanes | PT setup / hold (ns) | Innovus setup / hold (ns) | Both tools pass | PT hold rows | PT max-fanout rows | Zero-limit max-cap rows |
+| Lanes | PT setup / hold (ns) | Innovus setup / hold (ns) | Both tools pass setup/hold | PT hold rows | PT max-fanout rows | Zero-limit max-cap rows |
 |---:|---:|---:|:---:|---:|---:|---:|
 | 1 | +0.355 / +0.021 | +0.058 / +0.080 | Yes | 0 | 0 | 4,491 |
 | 2 | +0.283 / +0.018 | +0.002 / +0.033 | Yes | 0 | 0 | 8,139 |
@@ -111,9 +111,11 @@ slack.
 
 - **Floorplan.** Core area is 52,415.2 / 91,550.1 / 169,518.7 um^2 and die area is
   72,481.9 / 117,548.0 / 204,310.1 um^2 in both implementations.
-- **Where the area goes.** In the #22 baseline, routed signal-cell area is below DC
-  area because placement deleted DC's buffer trees. The policy keeps those trees,
-  and Innovus adds the hold cells.
+- **Where the area goes.** The baseline placement deleted DC's buffer trees.
+  The policy keeps those trees, and Innovus adds the hold cells. DC uses Liberty
+  cell areas while Innovus uses LEF geometry, so the absolute DC-to-routed area
+  difference cannot be attributed entirely to buffer deletion. The policy's cost
+  above compares routed signal-cell area using the same definition in both runs.
 - **Power precision.** PT reports power to three significant digits, so the power
   changes are rounded to whole percent.
 - **Cycle count.** It is unchanged. One workload completes 1,000 trials in
@@ -140,7 +142,7 @@ of 0.05 ns. Nothing else changed.
   reference from -0.006 / +0.006 ns to -0.056 / +0.062 ns. It moves the trial from
   +0.028 / -0.023 ns to -0.019 / +0.047 ns.
 - **Same-path check.** On the reference's failing path, PT times the same 150 pins
-  and transitions at +0.280 ns (draft PR #24).
+  and transitions at +0.280 ns (PR #24).
 
 ## Limits
 
@@ -160,7 +162,7 @@ of 0.05 ns. Nothing else changed.
   capacitance table, one typical corner and zero-delay activity for one workload.
   The library tables are evaluated below their first index on the critical path.
   On the four-lane path, Innovus is 0.260 ns slower than PT over identical arcs
-  (draft PR #24).
+  (PR #24).
 - **Signoff is incomplete.**
   - Neither tool ran multi-corner, on-chip-variation or SI signoff; PT ran
     without SI.
@@ -208,7 +210,7 @@ of 0.05 ns. Nothing else changed.
   `reports/pr_review_2026-11-23/pr17-vcs-summary.txt`.
 - **Method and root causes.** `docs/Timing_Electrical_Closure.md`,
   `docs/Library_Fix_Baseline.md` and `docs/Multilane_Implementation.md`.
-- **Draft PR #24**, pinned to `0fa27ec`: the
+- **PR #24**, pinned to `0fa27ec`: the
   [RNG path note](https://github.com/chuanqichen/Hardware-Accelerated-Monte-Carlo-Simulation/blob/0fa27ec17e4915e8adff68ae2043215dd50fec1a/docs/RNG_Setup_Path_Diagnostic.md),
   the [same-path comparison](https://github.com/chuanqichen/Hardware-Accelerated-Monte-Carlo-Simulation/tree/0fa27ec17e4915e8adff68ae2043215dd50fec1a/reports/sta/tyler_rngdiag_20261124_l4),
   the [trial manifest](https://github.com/chuanqichen/Hardware-Accelerated-Monte-Carlo-Simulation/blob/0fa27ec17e4915e8adff68ae2043215dd50fec1a/reports/lab_artifacts/tyler_closure3_20261124/MANIFEST.md)
