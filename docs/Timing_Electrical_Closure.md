@@ -164,7 +164,9 @@ zero-limit `max_capacitance` rows (4,492 / 8,141 / 15,599). Geometry and
 connectivity are clean, the routed replays pass, and the collector's checks pass
 for the trial matrix on mario (energy 53.1 / 49.2 / 47.6 pJ/trial). The committed
 trial evidence is compact; routed netlists, DEF/SPEF, databases and VCDs stay on
-lab scratch.
+lab scratch. The [lab artifact manifest](../reports/lab_artifacts/tyler_closure3_20261124/MANIFEST.md)
+lists all 745 trial files with sizes and SHA-256, and gives the source commit, tool
+versions and reproduction commands.
 
 The setup target closes the four-lane Innovus setup miss but adds two Innovus
 misses. Two-lane setup is -0.010 ns. Four-lane hold is -0.023 ns on one path,
@@ -212,12 +214,15 @@ ECOs. A hold miss cannot be repaired by lowering clock frequency, so
   seek more setup margin on the lane-3 RNG add/rotate/add path. Targeted sizing
   or routing changes are reasonable next experiments before changing RNG
   pipeline latency; any change requires renewed setup/hold checks in both tools.
+  The [RNG setup-path diagnostic](RNG_Setup_Path_Diagnostic.md) compares both
+  tools on the same pins and lists latency-preserving options for the RNG owner.
 
 ## Reproduction
 
 The corpus generator needs NumPy. mario's Python 3.9 has none, so the corpus was
 generated on the laptop and its SHA-256 checked against the archived replay
-manifests before use.
+manifests before use. A Python 3.12 environment with NumPy in Tyler's lab scratch
+has since reproduced all six corpus files byte for byte on mario.
 
 ```bash
 module load synopsys/2022 cadence/2022   # syn/2022 is equivalent on peach

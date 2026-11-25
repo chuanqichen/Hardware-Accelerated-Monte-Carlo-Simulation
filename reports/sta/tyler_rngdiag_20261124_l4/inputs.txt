@@ -1,0 +1,9 @@
+tool=T-2022.03-SP5
+netlist=reports/pnr/tyler_closure2_20261123_l4/mc_top.routed.v
+sdc=reports/sta/tyler_closure2_20261123_l4_routed_final/constraints.pt.sdc
+library=/home/work/teh969/mc_followup_20261124/tech/gscl45nm/setup_fixed_v1/gscl45nm.db
+corner=typical
+spef=reports/pnr/tyler_closure2_20261123_l4/mc_top.routed.spef.gz (decompressed copy)
+analysis=routed_parasitics_propagated_clocks_same_as_ptref
+timing_remove_clock_reconvergence_pessimism=true
+si_enable_analysis=false

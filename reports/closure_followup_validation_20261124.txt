@@ -1,0 +1,94 @@
+Closure follow-up validation, 2026-11-24
+
+Scope:
+  Verification and diagnostic preparation after PRs #21, #22 and #23 merged.
+  Base: main 5cda1ddceee422cbccd80a646aa71dd2b261450a.
+  No new implementation run. No RTL, SDC, library or flow-script change.
+  The tyler_closure2_20261123 reference and its tables are unchanged.
+
+Lab Python environment (Tyler's lab scratch on mario, RHEL 8.10):
+  /home/work/teh969/pyenv/mc_py312, made with /usr/bin/python3.12 -m venv.
+  Python 3.12.16 with Tk 8.6 and pip 23.2.1.
+  Eleven pinned wheels (41,752,651 bytes) were downloaded once from PyPI into
+  /home/work/teh969/pyenv/wheelhouse_20261124 and installed with --no-index:
+    numpy 2.5.4, matplotlib 3.11.2, contourpy 1.4.0, cycler 0.12.1,
+    fonttools 4.68.0, kiwisolver 1.5.1, packaging 26.4, pillow 13.0.0,
+    pyparsing 3.3.3, python-dateutil 4.0.0, tzdata 2026.6.
+  The wheel SHA-256 list and pip freeze are kept beside the environment.
+  No system, module or shared environment was changed.
+
+Checks on mario (module load synopsys/2022 cadence/2022;
+LIB_DB, LIB_LIB and QRC_TECH unset), at main 5cda1dd and again at this
+branch's documentation head 73b14cb, with identical results:
+  make library-check: setup_fixed_v1 source, four edits, compiled DB and
+    checksums match.
+  make test: 109 tests, OK, none skipped.
+  make flow-test: check_evidence_artifacts.py finds no EDA build products;
+    67 tests, OK, none skipped.
+  Justified skips: none remain. Earlier mario runs used a Python without NumPy
+  and had 7 matplotlib skips and 1 NumPy import error among 61 flow tests. The
+  environment resolves all eight; no test was changed.
+  Reference tables, regenerated with the commands in their headers:
+    results/multilane_implementation.{csv,md}   byte-for-byte
+    results/multilane_setup_fixed_v1.{csv,md}   byte-for-byte
+    results/multilane_closure_v1.{csv,md}       byte-for-byte
+  The nine PNG/SVG/PDF plots differ because Matplotlib 3.11.2 renders them,
+  while the committed plots record Matplotlib 3.9.4 and another date. Plots are
+  not compared byte for byte; the regenerated copies were discarded.
+  Replay corpus: scripts/prepare_array_sim.py reproduces all six
+  tmp/setupfix_v1_20261123_inputs/*.hex files byte for byte, so mario no
+  longer depends on the laptop for NumPy-generated inputs.
+  The laptop regenerates the same three CSV/Markdown pairs byte for byte with
+  the edited closure document.
+
+Same-path PrimeTime check (reports/sta/tyler_rngdiag_20261124_l4):
+  Inputs match the SHA-256 recorded by the reference PT run: routed netlist,
+  decompressed SPEF, consumed SDC and setup_fixed_v1 DB. PT T-2022.03-SP5.
+  Innovus SI-on worst path, g_lane_3 RNG s0_reg_5_ to u_reg_31_/D, all 150
+  data pins with the same transitions: PT +0.280259 ns, Innovus -0.006 ns.
+  Innovus SI-off worst path, from s3_reg_5_, 148 pins: PT +0.260678 ns,
+  Innovus -0.056 ns.
+  The log has the reference run's warning lines: 14 RC-004 input-driver
+  warnings and one PTE-003 disabled-arc notice.
+  Interpretation and options: docs/RNG_Setup_Path_Diagnostic.md.
+
+Setup-target trial manifest (reports/lab_artifacts/tyler_closure3_20261124):
+  745 files, 452,645,257 bytes: 108 committed (5,504,087 bytes) and 637
+  lab-only (447,141,170 bytes), including 15 symbolic links counted by target.
+  sha256sum -c over all 745 entries passes on mario. The generator writes
+  identical output under Python 3.6.8 and 3.12.16.
+
+PR #22 build products:
+  No longer blocking. Before the merge, #22's author replaced head 80562b1
+  with 523b779 on his own branch, removing the 510 VCS build products
+  (113,538,235 bytes) and 120 DC work files. #22 then merged as 0bea83b.
+  Checked from main 5cda1dd:
+    80562b1 is not an ancestor of main.
+    No commit reachable from main adds a path matching simv, simv.daidir,
+    csrc, ucli.key, vc_hdrs.h or AN.DB. The same scan of 2aee229..80562b1
+    finds all 510.
+    Of the 322 distinct blobs behind those 510 paths, only Git's empty blob
+    e69de29 is reachable from main, through .gitkeep files.
+    check_evidence_artifacts.py passes, but it checks only the tip's index.
+  Approach for a future PR that commits build products, without rewriting the
+  contributor's branch:
+    1. Prefer that the author removes them from their own branch, as here.
+    2. Otherwise add one removal commit on top and use GitHub's squash merge.
+       Main then gains one commit whose tree has no products, and no product
+       blob becomes reachable from main. A merge commit or a rebase merge would
+       carry the commits that add them into main's history.
+    3. If the branch cannot take a removal commit, open a replacement PR with a
+       single commit holding the final tree without the products, credit the
+       author and close the original.
+    4. For a stacked branch, rebase only your own branch onto the new lower
+       head (git rebase --onto <new-head> <old-head> <branch>), and never push
+       a branch that still contains the replaced head.
+    5. Before merging, scan the whole range as well as the tip:
+         git log --diff-filter=A --name-only --format= <base>..<head> \
+           | grep -E '(^|/)(simv|simv\.daidir|csrc)(/|$)|ucli\.key$|vc_hdrs\.h$|AN\.DB'
+
+Unchanged limits:
+  Four-lane Innovus setup still fails by 6 ps in the tyler_closure2 reference.
+  PT still reports 4,491 / 8,139 / 15,596 zero-limit max-capacitance rows.
+  Single typical corner, native RC and zero-delay activity; no rated maximum
+  frequency, characterized-model or physical-signoff claim.

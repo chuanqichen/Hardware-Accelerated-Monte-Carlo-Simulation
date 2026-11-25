@@ -1,0 +1,28 @@
+****************************************
+Report : timing
+	-path_type summary
+	-delay_type max
+	-slack_lesser_than 100.000000
+	-max_paths 10
+	-sort_by slack
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Tue Nov 24 15:47:06 2026
+****************************************
+
+Warning: There is 1 invalid end point for constrained paths. (UITE-416)
+Startpoint                      Endpoint                           Slack
+------------------------------------------------------------------
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_3__u_price/acc_r_reg_0__32_/D (DFFPOSX1) 0.560534
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_1__u_price/acc_r_reg_0__32_/D (DFFPOSX1) 0.604390
+active_b_reg_1_/CLK (DFFSR)     u_lanes/u_price/acc_r_reg_0__32_/D (DFFPOSX1) 0.611897
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_3__u_price/acc_r_reg_0__33_/D (DFFPOSX1) 0.620320
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_2__u_price/acc_r_reg_0__32_/D (DFFPOSX1) 0.621178
+u_controller/issued_reg_12_/CLK (DFFSR) u_controller/state_reg_0_/D (DFFSR) 0.635557
+active_b_reg_1_/CLK (DFFSR)     u_lanes/u_price/acc_r_reg_0__33_/D (DFFPOSX1) 0.654363
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_1__u_price/acc_r_reg_0__33_/D (DFFPOSX1) 0.661593
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_2__u_price/acc_r_reg_0__33_/D (DFFPOSX1) 0.671043
+active_b_reg_1_/CLK (DFFSR)     u_lanes/g_lane_3__u_price/acc_r_reg_0__31_/D (DFFPOSX1) 0.716267
+Warning: report_timing has satisfied the max_paths criteria. There are 2634 further endpoints which have paths of interest with slack less than 100.000000 that were not considered when generating this report. (UITE-502)
+
+1
