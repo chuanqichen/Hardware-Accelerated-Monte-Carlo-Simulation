@@ -12,9 +12,10 @@ and the choice and implementation of any RNG change stay with the RNG owner.
   delay calculation. PrimeTime times the same pins and transitions at +0.280 ns.
 - The RNG output register's top bits are the worst setup endpoints at every lane
   count in both tools, and every lane's `u_reg_31_` is close to the limit. This is
-  the block's critical path, not a lane-3 placement accident. The standalone RNG synthesis in
-  [RNG_Work_Plan.md](RNG_Work_Plan.md) already had only +0.006 ns at 5 ns on
-  `s0_reg[0]` to `u_reg[31]`.
+  the block's critical path, not a lane-3 placement accident. The November 8
+  standalone RNG synthesis in [RNG_Work_Plan.md](RNG_Work_Plan.md) already had only
+  +0.006 ns at 5 ns on `s0_reg[0]` to `u_reg[31]`. That run used the original
+  library, so it is historical context, not the matched baseline for an RNG change.
 - The path is the xoshiro128++ output function: two chained 32-bit ripple-carry
   additions in one cycle. Each addition takes 2.1 to 2.3 ns of the 5 ns period.
 - Taking one addition out of the `u` register's cycle, without changing `LAT_RNG`
@@ -114,16 +115,17 @@ and `FAX1` 0.113 ns.
 These keep `LAT_RNG = 1` and the exact output stream. They are listed for the RNG
 owner to evaluate; none has been implemented or timed.
 
-1. **Look-ahead sum register.** Add a 32-bit register `t` that always holds
-   `s0 + s3` of the current state, and compute `u <= rotl(t, 7) + s0`. Update `t`
-   with the state: zero on reset, `seed_state[31:0] + seed_state[127:96]` on
+1. **Look-ahead sum register.** Chuanqi first proposed registering `s0 + s3` in
+   [PR #12](https://github.com/chuanqichen/Hardware-Accelerated-Monte-Carlo-Simulation/pull/12).
+   This option specifies its update rules. Add a 32-bit register `t` that always
+   holds `s0 + s3` of the current state, and compute `u <= rotl(t, 7) + s0`. Update
+   `t` with the state: zero on reset, `seed_state[31:0] + seed_state[127:96]` on
    `seed_load`, `s0_next + s3_next` on an accepted run edge, where
    `s0_next = s0 ^ s3 ^ s1` and `s3_next = rotl(s3 ^ s1, 11)`, and hold otherwise.
    The `u` path then has one addition instead of two. The new `t` path has two XOR
    levels, an operand select and one addition, and the seed addition is register
-   to register. The
-   cost is 32 more flip-flops per lane (161 to 193) and one more adder, or a shared
-   adder with selected operands.
+   to register. The cost is 32 more flip-flops per lane (161 to 193) and one more
+   adder, or a shared adder with selected operands.
 2. **Faster addition structures without new state.** Write one or both additions
    as carry-select or parallel-prefix adders. For example, the 25 upper result bits
    can be computed for both carry-in values while the 7 low bits, which need the
@@ -140,13 +142,38 @@ is smaller than the disagreement between the tools.
 
 ## Acceptance checks for an RNG change
 
-1. RNG owner: an exact stream against the canonical xoshiro128++ model
-   (`make rng-test`, `make rng-sim` and the three-stream checks in
-   `scripts/run_rng_validation.py`), unchanged `LAT_RNG`, and standalone DC at
-   5 ns with setup slack and critical path reported.
-2. Tyler: a matched 1/2/4-lane implementation with the `tyler_closure2` policy and
-   fresh tags, with setup and hold passing in both tools. Report area and power
-   against `tyler_closure2`.
+These match the request sent to the RNG owner on 2026-11-24.
+
+1. **Function (RNG owner).**
+   - The stream matches the canonical xoshiro128++ model exactly: `make rng-test`,
+     `make rng-sim` and the three long streams in `scripts/run_rng_validation.py`.
+   - `LAT_RNG` stays 1, and `u` and `u_valid` change on the same edges as now.
+   - The priority stays reset, then `seed_load`, then run, then hold. A load
+     produces no word and initializes `t`.
+   - The first accepted run after a seed produces the canonical first word.
+   - A pause holds the state, `t` and `u`, clears `u_valid` and skips no samples.
+   - Asynchronous reset clears the state, `t`, `u` and `u_valid`. A new legal seed
+     is required.
+   - State checks assert `t == (s0 + s3) mod 2^32` after reset, seed loading,
+     accepted runs and pauses.
+2. **Standalone synthesis screen (RNG owner).** Synthesize the unchanged RNG and the
+   prototype with the DC step of `scripts/run_rng_validation.py`, `lane_5ns.sdc` at
+   5 ns and the default `setup_fixed_v1` library pair, under fresh tags. Report
+   setup slack, critical paths, area, register counts and retained violations.
+   About +0.3 ns of standalone slack is a screening target for useful margin, not a
+   guarantee of routed closure. Compare the gain with the freshly synthesized
+   unchanged block, not with the November 8 result.
+3. **Integration (Tyler), only after checks 1 and 2.** One matched 1/2/4-lane
+   implementation with the `tyler_closure2` policy and fresh tags passes only if:
+   - setup and hold pass in both PT and Innovus at 1, 2 and 4 lanes
+   - there are no fanout, transition or reset violations
+   - nothing violates a positive capacitance limit
+   - geometry and connectivity checks are clean
+   - mapped and routed replays pass 81 cases and 82,489 trials
+
+   Area and power are reported against `tyler_closure2`. Zero-limit capacitance rows
+   stay separately reported and unresolved. They are not waived, so a pass is not
+   full electrical signoff.
 
 ## Evidence
 
