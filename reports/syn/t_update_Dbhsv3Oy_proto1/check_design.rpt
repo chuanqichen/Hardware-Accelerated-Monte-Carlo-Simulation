@@ -1,0 +1,16 @@
+ 
+****************************************
+check_design summary:
+Version:     T-2022.03-SP2
+Date:        Fri Nov 27 11:53:59 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Cells                                                               2
+    Cells do not drive (LINT-1)                                     2
+--------------------------------------------------------------------------------
+
+Warning: In design 'rng_lane', cell 'C1196' does not drive any nets. (LINT-1)
+Warning: In design 'rng_lane', cell 'C1264' does not drive any nets. (LINT-1)
+1

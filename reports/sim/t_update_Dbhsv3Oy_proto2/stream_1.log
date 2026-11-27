@@ -1,0 +1,11 @@
+["/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto2/reports/sim/t_update_Dbhsv3Oy_proto2/simv_stream", "+SEED=a21ddd67452a68254e0d1fe67c4a7a02", "+STREAM_FILE=/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto2/reports/sim/t_update_Dbhsv3Oy_proto2/stream_1.hex", "+VCD_FILE=/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto2/reports/sim/t_update_Dbhsv3Oy_proto2/stream_1.vcd"]
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 27 11:55 2026
+PASS rng_stream: 1048576 consecutive words, II=1, seed=a21ddd67452a68254e0d1fe67c4a7a02
+$finish called from file "tb/tb_rng_stream.sv", line 83.
+$finish at simulation time          10485786000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 10485786000 ps
+CPU Time:      2.330 seconds;       Data structure size:   0.0Mb
+Fri Nov 27 11:55:43 2026

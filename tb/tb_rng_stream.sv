@@ -15,6 +15,16 @@ module tb_rng_stream;
     return (x << k) | (x >> (32-k));
   endfunction
 
+  // Independently check the look-ahead state throughout each long stream,
+  // including reset, seed loading and the final pause (after NBA updates).
+  always @(posedge clk or negedge rst_n) begin : check_lookahead
+    logic [31:0] expected_t;
+    #1;
+    expected_t = dut.s0 + dut.s3;
+    assert (dut.t === expected_t)
+      else $fatal(1, "long stream t invariant failed");
+  end
+
   initial begin : watchdog
     #(10.0 * (N_WORDS + 32));
     $fatal(1, "long RNG stream timed out");

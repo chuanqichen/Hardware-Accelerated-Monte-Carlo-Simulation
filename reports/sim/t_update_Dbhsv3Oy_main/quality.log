@@ -1,0 +1,5 @@
+["/misc/scratch/sz23492_rng_jFY87fxx/venv/bin/python", "-B", "model/rng_quality.py", "--words", "1048576", "--streams", "3", "--root", "0x123456789abcdef0fedcba987654321", "--out-prefix", "/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/main/results/t_update_Dbhsv3Oy_main", "--plot", "--stream", "/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/main/reports/sim/t_update_Dbhsv3Oy_main/stream_0.hex", "--stream", "/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/main/reports/sim/t_update_Dbhsv3Oy_main/stream_1.hex", "--stream", "/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/main/reports/sim/t_update_Dbhsv3Oy_main/stream_2.hex"]
+stream 0: n=1048576 mean_z=0.119 max_bit_z=2.375 chi2=1002.66 screen=PASS
+stream 1: n=1048576 mean_z=0.712 max_bit_z=2.191 chi2=943.36 screen=PASS
+stream 2: n=1048576 mean_z=-0.880 max_bit_z=2.238 chi2=987.80 screen=PASS
+imported_hex_canonical_checked: PASS RNG screening; outputs: /misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/main/results/t_update_Dbhsv3Oy_main_*

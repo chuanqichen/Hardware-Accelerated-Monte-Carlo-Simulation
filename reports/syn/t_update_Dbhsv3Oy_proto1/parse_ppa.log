@@ -1,0 +1,3 @@
+["/misc/scratch/sz23492_rng_jFY87fxx/venv/bin/python", "-B", "scripts/parse_reports.py", "--syn", "/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto1/reports/syn/t_update_Dbhsv3Oy_proto1", "--out", "/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto1/results/t_update_Dbhsv3Oy_proto1_ppa.csv"]
+wrote 1 rows to /misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto1/results/t_update_Dbhsv3Oy_proto1_ppa.csv
+  t_update_Dbhsv3Oy_proto1 area 6082.127993 um2  wns 0.00337601 ns  fmax 200.135131641 MHz  P   1.4599 mW  regs 193

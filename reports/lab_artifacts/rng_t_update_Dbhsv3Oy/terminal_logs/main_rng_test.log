@@ -1,0 +1,15 @@
+cd model && /misc/scratch/sz23492_rng_jFY87fxx/venv/bin/python -m unittest -v test_rng_lane
+test_canonical_first_word_and_transition (test_rng_lane.TestRngAlgorithm) ... ok
+test_independent_canonical_sequences (test_rng_lane.TestRngAlgorithm) ... ok
+test_seed_bus_order_and_validation (test_rng_lane.TestRngAlgorithm) ... ok
+test_continuous_one_stage (test_rng_lane.TestRngControl) ... ok
+test_generated_vectors_against_independent_scoreboard (test_rng_lane.TestRngControl) ... ok
+test_pause_resume_and_ignored_seed_bus (test_rng_lane.TestRngControl) ... ok
+test_reseed_and_load_priority (test_rng_lane.TestRngControl) ... ok
+test_reset_priority_and_recovery (test_rng_lane.TestRngControl) ... ok
+test_zero_seed_inhibits_and_replaces_active_state (test_rng_lane.TestRngControl) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.455s
+
+OK
