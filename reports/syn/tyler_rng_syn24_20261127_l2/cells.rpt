@@ -1,0 +1,41 @@
+ 
+****************************************
+Report : reference
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Fri Nov 27 17:00:51 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500       7     16.425499  
+AND2X2             gscl45nm       2.815800       1      2.815800  
+AOI21X1            gscl45nm       2.815800       3      8.447400  
+AOI22X1            gscl45nm       3.285100     660   2168.165989  
+BUFX2              gscl45nm       2.346500     491   1152.131461  
+DFFSR              gscl45nm      10.324600     661   6824.560745  n
+INVX1              gscl45nm       1.407900     896   1261.478378  
+INVX2              gscl45nm       1.877200      15     28.158000  
+NAND2X1            gscl45nm       1.877200      19     35.666800  
+NAND3X1            gscl45nm       2.346500      71    166.601494  
+NOR2X1             gscl45nm       2.346500      24     56.315998  
+NOR3X1             gscl45nm       2.815800      71    199.921797  
+OAI21X1            gscl45nm       2.815800       3      8.447400  
+OR2X1              gscl45nm       2.346500       3      7.039500  
+mc_controller_LANES2           3061.243895       1   3061.243895  h, n
+mc_lane_array_LANES2_GAUSS_LATENCY1_MUL_STAGES1_GAUSS_ADDR_BITS10_EXP_ADDR_BITS10 45338.603389       1 45338.603389 h, n
+rst_sync_STAGES2                 25.811500       1     25.811500  h, n
+-----------------------------------------------------------------------------
+Total 17 references                                 60361.835045
+1

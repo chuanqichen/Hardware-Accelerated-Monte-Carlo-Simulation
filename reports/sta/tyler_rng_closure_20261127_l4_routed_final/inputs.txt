@@ -1,0 +1,10 @@
+tool=T-2022.03-SP5
+netlist=/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l4/mc_top.routed.v
+sdc=/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l4/mc_top.routed.sdc
+library=/home/work/teh969/mc_rngphysical_20261127/tech/gscl45nm/setup_fixed_v1/gscl45nm.db
+corner=typical
+analysis=routed_parasitics_propagated_clocks_review_rc_assumptions
+spef=/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l4/mc_top.routed.spef
+vcd=/home/work/teh969/mc_rngphysical_20261127/reports/sim/tyler_rng_closure_20261127_l4_routed/activity.vcd
+activity_window=start_ns 1665.000 stop_ns 2984.500 trials 1000 case_id 2 clock_period_ns 5.000 a 04a2a b 0ccd k 006400
+activity=zero_delay_gate_simulation

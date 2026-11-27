@@ -1,0 +1,210 @@
+/home/work/teh969/pyenv/mc_py312/bin/python scripts/fix_setup_library.py --check
+LIBRARY_CHECK_DONE setup_fixed_v1: source, four edits, compiled DB and checksums match
+cd model && /home/work/teh969/pyenv/mc_py312/bin/python -m unittest -v
+test_baseline_format_reproduces_price_dp_exact_price (test_d5_x_width_study.TestD5.test_baseline_format_reproduces_price_dp_exact_price) ... ok
+test_q4_11_equals_q5_11_on_grid (test_d5_x_width_study.TestD5.test_q4_11_equals_q5_11_on_grid) ... ok
+test_xcfg_y_frac_tracks_x_frac (test_d5_x_width_study.TestD5.test_xcfg_y_frac_tracks_x_frac) ... ok
+test_hex (test_gauss_lut.TestFxp.test_hex) ... ok
+test_round_half_even_and_saturate (test_gauss_lut.TestFxp.test_round_half_even_and_saturate) ... ok
+test_bs_price_sanity (test_gauss_lut.TestGaussLut.test_bs_price_sanity) ... ok
+test_only_top_bits_matter_in_rom_mode (test_gauss_lut.TestGaussLut.test_only_top_bits_matter_in_rom_mode) ... ok
+test_pwl_config (test_gauss_lut.TestGaussLut.test_pwl_config) ... ok
+test_rom_configs (test_gauss_lut.TestGaussLut.test_rom_configs) ... ok
+test_rom_matches_exact_quantile_at_midpoints (test_gauss_lut.TestGaussLut.test_rom_matches_exact_quantile_at_midpoints) ... ok
+test_round_shift_even (test_gauss_lut.TestGaussLut.test_round_shift_even) ... ok
+test_hardware_input_bounds (test_mc_array.TestArray.test_hardware_input_bounds) ... ok
+test_host_seed_words_use_canonical_jump (test_mc_array.TestArray.test_host_seed_words_use_canonical_jump) ... ok
+test_one_lane_is_unchanged (test_mc_array.TestArray.test_one_lane_is_unchanged) ... ok
+test_round_robin_prefix_includes_partial_beats (test_mc_array.TestArray.test_round_robin_prefix_includes_partial_beats) ... ok
+test_lat_total_matches_mc_pkg (test_mc_lane.TestLane.test_lat_total_matches_mc_pkg) ... ok
+test_monte_carlo_converges_to_exact_hw_price (test_mc_lane.TestLane.test_monte_carlo_converges_to_exact_hw_price) ... ok
+test_no_saturation_for_grid_options (test_mc_lane.TestLane.test_no_saturation_for_grid_options) ... ok
+test_payoff_sum_is_prefix_additive (test_mc_lane.TestLane.test_payoff_sum_is_prefix_additive) ... ok
+test_run_equals_trace_sum (test_mc_lane.TestLane.test_run_equals_trace_sum) ... ok
+test_run_is_deterministic (test_mc_lane.TestLane.test_run_is_deterministic) ... ok
+test_trace_is_consistent_with_blocks (test_mc_lane.TestLane.test_trace_is_consistent_with_blocks) ... ok
+test_gauss_stage_is_the_block_lookup (test_mc_lane.TestStreams.test_gauss_stage_is_the_block_lookup) ... ok
+test_rng_stream_matches_lane_control_model (test_mc_lane.TestStreams.test_rng_stream_matches_lane_control_model) ... ok
+test_seed_accepts_tuple_and_packed_bus (test_mc_lane.TestStreams.test_seed_accepts_tuple_and_packed_bus) ... ok
+test_zero_seed_rejected (test_mc_lane.TestStreams.test_zero_seed_rejected) ... ok
+test_clear_drops_in_flight_beats (test_price_dp.TestAccumulator.test_clear_drops_in_flight_beats) ... ok
+test_clear_then_data_is_clean (test_price_dp.TestAccumulator.test_clear_then_data_is_clean) ... ok
+test_gaps_and_clear_priority (test_price_dp.TestAccumulator.test_gaps_and_clear_priority) ... ok
+test_lanes_popcount (test_price_dp.TestAccumulator.test_lanes_popcount) ... ok
+test_latency_two_and_four_lanes (test_price_dp.TestAccumulator.test_latency_two_and_four_lanes) ... ok
+test_overflow_four_lanes_w32 (test_price_dp.TestAccumulator.test_overflow_four_lanes_w32) ... ok
+test_overflow_sticky (test_price_dp.TestAccumulator.test_overflow_sticky) ... ok
+test_partial_valid_popcount_and_masked_flags (test_price_dp.TestAccumulator.test_partial_valid_popcount_and_masked_flags) ... ok
+test_random_streams_sum_equals_plain_sum (test_price_dp.TestAccumulator.test_random_streams_sum_equals_plain_sum) ... ok
+test_sat_flags_need_valid (test_price_dp.TestAccumulator.test_sat_flags_need_valid) ... ok
+test_sustained_one_beat_per_cycle (test_price_dp.TestAccumulator.test_sustained_one_beat_per_cycle) ... ok
+test_tree_lat_default_matches_lane_config (test_price_dp.TestAccumulator.test_tree_lat_default_matches_lane_config) ... ok
+test_error_bound_vs_k (test_price_dp.TestExp.test_error_bound_vs_k) ... ok
+test_monotonic_and_in_range (test_price_dp.TestExp.test_monotonic_and_in_range) ... ok
+test_overflow_edge (test_price_dp.TestExp.test_overflow_edge) ... ok
+test_rom_range (test_price_dp.TestExp.test_rom_range) ... ok
+test_underflow_to_zero_without_flag (test_price_dp.TestExp.test_underflow_to_zero_without_flag) ... ok
+test_end_to_end_bias_under_1pct (test_price_dp.TestPayoffAndBlock.test_end_to_end_bias_under_1pct) ... ok
+test_latency (test_price_dp.TestPayoffAndBlock.test_latency) ... ok
+test_option_to_regs_round_trip (test_price_dp.TestPayoffAndBlock.test_option_to_regs_round_trip) ... ok
+test_payoff (test_price_dp.TestPayoffAndBlock.test_payoff) ... ok
+test_worked_example (test_price_dp.TestPayoffAndBlock.test_worked_example) ... ok
+test_bz_alone_never_saturates (test_price_dp.TestRounding.test_bz_alone_never_saturates) ... ok
+test_fused_rounding_tie_with_odd_a (test_price_dp.TestRounding.test_fused_rounding_tie_with_odd_a) ... ok
+test_round_shift_even_signed (test_price_dp.TestRounding.test_round_shift_even_signed) ... ok
+test_sat_x_both_ends (test_price_dp.TestRounding.test_sat_x_both_ends) ... ok
+test_jump_is_a_state_advance (test_price_study.TestStreams.test_jump_is_a_state_advance) ... ok
+test_jump_linear_in_state (test_price_study.TestStreams.test_jump_linear_in_state) ... ok
+test_jump_step_function_is_the_lane_transition (test_price_study.TestStreams.test_jump_step_function_is_the_lane_transition) ... ok
+test_lane_seeds_distinct (test_price_study.TestStreams.test_lane_seeds_distinct) ... ok
+test_two_streams_are_independent_rows (test_price_study.TestStreams.test_two_streams_are_independent_rows) ... ok
+test_vectorised_stream_matches_reference (test_price_study.TestStreams.test_vectorised_stream_matches_reference) ... ok
+test_small_study_runs_and_is_sane (test_price_study.TestStudy.test_small_study_runs_and_is_sane) ... ok
+test_ambiguous_row_is_an_error (test_pricing_tradeoff.TestPricingTradeoff.test_ambiguous_row_is_an_error) ... ok
+test_config_table (test_pricing_tradeoff.TestPricingTradeoff.test_config_table) ... ok
+test_csv_files_written (test_pricing_tradeoff.TestPricingTradeoff.test_csv_files_written) ... ok
+test_deterministic_bytes (test_pricing_tradeoff.TestPricingTradeoff.test_deterministic_bytes) ... ok
+test_end_to_end_bias_matches_price_dp_demo (test_pricing_tradeoff.TestPricingTradeoff.test_end_to_end_bias_matches_price_dp_demo) ... ok
+test_grid_shape_and_order (test_pricing_tradeoff.TestPricingTradeoff.test_grid_shape_and_order) ... ok
+test_max_abs_columns (test_pricing_tradeoff.TestPricingTradeoff.test_max_abs_columns) ... ok
+test_missing_row_is_an_error (test_pricing_tradeoff.TestPricingTradeoff.test_missing_row_is_an_error) ... error: price_dp k=8 m1 r0 at 5.0 ns: expected exactly one row in /tmp/tmplp5f5j8g/ppa.csv, found 0
+ok
+test_price_dp_alone_bias_matches_price_dp_sweep (test_pricing_tradeoff.TestPricingTradeoff.test_price_dp_alone_bias_matches_price_dp_sweep) ... ok
+test_synthesis_columns_come_from_k_row (test_pricing_tradeoff.TestPricingTradeoff.test_synthesis_columns_come_from_k_row) ... ok
+test_throughput_both_met_follows_slack (test_pricing_tradeoff.TestPricingTradeoff.test_throughput_both_met_follows_slack) ... ok
+test_throughput_rows_and_periods (test_pricing_tradeoff.TestPricingTradeoff.test_throughput_rows_and_periods) ... ok
+test_canonical_first_word_and_transition (test_rng_lane.TestRngAlgorithm.test_canonical_first_word_and_transition) ... ok
+test_independent_canonical_sequences (test_rng_lane.TestRngAlgorithm.test_independent_canonical_sequences) ... ok
+test_seed_bus_order_and_validation (test_rng_lane.TestRngAlgorithm.test_seed_bus_order_and_validation) ... ok
+test_continuous_one_stage (test_rng_lane.TestRngControl.test_continuous_one_stage) ... ok
+test_generated_vectors_against_independent_scoreboard (test_rng_lane.TestRngControl.test_generated_vectors_against_independent_scoreboard) ... ok
+test_pause_resume_and_ignored_seed_bus (test_rng_lane.TestRngControl.test_pause_resume_and_ignored_seed_bus) ... ok
+test_reseed_and_load_priority (test_rng_lane.TestRngControl.test_reseed_and_load_priority) ... ok
+test_reset_priority_and_recovery (test_rng_lane.TestRngControl.test_reset_priority_and_recovery) ... ok
+test_zero_seed_inhibits_and_replaces_active_state (test_rng_lane.TestRngControl.test_zero_seed_inhibits_and_replaces_active_state) ... ok
+test_constant_and_alternating_streams_fail (test_rng_quality.TestQualityMeasurements.test_constant_and_alternating_streams_fail) ... ok
+test_duplicated_streams_fail_cross_stream_screen (test_rng_quality.TestQualityMeasurements.test_duplicated_streams_fail_cross_stream_screen) ... ok
+test_generator_matches_independent_oracle_and_repeats (test_rng_quality.TestQualityMeasurements.test_generator_matches_independent_oracle_and_repeats) ... ok
+test_invalid_data_rejected (test_rng_quality.TestQualityMeasurements.test_invalid_data_rejected) ... ok
+test_known_bins_and_bit_counts (test_rng_quality.TestQualityMeasurements.test_known_bins_and_bit_counts) ... ok
+test_exact_stream_and_corruption (test_rng_quality.TestStreamImport.test_exact_stream_and_corruption) ... ok
+test_random_near_saturation_boundaries (test_round_sat.TestAgainstReference.test_random_near_saturation_boundaries) ... ok
+test_random_signed_price_dp_s2 (test_round_sat.TestAgainstReference.test_random_signed_price_dp_s2) ... ok
+test_random_unsigned (test_round_sat.TestAgainstReference.test_random_unsigned) ... ok
+test_scalar_and_array_agree (test_round_sat.TestAgainstReference.test_scalar_and_array_agree) ... ok
+test_above_half_rounds_up (test_round_sat.TestRoundHalfEven.test_above_half_rounds_up) ... ok
+test_below_half_rounds_down (test_round_sat.TestRoundHalfEven.test_below_half_rounds_down) ... ok
+test_negative_above_half_floors_then_rounds (test_round_sat.TestRoundHalfEven.test_negative_above_half_floors_then_rounds) ... ok
+test_negative_below_half (test_round_sat.TestRoundHalfEven.test_negative_below_half) ... ok
+test_negative_tie_even_quotient (test_round_sat.TestRoundHalfEven.test_negative_tie_even_quotient) ... ok
+test_negative_tie_odd_quotient (test_round_sat.TestRoundHalfEven.test_negative_tie_odd_quotient) ... ok
+test_shift_one_tie (test_round_sat.TestRoundHalfEven.test_shift_one_tie) ... ok
+test_shift_zero_is_identity (test_round_sat.TestRoundHalfEven.test_shift_zero_is_identity) ... ok
+test_tie_even_quotient_stays (test_round_sat.TestRoundHalfEven.test_tie_even_quotient_stays) ... ok
+test_tie_odd_quotient_rounds_up (test_round_sat.TestRoundHalfEven.test_tie_odd_quotient_rounds_up) ... ok
+test_below_min_saturates (test_round_sat.TestSaturation.test_below_min_saturates) ... ok
+test_exactly_max_does_not_saturate (test_round_sat.TestSaturation.test_exactly_max_does_not_saturate) ... ok
+test_exactly_min_does_not_saturate (test_round_sat.TestSaturation.test_exactly_min_does_not_saturate) ... ok
+test_max_plus_half_tie_stays_at_max (test_round_sat.TestSaturation.test_max_plus_half_tie_stays_at_max) ... ok
+test_min_minus_half_tie_stays_at_min (test_round_sat.TestSaturation.test_min_minus_half_tie_stays_at_min) ... ok
+test_round_up_carries_into_saturation (test_round_sat.TestSaturation.test_round_up_carries_into_saturation) ... ok
+test_shift_zero_pure_saturate (test_round_sat.TestSaturation.test_shift_zero_pure_saturate) ... ok
+test_unsigned_negative_input_clamps_to_zero (test_round_sat.TestSaturation.test_unsigned_negative_input_clamps_to_zero) ... ok
+test_unsigned_overflow (test_round_sat.TestSaturation.test_unsigned_overflow) ... ok
+
+----------------------------------------------------------------------
+Ran 109 tests in 4.165s
+
+OK
+stream 0: n=32768 mean_z=0.718 max_bit_z=1.867 chi2=1015.44 screen=PASS
+stream 1: n=32768 mean_z=0.718 max_bit_z=1.867 chi2=1015.44 screen=PASS
+test_fixture: FAIL RNG screening; outputs: /tmp/tmp0bjtgxkv/fixture_*
+/home/work/teh969/pyenv/mc_py312/bin/python scripts/check_evidence_artifacts.py
+Tracked evidence contains no EDA build products.
+/home/work/teh969/pyenv/mc_py312/bin/python -m unittest discover -s scripts -p 'test_*.py' -v
+test_complete_matrix_is_accepted (test_array_runner.TestArrayRunner.test_complete_matrix_is_accepted) ... ok
+test_empty_corpus_and_missing_marker_are_rejected (test_array_runner.TestArrayRunner.test_empty_corpus_and_missing_marker_are_rejected) ... ok
+test_exit_zero_failures_after_pass_are_rejected_at_each_phase (test_array_runner.TestArrayRunner.test_exit_zero_failures_after_pass_are_rejected_at_each_phase) ... ok
+test_archived_routed_report_has_only_zero_limit_capacitance_rows (test_classify_violations.TestViolationClassification.test_archived_routed_report_has_only_zero_limit_capacitance_rows) ... ok
+test_rows_are_counted_and_zero_limits_are_separate (test_classify_violations.TestViolationClassification.test_rows_are_counted_and_zero_limits_are_separate) ... ok
+test_unrecognized_violation_rows_are_rejected (test_classify_violations.TestViolationClassification.test_unrecognized_violation_rows_are_rejected) ... ok
+test_complete_negative_slack_study_is_accepted (test_clock_transition_runner.TestClockTransitionRunner.test_complete_negative_slack_study_is_accepted) ... ok
+test_existing_evidence_is_preserved (test_clock_transition_runner.TestClockTransitionRunner.test_existing_evidence_is_preserved) ... ok
+test_exit_zero_errors_and_incomplete_results_fail (test_clock_transition_runner.TestClockTransitionRunner.test_exit_zero_errors_and_incomplete_results_fail) ... ok
+test_failures_cannot_publish_waveforms (test_dump_waves.TestWaveformRunner.test_failures_cannot_publish_waveforms) ... ok
+test_success_publishes_all_waveforms_and_preserves_other_builds (test_dump_waves.TestWaveformRunner.test_success_publishes_all_waveforms_and_preserves_other_builds) ... ok
+test_changed_input_is_rejected_including_compressed_archives (test_parse_reports.TestImplementationInputs.test_changed_input_is_rejected_including_compressed_archives) ... ok
+test_sdc_translation_preserves_timing_and_electrical_constraints (test_parse_reports.TestImplementationInputs.test_sdc_translation_preserves_timing_and_electrical_constraints) ... ok
+test_single_run_excludes_siblings_and_parent_mode_remains_supported (test_parse_reports.TestReportDirectorySelection.test_single_run_excludes_siblings_and_parent_mode_remains_supported) ... ok
+test_violations_survive_summary (test_parse_reports.TestSmokeReportParsing.test_violations_survive_summary) ... ok
+test_clock_title_follows_data (test_plot_pricing.TestPlotPricing.test_clock_title_follows_data) ... ok
+test_duplicate_row_fails (test_plot_pricing.TestPlotPricing.test_duplicate_row_fails) ... ok
+test_extract_shapes (test_plot_pricing.TestPlotPricing.test_extract_shapes) ... ok
+test_missing_row_fails_without_writing (test_plot_pricing.TestPlotPricing.test_missing_row_fails_without_writing) ... ok
+test_negative_wns_fails (test_plot_pricing.TestPlotPricing.test_negative_wns_fails) ... ok
+test_negative_wns_in_unplotted_row_is_ignored (test_plot_pricing.TestPlotPricing.test_negative_wns_in_unplotted_row_is_ignored) ... ok
+test_script_writes_three_pngs (test_plot_pricing.TestPlotPricing.test_script_writes_three_pngs) ... ok
+test_completed_analysis_accepts_negative_slack (test_prelayout_runner.TestPrelayoutRunner.test_completed_analysis_accepts_negative_slack) ... ok
+test_exit_zero_error_on_stderr_is_rejected_after_done (test_prelayout_runner.TestPrelayoutRunner.test_exit_zero_error_on_stderr_is_rejected_after_done) ... ok
+test_invalid_spef_is_rejected_before_analysis (test_prelayout_runner.TestPrelayoutRunner.test_invalid_spef_is_rejected_before_analysis) ... ok
+test_missing_completion_evidence_is_rejected (test_prelayout_runner.TestPrelayoutRunner.test_missing_completion_evidence_is_rejected) ... ok
+test_physical_runner_completion_gates (test_prelayout_runner.TestPrelayoutRunner.test_physical_runner_completion_gates) ... ok
+test_synthesis_sweep_rejects_unsupported_lane_lists_before_any_output (test_prelayout_runner.TestPrelayoutRunner.test_synthesis_sweep_rejects_unsupported_lane_lists_before_any_output) ... ok
+test_any_failing_run_fails_the_script (test_pricing_final.TestPricingFinalRunner.test_any_failing_run_fails_the_script) ... ok
+test_array_runner_is_included_when_present (test_pricing_final.TestPricingFinalRunner.test_array_runner_is_included_when_present) ... ok
+test_committed_rom_mismatch_fails (test_pricing_final.TestPricingFinalRunner.test_committed_rom_mismatch_fails) ... ok
+test_default_run_id_is_timestamped (test_pricing_final.TestPricingFinalRunner.test_default_run_id_is_timestamped) ... ok
+test_existing_run_dir_is_refused (test_pricing_final.TestPricingFinalRunner.test_existing_run_dir_is_refused) ... ok
+test_happy_path_evidence (test_pricing_final.TestPricingFinalRunner.test_happy_path_evidence) ... ok
+test_invalid_run_id_is_refused (test_pricing_final.TestPricingFinalRunner.test_invalid_run_id_is_refused) ... ok
+test_existing_evidence_is_rejected_before_creating_simulation (test_rng_validation.TestRngReportLayout.test_existing_evidence_is_rejected_before_creating_simulation) ... usage: runner [-h] [--tag TAG] [--results-tag RESULTS_TAG] [--words WORDS]
+              [--streams STREAMS] [--root ROOT] [--skip-synth]
+runner: error: Synthesis run already exists: /tmp/tmp9k8j48rm/reports/syn/existing; choose a new tag
+usage: runner [-h] [--tag TAG] [--results-tag RESULTS_TAG] [--words WORDS]
+              [--streams STREAMS] [--root ROOT] [--skip-synth]
+runner: error: Results already exist: /tmp/tmpdcmivdu6/results/rng_20261108_*; choose a new --results-tag
+ok
+test_synthesis_is_created_by_dc_and_parsed_as_one_run (test_rng_validation.TestRngReportLayout.test_synthesis_is_created_by_dc_and_parsed_as_one_run) ... ok
+test_only_explicit_success_is_accepted (test_rng_validation.TestRngRunnerEvidence.test_only_explicit_success_is_accepted) ... PASS RNG lab validation: /tmp/tmpragxj9co/reports/sim/rng_validation
+Read the PPA CSV for violations; this is not physical signoff.
+Running: /home/work/teh969/pyenv/mc_py312/bin/python -c print('PASS checked=5')
+Running: /home/work/teh969/pyenv/mc_py312/bin/python -c print('PASS checked=5'); print('FAIL: bad data')
+Running: /home/work/teh969/pyenv/mc_py312/bin/python -c print('PASS checked=5'); print('Fatal: after PASS')
+Running: /home/work/teh969/pyenv/mc_py312/bin/python -c print('PASS checked=5'); print('Error-[compile]')
+Running: /home/work/teh969/pyenv/mc_py312/bin/python -c print('nothing checked')
+Running: /home/work/teh969/pyenv/mc_py312/bin/python -c raise SystemExit(1)
+ok
+test_default_lanes_and_parse (test_run_accumulator_sweep.TestAccumulatorSweepRunner.test_default_lanes_and_parse) ... ok
+test_invalid_batch_rejected (test_run_accumulator_sweep.TestAccumulatorSweepRunner.test_invalid_batch_rejected) ... ok
+test_positional_list_clock_passthrough_and_stop_on_failure (test_run_accumulator_sweep.TestAccumulatorSweepRunner.test_positional_list_clock_passthrough_and_stop_on_failure) ... ok
+test_default_grid_isolated_rom_and_parse (test_run_price_sweep.TestPriceSweepRunner.test_default_grid_isolated_rom_and_parse) ... ok
+test_invalid_batch_rejected (test_run_price_sweep.TestPriceSweepRunner.test_invalid_batch_rejected) ... ok
+test_positional_lists_and_stop_on_failure (test_run_price_sweep.TestPriceSweepRunner.test_positional_lists_and_stop_on_failure) ... ok
+test_build_products_are_not_archival_evidence (test_setup_library.TestSetupLibrary.test_build_products_are_not_archival_evidence) ... ok
+test_changed_source_cannot_silently_use_an_old_db (test_setup_library.TestSetupLibrary.test_changed_source_cannot_silently_use_an_old_db) ... ok
+test_collector_rejects_mixed_implementation_policies (test_setup_library.TestSetupLibrary.test_collector_rejects_mixed_implementation_policies) ... ok
+test_comparison_rejects_a_slew_workaround_or_clock_relaxation (test_setup_library.TestSetupLibrary.test_comparison_rejects_a_slew_workaround_or_clock_relaxation) ... ok
+test_exactly_four_numeric_changes_preserve_every_other_source_byte (test_setup_library.TestSetupLibrary.test_exactly_four_numeric_changes_preserve_every_other_source_byte) ... ok
+test_generated_results_expose_the_innovus_setup_failure (test_setup_library.TestSetupLibrary.test_generated_results_expose_the_innovus_setup_failure) ... ok
+test_result_collector_rejects_dc_pt_library_mismatch (test_setup_library.TestSetupLibrary.test_result_collector_rejects_dc_pt_library_mismatch) ... ok
+test_result_collector_rejects_mixed_library_variants (test_setup_library.TestSetupLibrary.test_result_collector_rejects_mixed_library_variants) ... ok
+test_rounded_zero_wns_does_not_hide_a_violation (test_setup_library.TestSetupLibrary.test_rounded_zero_wns_does_not_hide_a_violation) ... ok
+test_shared_default_and_explicit_overrides (test_setup_library.TestSetupLibrary.test_shared_default_and_explicit_overrides) ... ok
+test_unrecognized_source_is_rejected (test_setup_library.TestSetupLibrary.test_unrecognized_source_is_rejected) ... ok
+test_controller_has_no_pricing_mock_sources (test_synth_config.TestSynthesisSetup.test_controller_has_no_pricing_mock_sources) ... ok
+test_custom_design_requires_sources (test_synth_config.TestSynthesisSetup.test_custom_design_requires_sources) ... ok
+test_existing_evidence_cannot_be_overwritten (test_synth_config.TestSynthesisSetup.test_existing_evidence_cannot_be_overwritten) ... ok
+test_integrated_top_has_reset_package_and_real_backend (test_synth_config.TestSynthesisSetup.test_integrated_top_has_reset_package_and_real_backend) ... ok
+test_invalid_period_and_run_path_rejected (test_synth_config.TestSynthesisSetup.test_invalid_period_and_run_path_rejected) ... ok
+test_library_path_with_spaces_and_shared_five_ns_default (test_synth_config.TestSynthesisSetup.test_library_path_with_spaces_and_shared_five_ns_default) ... ok
+test_missing_library_rejected (test_synth_config.TestSynthesisSetup.test_missing_library_rejected) ... ok
+test_missing_sdc_rejected (test_synth_config.TestSynthesisSetup.test_missing_sdc_rejected) ... ok
+test_missing_source_rejected (test_synth_config.TestSynthesisSetup.test_missing_source_rejected) ... ok
+test_mock_source_rejected (test_synth_config.TestSynthesisSetup.test_mock_source_rejected) ... ok
+test_parameters_checked_and_production_lanes_bounded (test_synth_config.TestSynthesisSetup.test_parameters_checked_and_production_lanes_bounded) ... ok
+test_retime_off_by_default_and_validated (test_synth_config.TestSynthesisSetup.test_retime_off_by_default_and_validated) ... ok
+
+----------------------------------------------------------------------
+Ran 67 tests in 16.912s
+
+OK

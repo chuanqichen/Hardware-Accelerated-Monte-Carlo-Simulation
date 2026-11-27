@@ -1,0 +1,11 @@
+Command: /home/work/teh969/mc_rngphysical_20261127/reports/sim/tyler_rng_20261127_rtl/l4_k8_g2_m2/simv +CASES=tmp/tyler_rng_20261127_rtl_inputs/mc_array_l4_k8.hex -l /home/work/teh969/mc_rngphysical_20261127/reports/sim/tyler_rng_20261127_rtl/l4_k8_g2_m2/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 27 16:51 2026
+PASS: tb_mc_array L=4 G=2 M=2 A=10 K=8 cases=28 trials=27502
+$finish called from file "tb/tb_mc_array.sv", line 143.
+$finish at simulation time             89747000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 89747000 ps
+CPU Time:      0.350 seconds;       Data structure size:   0.1Mb
+Fri Nov 27 16:51:18 2026

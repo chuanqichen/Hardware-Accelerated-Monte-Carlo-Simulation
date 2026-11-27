@@ -1,0 +1,14 @@
+design       mc_top
+tag          tyler_rng_syn24_20261127_l4
+params       LANES=4,GAUSS_LATENCY=1,MUL_STAGES=1,GAUSS_ADDR_BITS=10,EXP_ADDR_BITS=10
+retime       0
+library      gscl45nm.db
+clk_period_ns 5.000000
+wns_ns       0.604693
+fmax_mhz     227.515393123
+area_um2     111797.584146
+area_comb_um2 84237.471979
+area_bufinv_um2 16031.287654
+area_seq_um2 27560.112167
+cells        35969
+registers    2813

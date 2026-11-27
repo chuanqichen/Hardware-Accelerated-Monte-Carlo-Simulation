@@ -4,6 +4,11 @@ Draft for the team's final presentation: five slides, about four minutes. Each s
 lists what goes on it and what to say. Numbers come from
 `Final_Integration_Contribution.md`. Figures are in `results/` and `docs/figures/`.
 
+Updated 2026-11-27: slides 2 to 4 explain the archived baseline/closure2 study.
+Slide 5 gives the newer PR #27 candidate, including the two-lane physical ECO.
+The candidate and its physical evidence require team integration before being
+presented as merged main. See `RNG_Physical_Validation.md` for exact provenance.
+
 ## Slide 1 - From one lane to four, verified end to end
 
 On the slide:
@@ -40,7 +45,7 @@ closed. Hold fails at every lane count because the clock uncertainty also applie
 hold on short loops. Fanout fails because Innovus deletes the synthesis buffer trees
 and cannot see the fanout limit in this library.
 
-## Slide 3 - Closing hold and fanout without touching constraints
+## Slide 3 - Archived closure2: closing hold and fanout
 
 On the slide:
 
@@ -76,37 +81,49 @@ buffer trees costs area. The design still finishes the workload in the same numb
 of cycles. Energy per trial falls with more lanes because power grows more slowly
 than the lane count while the workload time halves.
 
-## Slide 5 - What is not closed yet
+## Slide 5 - RNG follow-up passes timing, with limits
 
 On the slide:
 
-- Four lanes: Innovus -6 ps with SI on and -56 ps with SI off on the RNG output path;
-  PrimeTime +280 ps on the same pins
-- A setup-target trial was unsuccessful: two-lane setup -10 ps, four-lane hold -23 ps
-- 4,491 / 8,139 / 15,596 rows on seven pins whose library capacitance limit is zero;
-  still reported as unresolved, and any change to the limits needs course-staff approval
-- Estimated RC, one corner and zero-delay activity. No DRC/LVS, IR/EM or SDF signoff,
-  and no rated frequency.
-- Next: a look-ahead register proposed to the RNG owner, not yet implemented
+- Shentong's carry-select look-ahead sum preserves the exact stream and latency
+- Final candidate setup / hold (ns):
 
-Say: Four lanes are 6 ps short in Innovus. That is less than Innovus's own swing when
-crosstalk modelling is switched off, and far less than the gap between the two tools.
-Tuning the optimizer only moved the miss around, so the real fix is more margin in the
-RNG adder path, without adding latency. All of these numbers are tool estimates on an
-extrapolated library, not signoff.
+| Lanes | PrimeTime | Innovus |
+|---:|---:|---:|
+| 1 | +0.866 / +0.015 | +0.400 / +0.069 |
+| 2 | +0.696 / +0.015 | +0.182 / +0.005 |
+| 4 | +0.542 / +0.013 | +0.146 / +0.018 |
+
+- Two lanes required one hold buffer and filler rebuilding; both replay matrices
+  pass 81 cases / 82,489 trials, and geometry/connectivity are clean
+- Zero-limit capacitance rows remain unresolved: 4,564 / 8,280 / 15,732
+- One typical corner, native RC, incomplete coverage and a 5 ps hold margin remain
+  limits. No full signoff or rated maximum frequency.
+
+Figure: `results/multilane_rng_lookahead.png`, or the four-lane layout
+`docs/figures/rng_lookahead_l4.png`. The candidate PPA is 10.8 / 19.3 / 36.1 mW
+and 54.6 / 49.5 / 47.6 pJ per trial. Keep it separate from slide 4's archived study.
+
+Say: The RTL timing change belongs to Shentong. I validated the complete tops with
+the same constraints and closure policy. One two-lane short path needed a local
+buffer ECO, including rebuilding fillers so physical checks stayed clean. Both
+timers now pass at all lane counts. The smallest hold margin is only 5 ps, and the
+zero-capacitance-limit rows remain unresolved, so this is still model-based evidence.
 
 ## Likely questions
 
 - **Why not lower the clock?** Hold does not depend on the clock period, and the
-  comparisons are matched at 5 ns. A slower clock would hide the four-lane miss
-  rather than explain it.
-- **Which tool is right?** Neither is signoff. On the four-lane path they differ by
-  0.260 ns over identical arcs, with every arc evaluated below the library's first
-  table index, so we require both to pass.
-- **Why did the area go up?** Mostly hold buffers, plus the synthesis buffer trees
-  that the baseline flow deleted.
+  comparisons are matched at 5 ns. The follow-up preserves that target and latency.
+- **Which tool is right?** Neither establishes signoff. The archived RNG path
+  comparison differed by 0.260 ns over identical arcs, below the library table
+  range. The new layouts pass both tools while retaining the modelling limits.
+- **Why did the area go up?** The archived closure-policy cost was mostly hold
+  buffers plus retained synthesis trees. The newer RNG adds about 4 to 5% mapped
+  area; its routed area changes by +2.2% / +2.2% / -1.1% versus closure2.
 - **Why not fix the capacitance rows?** Their library limit is zero, so any load
   violates. Changing the limit would be another library approximation, which needs
   course-staff approval.
-- **Does the design run at 200 MHz?** Under these models, one and two lanes pass both
-  tools at 5 ns. Four lanes do not yet, and none of this is signoff.
+- **Does the design run at 200 MHz?** The final candidate passes both timers at
+  5 ns for all three lane counts. Target-rate throughput is calculated from
+  simulation cycles, and electrical/model/coverage limits still prevent signoff
+  or a rated silicon-frequency claim.

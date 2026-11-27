@@ -1,0 +1,57 @@
+Information: Propagating switching activity (medium effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort medium
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Fri Nov 27 17:00:50 2026
+****************************************
+
+
+Library(s) Used:
+
+    gscl45nm (File: /home/work/teh969/mc_rngphysical_20261127/tech/gscl45nm/setup_fixed_v1/gscl45nm.db)
+
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+Attributes
+----------
+i - Including register clock pin internal power
+
+
+  Cell Internal Power  =   7.7009 mW   (99%)
+  Net Switching Power  =  81.1603 uW    (1%)
+                         ---------
+Total Dynamic Power    =   7.7821 mW  (100%)
+
+Cell Leakage Power     = 292.4489 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      7.6932            0.0000            0.0000            0.0000  (   0.00%)  i
+register       3.1290e-03        9.4730e-05        1.5325e+05            7.8496  (  97.21%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational  4.6600e-03        8.1065e-02        1.3920e+05            0.2249  (   2.79%)
+--------------------------------------------------------------------------------------------------
+Total              7.7009 mW     8.1160e-02 mW     2.9245e+05 nW         8.0745 mW
+1

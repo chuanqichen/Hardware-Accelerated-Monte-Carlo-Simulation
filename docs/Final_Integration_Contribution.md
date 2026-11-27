@@ -5,6 +5,18 @@ Tyler Haverlah, 2026-11-24. Text for the team's final report, in the same form a
 from a committed file under `results/` or `reports/`; the last section lists them for
 the editor. Evidence from PR #24 is linked to its reviewed commit `0fa27ec`.
 
+**November 27 candidate follow-up.** Shentong's carry-select RNG candidate
+(`9a0dda5`, draft PR #27) now has a separate
+[physical-validation report](RNG_Physical_Validation.md),
+[1/2/4-lane results](../results/multilane_rng_lookahead.md) and layout figures.
+All three pass setup and hold in PT and Innovus after a one-buffer hold ECO and
+filler rebuilding at two lanes. Four-lane Innovus setup/hold is +0.146 / +0.018 ns;
+the smallest Innovus hold margin is +0.005 ns at two lanes. Zero-limit capacitance
+rows and modelling/coverage limits remain unresolved. This is a reviewed
+candidate result pending team integration, not a replacement of the historical
+measurements below. Use the follow-up tables for the latest candidate and keep
+the original-library, corrected-library and closure2 studies separate.
+
 ## What I contributed
 
 **Integration.**
@@ -49,7 +61,7 @@ the editor. Evidence from PR #24 is linked to its reviewed commit `0fa27ec`.
 - In PR #24: a same-path PT/Innovus comparison, an RNG path note for the RNG
   owner and a manifest of the trial's lab-only files.
 
-## Results
+## Archived comparison results, before the RNG change
 
 Every run below uses the same conditions:
 
@@ -144,7 +156,7 @@ of 0.05 ns. Nothing else changed.
 - **Same-path check.** On the reference's failing path, PT times the same 150 pins
   and transitions at +0.280 ns (PR #24).
 
-## Limits
+## Limits of the archived comparison
 
 - **Four-lane setup is not closed.** Innovus misses by 6 ps with SI-aware delay
   calculation and by 56 ps without it, on the lane-3 RNG output path. That path is

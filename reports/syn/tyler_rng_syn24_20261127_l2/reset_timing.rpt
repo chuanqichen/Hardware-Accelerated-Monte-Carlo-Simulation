@@ -1,0 +1,155 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 2
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Fri Nov 27 17:00:51 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: rst_n (input port clocked by clk)
+  Endpoint: u_reset/chain_reg[0]
+            (rising-edge recovery check against clock clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.50       1.50 r
+  rst_n (in)                               0.03       1.53 r
+  u_reset/rst_in_n (rst_sync_STAGES2)      0.00       1.53 r
+  u_reset/chain_reg[0]/R (DFFSR)           0.00       1.53 r
+  data arrival time                                   1.53
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -0.10       4.90
+  u_reset/chain_reg[0]/CLK (DFFSR)         0.00       4.90 r
+  library recovery time                   -0.82       4.08
+  data required time                                  4.08
+  -----------------------------------------------------------
+  data required time                                  4.08
+  data arrival time                                  -1.53
+  -----------------------------------------------------------
+  slack (MET)                                         2.55
+
+
+  Startpoint: rst_n (input port clocked by clk)
+  Endpoint: u_reset/chain_reg[1]
+            (rising-edge recovery check against clock clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.50       1.50 r
+  rst_n (in)                               0.03       1.53 r
+  u_reset/rst_in_n (rst_sync_STAGES2)      0.00       1.53 r
+  u_reset/chain_reg[1]/R (DFFSR)           0.00       1.53 r
+  data arrival time                                   1.53
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -0.10       4.90
+  u_reset/chain_reg[1]/CLK (DFFSR)         0.00       4.90 r
+  library recovery time                   -0.82       4.08
+  data required time                                  4.08
+  -----------------------------------------------------------
+  data required time                                  4.08
+  data arrival time                                  -1.53
+  -----------------------------------------------------------
+  slack (MET)                                         2.55
+
+
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 2
+Design : mc_top
+Version: T-2022.03-SP2
+Date   : Fri Nov 27 17:00:51 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: u_reset/chain_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: cfg_k_reg[3]
+            (rising-edge removal check against clock clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_reset/chain_reg[1]/CLK (DFFSR)                        0.00 #     0.00 r
+  u_reset/chain_reg[1]/Q (DFFSR)                          0.13       0.13 r
+  u_reset/U8/Y (INVX1)                                    0.01       0.14 f
+  u_reset/U7/Y (INVX1)                                    0.20       0.34 r
+  u_reset/rst_sync_n (rst_sync_STAGES2)                   0.00       0.34 r
+  cfg_k_reg[3]/R (DFFSR)                                  0.00       0.34 r
+  data arrival time                                                  0.34
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.10       0.10
+  cfg_k_reg[3]/CLK (DFFSR)                                0.00       0.10 r
+  library removal time                                    0.18       0.28
+  data required time                                                 0.28
+  --------------------------------------------------------------------------
+  data required time                                                 0.28
+  data arrival time                                                 -0.34
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: u_reset/chain_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: active_seeds_reg[1][96]
+            (rising-edge removal check against clock clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_reset/chain_reg[1]/CLK (DFFSR)                        0.00 #     0.00 r
+  u_reset/chain_reg[1]/Q (DFFSR)                          0.13       0.13 r
+  u_reset/U8/Y (INVX1)                                    0.01       0.14 f
+  u_reset/U7/Y (INVX1)                                    0.20       0.34 r
+  u_reset/rst_sync_n (rst_sync_STAGES2)                   0.00       0.34 r
+  active_seeds_reg[1][96]/R (DFFSR)                       0.00       0.34 r
+  data arrival time                                                  0.34
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.10       0.10
+  active_seeds_reg[1][96]/CLK (DFFSR)                     0.00       0.10 r
+  library removal time                                    0.18       0.28
+  data required time                                                 0.28
+  --------------------------------------------------------------------------
+  data required time                                                 0.28
+  data arrival time                                                 -0.34
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+1
