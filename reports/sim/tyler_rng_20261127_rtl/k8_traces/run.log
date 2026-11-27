@@ -1,0 +1,11 @@
+Command: /home/work/teh969/mc_rngphysical_20261127/reports/sim/tyler_rng_20261127_rtl/k8_traces/simv +VECTOR_DIR=tmp/tyler_rng_20261127_rtl_inputs/k8 -l /home/work/teh969/mc_rngphysical_20261127/reports/sim/tyler_rng_20261127_rtl/k8_traces/run.log
+Chronologic VCS simulator copyright 1991-2022
+Contains Synopsys proprietary information.
+Compiler version T-2022.06_Full64; Runtime version T-2022.06_Full64;  Nov 27 16:51 2026
+PASS: tb_mc_top G=1 M=1 cases=22 trials=26457, exact traces/results, sustained II=1
+$finish called from file "tb/tb_mc_top.sv", line 144.
+$finish at simulation time            271507000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 271507000 ps
+CPU Time:      0.360 seconds;       Data structure size:   0.3Mb
+Fri Nov 27 16:51:24 2026

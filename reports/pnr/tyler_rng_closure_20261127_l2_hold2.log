@@ -1,0 +1,1725 @@
+innovus: WARNING: 32bit executable version of "innovus" not found... the 64bit version will  be used instead.
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2021 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v21.18-s099_1, built Tue Jul 18 13:03:50 PDT 2023
+Options:	-no_gui -files reports/lab_artifacts/tyler_rngphysical_20261127/targeted_hold_eco_refill.tcl 
+Date:		Fri Nov 27 17:27:30 2026
+Host:		mario.ece.utexas.edu (x86_64 w/Linux 4.18.0-553.183.1.el8_10.x86_64) (16cores*64cpus*Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz 22528KB)
+OS:		Red Hat Enterprise Linux 8.10 (Ootpa)
+
+License:
+		[17:27:30.486306] Configured Lic search path (21.01-s002): /usr/local/packages/cadence_2022/license.dat:/usr/local/packages/synopsys_2022/key
+
+		invs	Innovus Implementation System	21.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+Create and set the environment variable TMPDIR to /tmp/innovus_temp_774572_mario.ece.utexas.edu_teh969_2marlf.
+
+Change the soft stacksize limit to 0.2%RAM (771 mbytes). Set global soft_stack_size_limit to change the value.
+
+**INFO:  MMMC transition support version v31-84 
+
+Sourcing file "reports/lab_artifacts/tyler_rngphysical_20261127/targeted_hold_eco_refill.tcl" ...
+#% Begin load design ... (date=11/27 17:27:51, mem=906.5M)
+Set Default Input Pin Transition as 0.1 ps.
+Loading design 'mc_top' saved by 'Innovus' '21.18-s099_1' on 'Fri Nov 27 17:11:10 2026'.
+% Begin Load MMMC data ... (date=11/27 17:27:51, mem=909.2M)
+% End Load MMMC data ... (date=11/27 17:27:51, total cpu=0:00:00.0, real=0:00:00.0, peak res=910.2M, current mem=910.2M)
+
+Loading LEF file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/libs/lef/gscl45nm.lef ...
+Set DBUPerIGU to M2 pitch 380.
+
+##  Check design process and node:  
+##  Both design process and tech node are not set.
+
+Loading view definition file from /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/viewDefinition.tcl
+Starting library reading in 'Multi-threaded flow' (with '4' threads)
+
+Threads Configured:4
+Reading typical_lib timing library /home/work/teh969/mc_rngphysical_20261127/tech/gscl45nm/setup_fixed_v1/gscl45nm.lib.
+Read 31 cells in library gscl45nm.
+Library reading multithread flow ended.
+*** End library_loading (cpu=0.00min, real=0.00min, mem=114.0M, fe_cpu=0.33min, fe_real=0.35min, fe_mem=1070.0M) ***
+% Begin Load netlist data ... (date=11/27 17:27:51, mem=928.9M)
+*** Begin netlist parsing (mem=1070.0M) ***
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'XOR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'XOR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'XNOR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'XNOR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'TBUFX2' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'TBUFX2' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'TBUFX1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'TBUFX1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'OR2X2' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'OR2X2' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'OR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'OR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'OAI21X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'OAI21X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'NOR3X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'NOR3X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'NOR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'NOR2X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'gnd' of cell 'NAND3X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (IMPVL-159):	Pin 'vdd' of cell 'NAND3X1' is defined in LEF but not in the timing library.
+Type 'man IMPVL-159' for more detail.
+**WARN: (EMS-27):	Message (IMPVL-159) has exceeded the current message display limit of 20.
+To increase the message display limit, refer to the product command reference manual.
+Created 31 new cells from 1 timing libraries.
+Reading netlist ...
+Backslashed names will retain backslash and a trailing blank character.
+Reading verilogBinary netlist '/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/vbin/mc_top.v.bin'
+Reading binary database version 2 in multi-threaded mode
+
+*** Memory Usage v#1 (Current mem = 1099.062M, initial mem = 494.969M) ***
+*** End netlist parsing (cpu=0:00:00.1, real=0:00:00.0, mem=1099.1M) ***
+% End Load netlist data ... (date=11/27 17:27:51, total cpu=0:00:00.1, real=0:00:00.0, peak res=937.9M, current mem=937.9M)
+Set top cell to mc_top.
+Hooked 31 DB cells to tlib cells.
+Starting recursive module instantiation check.
+No recursion found.
+Building hierarchical netlist for Cell mc_top ...
+*** Netlist is unique.
+Set DBUPerIGU to techSite CoreSite width 760.
+** info: there are 54 modules.
+** info: there are 20345 stdCell insts.
+
+*** Memory Usage v#1 (Current mem = 1115.477M, initial mem = 494.969M) ***
+*info: set bottom ioPad orient R0
+Horizontal Layer M1 offset = 190 (guessed)
+Vertical Layer M2 offset = 190 (guessed)
+Suggestion: specify LAYER OFFSET in LEF file
+Reason: hard to extract LAYER OFFSET from standard cells
+Start create_tracks
+Generated pitch 1.68 in metal10 is different from 1.71 defined in technology file in preferred direction.
+Generated pitch 0.84 in metal8 is different from 0.855 defined in technology file in preferred direction.
+Generated pitch 0.95 in metal7 is different from 0.855 defined in technology file in preferred direction.
+Generated pitch 0.28 in metal6 is different from 0.285 defined in technology file in preferred direction.
+Generated pitch 0.28 in metal4 is different from 0.285 defined in technology file in preferred direction.
+Loading preference file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/gui.pref.tcl ...
+##  Process: 45            (User Set)               
+##     Node: (not set)                           
+
+##  Check design process and node:  
+##  Design tech node is not set.
+
+Applying the recommended capacitance filtering threshold values for 45nm process node: total_c_th=0, relative_c_th=1 and coupling_c_th=0.1.
+	These values will be used by all post-route extraction engines, including TQuantus, IQuantus and Quantus QRC extraction.
+	Capacitance filtering mode(-capFilterMode option of the setExtractRCMode) is 'relAndCoup' for all engines.
+	The accuracy mode for postRoute effortLevel low extraction will be set to 'high'.
+	Default value for EffortLevel(-effortLevel option of the setExtractRCMode) in postRoute extraction mode will be 'medium' if Quantus QRC technology file is specified else 'low'.
+**WARN: (IMPOPT-3602):	The specified path group name reg2reg is not defined.
+Type 'man IMPOPT-3602' for more detail.
+Effort level <high> specified for reg2reg path_group
+Slack adjustment of -0 applied on reg2reg path_group
+Slack adjustment of -0 applied on <default> path group
+**WARN: (IMPTCM-77):	Option "-drouteStartIteration" for command setNanoRouteMode is obsolete and will be removed in a future release. The obsolete option still works in this release but to avoid this warning and to ensure compatibility with future releases, remove the obsolete option from your script.
+#WARNING (NRIF-90) Option setNanoRouteMode -routeBottomRoutingLayer is obsolete. It will continue to work for the current release. To ensure compatibility with future releases, use option setDesignMode -bottomRoutingLayer instead.
+#WARNING (NRIF-91) Option setNanoRouteMode -routeTopRoutingLayer is obsolete. It will continue to work for the current release. To ensure compatibility with future releases, use option setDesignMode -topRoutingLayer instead.
+AAE_INFO: switching -siAware from false to true ...
+AAE_INFO: The setting is changed from false to true in setDelayCalMode -SIAware
+Change floorplan default-technical-site to 'CoreSite'.
+*Info: initialize multi-corner CTS.
+Total number of combinational cells: 25
+Total number of sequential cells: 4
+Total number of tristate cells: 2
+Total number of level shifter cells: 0
+Total number of power gating cells: 0
+Total number of isolation cells: 0
+Total number of power switch cells: 0
+Total number of pulse generator cells: 0
+Total number of always on buffers: 0
+Total number of retention cells: 0
+Total number of physical cells: 0
+List of usable buffers: BUFX2 BUFX4
+Total number of usable buffers: 2
+List of unusable buffers:
+Total number of unusable buffers: 0
+List of usable inverters: INVX2 INVX1 INVX4 INVX8
+Total number of usable inverters: 4
+List of unusable inverters:
+Total number of unusable inverters: 0
+List of identified usable delay cells: CLKBUF1 CLKBUF2 CLKBUF3
+Total number of identified usable delay cells: 3
+List of identified unusable delay cells:
+Total number of identified unusable delay cells: 0
+% Begin Load MMMC data post ... (date=11/27 17:27:52, mem=1237.9M)
+% End Load MMMC data post ... (date=11/27 17:27:52, total cpu=0:00:00.0, real=0:00:00.0, peak res=1237.9M, current mem=1237.9M)
+Reading floorplan file - /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.fp.gz (mem = 1367.5M).
+% Begin Load floorplan data ... (date=11/27 17:27:52, mem=1238.6M)
+*info: reset 21104 existing net BottomPreferredLayer and AvoidDetour
+Deleting old partition specification.
+Set FPlanBox to (0 0 701100 698060)
+Horizontal Layer M1 offset = 190 (guessed)
+Vertical Layer M2 offset = 190 (guessed)
+Suggestion: specify LAYER OFFSET in LEF file
+Reason: hard to extract LAYER OFFSET from standard cells
+Start create_tracks
+Generated pitch 1.68 in metal10 is different from 1.71 defined in technology file in preferred direction.
+Generated pitch 0.84 in metal8 is different from 0.855 defined in technology file in preferred direction.
+Generated pitch 0.95 in metal7 is different from 0.855 defined in technology file in preferred direction.
+Generated pitch 0.28 in metal6 is different from 0.285 defined in technology file in preferred direction.
+Generated pitch 0.28 in metal4 is different from 0.285 defined in technology file in preferred direction.
+ ... processed partition successfully.
+Reading binary special route file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.fp.spr.gz (Created by Innovus v21.18-s099_1 on Fri Nov 27 17:11:09 2026, version: 1)
+Convert 0 swires and 0 svias from compressed groups
+30 swires and 65 svias were compressed
+30 swires and 65 svias were decompressed from small or sparse groups
+Ending "Read special route file" (total cpu=0:00:00.0, real=0:00:00.0, peak res=1238.6M, current mem=1238.6M)
+There are 132 nets with weight being set
+There are 132 nets with bottomPreferredRoutingLayer being set
+There are 132 nets with avoidDetour being set
+Extracting standard cell pins and blockage ...... 
+Pin and blockage extraction finished
+Delete all existing relative floorplan constraints.
+% End Load floorplan data ... (date=11/27 17:27:53, total cpu=0:00:00.1, real=0:00:01.0, peak res=1240.5M, current mem=1240.5M)
+Reading congestion map file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.route.congmap.gz ...
+% Begin Load SymbolTable ... (date=11/27 17:27:53, mem=1240.5M)
+Suppress "**WARN ..." messages.
+Un-suppress "**WARN ..." messages.
+% End Load SymbolTable ... (date=11/27 17:27:53, total cpu=0:00:00.1, real=0:00:00.0, peak res=1244.8M, current mem=1244.8M)
+Loading place ...
+% Begin Load placement data ... (date=11/27 17:27:53, mem=1244.8M)
+Reading placement file - /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.place.gz.
+** Reading stdCellPlacement_binary (Created by Innovus v21.18-s099_1 on Fri Nov 27 17:11:09 2026, version# 2) ...
+Read Views for adaptive view pruning ...
+Read 0 views from Binary DB for adaptive view pruning
+*** Checked 4 GNC rules.
+*** applyConnectGlobalNets disabled.
+*** Completed restorePlace (cpu=0:00:00.1 real=0:00:00.0 mem=1390.1M) ***
+Total net length = 2.998e+05 (1.519e+05 1.479e+05) (ext = 1.159e+04)
+% End Load placement data ... (date=11/27 17:27:53, total cpu=0:00:00.1, real=0:00:00.0, peak res=1258.2M, current mem=1255.7M)
+Reading PG file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.pg.gz, version#2, (Created by Innovus v21.18-s099_1 on       Fri Nov 27 17:11:09 2026)
+*** Completed restorePGFile (cpu=0:00:00.0 real=0:00:00.0 mem=1388.1M) ***
+% Begin Load routing data ... (date=11/27 17:27:54, mem=1257.1M)
+Reading routing file - /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.route.gz.
+Reading Innovus routing data (Created by Innovus v21.18-s099_1 on Fri Nov 27 17:11:09 2026 Format: 20.1) ...
+*** Total 21005 nets are successfully restored.
+*** Completed restoreRoute (cpu=0:00:00.2 real=0:00:00.0 mem=1420.1M) ***
+% End Load routing data ... (date=11/27 17:27:54, total cpu=0:00:00.2, real=0:00:00.0, peak res=1290.3M, current mem=1289.3M)
+TAT_INFO: restoreCongMap REAL = 0 : CPU = 0 : MEM = 0.
+Reading property file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.prop
+*** Completed restoreProperty (cpu=0:00:00.0 real=0:00:00.0 mem=1416.2M) ***
+Reading dirtyarea snapshot file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.db.da.gz (Create by Innovus v21.18-s099_1 on Fri Nov 27 17:11:10 2026, version: 4).
+Set Default Input Pin Transition as 0.1 ps.
+Extraction setup Started 
+Initializing multi-corner RC extraction with 1 active RC Corners ...
+**WARN: (IMPEXT-2773):	The via resistance between layers M0 and M1 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M1 and M2 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M2 and M3 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M3 and M4 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M4 and M5 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M5 and M6 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M6 and M7 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M7 and M8 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M8 and M9 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2773):	The via resistance between layers M9 and M10 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M1 is not defined in the cap table. Therefore, the LEF value 0.38 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M2 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M3 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M4 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M5 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M6 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M7 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M8 is not defined in the cap table. Therefore, the LEF value 0.25 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M9 is not defined in the cap table. Therefore, the LEF value 0.21 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M10 is not defined in the cap table. Therefore, the LEF value 0.21 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+Summary of Active RC-Corners : 
+ 
+ Analysis View: functional
+    RC-Corner Name        : typical_rc
+    RC-Corner Index       : 0
+    RC-Corner Temperature : 27 Celsius
+    RC-Corner Cap Table   : ''
+    RC-Corner PreRoute Res Factor         : 1
+    RC-Corner PreRoute Cap Factor         : 1
+    RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+    RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+    RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+    RC-Corner PreRoute Clock Res Factor   : 1	[Derived from Cap Table]
+    RC-Corner PreRoute Clock Cap Factor   : 1	[Derived from Cap Table]
+    RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 	[Derived from postRoute_cap (effortLevel low)]
+    RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 	[Derived from postRoute_res (effortLevel low)]
+    RC-Corner PostRoute Clock coupling capacitance Factor : 1 {1 1 1} 
+Initializing multi-corner resistance tables ...
+Start generating vias ..
+#Skip building auto via since it is not turned on.
+Extracting standard cell pins and blockage ...... 
+Pin and blockage extraction finished
+Via generation completed.
+% Begin Load power constraints ... (date=11/27 17:27:55, mem=1302.5M)
+source /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top_power_constraints.tcl
+'set_default_switching_activity' finished successfully.
+% End Load power constraints ... (date=11/27 17:27:55, total cpu=0:00:00.0, real=0:00:00.0, peak res=1309.5M, current mem=1309.5M)
+% Begin load AAE data ... (date=11/27 17:27:56, mem=1328.9M)
+AAE DB initialization (MEM=1488.34 CPU=0:00:00.0 REAL=0:00:00.0) 
+% End load AAE data ... (date=11/27 17:27:56, total cpu=0:00:00.6, real=0:00:00.0, peak res=1336.9M, current mem=1336.9M)
+Restoring CCOpt config...
+  Extracting original clock gating for clk...
+    clock_tree clk contains 1567 sinks and 0 clock gates.
+  Extracting original clock gating for clk done.
+  The skew group clk/functional was created. It contains 1567 sinks and 1 sources.
+  The skew group clk/functional was created. It contains 1567 sinks and 1 sources.
+Restoring CCOpt config done.
+Total number of combinational cells: 25
+Total number of sequential cells: 4
+Total number of tristate cells: 2
+Total number of level shifter cells: 0
+Total number of power gating cells: 0
+Total number of isolation cells: 0
+Total number of power switch cells: 0
+Total number of pulse generator cells: 0
+Total number of always on buffers: 0
+Total number of retention cells: 0
+Total number of physical cells: 0
+List of usable buffers: BUFX2 BUFX4
+Total number of usable buffers: 2
+List of unusable buffers:
+Total number of unusable buffers: 0
+List of usable inverters: INVX2 INVX1 INVX4 INVX8
+Total number of usable inverters: 4
+List of unusable inverters:
+Total number of unusable inverters: 0
+List of identified usable delay cells: CLKBUF1 CLKBUF2 CLKBUF3
+Total number of identified usable delay cells: 3
+List of identified unusable delay cells:
+Total number of identified unusable delay cells: 0
+**WARN: (IMPCTE-107):	The following globals have been obsoleted since version . They will be removed in the next release. 
+timing_enable_separate_device_slew_effect_sensitivities
+#% End load design ... (date=11/27 17:27:56, total cpu=0:00:04.1, real=0:00:05.0, peak res=1360.0M, current mem=1340.5M)
+
+*** Summary of all messages that are not suppressed in this session:
+Severity  ID               Count  Summary                                  
+WARNING   IMPEXT-2766         10  The sheet resistance for layer %s is not...
+WARNING   IMPEXT-2773         10  The via resistance between layers %s and...
+WARNING   IMPVL-159           62  Pin '%s' of cell '%s' is defined in LEF ...
+WARNING   IMPOPT-3602          1  The specified path group name %s is not ...
+WARNING   NRIF-90              1  Option setNanoRouteMode -routeBottomRout...
+WARNING   NRIF-91              1  Option setNanoRouteMode -routeTopRouting...
+WARNING   IMPCTE-107           1  The following globals have been obsolete...
+WARNING   IMPTCM-77            1  Option "%s" for command %s is obsolete a...
+*** Message Summary: 87 warning(s), 0 error(s)
+
+Deleted 32161 physical insts (cell FILL / prefix -).
+Multithreaded Timing Analysis is initialized with 4 threads
+
+TARGETED_HOLD_BUFFER u_lanes/u_price/p_reg_20_/D
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: mc_top
+# Design Mode: 45nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: No SPEF/RCDB 
+# Signoff Settings: SI On 
+#################################################################################
+AAE_INFO: opIsDesignInPostRouteState() is 1
+AAE_INFO: resetNetProps viewIdx 0 
+Starting SI iteration 1 using Infinite Timing Windows
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: mc_top
+# Design Mode: 45nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: No SPEF/RCDB 
+# Signoff Settings: SI On 
+#################################################################################
+Extraction called for design 'mc_top' of instances=20345 and nets=21104 using extraction engine 'postRoute' at effort level 'low' .
+PostRoute (effortLevel low) RC Extraction called for design mc_top.
+RC Extraction called in multi-corner(1) mode.
+**WARN: (IMPEXT-6197):	The Cap table file is not specified. This will result in lower parasitic accuracy when using preRoute extraction or postRoute extraction with effort level 'low'. It is recommended to generate the Cap table file using the 'generateCapTbl' command and specify it before extraction using 'create_rc_corner/update_rc_corner -cap_table'.
+Type 'man IMPEXT-6197' for more detail.
+**WARN: (IMPEXT-3032):	Because the cap table file was not provided, it will be created internally with the following process info:
+* Layer Id             : 1 - M1
+      Thickness        : 0.6
+      Min Width        : 0.065
+      Layer Dielectric : 4.1
+* Layer Id             : 2 - M2
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 3 - M3
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 4 - M4
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 5 - M5
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 6 - M6
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 7 - M7
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 8 - M8
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 9 - M9
+      Thickness        : 0.6
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+* Layer Id             : 10 - M10
+      Thickness        : 1
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+extractDetailRC Option : -outfile /tmp/innovus_temp_774572_mario.ece.utexas.edu_teh969_2marlf/mc_top_774572_I7DhSy.rcdb.d  -basic
+RC Mode: PostRoute -effortLevel low [Basic CapTable, LEF Resistances]
+      RC Corner Indexes            0   
+Capacitance Scaling Factor   : 1.00000 
+Coupling Cap. Scaling Factor : 1.00000 
+Resistance Scaling Factor    : 1.00000 
+Clock Cap. Scaling Factor    : 1.00000 
+Clock Res. Scaling Factor    : 1.00000 
+Shrink Factor                : 1.00000
+Initializing multi-corner resistance tables ...
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 1620.7M)
+Extracted 10.0005% (CPU Time= 0:00:00.5  MEM= 1706.7M)
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M2_M1_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+Extracted 20.0006% (CPU Time= 0:00:00.5  MEM= 1710.7M)
+Extracted 30.0004% (CPU Time= 0:00:00.6  MEM= 1715.7M)
+Extracted 40.0006% (CPU Time= 0:00:01.0  MEM= 1719.7M)
+Extracted 50.0007% (CPU Time= 0:00:01.3  MEM= 1723.7M)
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M3_M2_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+Extracted 60.0005% (CPU Time= 0:00:01.4  MEM= 1727.7M)
+Extracted 70.0006% (CPU Time= 0:00:01.6  MEM= 1728.7M)
+Extracted 80.0004% (CPU Time= 0:00:02.0  MEM= 1731.7M)
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M4_M3_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+Extracted 90.0006% (CPU Time= 0:00:02.3  MEM= 1738.7M)
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M5_M4_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M6_M5_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M7_M6_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+**WARN: (IMPEXT-2882):	Unable to find the resistance for via 'M8_M7_via' in Cap table or LEF or OA files. The default value of 4.0 ohms is being assigned. To avoid this, check the Cap table and LEF and OA files, provide the resistance and read the files again.
+Extracted 100% (CPU Time= 0:00:02.9  MEM= 1741.7M)
+Number of Extracted Resistors     : 425002
+Number of Extracted Ground Cap.   : 443930
+Number of Extracted Coupling Cap. : 832960
+Filtering XCap in 'relativeAndCoupling' mode using values coupling_c_threshold=3fF, relative_c_threshold=0.03, and total_c_threshold=5fF.
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 1725.7M)
+PostRoute (effortLevel low) RC Extraction DONE (CPU Time: 0:00:03.9  Real Time: 0:00:04.0  MEM: 1729.727M)
+Start delay calculation (fullDC) (4 T). (MEM=1743.51)
+Initializing multi-corner resistance tables ...
+Total number of fetched objects 21024
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21104,  100.0 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2080.92 CPU=0:00:06.3 REAL=0:00:01.0)
+End delay calculation (fullDC). (MEM=2080.92 CPU=0:00:07.1 REAL=0:00:03.0)
+Loading CTE timing window with TwFlowType 0...(CPU = 0:00:00.0, REAL = 0:00:00.0, MEM = 2048.9M)
+Add other clocks and setupCteToAAEClockMapping during iter 1
+Loading CTE timing window is completed (CPU = 0:00:00.1, REAL = 0:00:00.0, MEM = 2048.9M)
+Starting SI iteration 2
+Start delay calculation (fullDC) (4 T). (MEM=1934.05)
+Glitch Analysis: View functional -- Total Number of Nets Skipped = 0. 
+Glitch Analysis: View functional -- Total Number of Nets Analyzed = 21024. 
+Total number of fetched objects 21024
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21104,  0.6 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2125.8 CPU=0:00:00.2 REAL=0:00:00.0)
+End delay calculation (fullDC). (MEM=2125.8 CPU=0:00:00.3 REAL=0:00:00.0)
+   _____________________________________________________________
+  /  Design State
+ +--------------------------------------------------------------
+ | signal nets: 
+ |    routed nets:    20871 (100.0% routed)
+ |     total nets:    20871
+ | clock nets: 
+ |    routed nets:      132 (100.0% routed)
+ |     total nets:      132
+ +--------------------------------------------------------------
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: mc_top
+# Design Mode: 45nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: SPEF/RCDB 
+# Signoff Settings: SI On 
+#################################################################################
+Add inst u_lanes/u_price/tyler_hold_eco_0 (BUFX2) to drive load u_lanes/u_price/p_reg_20_/D 
+**Info: (IMPSP-307): Design contains fractional 20 cells.
+*** Starting refinePlace (0:00:37.6 mem=2382.2M) ***
+Total net bbox length = 2.998e+05 (1.519e+05 1.479e+05) (ext = 8.800e+03)
+Move report: Detail placement moves 17 insts, mean move: 2.77 um, max move: 8.74 um 
+	Max move on inst (u_lanes/u_price/u_exp/U18): (279.30, 207.86) --> (288.04, 207.86)
+	Runtime: CPU: 0:00:00.6 REAL: 0:00:00.0 MEM: 2478.2MB
+Summary Report:
+Instances move: 17 (out of 20265 movable)
+Instances flipped: 0
+Mean displacement: 2.77 um
+Max displacement: 8.74 um (Instance: u_lanes/u_price/u_exp/U18) (279.3, 207.86) -> (288.04, 207.86)
+	Length: 2 sites, height: 1 rows, site name: CoreSite, cell type: INVX1
+Total net bbox length = 2.998e+05 (1.519e+05 1.479e+05) (ext = 8.800e+03)
+Runtime: CPU: 0:00:00.6 REAL: 0:00:00.0 MEM: 2478.2MB
+*** Finished refinePlace (0:00:38.2 mem=2478.2M) ***
+ u_lanes/u_price/tyler_hold_eco_0 u_lanes/u_price/n104 u_lanes/u_price/FE_RN_2 
+**INFO: User settings:
+setNanoRouteMode -drouteAntennaFactor                           1
+setNanoRouteMode -droutePostRouteSpreadWire                     auto
+setNanoRouteMode -drouteStartIteration                          0
+setNanoRouteMode -extractThirdPartyCompatible                   false
+setNanoRouteMode -grouteExpTdStdDelay                           47.5
+setNanoRouteMode -grouteExpTdUseTifTimingEngineForImportDesign  false
+setNanoRouteMode -routeBottomRoutingLayer                       1
+setNanoRouteMode -routeTopRoutingLayer                          10
+setNanoRouteMode -routeWithSiPostRouteFix                       false
+setDesignMode -process                                          45
+
+#% Begin globalDetailRoute (date=11/27 17:28:05, mem=1782.0M)
+
+globalDetailRoute
+
+#Start globalDetailRoute on Fri Nov 27 17:28:05 2026
+#
+#create default rule from bind_ndr_rule rule=0x7f8e22ee2480 0x7f8de8c1b538
+#num needed restored net=0
+#need_extraction net=0 (total=21105)
+#NanoRoute Version 21.18-s099_1 NR230707-1955/21_18-UB
+#Skip comparing routing design signature in db-snapshot flow
+#Total number of trivial nets (e.g. < 2 pins) = 99 (skipped).
+#Total number of routable nets = 21006.
+#Total number of nets in the design = 21105.
+#34 routable nets do not have any wires.
+#20972 routable nets have routed wires.
+#34 nets will be global routed.
+#132 detail routed (routable) nets have been constrained (e.g. have preferred extra spacing, require shielding etc.)
+#Using multithreading with 4 threads.
+#Start routing data preparation on Fri Nov 27 17:28:06 2026
+#
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#Build and mark too close pins for the same net.
+#Restoring pin access data from file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2/mc_top.enc.dat/mc_top.apa ...
+#Done restoring pin access data
+#Initial pin access analysis.
+#Detail pin access analysis.
+# metal1       H   Track-Pitch = 0.19000    Line-2-Via Pitch = 0.13000
+# metal2       V   Track-Pitch = 0.19000    Line-2-Via Pitch = 0.14500
+# metal3       H   Track-Pitch = 0.19000    Line-2-Via Pitch = 0.14000
+# metal4       V   Track-Pitch = 0.28000    Line-2-Via Pitch = 0.28000
+# metal5       H   Track-Pitch = 0.28500    Line-2-Via Pitch = 0.28000
+# metal6       V   Track-Pitch = 0.28000    Line-2-Via Pitch = 0.28000
+# metal7       H   Track-Pitch = 0.95000    Line-2-Via Pitch = 0.80000
+# metal8       V   Track-Pitch = 0.84000    Line-2-Via Pitch = 0.80000
+# metal9       H   Track-Pitch = 1.71000    Line-2-Via Pitch = 1.60000
+# metal10      V   Track-Pitch = 1.68000    Line-2-Via Pitch = 1.60000
+#Bottom routing layer index=1(metal1), bottom routing layer for shielding=1(metal1), bottom shield layer=1(metal1)
+#shield_bottom_stripe_layer=1(metal1), shield_top_stripe_layer=10(metal10)
+#pin_access_rlayer=2(metal2)
+#shield_top_dpt_rlayer=-1 top_rlayer=10 top_trim_metal_rlayer=-1 rlayer_lowest=1 bottom_rlayer=1
+#enable_trim_layer_shield=F enable_dpt_layer_shield=F has_line_end_grid=F
+#Processed 13/0 dirty instances, 59/0 dirty terms, 0/0 dirty fterms, 0/0 dirty pgterms, 0/0 misc dirty regions(7 insts marked dirty, reset pre-exisiting dirty flag on 17 insts, 0 nets marked need extraction)
+#cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1786.03 (MB), peak = 1821.58 (MB)
+#Regenerating Ggrids automatically.
+#Auto generating G-grids with size=15 tracks, using layer metal3's pitch = 0.19000.
+#Using automatically generated G-grids.
+#Done routing data preparation.
+#cpu time = 00:00:01, elapsed time = 00:00:00, memory = 1790.44 (MB), peak = 1821.58 (MB)
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#
+#Finished routing data preparation on Fri Nov 27 17:28:06 2026
+#
+#Cpu time = 00:00:01
+#Elapsed time = 00:00:00
+#Increased memory = 11.41 (MB)
+#Total memory = 1790.44 (MB)
+#Peak memory = 1821.58 (MB)
+#
+#
+#Start global routing on Fri Nov 27 17:28:06 2026
+#
+#
+#Start global routing initialization on Fri Nov 27 17:28:06 2026
+#
+#Number of eco nets is 34
+#
+#Start global routing data preparation on Fri Nov 27 17:28:06 2026
+#
+#Start routing resource analysis on Fri Nov 27 17:28:06 2026
+#
+#Routing resource analysis is done on Fri Nov 27 17:28:06 2026
+#
+#  Resource Analysis:
+#
+#               Routing  #Avail      #Track     #Total     %Gcell
+#  Layer      Direction   Track     Blocked      Gcell    Blocked
+#  --------------------------------------------------------------
+#  metal1         H         652        1185       15006    58.34%
+#  metal2         V         844        1001       15006     1.79%
+#  metal3         H        1157         680       15006     0.00%
+#  metal4         V         814         415       15006     1.79%
+#  metal5         H         952         272       15006     3.17%
+#  metal6         V         945         284       15006     3.16%
+#  metal7         H         362           5       15006     0.00%
+#  metal8         V         415           2       15006     0.00%
+#  metal9         H         204           0       15006     0.00%
+#  metal10        V         208           0       15006     0.00%
+#  --------------------------------------------------------------
+#  Total                   6554      23.67%      150060     6.82%
+#
+#  132 nets (0.63%) with 1 preferred extra spacing.
+#
+#
+#
+#Global routing data preparation is done on Fri Nov 27 17:28:06 2026
+#
+#cpu time = 00:00:01, elapsed time = 00:00:00, memory = 1792.50 (MB), peak = 1821.58 (MB)
+#
+#
+#Global routing initialization is done on Fri Nov 27 17:28:06 2026
+#
+#cpu time = 00:00:01, elapsed time = 00:00:00, memory = 1792.50 (MB), peak = 1821.58 (MB)
+#
+#start global routing iteration 1...
+#cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1793.52 (MB), peak = 1821.58 (MB)
+#
+#start global routing iteration 2...
+#cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1793.52 (MB), peak = 1821.58 (MB)
+#
+#
+#Total number of trivial nets (e.g. < 2 pins) = 99 (skipped).
+#Total number of routable nets = 21006.
+#Total number of nets in the design = 21105.
+#
+#21006 routable nets have routed wires.
+#132 detail routed (routable) nets have been constrained (e.g. have preferred extra spacing, require shielding etc.)
+#
+#Routed nets constraints summary:
+#-----------------------------
+#        Rules   Unconstrained  
+#-----------------------------
+#      Default              34  
+#-----------------------------
+#        Total              34  
+#-----------------------------
+#
+#Routing constraints summary of the whole design:
+#------------------------------------------------
+#        Rules   Pref Extra Space   Unconstrained  
+#------------------------------------------------
+#      Default                132           20874  
+#------------------------------------------------
+#        Total                132           20874  
+#------------------------------------------------
+#
+#
+#  Congestion Analysis: (blocked Gcells are excluded)
+#
+#                 OverCon          
+#                  #Gcell    %Gcell
+#     Layer           (1)   OverCon
+#  --------------------------------
+#  metal1        0(0.00%)   (0.00%)
+#  metal2        1(0.01%)   (0.01%)
+#  metal3        0(0.00%)   (0.00%)
+#  metal4        0(0.00%)   (0.00%)
+#  metal5        0(0.00%)   (0.00%)
+#  metal6        0(0.00%)   (0.00%)
+#  metal7        0(0.00%)   (0.00%)
+#  metal8        0(0.00%)   (0.00%)
+#  metal9        0(0.00%)   (0.00%)
+#  metal10       0(0.00%)   (0.00%)
+#  --------------------------------
+#     Total      1(0.00%)   (0.00%)
+#
+#  The worst congested Gcell overcon (routing demand over resource in number of tracks) = 1
+#  Overflow after GR: 0.00% H + 0.00% V
+#
+#Complete Global Routing.
+#Total number of nets with non-default rule or having extra spacing = 132
+#Total wire length = 354611 um.
+#Total half perimeter of net bounding box = 327504 um.
+#Total wire length on LAYER metal1 = 6177 um.
+#Total wire length on LAYER metal2 = 92987 um.
+#Total wire length on LAYER metal3 = 122884 um.
+#Total wire length on LAYER metal4 = 68771 um.
+#Total wire length on LAYER metal5 = 41158 um.
+#Total wire length on LAYER metal6 = 20924 um.
+#Total wire length on LAYER metal7 = 1220 um.
+#Total wire length on LAYER metal8 = 490 um.
+#Total wire length on LAYER metal9 = 0 um.
+#Total wire length on LAYER metal10 = 0 um.
+#Total number of vias = 146139
+#Up-Via Summary (total 146139):
+#           
+#-----------------------
+# metal1          69150
+# metal2          52023
+# metal3          17254
+# metal4           5360
+# metal5           2126
+# metal6            180
+# metal7             46
+#-----------------------
+#                146139 
+#
+#Max overcon = 1 tracks.
+#Total overcon = 0.00%.
+#Worst layer Gcell overcon rate = 0.00%.
+#
+#Global routing statistics:
+#Cpu time = 00:00:01
+#Elapsed time = 00:00:01
+#Increased memory = 3.29 (MB)
+#Total memory = 1793.72 (MB)
+#Peak memory = 1821.58 (MB)
+#
+#Finished global routing on Fri Nov 27 17:28:07 2026
+#
+#
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1791.69 (MB), peak = 1821.58 (MB)
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#Start Track Assignment.
+#Done with 9 horizontal wires in 4 hboxes and 15 vertical wires in 4 hboxes.
+#Done with 1 horizontal wires in 4 hboxes and 4 vertical wires in 4 hboxes.
+#Complete Track Assignment.
+#Total number of nets with non-default rule or having extra spacing = 132
+#Total wire length = 354619 um.
+#Total half perimeter of net bounding box = 327504 um.
+#Total wire length on LAYER metal1 = 6177 um.
+#Total wire length on LAYER metal2 = 92996 um.
+#Total wire length on LAYER metal3 = 122883 um.
+#Total wire length on LAYER metal4 = 68771 um.
+#Total wire length on LAYER metal5 = 41158 um.
+#Total wire length on LAYER metal6 = 20924 um.
+#Total wire length on LAYER metal7 = 1220 um.
+#Total wire length on LAYER metal8 = 490 um.
+#Total wire length on LAYER metal9 = 0 um.
+#Total wire length on LAYER metal10 = 0 um.
+#Total number of vias = 146139
+#Up-Via Summary (total 146139):
+#           
+#-----------------------
+# metal1          69150
+# metal2          52023
+# metal3          17254
+# metal4           5360
+# metal5           2126
+# metal6            180
+# metal7             46
+#-----------------------
+#                146139 
+#
+#cpu time = 00:00:01, elapsed time = 00:00:01, memory = 1793.65 (MB), peak = 1843.92 (MB)
+#
+#number of short segments in preferred routing layers
+#	
+#	
+#
+#Routing data preparation, pin analysis, global routing and track assignment statistics:
+#Cpu time = 00:00:03
+#Elapsed time = 00:00:02
+#Increased memory = 15.13 (MB)
+#Total memory = 1794.16 (MB)
+#Peak memory = 1843.92 (MB)
+#Using multithreading with 4 threads.
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [1.100 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 21056 nets.
+#Voltage range [0.000 - 0.000] has 48 nets.
+#
+#Start Detail Routing..
+#start initial detail routing ...
+# ECO: 0.25% of the total area was rechecked for DRC, and 1.50% required routing.
+#   number of violations = 1
+#
+#    By Layer and Type :
+#	          Short   Totals
+#	metal1        0        0
+#	metal2        1        1
+#	Totals        1        1
+#7 out of 20346 instances (0.0%) need to be verified(marked ipoed), dirty area = 0.0%.
+#0.0% of the total area is being checked for drcs
+#0.0% of the total area was checked
+#   number of violations = 1
+#
+#    By Layer and Type :
+#	          Short   Totals
+#	metal1        0        0
+#	metal2        1        1
+#	Totals        1        1
+#cpu time = 00:00:01, elapsed time = 00:00:01, memory = 1809.35 (MB), peak = 1868.86 (MB)
+#start 1st optimization iteration ...
+#   number of violations = 0
+#cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1809.46 (MB), peak = 1868.86 (MB)
+#Complete Detail Routing.
+#Total number of nets with non-default rule or having extra spacing = 132
+#Total wire length = 354623 um.
+#Total half perimeter of net bounding box = 327504 um.
+#Total wire length on LAYER metal1 = 6180 um.
+#Total wire length on LAYER metal2 = 92986 um.
+#Total wire length on LAYER metal3 = 122889 um.
+#Total wire length on LAYER metal4 = 68776 um.
+#Total wire length on LAYER metal5 = 41158 um.
+#Total wire length on LAYER metal6 = 20924 um.
+#Total wire length on LAYER metal7 = 1220 um.
+#Total wire length on LAYER metal8 = 490 um.
+#Total wire length on LAYER metal9 = 0 um.
+#Total wire length on LAYER metal10 = 0 um.
+#Total number of vias = 146152
+#Up-Via Summary (total 146152):
+#           
+#-----------------------
+# metal1          69148
+# metal2          52036
+# metal3          17256
+# metal4           5360
+# metal5           2126
+# metal6            180
+# metal7             46
+#-----------------------
+#                146152 
+#
+#Total number of DRC violations = 0
+#Cpu time = 00:00:02
+#Elapsed time = 00:00:01
+#Increased memory = 15.30 (MB)
+#Total memory = 1809.46 (MB)
+#Peak memory = 1868.86 (MB)
+#detailRoute Statistics:
+#Cpu time = 00:00:02
+#Elapsed time = 00:00:01
+#Increased memory = 15.30 (MB)
+#Total memory = 1809.46 (MB)
+#Peak memory = 1868.86 (MB)
+#Skip updating routing design signature in db-snapshot flow
+#
+#globalDetailRoute statistics:
+#Cpu time = 00:00:06
+#Elapsed time = 00:00:04
+#Increased memory = -75.91 (MB)
+#Total memory = 1706.12 (MB)
+#Peak memory = 1868.86 (MB)
+#Number of warnings = 0
+#Total number of warnings = 2
+#Number of fails = 0
+#Total number of fails = 0
+#Complete globalDetailRoute on Fri Nov 27 17:28:09 2026
+#
+#% End globalDetailRoute (date=11/27 17:28:09, total cpu=0:00:06.1, real=0:00:04.0, peak res=1868.9M, current mem=1704.4M)
+**WARN: (IMPSP-5217):	addFiller command is running on a postRoute database. It is recommended to be followed by ecoRoute -target command to make the DRC clean.
+Type 'man IMPSP-5217' for more detail.
+INFO: Restore Filler Flow is ON!
+**Info: (IMPSP-307): Design contains fractional 20 cells.
+*INFO: Total 32157 filler insts restored.
+For 32157 new insts, *INFO: Adding fillers to top-module.
+*INFO:   Added 32159 filler insts (cell FILL / prefix FILL).
+*INFO: Total 32159 filler insts added - prefix FILL (CPU: 0:00:01.0).
+For 2 new insts, Extraction called for design 'mc_top' of instances=52505 and nets=21105 using extraction engine 'postRoute' at effort level 'low' .
+PostRoute (effortLevel low) RC Extraction called for design mc_top.
+RC Extraction called in multi-corner(1) mode.
+**WARN: (IMPEXT-6197):	The Cap table file is not specified. This will result in lower parasitic accuracy when using preRoute extraction or postRoute extraction with effort level 'low'. It is recommended to generate the Cap table file using the 'generateCapTbl' command and specify it before extraction using 'create_rc_corner/update_rc_corner -cap_table'.
+Type 'man IMPEXT-6197' for more detail.
+**WARN: (IMPEXT-3032):	Because the cap table file was not provided, it will be created internally with the following process info:
+* Layer Id             : 1 - M1
+      Thickness        : 0.6
+      Min Width        : 0.065
+      Layer Dielectric : 4.1
+* Layer Id             : 2 - M2
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 3 - M3
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 4 - M4
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 5 - M5
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 6 - M6
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 7 - M7
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 8 - M8
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 9 - M9
+      Thickness        : 0.6
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+* Layer Id             : 10 - M10
+      Thickness        : 1
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+extractDetailRC Option : -outfile /tmp/innovus_temp_774572_mario.ece.utexas.edu_teh969_2marlf/mc_top_774572_I7DhSy.rcdb.d -maxResLength 200  -basic
+RC Mode: PostRoute -effortLevel low [Basic CapTable, LEF Resistances]
+      RC Corner Indexes            0   
+Capacitance Scaling Factor   : 1.00000 
+Coupling Cap. Scaling Factor : 1.00000 
+Resistance Scaling Factor    : 1.00000 
+Clock Cap. Scaling Factor    : 1.00000 
+Clock Res. Scaling Factor    : 1.00000 
+Shrink Factor                : 1.00000
+Initializing multi-corner resistance tables ...
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 2319.1M)
+Extracted 10.0007% (CPU Time= 0:00:00.5  MEM= 2355.1M)
+Extracted 20.0007% (CPU Time= 0:00:00.5  MEM= 2355.1M)
+Extracted 30.0007% (CPU Time= 0:00:00.7  MEM= 2355.1M)
+Extracted 40.0007% (CPU Time= 0:00:01.0  MEM= 2355.1M)
+Extracted 50.0007% (CPU Time= 0:00:01.2  MEM= 2355.1M)
+Extracted 60.0007% (CPU Time= 0:00:01.4  MEM= 2355.1M)
+Extracted 70.0007% (CPU Time= 0:00:01.6  MEM= 2355.1M)
+Extracted 80.0007% (CPU Time= 0:00:02.0  MEM= 2355.1M)
+Extracted 90.0007% (CPU Time= 0:00:02.3  MEM= 2359.1M)
+Extracted 100% (CPU Time= 0:00:02.8  MEM= 2359.1M)
+Number of Extracted Resistors     : 425046
+Number of Extracted Ground Cap.   : 443975
+Number of Extracted Coupling Cap. : 833056
+Filtering XCap in 'relativeAndCoupling' mode using values coupling_c_threshold=3fF, relative_c_threshold=0.03, and total_c_threshold=5fF.
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 2343.1M)
+PostRoute (effortLevel low) RC Extraction DONE (CPU Time: 0:00:03.8  Real Time: 0:00:04.0  MEM: 2351.133M)
+*** timeDesign #1 [begin] : totSession cpu/real = 0:00:49.4/0:00:42.9 (1.2), mem = 2351.1M
+ Reset EOS DB
+Ignoring AAE DB Resetting ...
+Extraction called for design 'mc_top' of instances=52505 and nets=21105 using extraction engine 'postRoute' at effort level 'low' .
+PostRoute (effortLevel low) RC Extraction called for design mc_top.
+RC Extraction called in multi-corner(1) mode.
+**WARN: (IMPEXT-6197):	The Cap table file is not specified. This will result in lower parasitic accuracy when using preRoute extraction or postRoute extraction with effort level 'low'. It is recommended to generate the Cap table file using the 'generateCapTbl' command and specify it before extraction using 'create_rc_corner/update_rc_corner -cap_table'.
+Type 'man IMPEXT-6197' for more detail.
+**WARN: (IMPEXT-3032):	Because the cap table file was not provided, it will be created internally with the following process info:
+* Layer Id             : 1 - M1
+      Thickness        : 0.6
+      Min Width        : 0.065
+      Layer Dielectric : 4.1
+* Layer Id             : 2 - M2
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 3 - M3
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 4 - M4
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 5 - M5
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 6 - M6
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 7 - M7
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 8 - M8
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 9 - M9
+      Thickness        : 0.6
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+* Layer Id             : 10 - M10
+      Thickness        : 1
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+extractDetailRC Option : -outfile /tmp/innovus_temp_774572_mario.ece.utexas.edu_teh969_2marlf/mc_top_774572_I7DhSy.rcdb.d -maxResLength 200  -basic
+RC Mode: PostRoute -effortLevel low [Basic CapTable, LEF Resistances]
+      RC Corner Indexes            0   
+Capacitance Scaling Factor   : 1.00000 
+Coupling Cap. Scaling Factor : 1.00000 
+Resistance Scaling Factor    : 1.00000 
+Clock Cap. Scaling Factor    : 1.00000 
+Clock Res. Scaling Factor    : 1.00000 
+Shrink Factor                : 1.00000
+Initializing multi-corner resistance tables ...
+Checking LVS Completed (CPU Time= 0:00:00.0  MEM= 2351.1M)
+Extracted 10.0007% (CPU Time= 0:00:00.4  MEM= 2375.1M)
+Extracted 20.0007% (CPU Time= 0:00:00.5  MEM= 2375.1M)
+Extracted 30.0007% (CPU Time= 0:00:00.6  MEM= 2375.1M)
+Extracted 40.0007% (CPU Time= 0:00:00.9  MEM= 2375.1M)
+Extracted 50.0007% (CPU Time= 0:00:01.2  MEM= 2375.1M)
+Extracted 60.0007% (CPU Time= 0:00:01.4  MEM= 2375.1M)
+Extracted 70.0007% (CPU Time= 0:00:01.6  MEM= 2375.1M)
+Extracted 80.0007% (CPU Time= 0:00:01.9  MEM= 2375.1M)
+Extracted 90.0007% (CPU Time= 0:00:02.2  MEM= 2375.1M)
+Extracted 100% (CPU Time= 0:00:02.7  MEM= 2375.1M)
+Number of Extracted Resistors     : 425046
+Number of Extracted Ground Cap.   : 443975
+Number of Extracted Coupling Cap. : 833056
+Filtering XCap in 'relativeAndCoupling' mode using values coupling_c_threshold=3fF, relative_c_threshold=0.03, and total_c_threshold=5fF.
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 2351.1M)
+PostRoute (effortLevel low) RC Extraction DONE (CPU Time: 0:00:03.8  Real Time: 0:00:03.0  MEM: 2351.133M)
+Starting delay calculation for Setup views
+AAE_INFO: opIsDesignInPostRouteState() is 1
+AAE_INFO: resetNetProps viewIdx 0 
+Starting SI iteration 1 using Infinite Timing Windows
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: mc_top
+# Design Mode: 45nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: SPEF/RCDB 
+# Signoff Settings: SI On 
+#################################################################################
+Start delay calculation (fullDC) (4 T). (MEM=2359.21)
+Initializing multi-corner resistance tables ...
+AAE_INFO: 4 threads acquired from CTE.
+Total number of fetched objects 21025
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21105,  100.0 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2531.62 CPU=0:00:06.3 REAL=0:00:02.0)
+End delay calculation (fullDC). (MEM=2531.62 CPU=0:00:06.9 REAL=0:00:02.0)
+Loading CTE timing window with TwFlowType 0...(CPU = 0:00:00.0, REAL = 0:00:00.0, MEM = 2531.6M)
+Add other clocks and setupCteToAAEClockMapping during iter 1
+Loading CTE timing window is completed (CPU = 0:00:00.1, REAL = 0:00:00.0, MEM = 2531.6M)
+Starting SI iteration 2
+Start delay calculation (fullDC) (4 T). (MEM=2392.74)
+Glitch Analysis: View functional -- Total Number of Nets Skipped = 0. 
+Glitch Analysis: View functional -- Total Number of Nets Analyzed = 21025. 
+Total number of fetched objects 21025
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21105,  0.6 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2573.51 CPU=0:00:00.2 REAL=0:00:00.0)
+End delay calculation (fullDC). (MEM=2573.51 CPU=0:00:00.3 REAL=0:00:00.0)
+*** Done Building Timing Graph (cpu=0:00:09.7 real=0:00:04.0 totSessionCpu=0:01:03 mem=2571.5M)
+
+------------------------------------------------------------------
+          timeDesign Summary
+------------------------------------------------------------------
+
+Setup views included:
+ functional 
+
++--------------------+---------+---------+---------+
+|     Setup mode     |   all   | reg2reg | default |
++--------------------+---------+---------+---------+
+|           WNS (ns):|  0.182  |  0.182  |  1.980  |
+|           TNS (ns):|  0.000  |  0.000  |  0.000  |
+|    Violating Paths:|    0    |    0    |    0    |
+|          All Paths:|  2952   |  2815   |   896   |
++--------------------+---------+---------+---------+
+
++----------------+-------------------------------+------------------+
+|                |              Real             |       Total      |
+|    DRVs        +------------------+------------+------------------|
+|                |  Nr nets(terms)  | Worst Vio  |  Nr nets(terms)  |
++----------------+------------------+------------+------------------+
+|   max_cap      |   8280 (8280)    |   -0.031   |   8280 (8280)    |
+|   max_tran     |      0 (0)       |   0.000    |      0 (0)       |
+|   max_fanout   |      0 (0)       |     0      |      0 (0)       |
+|   max_length   |      0 (0)       |     0      |      0 (0)       |
++----------------+------------------+------------+------------------+
+
+Density: 62.875%
+       (94.404% with Fillers)
+------------------------------------------------------------------
+Reported timing to dir /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/postroute
+Total CPU time: 15.71 sec
+Total Real time: 10.0 sec
+Total Memory Usage: 2442.097656 Mbytes
+Reset AAE Options
+*** timeDesign #1 [finish] : cpu/real = 0:00:15.7/0:00:10.3 (1.5), totSession cpu/real = 0:01:05.1/0:00:53.2 (1.2), mem = 2442.1M
+*** timeDesign #2 [begin] : totSession cpu/real = 0:01:05.1/0:00:53.2 (1.2), mem = 2442.1M
+ Reset EOS DB
+Ignoring AAE DB Resetting ...
+Extraction called for design 'mc_top' of instances=52505 and nets=21105 using extraction engine 'postRoute' at effort level 'low' .
+PostRoute (effortLevel low) RC Extraction called for design mc_top.
+RC Extraction called in multi-corner(1) mode.
+**WARN: (IMPEXT-6197):	The Cap table file is not specified. This will result in lower parasitic accuracy when using preRoute extraction or postRoute extraction with effort level 'low'. It is recommended to generate the Cap table file using the 'generateCapTbl' command and specify it before extraction using 'create_rc_corner/update_rc_corner -cap_table'.
+Type 'man IMPEXT-6197' for more detail.
+**WARN: (IMPEXT-3032):	Because the cap table file was not provided, it will be created internally with the following process info:
+* Layer Id             : 1 - M1
+      Thickness        : 0.6
+      Min Width        : 0.065
+      Layer Dielectric : 4.1
+* Layer Id             : 2 - M2
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 3 - M3
+      Thickness        : 0.6
+      Min Width        : 0.07
+      Layer Dielectric : 4.1
+* Layer Id             : 4 - M4
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 5 - M5
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 6 - M6
+      Thickness        : 0.6
+      Min Width        : 0.14
+      Layer Dielectric : 4.1
+* Layer Id             : 7 - M7
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 8 - M8
+      Thickness        : 0.6
+      Min Width        : 0.4
+      Layer Dielectric : 4.1
+* Layer Id             : 9 - M9
+      Thickness        : 0.6
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+* Layer Id             : 10 - M10
+      Thickness        : 1
+      Min Width        : 0.8
+      Layer Dielectric : 4.1
+extractDetailRC Option : -outfile /tmp/innovus_temp_774572_mario.ece.utexas.edu_teh969_2marlf/mc_top_774572_I7DhSy.rcdb.d -maxResLength 200  -basic
+RC Mode: PostRoute -effortLevel low [Basic CapTable, LEF Resistances]
+      RC Corner Indexes            0   
+Capacitance Scaling Factor   : 1.00000 
+Coupling Cap. Scaling Factor : 1.00000 
+Resistance Scaling Factor    : 1.00000 
+Clock Cap. Scaling Factor    : 1.00000 
+Clock Res. Scaling Factor    : 1.00000 
+Shrink Factor                : 1.00000
+Initializing multi-corner resistance tables ...
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 2442.1M)
+Extracted 10.0007% (CPU Time= 0:00:00.4  MEM= 2486.1M)
+Extracted 20.0007% (CPU Time= 0:00:00.5  MEM= 2486.1M)
+Extracted 30.0007% (CPU Time= 0:00:00.6  MEM= 2486.1M)
+Extracted 40.0007% (CPU Time= 0:00:01.0  MEM= 2486.1M)
+Extracted 50.0007% (CPU Time= 0:00:01.3  MEM= 2486.1M)
+Extracted 60.0007% (CPU Time= 0:00:01.4  MEM= 2486.1M)
+Extracted 70.0007% (CPU Time= 0:00:01.6  MEM= 2487.1M)
+Extracted 80.0007% (CPU Time= 0:00:02.0  MEM= 2490.1M)
+Extracted 90.0007% (CPU Time= 0:00:02.3  MEM= 2496.1M)
+Extracted 100% (CPU Time= 0:00:02.9  MEM= 2500.1M)
+Number of Extracted Resistors     : 425046
+Number of Extracted Ground Cap.   : 443975
+Number of Extracted Coupling Cap. : 833056
+Filtering XCap in 'relativeAndCoupling' mode using values coupling_c_threshold=3fF, relative_c_threshold=0.03, and total_c_threshold=5fF.
+Checking LVS Completed (CPU Time= 0:00:00.1  MEM= 2476.1M)
+PostRoute (effortLevel low) RC Extraction DONE (CPU Time: 0:00:03.9  Real Time: 0:00:04.0  MEM: 2484.098M)
+OPTC: user 20.0
+Starting delay calculation for Hold views
+AAE_INFO: opIsDesignInPostRouteState() is 1
+AAE_INFO: resetNetProps viewIdx 0 
+Starting SI iteration 1 using Infinite Timing Windows
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: mc_top
+# Design Mode: 45nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: SPEF/RCDB 
+# Signoff Settings: SI On 
+#################################################################################
+Start delay calculation (fullDC) (4 T). (MEM=2403.51)
+Initializing multi-corner resistance tables ...
+AAE_INFO: 4 threads acquired from CTE.
+Total number of fetched objects 21025
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21105,  100.0 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2566.87 CPU=0:00:06.3 REAL=0:00:02.0)
+End delay calculation (fullDC). (MEM=2566.87 CPU=0:00:06.9 REAL=0:00:02.0)
+Loading CTE timing window with TwFlowType 0...(CPU = 0:00:00.0, REAL = 0:00:00.0, MEM = 2566.9M)
+Add other clocks and setupCteToAAEClockMapping during iter 1
+Loading CTE timing window is completed (CPU = 0:00:00.1, REAL = 0:00:00.0, MEM = 2566.9M)
+Starting SI iteration 2
+Start delay calculation (fullDC) (4 T). (MEM=2430)
+Glitch Analysis: View functional -- Total Number of Nets Skipped = 0. 
+Glitch Analysis: View functional -- Total Number of Nets Analyzed = 21025. 
+Total number of fetched objects 21025
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21105,  1.4 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2609.75 CPU=0:00:00.3 REAL=0:00:00.0)
+End delay calculation (fullDC). (MEM=2609.75 CPU=0:00:00.4 REAL=0:00:00.0)
+*** Done Building Timing Graph (cpu=0:00:09.1 real=0:00:04.0 totSessionCpu=0:01:19 mem=2607.8M)
+
+------------------------------------------------------------------
+          timeDesign Summary
+------------------------------------------------------------------
+
+Hold views included:
+ functional 
+
++--------------------+---------+---------+---------+
+|     Hold mode      |   all   | reg2reg | default |
++--------------------+---------+---------+---------+
+|           WNS (ns):|  0.005  |  0.005  |  1.069  |
+|           TNS (ns):|  0.000  |  0.000  |  0.000  |
+|    Violating Paths:|    0    |    0    |    0    |
+|          All Paths:|  2952   |  2815   |   896   |
++--------------------+---------+---------+---------+
+
+Density: 62.875%
+       (94.404% with Fillers)
+------------------------------------------------------------------
+Reported timing to dir /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/postroute_hold
+Total CPU time: 14.44 sec
+Total Real time: 8.0 sec
+Total Memory Usage: 2399.019531 Mbytes
+Reset AAE Options
+*** timeDesign #2 [finish] : cpu/real = 0:00:14.4/0:00:08.2 (1.8), totSession cpu/real = 0:01:19.5/0:01:01.5 (1.3), mem = 2399.0M
+ *** Starting Verify Geometry (MEM: 2399.0) ***
+
+**WARN: (IMPVFG-257):	setVerifyGeometryMode/verifyGeometry command is obsolete and should not be used any more. It still works in this release but will be removed in future release. You should change to use set_verify_drc_mode/verify_drc which is the replacement tool for verifyGeometry.
+  VERIFY GEOMETRY ...... Starting Verification
+  VERIFY GEOMETRY ...... Initializing
+  VERIFY GEOMETRY ...... Deleting Existing Violations
+  VERIFY GEOMETRY ...... Creating Sub-Areas
+                  ...... bin size: 2080
+Multi-CPU acceleration using 4 CPU(s).
+Saving Drc markers ...
+... No Drc file written since there is no markers found.
+  VERIFY GEOMETRY ...... SubArea : 1 of 4  Thread : 0
+  VERIFY GEOMETRY ...... SubArea : 2 of 4  Thread : 1
+  VERIFY GEOMETRY ...... SubArea : 3 of 4  Thread : 2
+  VERIFY GEOMETRY ...... SubArea : 4 of 4  Thread : 3
+  VERIFY GEOMETRY ...... Cells          :  0 Viols.
+  VERIFY GEOMETRY ...... SameNet        :  0 Viols.
+  VERIFY GEOMETRY ...... Wiring         :  0 Viols.
+  VERIFY GEOMETRY ...... Antenna        :  0 Viols.
+  VERIFY GEOMETRY ...... Cells          :  0 Viols.
+  VERIFY GEOMETRY ...... SameNet        :  0 Viols.
+  VERIFY GEOMETRY ...... Wiring         :  0 Viols.
+  VERIFY GEOMETRY ...... Antenna        :  0 Viols.
+  VERIFY GEOMETRY ...... Cells          :  0 Viols.
+  VERIFY GEOMETRY ...... SameNet        :  0 Viols.
+  VERIFY GEOMETRY ...... Wiring         :  0 Viols.
+  VERIFY GEOMETRY ...... Antenna        :  0 Viols.
+  VERIFY GEOMETRY ...... Cells          :  0 Viols.
+  VERIFY GEOMETRY ...... SameNet        :  0 Viols.
+  VERIFY GEOMETRY ...... Wiring         :  0 Viols.
+  VERIFY GEOMETRY ...... Antenna        :  0 Viols.
+VG: elapsed time: 2.00
+Begin Summary ...
+  Cells       : 0
+  SameNet     : 0
+  Wiring      : 0
+  Antenna     : 0
+  Short       : 0
+  Overlap     : 0
+End Summary
+
+  Verification Complete : 0 Viols.  0 Wrngs.
+
+**********End: VERIFY GEOMETRY**********
+ *** verify geometry (CPU: 0:00:03.1  MEM: 983.3M)
+
+VERIFY_CONNECTIVITY use new engine.
+
+******** Start: VERIFY CONNECTIVITY ********
+Start Time: Fri Nov 27 17:28:34 2026
+
+Design Name: mc_top
+Database Units: 2000
+Design Boundary: (0.0000, 0.0000) (350.5500, 349.0300)
+Error Limit = 1000; Warning Limit = 50
+Check all nets
+Use 4 pthreads
+
+Begin Summary 
+  Found no problems or warnings.
+End Summary
+
+End Time: Fri Nov 27 17:28:34 2026
+Time Elapsed: 0:00:00.0
+
+******** End: VERIFY CONNECTIVITY ********
+  Verification Complete : 0 Viols.  0 Wrngs.
+  (CPU Time: 0:00:01.2  MEM: 0.000M)
+
+Start to collect the design information.
+Build netlist information for Cell mc_top.
+Finished collecting the design information.
+Generating standard cells used in the design report.
+Analyze library ... 
+Analyze netlist ... 
+Generate no-driven nets information report.
+Analyze timing ... 
+Analyze floorplan/placement ... 
+Analysis Routing ...
+Report saved in file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/implementation.rpt
+Ignoring AAE DB Resetting ...
+Updating timing graph...
+  
+  Leaving CCOpt scope - BuildTimeGraph...
+AAE_INFO: opIsDesignInPostRouteState() is 1
+AAE_INFO: resetNetProps viewIdx 0 
+Starting SI iteration 1 using Infinite Timing Windows
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: mc_top
+# Design Mode: 45nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: SPEF/RCDB 
+# Signoff Settings: SI On 
+#################################################################################
+Start delay calculation (fullDC) (4 T). (MEM=2651.09)
+Total number of fetched objects 21025
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21105,  100.0 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2640.75 CPU=0:00:06.0 REAL=0:00:02.0)
+End delay calculation (fullDC). (MEM=2640.75 CPU=0:00:06.4 REAL=0:00:02.0)
+Loading CTE timing window with TwFlowType 0...(CPU = 0:00:00.0, REAL = 0:00:00.0, MEM = 2640.7M)
+Add other clocks and setupCteToAAEClockMapping during iter 1
+Loading CTE timing window is completed (CPU = 0:00:00.1, REAL = 0:00:00.0, MEM = 2640.7M)
+Starting SI iteration 2
+Start delay calculation (fullDC) (4 T). (MEM=2499.87)
+Glitch Analysis: View functional -- Total Number of Nets Skipped = 0. 
+Glitch Analysis: View functional -- Total Number of Nets Analyzed = 21025. 
+Total number of fetched objects 21025
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+AAE_INFO-618: Total number of nets in the design is 21105,  0.6 percent of the nets selected for SI analysis
+End delay calculation. (MEM=2680.64 CPU=0:00:00.2 REAL=0:00:00.0)
+End delay calculation (fullDC). (MEM=2680.64 CPU=0:00:00.3 REAL=0:00:00.0)
+  Leaving CCOpt scope - BuildTimeGraph done. (took cpu=0:00:09.0 real=0:00:03.3)
+Updating timing graph done.
+Updating latch analysis...
+  Leaving CCOpt scope - Updating latch analysis...
+  Leaving CCOpt scope - Updating latch analysis done. (took cpu=0:00:00.3 real=0:00:00.1)
+Updating latch analysis done.
+Clock tree timing engine global stage delay update for typical_delay:both.early...
+Clock tree timing engine global stage delay update for typical_delay:both.early done. (took cpu=0:00:00.1 real=0:00:00.1)
+Clock tree timing engine global stage delay update for typical_delay:both.late...
+Clock tree timing engine global stage delay update for typical_delay:both.late done. (took cpu=0:00:00.1 real=0:00:00.0)
+Clock tree timing engine global stage delay update for typical_delay:both.early...
+Clock tree timing engine global stage delay update for typical_delay:both.early done. (took cpu=0:00:00.1 real=0:00:00.0)
+Clock tree timing engine global stage delay update for typical_delay:both.late...
+Clock tree timing engine global stage delay update for typical_delay:both.late done. (took cpu=0:00:00.1 real=0:00:00.0)
+Writing Netlist "/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.routed.v" ...
+RC Out has the following PVT Info:
+   RC-typical 
+Dumping Spef file.....
+Printing D_NET...
+rcOut completed:: 9 % rcOut completed:: 19 % rcOut completed:: 29 % rcOut completed:: 39 % rcOut completed:: 49 % rcOut completed:: 59 % rcOut completed:: 69 % rcOut completed:: 79 % rcOut completed:: 89 % rcOut completed:: 100 % 
+RC Out from RCDB Completed (CPU Time= 0:00:01.5  MEM= 2715.2M)
+Writing DEF file '/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.routed.def', current time is Fri Nov 27 17:28:38 2026 ...
+unitPerMicron=2000, dbgMicronPerDBU=0.000500, unitPerDBU=1.000000
+DEF file '/home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.routed.def' is written, current time is Fri Nov 27 17:28:39 2026 ...
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X2.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI21X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI22X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX2.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX4.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF2.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF3.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFNEGX1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFPOSX1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFSR.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/FAX1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/HAX1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX2.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX4.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX8.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/LATCH.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/MUX2X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND2X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND3X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR2X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR3X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI21X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI22X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X2.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX2.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XNOR2X1.gds has version number: 5
+Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XOR2X1.gds has version number: 5
+Parse flat map file...
+**WARN: (IMPOGDS-392):	Unknown layer via 
+Type 'man IMPOGDS-392' for more detail.
+**WARN: (IMPOGDS-392):	Unknown layer via 
+Type 'man IMPOGDS-392' for more detail.
+Writing GDSII file ...
+	****** db unit per micron = 2000 ******
+	****** output gds2 file unit per micron = 1000 ******
+	****** unit scaling factor = 0.5 ******
+**WARN: (IMPOGDS-250):	Specified unit is smaller than the one in db. You may have rounding problems
+Output for instance
+Output for bump
+Output for physical terminals
+Output for logical terminals
+Output for regular nets
+Output for special nets and metal fills
+Output for via structure generation total number 29
+Statistics for GDS generated (version 5)
+----------------------------------------
+Stream Out Layer Mapping Information:
+GDS Layer Number          GDS Layer Name
+----------------------------------------
+    44                              via9
+    42                              via8
+    40                              via7
+    38                              via6
+    36                              via5
+    32                              via4
+    30                              via3
+    45                           metal10
+    61                              via2
+    43                            metal9
+    41                            metal8
+    31                            metal4
+    62                            metal3
+    33                            metal5
+    51                            metal2
+    49                            metal1
+    37                            metal6
+    39                            metal7
+    39                            metal4
+    41                            metal5
+    43                            metal6
+    45                            metal6
+
+
+Stream Out Information Processed for GDS version 5:
+Units: 1000 DBU
+
+Object                             Count
+----------------------------------------
+Instances                          52505
+
+Ports/Pins                           182
+    metal layer metal3               182
+
+Nets                              285081
+    metal layer metal1             26400
+    metal layer metal2            139040
+    metal layer metal3             83699
+    metal layer metal4             23058
+    metal layer metal5              9102
+    metal layer metal6              3560
+    metal layer metal7               171
+    metal layer metal8                51
+
+    Via Instances                 146152
+
+Special Nets                         402
+    metal layer metal1               378
+    metal layer metal5                 4
+    metal layer metal6                20
+
+    Via Instances                   6340
+
+Metal Fills                            0
+
+    Via Instances                      0
+
+Metal FillOPCs                         0
+
+    Via Instances                      0
+
+Metal FillDRCs                         0
+
+    Via Instances                      0
+
+Text                                 184
+    metal layer metal3               182
+    metal layer metal6                 2
+
+
+Blockages                              0
+
+
+Custom Text                            0
+
+
+Custom Box                             0
+
+Trim Metal                             0
+
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X2.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI21X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI22X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX2.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX4.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF2.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF3.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFNEGX1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFPOSX1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFSR.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/FAX1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/HAX1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX2.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX4.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX8.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/LATCH.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/MUX2X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND2X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND3X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR2X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR3X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI21X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI22X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X2.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX2.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XNOR2X1.gds to register cell name ......
+Scanning GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XOR2X1.gds to register cell name ......
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X2.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X2.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AND2X2.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI21X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI21X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI21X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI22X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI22X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/AOI22X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX2.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX2.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX2.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX4.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX4.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/BUFX4.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF2.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF2.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF2.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF3.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF3.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/CLKBUF3.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFNEGX1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFNEGX1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFNEGX1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFPOSX1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFPOSX1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFPOSX1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFSR.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFSR.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/DFFSR.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/FAX1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/FAX1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/FAX1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/HAX1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/HAX1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/HAX1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX2.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX2.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX2.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX4.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX4.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX4.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX8.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX8.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/INVX8.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/LATCH.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/LATCH.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/LATCH.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/MUX2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/MUX2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/MUX2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND3X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND3X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NAND3X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR3X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR3X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/NOR3X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI21X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI21X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI21X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI22X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI22X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OAI22X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X2.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X2.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/OR2X2.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX2.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX2.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/TBUFX2.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XNOR2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XNOR2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XNOR2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+Merging GDS file /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XOR2X1.gds ......
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XOR2X1.gds has version number: 5.
+	****** Merge file: /usr/local/packages/FreePDK45/osu_soc/lib/source/gds/XOR2X1.gds has units: 1000 per micron.
+	****** unit scaling factor = 1 ******
+**WARN: (IMPOGDS-217):	Master cell: FILL not found in merged file(s) and will therefore not be included in the resulting streamOut file. Verify the file names specified with the -merge option are correct and that they contain a definition of this cell.
+**WARN: (IMPOGDS-218):	Number of master cells not found after merging: 1
+
+######Streamout is finished!
+The in-memory database contained RC information but was not saved. To save 
+the RC information, use saveDesign's -rc option. Note: Saving RC information can be quite large, 
+so it should only be saved when it is really desired.
+#% Begin save design ... (date=11/27 17:28:39, mem=1932.4M)
+% Begin Save ccopt configuration ... (date=11/27 17:28:39, mem=1932.4M)
+% End Save ccopt configuration ... (date=11/27 17:28:39, total cpu=0:00:00.1, real=0:00:00.0, peak res=1933.6M, current mem=1933.6M)
+% Begin Save netlist data ... (date=11/27 17:28:39, mem=1933.6M)
+Writing Binary DB to /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.enc.dat/vbin/mc_top.v.bin in multi-threaded mode...
+% End Save netlist data ... (date=11/27 17:28:40, total cpu=0:00:00.1, real=0:00:00.0, peak res=1933.7M, current mem=1933.7M)
+Saving symbol-table file in separate thread ...
+Saving congestion map file in separate thread ...
+Saving congestion map file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.enc.dat/mc_top.route.congmap.gz ...
+% Begin Save AAE data ... (date=11/27 17:28:40, mem=1933.7M)
+Saving AAE Data ...
+% End Save AAE data ... (date=11/27 17:28:40, total cpu=0:00:00.0, real=0:00:00.0, peak res=1933.7M, current mem=1933.7M)
+Saving preference file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.enc.dat/gui.pref.tcl ...
+Saving mode setting ...
+Saving global file ...
+Saving Drc markers ...
+... No Drc file written since there is no markers found.
+% Begin Save routing data ... (date=11/27 17:28:40, mem=1934.8M)
+Saving route file ...
+*** Completed saveRoute (cpu=0:00:00.2 real=0:00:01.0 mem=2553.7M) ***
+% End Save routing data ... (date=11/27 17:28:41, total cpu=0:00:00.2, real=0:00:01.0, peak res=1935.0M, current mem=1935.0M)
+Convert 0 swires and 0 svias from compressed groups
+30 swires and 65 svias were compressed
+30 swires and 65 svias were decompressed from small or sparse groups
+Saving special route data file in separate thread ...
+Saving PG file in separate thread ...
+Saving placement file in separate thread ...
+Convert 0 swires and 0 svias from compressed groups
+Saving PG file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.enc.dat/mc_top.pg.gz, version#2, (Created by Innovus v21.18-s099_1 on Fri Nov 27 17:28:41 2026)
+** Saving stdCellPlacement_binary (version# 2) ...
+TAT_INFO: ::saveSpecialRoute REAL = 0 : CPU = 0 : MEM = 0.
+Save Adaptive View Pruning View Names to Binary file
+*** Completed savePGFile (cpu=0:00:00.1 real=0:00:00.0 mem=2575.7M) ***
+TAT_INFO: ::savePGFile REAL = 0 : CPU = 0 : MEM = 0.
+TAT_INFO: ::savePlace REAL = 0 : CPU = 0 : MEM = 0.
+Saving property file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.enc.dat/mc_top.prop
+*** Completed saveProperty (cpu=0:00:00.0 real=0:00:00.0 mem=2575.7M) ***
+#Saving pin access data to file /home/work/teh969/mc_rngphysical_20261127/reports/pnr/tyler_rng_closure_20261127_l2_hold2/mc_top.enc.dat/mc_top.apa ...
+#
+TAT_INFO: ::db::saveSymbolTable REAL = 0 : CPU = 0 : MEM = 0.
+TAT_INFO: ::saveCongMap REAL = 0 : CPU = 0 : MEM = 0.
+% Begin Save power constraints data ... (date=11/27 17:28:41, mem=1937.2M)
+% End Save power constraints data ... (date=11/27 17:28:41, total cpu=0:00:00.0, real=0:00:00.0, peak res=1937.2M, current mem=1937.2M)
+Generated self-contained design mc_top.enc.dat
+#% End save design ... (date=11/27 17:28:42, total cpu=0:00:01.3, real=0:00:03.0, peak res=1937.7M, current mem=1937.7M)
+*** Message Summary: 0 warning(s), 0 error(s)
+
+PNR_DONE tyler_rng_closure_20261127_l2_hold2 (targeted hold ECO; inspect all reports)
+
+*** Memory Usage v#1 (Current mem = 2591.145M, initial mem = 494.969M) ***
+*** Message Summary: 109 warning(s), 0 error(s)
+
+--- Ending "Innovus" (totcpu=0:01:38, real=0:01:12, mem=2591.1M) ---
+

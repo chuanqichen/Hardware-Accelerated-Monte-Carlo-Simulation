@@ -1,0 +1,9 @@
+top=mc_top
+corner_label=typical
+clock_period_ns=5.0
+params=LANES=2,GAUSS_LATENCY=1,MUL_STAGES=1,GAUSS_ADDR_BITS=10,EXP_ADDR_BITS=10
+retime=0
+sources=/home/work/teh969/mc_rngphysical_20261127/rtl/mc_pkg.sv /home/work/teh969/mc_rngphysical_20261127/rtl/rst_sync.sv /home/work/teh969/mc_rngphysical_20261127/rtl/pipe.sv /home/work/teh969/mc_rngphysical_20261127/rtl/rng_lane.sv /home/work/teh969/mc_rngphysical_20261127/rtl/generated/gauss_lut_rom.sv /home/work/teh969/mc_rngphysical_20261127/rtl/gauss_lut.sv /home/work/teh969/mc_rngphysical_20261127/rtl/generated/exp2_rom.sv /home/work/teh969/mc_rngphysical_20261127/rtl/exp2_unit.sv /home/work/teh969/mc_rngphysical_20261127/rtl/round_sat.sv /home/work/teh969/mc_rngphysical_20261127/rtl/price_dp.sv /home/work/teh969/mc_rngphysical_20261127/rtl/accumulator.sv /home/work/teh969/mc_rngphysical_20261127/rtl/mc_controller.sv /home/work/teh969/mc_rngphysical_20261127/rtl/mc_lane_array.sv /home/work/teh969/mc_rngphysical_20261127/rtl/mc_top.sv
+library=/home/work/teh969/mc_rngphysical_20261127/tech/gscl45nm/setup_fixed_v1/gscl45nm.db
+tool=T-2022.03-SP2
+git_revision=9a0dda5c6346ad10e775de4711cade2d7e52f9a3

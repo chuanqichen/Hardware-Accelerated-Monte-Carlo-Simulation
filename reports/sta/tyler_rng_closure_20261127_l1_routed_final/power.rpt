@@ -1,0 +1,50 @@
+****************************************
+Report : Averaged Power
+	-verbose
+Design : mc_top
+Version: T-2022.03-SP5
+Date   : Fri Nov 27 16:58:41 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /home/work/teh969/mc_rngphysical_20261127/tech/gscl45nm/setup_fixed_v1/gscl45nm.db)
+
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+<no wire load model is set>
+
+Power-specific unit information :
+    Voltage Units = 1 V
+    Capacitance Units = 1 pf
+    Time Units = 1 ns
+    Dynamic Power Units = 1 W
+    Leakage Power Units = 1 W
+
+
+
+  Attributes
+  ----------
+      i  -  Including register clock pin internal power
+      u  -  User defined power group
+
+                        Internal  Switching  Leakage    Total
+Power Group             Power     Power      Power      Power   (     %)  Attrs
+--------------------------------------------------------------------------------
+clock_network           4.806e-03 9.808e-04 3.688e-06 5.790e-03 (53.60%)  i
+register                6.905e-04 1.574e-04 9.416e-05 9.420e-04 ( 8.72%)  
+combinational           1.819e-03 2.125e-03 1.253e-04 4.070e-03 (37.67%)  
+sequential                 0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+memory                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+io_pad                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+black_box                  0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
+
+  Net Switching Power  = 3.263e-03   (30.21%)
+  Cell Internal Power  = 7.315e-03   (67.72%)
+  Cell Leakage Power   = 2.231e-04   ( 2.07%)
+                         ---------
+Total Power            =    0.0108  (100.00%)
+
+1

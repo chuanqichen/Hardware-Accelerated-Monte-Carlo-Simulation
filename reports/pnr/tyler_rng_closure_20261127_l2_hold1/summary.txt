@@ -1,0 +1,6 @@
+design=mc_top
+tag=tyler_rng_closure_20261127_l2_hold1
+die_box={0.0 0.0 350.55 349.03}
+core_box={20.14 20.14 330.41 328.89}
+placed_instances_including_fillers=52507
+result=targeted_hold_ECO_completed_review_all_reports
