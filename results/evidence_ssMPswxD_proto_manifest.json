@@ -1,0 +1,39 @@
+{
+  "origin": "imported_hex_canonical_checked",
+  "git_revision": "unavailable",
+  "source_sha256": {
+    "model/rng_quality.py": "85de7041a980703866ebc80d8acb8bfa42909970712d839f9de7b7f4ff64fe93",
+    "model/rng_lane.py": "4b7b3473933d6c71f6d964532e6753314a960f9d2914e0d987ac5fd9f004653a",
+    "model/price_study.py": "f45b38fba4d00dede5fe2cc0a9e7707e174ff6236d36522be86d685f34e8cfd0",
+    "model/rng_canonical_reference.py": "0c2f14ede19c3c9c6a7c3ac3a5905bb1220dcedaca581f1b9ef4a022ab34ac65",
+    "rtl/mc_pkg.sv": "c3bf050f3f3d4c97bfcb78ec94cfa196cc2121645c0a7d62f5c001489c6c34d8",
+    "rtl/rng_lane.sv": "3d48d4413ddf1c0bf132ac5293853040fbacadcd2b3f32161d5d269adf2749dc"
+  },
+  "seed_order": "packed {s3,s2,s1,s0}; root then successive canonical 2^64 jumps",
+  "seeds": [
+    "0123456789abcdef0fedcba987654321",
+    "a21ddd67452a68254e0d1fe67c4a7a02",
+    "d797cc57f76cbec03fa0faa564fe5eaf"
+  ],
+  "words_per_stream": [
+    1048576,
+    1048576,
+    1048576
+  ],
+  "addr_bits": 10,
+  "lags": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "sigma": 6,
+  "screening_pass": true,
+  "interpretation": "Heuristic screens; no calibrated p-values or independence proof. Model results are not RTL measurements.",
+  "input_sha256": {
+    "/misc/scratch/sz23492_rng_jFY87fxx/proto/reports/sim/evidence_ssMPswxD_proto/stream_0.hex": "ea77ecbb3d12742440308511d8c2cfaf74165c096a786ae560959bccddd532eb",
+    "/misc/scratch/sz23492_rng_jFY87fxx/proto/reports/sim/evidence_ssMPswxD_proto/stream_1.hex": "82a765c885aeb3eef49ad9aff361a012a33958d7653f57ae0696abd203a1a072",
+    "/misc/scratch/sz23492_rng_jFY87fxx/proto/reports/sim/evidence_ssMPswxD_proto/stream_2.hex": "8f1a0e1aa00fd401417727440348c271dc4d4b445d409e6eeca5562fcc528bb7"
+  }
+}

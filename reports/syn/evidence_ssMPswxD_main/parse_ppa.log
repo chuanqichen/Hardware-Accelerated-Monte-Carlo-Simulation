@@ -1,0 +1,3 @@
+["/misc/scratch/sz23492_rng_jFY87fxx/venv/bin/python", "-B", "scripts/parse_reports.py", "--syn", "/misc/scratch/sz23492_rng_jFY87fxx/main/reports/syn/evidence_ssMPswxD_main", "--out", "/misc/scratch/sz23492_rng_jFY87fxx/main/results/evidence_ssMPswxD_main_ppa.csv"]
+wrote 1 rows to /misc/scratch/sz23492_rng_jFY87fxx/main/results/evidence_ssMPswxD_main_ppa.csv
+  evidence_ssMPswxD_main   area 5274.931992 um2  wns 0.00604582 ns  fmax 200.24212557 MHz  P   1.1657 mW  regs 161

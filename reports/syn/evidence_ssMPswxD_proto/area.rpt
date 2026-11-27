@@ -1,0 +1,43 @@
+ 
+****************************************
+Report : area
+Design : rng_lane
+Version: T-2022.03-SP2
+Date   : Fri Nov 27 10:52:14 2026
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /misc/scratch/sz23492_rng_jFY87fxx/proto/tech/gscl45nm/setup_fixed_v1/gscl45nm.db)
+
+Number of ports:                          165
+Number of nets:                          1903
+Number of cells:                         1711
+Number of combinational cells:           1517
+Number of sequential cells:               193
+Number of macros/black boxes:               0
+Number of buf/inv:                        791
+Number of references:                      17
+
+Combinational area:               4089.480151
+Buf/Inv area:                     1428.079862
+Noncombinational area:            1992.647842
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                  6082.127993
+Total area:                 undefined
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+rng_lane                          6082.1280    100.0  4089.4802  1992.6478  0.0000  rng_lane
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+Total                                                 4089.4802  1992.6478  0.0000
+
+1
