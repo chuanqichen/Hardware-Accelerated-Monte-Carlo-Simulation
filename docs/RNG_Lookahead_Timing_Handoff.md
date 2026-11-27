@@ -1,7 +1,10 @@
-# RNG look-ahead sum: verified prototype and timing handoff
+# First RNG look-ahead experiment: historical negative timing result
 
-**Result: functional checks pass, but the prototype does not improve standalone
-setup slack. Do not advance it as a timing improvement or claim routed closure.**
+**Historical first experiment at commit 30caa47:** functional checks pass, but
+this version does not improve standalone setup slack. The second commit of
+draft PR #27 supersedes it; see [the carry-select handoff](RNG_T_Update_Experiment.md)
+for the final candidate and its +0.597332 ns standalone setup slack. Physical
+closure remains pending. The measurements below are preserved unchanged.
 
 Branch: `shentong/rng-lookahead-timing`. Baseline is unchanged main
 `f137a6cfff27f0a19ab8878268a192df1af88f7d`, checked before editing. No pre-existing

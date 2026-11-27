@@ -1,0 +1,40 @@
+ 
+****************************************
+Report : reference
+Design : rng_lane
+Version: T-2022.03-SP2
+Date   : Fri Nov 27 11:57:10 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500      97    227.610492  
+AND2X2             gscl45nm       2.815800       6     16.894800  
+AOI21X1            gscl45nm       2.815800      33     92.921398  
+AOI22X1            gscl45nm       3.285100     227    745.717696  
+BUFX2              gscl45nm       2.346500     320    750.879974  
+DFFSR              gscl45nm      10.324600     193   1992.647842  n
+FAX1               gscl45nm       8.916700      86    766.836231  r
+HAX1               gscl45nm       4.693000       1      4.693000  r
+INVX1              gscl45nm       1.407900     383    539.225691  
+MUX2X1             gscl45nm       3.754400     108    405.475202  
+NAND2X1            gscl45nm       1.877200      49     91.982800  
+NAND3X1            gscl45nm       2.346500      37     86.820497  
+NOR2X1             gscl45nm       2.346500       1      2.346500  
+NOR3X1             gscl45nm       2.815800      43    121.079398  
+OAI21X1            gscl45nm       2.815800     149    419.554193  
+OR2X1              gscl45nm       2.346500      30     70.394998  
+-----------------------------------------------------------------------------
+Total 16 references                                  6335.080712
+1

@@ -1,0 +1,8 @@
+top=rng_lane
+corner_label=typical
+clock_period_ns=5.0
+params=
+retime=0
+sources=/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto1/rtl/mc_pkg.sv /misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto1/rtl/rng_lane.sv
+library=/misc/scratch/sz23492_rng_jFY87fxx/t_update_Dbhsv3Oy/proto1/tech/gscl45nm/setup_fixed_v1/gscl45nm.db
+tool=T-2022.03-SP2

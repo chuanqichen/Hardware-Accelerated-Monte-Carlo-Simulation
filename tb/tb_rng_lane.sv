@@ -28,6 +28,37 @@ module tb_rng_lane;
     end
   end
 
+  task automatic check_t_adder(input logic [31:0] a, b);
+    logic [31:0] expected_sum;
+    expected_sum = a + b;  // Independent full-width modular arithmetic oracle.
+    if (dut.add_t_next(a, b) !== expected_sum)
+      $fatal(1, "t carry-select sum: a=%h b=%h expected=%h", a, b, expected_sum);
+  endtask
+
+  initial begin : test_t_adder
+    logic [31:0] a, b;
+    int random_seed;
+    check_t_adder('0, '0);
+    check_t_adder('1, 32'd1);
+    check_t_adder('1, '1);
+    check_t_adder(32'haaaaaaaa, 32'h55555555);
+    // Carries that propagate through, or stop around, every bit boundary.
+    for (int bit_index = 1; bit_index < 32; bit_index++) begin
+      a = (32'd1 << bit_index) - 32'd1;
+      check_t_adder(a, 32'd1);
+      check_t_adder(32'd1, a);
+      check_t_adder(a, a);
+    end
+    random_seed = 382;
+    a = $urandom(random_seed);
+    for (int i = 0; i < 4096; i++) begin
+      b = $urandom;
+      check_t_adder(a, b);
+      a = b;
+    end
+    $display("PASS rng_t_adder: 4193 exact modular sums");
+  end
+
   initial begin : watchdog
     #1000000;
     $fatal(1, "RNG test timeout");
